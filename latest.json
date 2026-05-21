@@ -1,87 +1,110 @@
 {
-  "generated_at": "2026-05-21T10:54:00Z",
-  "schema_version": "1.0",
+  "generated_at": "2026-05-21T11:55:40Z",
+  "schema_version": "1.1",
   "market": {
-    "as_of": "2026-05-21T10:54:00Z",
+    "as_of": "2026-05-21T11:55:40Z",
     "sentiment": "fearful",
     "sentiment_score": -1,
     "trend_vs_yesterday": "stable",
     "extreme_flag": "none",
-    "key_reason": "시장 폭이 좁아지고 헤지펀드 숏 포지션이 증가하며 우려가 커지고 있다.",
+    "key_reason": "S&P 500 고점 근처지만 시장 폭 좁아지고 내부 약세와 경기 우려가 커지고 있다",
     "confidence": "med"
   },
   "symbols": [
     {
       "symbol": "TSLA",
-      "as_of": "2026-05-21T10:54:00Z",
+      "as_of": "2026-05-21T11:55:40Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
-      "trend_vs_yesterday": "heating",
-      "mention_volume": "elevated",
-      "key_reason": "FSD 10개국 확대와 AI 서사로 자율주행 모멘텀 부각",
+      "trend_vs_yesterday": "stable",
+      "mention_volume": "normal",
+      "key_reason": "로보택시와 AI·로보틱스 장기 기대감이 논의의 중심",
       "bot_suspected": "no",
       "confidence": "med",
-      "source": "grok-4.3/xai-oauth via hermes"
+      "source": "grok-oauth via hermes",
+      "price_context": {
+        "volatility": "normal",
+        "volume_ratio": 0.8,
+        "near_key_level": "none",
+        "abnormal_move": false
+      },
+      "divergence": "aligned"
     },
     {
       "symbol": "AAPL",
-      "as_of": "2026-05-21T10:54:00Z",
+      "as_of": "2026-05-21T11:55:40Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "normal",
-      "key_reason": "애플의 기술적 강세와 AI 주목으로 추가 상승 기대",
+      "key_reason": "장기 상승 기대와 단기 AI 회의가 섞인 기술적 논의가 주를 이룸",
       "bot_suspected": "unclear",
       "confidence": "med",
-      "source": "grok-4.3/xai-oauth via hermes"
+      "source": "grok-oauth via hermes",
+      "price_context": {
+        "volatility": "normal",
+        "volume_ratio": 0.8,
+        "near_key_level": "near_52w_high",
+        "abnormal_move": false
+      },
+      "divergence": "aligned"
     },
     {
       "symbol": "NVDA",
-      "as_of": "2026-05-21T10:54:00Z",
-      "sentiment": "euphoric",
-      "sentiment_score": 2,
+      "as_of": "2026-05-21T11:55:40Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
       "trend_vs_yesterday": "heating",
       "mention_volume": "elevated",
-      "key_reason": "어제 실적 대폭 상회 후 AI 인프라 붐 기대감이 급격히 고조됨",
+      "key_reason": "강력한 실적과 AI 수요 확인으로 낙관 분위기",
       "bot_suspected": "no",
       "confidence": "high",
-      "source": "grok-4.3/xai-oauth via hermes"
+      "source": "grok-oauth via hermes",
+      "price_context": {
+        "volatility": "calm",
+        "volume_ratio": 1.1,
+        "near_key_level": "none",
+        "abnormal_move": false
+      },
+      "divergence": "aligned"
     },
     {
       "symbol": "META",
-      "as_of": "2026-05-21T10:54:00Z",
-      "sentiment": "neutral",
-      "sentiment_score": 0,
+      "as_of": "2026-05-21T11:55:40Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "normal",
-      "key_reason": "레이오프 논란과 AI 자본지출 우려로 혼조된 심리",
-      "bot_suspected": "unclear",
+      "mention_volume": "low",
+      "key_reason": "AI 투자와 비용 효율화로 매수 기회로 보는 의견 다수",
+      "bot_suspected": "no",
       "confidence": "low",
-      "source": "grok-4.3/xai-oauth via hermes"
+      "source": "grok-oauth via hermes",
+      "price_context": {
+        "volatility": "calm",
+        "volume_ratio": 0.7,
+        "near_key_level": "none",
+        "abnormal_move": false
+      },
+      "divergence": "aligned"
     },
     {
       "symbol": "AMZN",
-      "as_of": "2026-05-21T10:54:00Z",
+      "as_of": "2026-05-21T11:55:40Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "normal",
-      "key_reason": "AWS AI 성장으로 낙폭 매수 기회로 보임",
+      "mention_volume": "low",
+      "key_reason": "옵션에서 대량 콜 매수와 딥바이 언급이 두드러짐",
       "bot_suspected": "no",
       "confidence": "med",
-      "source": "grok-4.3/xai-oauth via hermes"
-    },
-    {
-      "symbol": "GOOGL",
-      "as_of": "2026-05-21T10:54:00Z",
-      "sentiment": "optimistic",
-      "sentiment_score": 1,
-      "trend_vs_yesterday": "heating",
-      "mention_volume": "elevated",
-      "key_reason": "AI 모멘텀과 대규모 다크풀 거래로 기관 관심 집중",
-      "bot_suspected": "yes",
-      "confidence": "low",
-      "source": "grok-4.3/xai-oauth via hermes"
+      "source": "grok-oauth via hermes",
+      "price_context": {
+        "volatility": "normal",
+        "volume_ratio": 0.8,
+        "near_key_level": "none",
+        "abnormal_move": false
+      },
+      "divergence": "aligned"
     }
   ]
 }
