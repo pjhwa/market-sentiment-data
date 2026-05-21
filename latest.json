@@ -1,0 +1,87 @@
+{
+  "generated_at": "2026-05-21T14:30:00Z",
+  "schema_version": "1.0",
+  "market": {
+    "as_of": "2026-05-21T14:30:00Z",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "trend_vs_yesterday": "stable",
+    "extreme_flag": "none",
+    "key_reason": "FOMC 앞두고 관망세, 뚜렷한 방향성 없음",
+    "confidence": "med"
+  },
+  "symbols": [
+    {
+      "symbol": "TSLA",
+      "as_of": "2026-05-21T14:30:00Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "cooling",
+      "mention_volume": "elevated",
+      "key_reason": "Q2 인도량 가이던스 상향에 대한 기대",
+      "bot_suspected": "no",
+      "confidence": "high",
+      "source": "grok-oauth via hermes"
+    },
+    {
+      "symbol": "AAPL",
+      "as_of": "2026-05-21T14:30:00Z",
+      "sentiment": "neutral",
+      "sentiment_score": 0,
+      "trend_vs_yesterday": "stable",
+      "mention_volume": "normal",
+      "key_reason": "WWDC 기대감과 중국 매출 우려가 상쇄",
+      "bot_suspected": "no",
+      "confidence": "high",
+      "source": "grok-oauth via hermes"
+    },
+    {
+      "symbol": "NVDA",
+      "as_of": "2026-05-21T14:30:00Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "heating",
+      "mention_volume": "elevated",
+      "key_reason": "Blackwell 수요 강세 지속, AI 투자 모멘텀",
+      "bot_suspected": "unclear",
+      "confidence": "med",
+      "source": "grok-oauth via hermes"
+    },
+    {
+      "symbol": "META",
+      "as_of": "2026-05-21T14:30:00Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "stable",
+      "mention_volume": "normal",
+      "key_reason": "광고 수익 회복세와 AI 인프라 투자 성과 기대",
+      "bot_suspected": "no",
+      "confidence": "high",
+      "source": "grok-oauth via hermes"
+    },
+    {
+      "symbol": "AMZN",
+      "as_of": "2026-05-21T14:30:00Z",
+      "sentiment": "neutral",
+      "sentiment_score": 0,
+      "trend_vs_yesterday": "stable",
+      "mention_volume": "normal",
+      "key_reason": "AWS 성장세 견조하나 소매 부문 마진 압박 우려 공존",
+      "bot_suspected": "no",
+      "confidence": "med",
+      "source": "grok-oauth via hermes"
+    },
+    {
+      "symbol": "GOOGL",
+      "as_of": "2026-05-21T14:30:00Z",
+      "sentiment": "fearful",
+      "sentiment_score": -1,
+      "trend_vs_yesterday": "cooling",
+      "mention_volume": "elevated",
+      "key_reason": "DOJ 반독점 판결 리스크와 검색 점유율 잠식 우려",
+      "bot_suspected": "no",
+      "confidence": "high",
+      "source": "grok-oauth via hermes"
+    }
+  ]
+}

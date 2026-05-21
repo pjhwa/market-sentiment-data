@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/pjhwa/market-sentiment-data/schema.json",
+  "title": "MarketSentimentSnapshot",
+  "description": "SniperBoard 소셜 심리 파이프라인 데이터 계약 v1.0",
+  "type": "object",
+  "required": ["generated_at", "market", "symbols", "schema_version"],
+  "additionalProperties": false,
+  "properties": {
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "이 스냅샷이 생성된 UTC 시각 (ISO8601)"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "market": {
+      "$ref": "#/definitions/MarketSentiment"
+    },
+    "symbols": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/SymbolSentiment" },
+      "minItems": 0,
+      "maxItems": 20
+    }
+  },
+  "definitions": {
+    "SentimentEnum": {
+      "type": "string",
+      "enum": ["very_fearful", "fearful", "neutral", "optimistic", "euphoric"],
+      "description": "5단계 감정 범주. sentiment_score 매핑: very_fearful=-2, fearful=-1, neutral=0, optimistic=+1, euphoric=+2"
+    },
+    "SentimentScore": {
+      "type": "integer",
+      "enum": [-2, -1, 0, 1, 2],
+      "description": "sentiment 범주에서 결정론적으로 파생된 수치. very_fearful=-2, fearful=-1, neutral=0, optimistic=+1, euphoric=+2. Grok이 직접 생성하는 값이 아님."
+    },
+    "TrendEnum": {
+      "type": "string",
+      "enum": ["cooling", "stable", "heating"],
+      "description": "어제 대비 심리 변화 방향"
+    },
+    "VolumeEnum": {
+      "type": "string",
+      "enum": ["low", "normal", "elevated", "surging"],
+      "description": "소셜 언급량 수준"
+    },
+    "BotEnum": {
+      "type": "string",
+      "enum": ["yes", "no", "unclear"],
+      "description": "봇·펌프성 글 의심 여부"
+    },
+    "ConfidenceEnum": {
+      "type": "string",
+      "enum": ["high", "med", "low"],
+      "description": "Grok 자체 신뢰도. low이면 소비측에서 중립 취급"
+    },
+    "ExtremeFlagEnum": {
+      "type": "string",
+      "enum": ["none", "extreme_fear", "extreme_greed"],
+      "description": "시장 전체 극단 상태 판정. 결합 매트릭스의 공포/도취 극단 판정에 사용"
+    },
+    "SymbolSentiment": {
+      "type": "object",
+      "required": [
+        "symbol", "as_of", "sentiment", "sentiment_score",
+        "trend_vs_yesterday", "mention_volume", "key_reason",
+        "bot_suspected", "confidence", "source"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "종목 티커"
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date-time",
+          "description": "이 심리의 기준 시각 (ISO8601 UTC)"
+        },
+        "sentiment": { "$ref": "#/definitions/SentimentEnum" },
+        "sentiment_score": { "$ref": "#/definitions/SentimentScore" },
+        "trend_vs_yesterday": { "$ref": "#/definitions/TrendEnum" },
+        "mention_volume": { "$ref": "#/definitions/VolumeEnum" },
+        "key_reason": {
+          "type": "string",
+          "description": "화제의 핵심 사유 (한 줄)"
+        },
+        "bot_suspected": { "$ref": "#/definitions/BotEnum" },
+        "confidence": { "$ref": "#/definitions/ConfidenceEnum" },
+        "source": {
+          "type": "string",
+          "description": "출처 추적용 문자열"
+        }
+      }
+    },
+    "MarketSentiment": {
+      "type": "object",
+      "required": [
+        "as_of", "sentiment", "sentiment_score",
+        "trend_vs_yesterday", "extreme_flag", "key_reason", "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {
+          "type": "string",
+          "format": "date-time",
+          "description": "이 심리의 기준 시각 (ISO8601 UTC)"
+        },
+        "sentiment": { "$ref": "#/definitions/SentimentEnum" },
+        "sentiment_score": { "$ref": "#/definitions/SentimentScore" },
+        "trend_vs_yesterday": { "$ref": "#/definitions/TrendEnum" },
+        "extreme_flag": { "$ref": "#/definitions/ExtremeFlagEnum" },
+        "key_reason": {
+          "type": "string",
+          "description": "시장 전체 화제의 핵심 사유 (한 줄)"
+        },
+        "confidence": { "$ref": "#/definitions/ConfidenceEnum" }
+      }
+    }
+  }
+}
