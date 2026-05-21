@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-05-21T11:55:40Z",
+  "generated_at": "2026-05-21T12:09:51Z",
   "schema_version": "1.1",
   "market": {
-    "as_of": "2026-05-21T11:55:40Z",
+    "as_of": "2026-05-21T12:09:51Z",
     "sentiment": "fearful",
     "sentiment_score": -1,
     "trend_vs_yesterday": "stable",
     "extreme_flag": "none",
-    "key_reason": "S&P 500 고점 근처지만 시장 폭 좁아지고 내부 약세와 경기 우려가 커지고 있다",
+    "key_reason": "지정학적 호재와 경기침체·버블 우려가 혼재된 신중한 시장 심리",
     "confidence": "med"
   },
   "symbols": [
     {
       "symbol": "TSLA",
-      "as_of": "2026-05-21T11:55:40Z",
+      "as_of": "2026-05-21T12:09:51Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "normal",
-      "key_reason": "로보택시와 AI·로보틱스 장기 기대감이 논의의 중심",
+      "key_reason": "AI와 FSD 자율주행 진전으로 장기 낙관론 우세",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -32,12 +32,12 @@
     },
     {
       "symbol": "AAPL",
-      "as_of": "2026-05-21T11:55:40Z",
-      "sentiment": "optimistic",
-      "sentiment_score": 1,
-      "trend_vs_yesterday": "stable",
+      "as_of": "2026-05-21T12:09:51Z",
+      "sentiment": "neutral",
+      "sentiment_score": 0,
+      "trend_vs_yesterday": "cooling",
       "mention_volume": "normal",
-      "key_reason": "장기 상승 기대와 단기 AI 회의가 섞인 기술적 논의가 주를 이룸",
+      "key_reason": "고점 근처 이익실현 압력과 WWDC 기대가 혼재",
       "bot_suspected": "unclear",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -47,18 +47,18 @@
         "near_key_level": "near_52w_high",
         "abnormal_move": false
       },
-      "divergence": "aligned"
+      "divergence": "none"
     },
     {
       "symbol": "NVDA",
-      "as_of": "2026-05-21T11:55:40Z",
+      "as_of": "2026-05-21T12:09:51Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "heating",
       "mention_volume": "elevated",
-      "key_reason": "강력한 실적과 AI 수요 확인으로 낙관 분위기",
+      "key_reason": "강력한 실적 호조와 AI 모멘텀 지속 기대",
       "bot_suspected": "no",
-      "confidence": "high",
+      "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "calm",
@@ -70,14 +70,14 @@
     },
     {
       "symbol": "META",
-      "as_of": "2026-05-21T11:55:40Z",
-      "sentiment": "optimistic",
-      "sentiment_score": 1,
+      "as_of": "2026-05-21T12:09:51Z",
+      "sentiment": "neutral",
+      "sentiment_score": 0,
       "trend_vs_yesterday": "stable",
       "mention_volume": "low",
-      "key_reason": "AI 투자와 비용 효율화로 매수 기회로 보는 의견 다수",
-      "bot_suspected": "no",
-      "confidence": "low",
+      "key_reason": "해고 발표로 비판과 AI 효율성 기대가 혼재",
+      "bot_suspected": "unclear",
+      "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "calm",
@@ -85,22 +85,41 @@
         "near_key_level": "none",
         "abnormal_move": false
       },
-      "divergence": "aligned"
+      "divergence": "none"
     },
     {
       "symbol": "AMZN",
-      "as_of": "2026-05-21T11:55:40Z",
+      "as_of": "2026-05-21T12:09:51Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "low",
-      "key_reason": "옵션에서 대량 콜 매수와 딥바이 언급이 두드러짐",
-      "bot_suspected": "no",
-      "confidence": "med",
+      "key_reason": "장기 포트폴리오에 AWS·AI 핵심 보유 종목으로 선호",
+      "bot_suspected": "yes",
+      "confidence": "low",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "normal",
         "volume_ratio": 0.8,
+        "near_key_level": "none",
+        "abnormal_move": false
+      },
+      "divergence": "aligned"
+    },
+    {
+      "symbol": "GOOGL",
+      "as_of": "2026-05-21T12:09:51Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "stable",
+      "mention_volume": "normal",
+      "key_reason": "AI 혁신과 YouTube 강세가 낙관적 분위기를 주도",
+      "bot_suspected": "unclear",
+      "confidence": "med",
+      "source": "grok-oauth via hermes",
+      "price_context": {
+        "volatility": "calm",
+        "volume_ratio": 1.1,
         "near_key_level": "none",
         "abnormal_move": false
       },
