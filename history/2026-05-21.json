@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-05-21T12:09:51Z",
+  "generated_at": "2026-05-21T12:09:28Z",
   "schema_version": "1.1",
   "market": {
-    "as_of": "2026-05-21T12:09:51Z",
+    "as_of": "2026-05-21T12:09:28Z",
     "sentiment": "fearful",
     "sentiment_score": -1,
     "trend_vs_yesterday": "stable",
     "extreme_flag": "none",
-    "key_reason": "지정학적 호재와 경기침체·버블 우려가 혼재된 신중한 시장 심리",
+    "key_reason": "S&P 500 신고점에도 크래시와 경기침체 예측 포스트가 강한 참여를 얻으며 신중한 공포 심리가 지배적이다.",
     "confidence": "med"
   },
   "symbols": [
     {
       "symbol": "TSLA",
-      "as_of": "2026-05-21T12:09:51Z",
+      "as_of": "2026-05-21T12:09:28Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "normal",
-      "key_reason": "AI와 FSD 자율주행 진전으로 장기 낙관론 우세",
+      "key_reason": "FSD 감독 모드 국제 확장 및 SpaceX IPO 지분 소유로 인한 긍정적 반응",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -32,12 +32,12 @@
     },
     {
       "symbol": "AAPL",
-      "as_of": "2026-05-21T12:09:51Z",
-      "sentiment": "neutral",
-      "sentiment_score": 0,
-      "trend_vs_yesterday": "cooling",
+      "as_of": "2026-05-21T12:09:28Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "heating",
       "mention_volume": "normal",
-      "key_reason": "고점 근처 이익실현 압력과 WWDC 기대가 혼재",
+      "key_reason": "콜 옵션 대량 매수와 ATH 도달 기대가 지배적이다",
       "bot_suspected": "unclear",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -47,16 +47,16 @@
         "near_key_level": "near_52w_high",
         "abnormal_move": false
       },
-      "divergence": "none"
+      "divergence": "aligned"
     },
     {
       "symbol": "NVDA",
-      "as_of": "2026-05-21T12:09:51Z",
+      "as_of": "2026-05-21T12:09:28Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
-      "trend_vs_yesterday": "heating",
+      "trend_vs_yesterday": "stable",
       "mention_volume": "elevated",
-      "key_reason": "강력한 실적 호조와 AI 모멘텀 지속 기대",
+      "key_reason": "Q1 실적 호조와 AI 수요 강세로 낙관적 분위기",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -70,13 +70,13 @@
     },
     {
       "symbol": "META",
-      "as_of": "2026-05-21T12:09:51Z",
-      "sentiment": "neutral",
-      "sentiment_score": 0,
+      "as_of": "2026-05-21T12:09:28Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "low",
-      "key_reason": "해고 발표로 비판과 AI 효율성 기대가 혼재",
-      "bot_suspected": "unclear",
+      "mention_volume": "normal",
+      "key_reason": "AI 하이퍼그로스와 효율성 개선 반복에 대한 장기 기대",
+      "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
@@ -85,16 +85,16 @@
         "near_key_level": "none",
         "abnormal_move": false
       },
-      "divergence": "none"
+      "divergence": "aligned"
     },
     {
       "symbol": "AMZN",
-      "as_of": "2026-05-21T12:09:51Z",
+      "as_of": "2026-05-21T12:09:28Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "low",
-      "key_reason": "장기 포트폴리오에 AWS·AI 핵심 보유 종목으로 선호",
+      "mention_volume": "normal",
+      "key_reason": "AWS 성장 기대와 장기 보유 관점에서 긍정적 의견이 주를 이룹니다.",
       "bot_suspected": "yes",
       "confidence": "low",
       "source": "grok-oauth via hermes",
@@ -108,12 +108,12 @@
     },
     {
       "symbol": "GOOGL",
-      "as_of": "2026-05-21T12:09:51Z",
-      "sentiment": "optimistic",
-      "sentiment_score": 1,
+      "as_of": "2026-05-21T12:09:28Z",
+      "sentiment": "neutral",
+      "sentiment_score": 0,
       "trend_vs_yesterday": "stable",
       "mention_volume": "normal",
-      "key_reason": "AI 혁신과 YouTube 강세가 낙관적 분위기를 주도",
+      "key_reason": "빅테크 바스켓 일상 언급과 AI 간접 노출에 대한 중립적 관심",
       "bot_suspected": "unclear",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -123,7 +123,7 @@
         "near_key_level": "none",
         "abnormal_move": false
       },
-      "divergence": "aligned"
+      "divergence": "none"
     }
   ]
 }
