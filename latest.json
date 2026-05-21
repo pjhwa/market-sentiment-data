@@ -1,129 +1,93 @@
 {
-  "generated_at": "2026-05-21T13:00:00Z",
+  "generated_at": "2026-05-21T21:00:00Z",
   "schema_version": "1.1",
   "market": {
-    "as_of": "2026-05-21T13:00:00Z",
-    "sentiment": "optimistic",
-    "sentiment_score": 1,
-    "trend_vs_yesterday": "heating",
+    "as_of": "2026-05-21T21:00:00Z",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
+    "trend_vs_yesterday": "stable",
     "extreme_flag": "none",
-    "key_reason": "S&P 500 반등에도 불구하고 고점 경고와 충돌 우려가 섞여 있다",
+    "key_reason": "중동 긴장 완화와 소형주 로테이션으로 안도 랠리지만 시장 내부 폭 좁음과 매크로 리스크 우려 지속",
     "confidence": "med"
   },
   "symbols": [
     {
       "symbol": "TSLA",
-      "as_of": "2026-05-21T13:00:00Z",
+      "as_of": "2026-05-21T21:00:00Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "normal",
-      "key_reason": "Grok 음성 활성화와 기술적 반등으로 신중한 낙관 분위기",
-      "bot_suspected": "no",
-      "confidence": "med",
+      "mention_volume": "elevated",
+      "key_reason": "AI와 FSD 기술 비전에 대한 강한 장기 기대가 지배적이다.",
+      "bot_suspected": "yes",
+      "confidence": "low",
       "source": "grok-oauth via hermes",
-      "price_context": {
-        "volatility": "normal",
-        "volume_ratio": 0.8,
-        "near_key_level": "none",
-        "abnormal_move": false
-      },
       "divergence": "aligned"
     },
     {
       "symbol": "AAPL",
-      "as_of": "2026-05-21T13:00:00Z",
-      "sentiment": "optimistic",
-      "sentiment_score": 1,
+      "as_of": "2026-05-21T21:00:00Z",
+      "sentiment": "neutral",
+      "sentiment_score": 0,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "elevated",
-      "key_reason": "ATH 근처에서 강세 기술 분석과 장기 보유 심리가 지배적이다",
-      "bot_suspected": "yes",
+      "mention_volume": "normal",
+      "key_reason": "버핏 지분 축소 신호와 혼재된 기술/옵션 논의로 중립적",
+      "bot_suspected": "unclear",
       "confidence": "low",
       "source": "grok-oauth via hermes",
-      "price_context": {
-        "volatility": "normal",
-        "volume_ratio": 0.8,
-        "near_key_level": "near_52w_high",
-        "abnormal_move": false
-      },
-      "divergence": "aligned"
+      "divergence": "none"
     },
     {
       "symbol": "NVDA",
-      "as_of": "2026-05-21T13:00:00Z",
+      "as_of": "2026-05-21T21:00:00Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
-      "trend_vs_yesterday": "stable",
+      "trend_vs_yesterday": "cooling",
       "mention_volume": "elevated",
-      "key_reason": "실적 호조와 AI 공장 및 agentic AI 전망으로 장기 낙관론 우세",
-      "bot_suspected": "no",
+      "key_reason": "어닝 비트와 AI 수요로 장기 낙관론 유지되나 단기 조정 관측",
+      "bot_suspected": "unclear",
       "confidence": "med",
       "source": "grok-oauth via hermes",
-      "price_context": {
-        "volatility": "calm",
-        "volume_ratio": 1.1,
-        "near_key_level": "none",
-        "abnormal_move": false
-      },
       "divergence": "aligned"
     },
     {
       "symbol": "META",
-      "as_of": "2026-05-21T13:00:00Z",
-      "sentiment": "optimistic",
-      "sentiment_score": 1,
-      "trend_vs_yesterday": "stable",
-      "mention_volume": "low",
-      "key_reason": "AI 투자와 파트너십 기대감으로 소폭 긍정적",
-      "bot_suspected": "unclear",
-      "confidence": "low",
-      "source": "grok-oauth via hermes",
-      "price_context": {
-        "volatility": "calm",
-        "volume_ratio": 0.7,
-        "near_key_level": "none",
-        "abnormal_move": false
-      },
-      "divergence": "aligned"
-    },
-    {
-      "symbol": "AMZN",
-      "as_of": "2026-05-21T13:00:00Z",
+      "as_of": "2026-05-21T21:00:00Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "normal",
-      "key_reason": "AWS AI 인프라 대규모 구축과 capex 증가가 주요 긍정 요인",
+      "key_reason": "강력한 광고 수익과 AI 투자로 매수 기회로 평가됨",
       "bot_suspected": "unclear",
       "confidence": "med",
       "source": "grok-oauth via hermes",
-      "price_context": {
-        "volatility": "normal",
-        "volume_ratio": 0.8,
-        "near_key_level": "none",
-        "abnormal_move": false
-      },
+      "divergence": "aligned"
+    },
+    {
+      "symbol": "AMZN",
+      "as_of": "2026-05-21T21:00:00Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "stable",
+      "mention_volume": "normal",
+      "key_reason": "AWS 성장과 기술적 돌파 기대가 주를 이룸",
+      "bot_suspected": "unclear",
+      "confidence": "med",
+      "source": "grok-oauth via hermes",
       "divergence": "aligned"
     },
     {
       "symbol": "GOOGL",
-      "as_of": "2026-05-21T13:00:00Z",
-      "sentiment": "optimistic",
-      "sentiment_score": 1,
-      "trend_vs_yesterday": "heating",
-      "mention_volume": "elevated",
-      "key_reason": "버크셔가 GOOGL 지분을 3배로 늘리고 AI에 올인했다는 소식이 주목받음",
-      "bot_suspected": "no",
-      "confidence": "med",
+      "as_of": "2026-05-21T21:00:00Z",
+      "sentiment": "neutral",
+      "sentiment_score": 0,
+      "trend_vs_yesterday": "stable",
+      "mention_volume": "normal",
+      "key_reason": "Waymo 서비스 중단 소식과 AI 수익 성장 논의가 혼재",
+      "bot_suspected": "unclear",
+      "confidence": "low",
       "source": "grok-oauth via hermes",
-      "price_context": {
-        "volatility": "calm",
-        "volume_ratio": 1.1,
-        "near_key_level": "none",
-        "abnormal_move": false
-      },
-      "divergence": "aligned"
+      "divergence": "none"
     }
   ]
 }
