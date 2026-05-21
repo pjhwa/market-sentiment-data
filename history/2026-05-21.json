@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-05-21T12:09:28Z",
+  "generated_at": "2026-05-21T13:00:00Z",
   "schema_version": "1.1",
   "market": {
-    "as_of": "2026-05-21T12:09:28Z",
-    "sentiment": "fearful",
-    "sentiment_score": -1,
-    "trend_vs_yesterday": "stable",
+    "as_of": "2026-05-21T13:00:00Z",
+    "sentiment": "optimistic",
+    "sentiment_score": 1,
+    "trend_vs_yesterday": "heating",
     "extreme_flag": "none",
-    "key_reason": "S&P 500 신고점에도 크래시와 경기침체 예측 포스트가 강한 참여를 얻으며 신중한 공포 심리가 지배적이다.",
+    "key_reason": "S&P 500 반등에도 불구하고 고점 경고와 충돌 우려가 섞여 있다",
     "confidence": "med"
   },
   "symbols": [
     {
       "symbol": "TSLA",
-      "as_of": "2026-05-21T12:09:28Z",
+      "as_of": "2026-05-21T13:00:00Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "normal",
-      "key_reason": "FSD 감독 모드 국제 확장 및 SpaceX IPO 지분 소유로 인한 긍정적 반응",
+      "key_reason": "Grok 음성 활성화와 기술적 반등으로 신중한 낙관 분위기",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -32,14 +32,14 @@
     },
     {
       "symbol": "AAPL",
-      "as_of": "2026-05-21T12:09:28Z",
+      "as_of": "2026-05-21T13:00:00Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
-      "trend_vs_yesterday": "heating",
-      "mention_volume": "normal",
-      "key_reason": "콜 옵션 대량 매수와 ATH 도달 기대가 지배적이다",
-      "bot_suspected": "unclear",
-      "confidence": "med",
+      "trend_vs_yesterday": "stable",
+      "mention_volume": "elevated",
+      "key_reason": "ATH 근처에서 강세 기술 분석과 장기 보유 심리가 지배적이다",
+      "bot_suspected": "yes",
+      "confidence": "low",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "normal",
@@ -51,12 +51,12 @@
     },
     {
       "symbol": "NVDA",
-      "as_of": "2026-05-21T12:09:28Z",
+      "as_of": "2026-05-21T13:00:00Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "elevated",
-      "key_reason": "Q1 실적 호조와 AI 수요 강세로 낙관적 분위기",
+      "key_reason": "실적 호조와 AI 공장 및 agentic AI 전망으로 장기 낙관론 우세",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -70,14 +70,14 @@
     },
     {
       "symbol": "META",
-      "as_of": "2026-05-21T12:09:28Z",
+      "as_of": "2026-05-21T13:00:00Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "normal",
-      "key_reason": "AI 하이퍼그로스와 효율성 개선 반복에 대한 장기 기대",
-      "bot_suspected": "no",
-      "confidence": "med",
+      "mention_volume": "low",
+      "key_reason": "AI 투자와 파트너십 기대감으로 소폭 긍정적",
+      "bot_suspected": "unclear",
+      "confidence": "low",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "calm",
@@ -89,14 +89,14 @@
     },
     {
       "symbol": "AMZN",
-      "as_of": "2026-05-21T12:09:28Z",
+      "as_of": "2026-05-21T13:00:00Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "normal",
-      "key_reason": "AWS 성장 기대와 장기 보유 관점에서 긍정적 의견이 주를 이룹니다.",
-      "bot_suspected": "yes",
-      "confidence": "low",
+      "key_reason": "AWS AI 인프라 대규모 구축과 capex 증가가 주요 긍정 요인",
+      "bot_suspected": "unclear",
+      "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "normal",
@@ -108,13 +108,13 @@
     },
     {
       "symbol": "GOOGL",
-      "as_of": "2026-05-21T12:09:28Z",
-      "sentiment": "neutral",
-      "sentiment_score": 0,
-      "trend_vs_yesterday": "stable",
-      "mention_volume": "normal",
-      "key_reason": "빅테크 바스켓 일상 언급과 AI 간접 노출에 대한 중립적 관심",
-      "bot_suspected": "unclear",
+      "as_of": "2026-05-21T13:00:00Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "heating",
+      "mention_volume": "elevated",
+      "key_reason": "버크셔가 GOOGL 지분을 3배로 늘리고 AI에 올인했다는 소식이 주목받음",
+      "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
@@ -123,7 +123,7 @@
         "near_key_level": "none",
         "abnormal_move": false
       },
-      "divergence": "none"
+      "divergence": "aligned"
     }
   ]
 }
