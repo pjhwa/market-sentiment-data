@@ -165,32 +165,43 @@ def compute_divergence(price_dir: str, sentiment_score: int) -> str:
 
 # ── hermes 호출 ────────────────────────────────────────────────────────────────
 
+HERMES_RETRY = int(os.environ.get("HERMES_RETRY", "1"))  # 타임아웃 시 재시도 횟수
+
+
 def call_hermes(prompt: str) -> str | None:
     cmd = [HERMES_CMD, "-z", prompt]
     if HERMES_PROVIDER:
         cmd += ["--provider", HERMES_PROVIDER]
-    try:
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=CALL_TIMEOUT,
-            env={**os.environ, "PATH": os.environ.get("PATH", "") + ":/usr/local/bin:/opt/homebrew/bin"},
-        )
-        if result.returncode != 0:
-            print(f"[ERROR] hermes 비정상 종료 (rc={result.returncode}): {result.stderr[:200]}", file=sys.stderr)
+    env = {**os.environ, "PATH": os.environ.get("PATH", "") + ":/usr/local/bin:/opt/homebrew/bin"}
+
+    for attempt in range(1 + HERMES_RETRY):
+        try:
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=CALL_TIMEOUT,
+                env=env,
+            )
+            if result.returncode != 0:
+                print(f"[ERROR] hermes 비정상 종료 (rc={result.returncode}): {result.stderr[:200]}", file=sys.stderr)
+                return None
+            return result.stdout
+        except subprocess.TimeoutExpired:
+            remaining = HERMES_RETRY - attempt
+            if remaining > 0:
+                print(f"[WARN] hermes 타임아웃 ({CALL_TIMEOUT}초 초과) — 재시도 {remaining}회 남음", file=sys.stderr)
+            else:
+                print(f"[ERROR] hermes 타임아웃 — 재시도 소진, skip", file=sys.stderr)
+                return None
+        except FileNotFoundError:
+            print(
+                f"[ERROR] hermes 명령을 찾을 수 없음: {HERMES_CMD}. "
+                "PATH를 확인하거나 HERMES_CMD 환경변수로 절대경로를 지정하세요.",
+                file=sys.stderr,
+            )
             return None
-        return result.stdout
-    except subprocess.TimeoutExpired:
-        print(f"[ERROR] hermes 타임아웃 ({CALL_TIMEOUT}초 초과)", file=sys.stderr)
-        return None
-    except FileNotFoundError:
-        print(
-            f"[ERROR] hermes 명령을 찾을 수 없음: {HERMES_CMD}. "
-            "PATH를 확인하거나 HERMES_CMD 환경변수로 절대경로를 지정하세요.",
-            file=sys.stderr,
-        )
-        return None
+    return None
 
 
 # ── JSON 파싱 / 검증 ──────────────────────────────────────────────────────────
