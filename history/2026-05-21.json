@@ -1,14 +1,87 @@
 {
-  "generated_at": "2026-05-21T10:20:24Z",
+  "generated_at": "2026-05-21T10:21:05Z",
   "schema_version": "1.0",
   "market": {
-    "as_of": "2026-05-21T10:20:24Z",
+    "as_of": "2026-05-21T10:21:05Z",
     "sentiment": "neutral",
     "sentiment_score": 0,
     "trend_vs_yesterday": "stable",
     "extreme_flag": "none",
-    "key_reason": "시장 전체 데이터 수집 실패",
+    "key_reason": "최근 게시물이 가볍고 혼재되어 뚜렷한 시장 공감대 없음",
     "confidence": "low"
   },
-  "symbols": []
+  "symbols": [
+    {
+      "symbol": "TSLA",
+      "as_of": "2026-05-21T10:21:05Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "heating",
+      "mention_volume": "elevated",
+      "key_reason": "테슬라 FSD 중국 출시 소식으로 주가 상승",
+      "bot_suspected": "no",
+      "confidence": "med",
+      "source": "grok-4.3/xai-oauth via hermes"
+    },
+    {
+      "symbol": "AAPL",
+      "as_of": "2026-05-21T10:21:05Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "stable",
+      "mention_volume": "normal",
+      "key_reason": "애플 주가가 사상 최고치 근처에서 거래되며 강세 모멘텀을 유지하고 있습니다.",
+      "bot_suspected": "no",
+      "confidence": "med",
+      "source": "grok-4.3/xai-oauth via hermes"
+    },
+    {
+      "symbol": "NVDA",
+      "as_of": "2026-05-21T10:21:05Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "heating",
+      "mention_volume": "elevated",
+      "key_reason": "어닝 서프라이즈와 AI 수요로 강세 분위기",
+      "bot_suspected": "no",
+      "confidence": "med",
+      "source": "grok-4.3/xai-oauth via hermes"
+    },
+    {
+      "symbol": "META",
+      "as_of": "2026-05-21T10:21:05Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "stable",
+      "mention_volume": "low",
+      "key_reason": "AI 성장과 견고한 재무 성과에도 capex 우려로 주가 약세를 보인다.",
+      "bot_suspected": "unclear",
+      "confidence": "low",
+      "source": "grok-4.3/xai-oauth via hermes"
+    },
+    {
+      "symbol": "AMZN",
+      "as_of": "2026-05-21T10:21:05Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "stable",
+      "mention_volume": "normal",
+      "key_reason": "AWS와 AI 클라우드 성장으로 장기 낙관론이 지배적",
+      "bot_suspected": "unclear",
+      "confidence": "low",
+      "source": "grok-4.3/xai-oauth via hermes"
+    },
+    {
+      "symbol": "GOOGL",
+      "as_of": "2026-05-21T10:21:05Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "cooling",
+      "mention_volume": "elevated",
+      "key_reason": "AI 모멘텀과 클라우드 성장으로 단기 조정 후 매수 기회로 평가됨",
+      "bot_suspected": "no",
+      "confidence": "med",
+      "source": "grok-4.3/xai-oauth via hermes"
+    }
+  ]
 }
