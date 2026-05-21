@@ -12,12 +12,11 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-import jsonschema
-
 # ── 설정 (환경변수 또는 상단 상수) ──────────────────────────────────────────
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent))
 HERMES_CMD = os.environ.get("HERMES_CMD", "/Users/jerry/.local/bin/hermes")
-HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "grok-oauth")
+# HERMES_PROVIDER: 설정하면 "--provider <값>" 추가. 비우면 hermes 기본 설정(grok-4.3/xai-oauth) 사용.
+HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
 CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))  # 종목당 초
 
 WATCHLIST = ["TSLA", "AAPL", "NVDA", "META", "AMZN", "GOOGL"]
@@ -73,17 +72,14 @@ Rules:
 
 
 # ── 유틸리티 ────────────────────────────────────────────────────────────────
-def load_schema() -> dict:
-    schema_path = REPO_PATH / "schema.json"
-    with open(schema_path, encoding="utf-8") as f:
-        return json.load(f)
-
-
 def call_hermes(prompt: str) -> str | None:
     """hermes -z 호출, 타임아웃 적용. 실패 시 None 반환."""
+    cmd = [HERMES_CMD, "-z", prompt]
+    if HERMES_PROVIDER:
+        cmd += ["--provider", HERMES_PROVIDER]
     try:
         result = subprocess.run(
-            [HERMES_CMD, "-z", prompt, "--provider", HERMES_PROVIDER],
+            cmd,
             capture_output=True,
             text=True,
             timeout=CALL_TIMEOUT,
@@ -166,7 +162,7 @@ def build_symbol_entry(raw: dict, symbol: str, now_iso: str) -> dict:
         "key_reason": raw.get("key_reason", ""),
         "bot_suspected": raw["bot_suspected"],
         "confidence": raw["confidence"],
-        "source": f"{HERMES_PROVIDER} via hermes",
+        "source": f"{HERMES_PROVIDER or 'grok-4.3/xai-oauth'} via hermes",
     }
 
 
