@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """
-SniperBoard 소셜 심리 수집기 (계층 1)
-hermes -z로 Grok에 질의 → JSON 파싱·검증 → git commit/push
+SniperBoard 소셜 심리 수집기 (계층 1, v1.1)
+① SniperBoard에서 중립적 가격 맥락 fetch (방향 제거)
+② 맥락을 끼워 넣어 Grok에 질의 (방향 단어 가드 통과 필수)
+③ 심리 수집 후 가격 방향과 비교해 divergence 계산
+④ price_context + divergence 포함해 latest.json 빌드 → push
 """
 
 import json
@@ -12,12 +15,17 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-# ── 설정 (환경변수 또는 상단 상수) ──────────────────────────────────────────
+from collect.price_context import (
+    fetch_close_direction,
+    fetch_market_context,
+    fetch_price_context,
+)
+
+# ── 설정 ──────────────────────────────────────────────────────────────────────
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent))
 HERMES_CMD = os.environ.get("HERMES_CMD", "/Users/jerry/.local/bin/hermes")
-# HERMES_PROVIDER: 설정하면 "--provider <값>" 추가. 비우면 hermes 기본 설정(grok-4.3/xai-oauth) 사용.
 HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
-CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))  # 종목당 초
+CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))
 
 WATCHLIST = ["TSLA", "AAPL", "NVDA", "META", "AMZN", "GOOGL"]
 
@@ -29,12 +37,27 @@ SENTIMENT_SCORE_MAP = {
     "euphoric": 2,
 }
 
-# ── 프롬프트 ────────────────────────────────────────────────────────────────
-SYMBOL_PROMPT_TEMPLATE = """You are a data extraction tool, not an analyst. Look at current public X (Twitter) \
-posts about ${SYMBOL} and respond with ONE JSON object ONLY — no prose, no code fences, \
-no explanation before or after.
+# 오염 방지선: 프롬프트에 이 단어가 들어가면 AssertionError
+_PROMPT_DIRECTION_PATTERN = re.compile(
+    r"\b(up|down|bullish|bearish|buy|sell|strong|weak|rally|drop|surge|crash|rose|fell"
+    r"|올랐|떨어|급등|급락|상승|하락)\b",
+    re.IGNORECASE,
+)
 
-Schema (use these exact enum values):
+# ── Grok 프롬프트 빌더 ─────────────────────────────────────────────────────────
+
+_NEAR_KEY_LEVEL_HUMAN = {
+    "near_52w_high": "near its 52-week high",
+    "near_52w_low": "near its 52-week low",
+    "none": "not near any key level",
+}
+
+_SYMBOL_PROMPT_BASE = """\
+You are a data extraction tool, not an analyst. Read current public X (Twitter) posts \
+about ${SYMBOL} and report the crowd's sentiment. Respond with ONE JSON object ONLY — \
+no prose, no code fences.
+{CONTEXT_BLOCK}
+Schema (exact enums):
 {{
   "symbol": "{SYMBOL}",
   "sentiment": one of ["very_fearful","fearful","neutral","optimistic","euphoric"],
@@ -46,12 +69,24 @@ Schema (use these exact enum values):
 }}
 
 Rules:
-- Do NOT invent precise percentages. Use only the categorical enums above.
-- If the sample seems thin or very noisy, set confidence to "low".
-- If you cannot determine a field, use "neutral"/"stable"/"normal"/"unclear" and lower confidence.
-- Output the raw JSON object and nothing else."""
+- Determine sentiment ONLY from real posts, never inferred from the price context.
+- No invented percentages. Categorical enums only.
+- Thin/noisy sample → confidence "low".
+- Output raw JSON only."""
 
-MARKET_PROMPT = """You are a data extraction tool, not an analyst. Look at current public X (Twitter) \
+_CONTEXT_BLOCK_TEMPLATE = """\
+
+CONTEXT (use ONLY to focus your search and judge sarcasm — do NOT let it decide the sentiment):
+{CONTEXT_LINES}
+IMPORTANT about the context:
+- The context tells you WHERE to look and helps you tell sincere posts from sarcastic ones.
+- It does NOT tell you whether sentiment is positive or negative. You must determine that \
+ONLY from the actual posts you read. Do not assume a big move means a particular mood.
+
+"""
+
+MARKET_PROMPT = """\
+You are a data extraction tool, not an analyst. Look at current public X (Twitter) \
 posts about the US equity market broadly (S&P 500, rates, recession) and respond with ONE JSON object ONLY \
 — no prose, no code fences, no explanation before or after.
 
@@ -71,9 +106,66 @@ Rules:
 - Output the raw JSON object and nothing else."""
 
 
-# ── 유틸리티 ────────────────────────────────────────────────────────────────
+def build_prompt(symbol: str, ctx: dict) -> str:
+    """가격 맥락을 중립 단서로만 끼워 넣어 프롬프트를 생성.
+    ⛔ 생성된 프롬프트에 방향 단어가 없는지 가드(assert)를 통과해야 한다.
+    """
+    if not ctx.get("available"):
+        # SniperBoard 응답 없으면 맨눈 폴백 (CONTEXT 블록 생략)
+        context_block = "\n"
+    else:
+        lines = []
+
+        if ctx.get("abnormal_move"):
+            lines.append(
+                "- This stock had an UNUSUALLY LARGE price move today (size only; direction unknown)."
+            )
+
+        vol = ctx.get("volume_ratio")
+        if vol is not None:
+            lines.append(f"- Today's volume was about {vol}x its recent average.")
+
+        level = ctx.get("near_key_level", "none")
+        level_human = _NEAR_KEY_LEVEL_HUMAN.get(level, "not near any key level")
+        lines.append(f"- Price is currently {level_human}.")
+
+        context_block = _CONTEXT_BLOCK_TEMPLATE.replace(
+            "{CONTEXT_LINES}", "\n".join(lines) + "\n"
+        )
+
+    prompt = (
+        _SYMBOL_PROMPT_BASE
+        .replace("{SYMBOL}", symbol)
+        .replace("{CONTEXT_BLOCK}", context_block)
+    )
+
+    # 오염 방지선 기계 검증
+    m = _PROMPT_DIRECTION_PATTERN.search(prompt)
+    assert m is None, (
+        f"⛔ 방향 단어 오염 감지 [{symbol}]: '{m.group()}' — 프롬프트를 확인하라."
+    )
+
+    return prompt
+
+
+# ── divergence 계산 ────────────────────────────────────────────────────────────
+
+def compute_divergence(price_dir: str, sentiment_score: int) -> str:
+    """가격 방향과 심리 점수를 비교해 divergence 판정.
+    이 함수는 Grok 호출이 끝난 뒤에만 호출해야 한다. price_dir는 절대 프롬프트로 흘리지 말 것.
+    """
+    if price_dir == "up" and sentiment_score < 0:
+        return "bearish_divergence"
+    if price_dir == "down" and sentiment_score > 0:
+        return "bullish_divergence"
+    if price_dir in ("up", "down", "flat") and sentiment_score != 0:
+        return "aligned"
+    return "none"
+
+
+# ── hermes 호출 ────────────────────────────────────────────────────────────────
+
 def call_hermes(prompt: str) -> str | None:
-    """hermes -z 호출, 타임아웃 적용. 실패 시 None 반환."""
     cmd = [HERMES_CMD, "-z", prompt]
     if HERMES_PROVIDER:
         cmd += ["--provider", HERMES_PROVIDER]
@@ -93,12 +185,17 @@ def call_hermes(prompt: str) -> str | None:
         print(f"[ERROR] hermes 타임아웃 ({CALL_TIMEOUT}초 초과)", file=sys.stderr)
         return None
     except FileNotFoundError:
-        print(f"[ERROR] hermes 명령을 찾을 수 없음: {HERMES_CMD}. PATH를 확인하거나 HERMES_CMD 환경변수로 절대경로를 지정하세요.", file=sys.stderr)
+        print(
+            f"[ERROR] hermes 명령을 찾을 수 없음: {HERMES_CMD}. "
+            "PATH를 확인하거나 HERMES_CMD 환경변수로 절대경로를 지정하세요.",
+            file=sys.stderr,
+        )
         return None
 
 
+# ── JSON 파싱 / 검증 ──────────────────────────────────────────────────────────
+
 def extract_json(text: str) -> dict | None:
-    """응답 텍스트에서 첫 { ~ 마지막 } 구간을 추출해 파싱."""
     match = re.search(r"\{.*\}", text, re.DOTALL)
     if not match:
         print(f"[ERROR] JSON 블록을 찾을 수 없음. 응답: {text[:300]!r}", file=sys.stderr)
@@ -111,7 +208,6 @@ def extract_json(text: str) -> dict | None:
 
 
 def validate_symbol_fields(data: dict, symbol: str) -> bool:
-    """per-symbol 필수 필드 및 enum 값 검증."""
     required_enums = {
         "sentiment": list(SENTIMENT_SCORE_MAP.keys()),
         "trend_vs_yesterday": ["cooling", "stable", "heating"],
@@ -133,7 +229,6 @@ def validate_symbol_fields(data: dict, symbol: str) -> bool:
 
 
 def validate_market_fields(data: dict) -> bool:
-    """market 객체 필드 검증."""
     required_enums = {
         "sentiment": list(SENTIMENT_SCORE_MAP.keys()),
         "trend_vs_yesterday": ["cooling", "stable", "heating"],
@@ -150,9 +245,11 @@ def validate_market_fields(data: dict) -> bool:
     return True
 
 
-def build_symbol_entry(raw: dict, symbol: str, now_iso: str) -> dict:
+# ── 엔트리 빌더 ────────────────────────────────────────────────────────────────
+
+def build_symbol_entry(raw: dict, symbol: str, now_iso: str, ctx: dict, divergence: str) -> dict:
     sentiment = raw["sentiment"]
-    return {
+    entry = {
         "symbol": symbol,
         "as_of": now_iso,
         "sentiment": sentiment,
@@ -162,8 +259,14 @@ def build_symbol_entry(raw: dict, symbol: str, now_iso: str) -> dict:
         "key_reason": raw.get("key_reason", ""),
         "bot_suspected": raw["bot_suspected"],
         "confidence": raw["confidence"],
-        "source": f"{HERMES_PROVIDER or 'grok-4.3/xai-oauth'} via hermes",
+        "source": f"{'grok-oauth' if not HERMES_PROVIDER else HERMES_PROVIDER} via hermes",
     }
+    # price_context: available 키는 내부용이므로 저장 시 제외
+    pc = {k: v for k, v in ctx.items() if k != "available"} if ctx.get("available") else None
+    if pc is not None:
+        entry["price_context"] = pc
+    entry["divergence"] = divergence
+    return entry
 
 
 def build_market_entry(raw: dict, now_iso: str) -> dict:
@@ -179,16 +282,15 @@ def build_market_entry(raw: dict, now_iso: str) -> dict:
     }
 
 
+# ── git ───────────────────────────────────────────────────────────────────────
+
 def git_commit_push(repo: Path, date_str: str, time_str: str) -> bool:
-    """git add / commit / push. 실패 시 False 반환."""
     def run(args):
         return subprocess.run(args, cwd=repo, capture_output=True, text=True)
 
     run(["git", "add", "latest.json", f"history/{date_str}.json"])
-    commit_msg = f"sentiment: {date_str} {time_str} update"
-    result = run(["git", "commit", "-m", commit_msg])
+    result = run(["git", "commit", "-m", f"sentiment: {date_str} {time_str} update"])
     if result.returncode != 0:
-        # 변경사항 없으면 정상 처리
         if "nothing to commit" in result.stdout or "nothing to commit" in result.stderr:
             print("[INFO] 커밋할 변경사항 없음 (이미 최신)", file=sys.stderr)
             return True
@@ -206,7 +308,8 @@ def git_commit_push(repo: Path, date_str: str, time_str: str) -> bool:
     return True
 
 
-# ── 메인 ────────────────────────────────────────────────────────────────────
+# ── 메인 ──────────────────────────────────────────────────────────────────────
+
 def main():
     now = datetime.now(timezone.utc)
     now_iso = now.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -215,14 +318,29 @@ def main():
 
     print(f"[INFO] 수집 시작: {now_iso}")
 
-    success_count = 0
-    total = len(WATCHLIST) + 1  # 종목 6 + 시장 전체 1
+    # VIX 수준만 (방향 없음)
+    fetch_market_context()
 
-    # ── 종목별 수집 ──────────────────────────────────────────────────────────
+    success_count = 0
+    total = len(WATCHLIST) + 1
+    divergences: list[str] = []  # "TSLA(bullish_divergence)" 형식
+
+    # ── 종목별 수집 ───────────────────────────────────────────────────────────
     symbol_entries = []
     for symbol in WATCHLIST:
         print(f"[INFO] 질의 중: {symbol}")
-        prompt = SYMBOL_PROMPT_TEMPLATE.replace("{SYMBOL}", symbol)
+
+        # ① 중립적 가격 맥락 (방향 없음)
+        ctx = fetch_price_context(symbol)
+
+        # ② 맥락 주입 프롬프트 빌드 (방향 단어 가드 포함)
+        try:
+            prompt = build_prompt(symbol, ctx)
+        except AssertionError as e:
+            print(f"[ERROR] {symbol}: 프롬프트 오염 방지선 위반 — {e}", file=sys.stderr)
+            continue
+
+        # ③ Grok 호출
         raw_text = call_hermes(prompt)
         if raw_text is None:
             print(f"[SKIP] {symbol}: hermes 호출 실패", file=sys.stderr)
@@ -237,12 +355,24 @@ def main():
             print(f"[SKIP] {symbol}: 검증 실패", file=sys.stderr)
             continue
 
-        entry = build_symbol_entry(parsed, symbol, now_iso)
+        # ④ 다이버전스 계산 — Grok 호출이 끝난 뒤에만. close_dir는 여기서만 사용.
+        close_dir = fetch_close_direction(symbol)
+        sentiment_score = SENTIMENT_SCORE_MAP[parsed["sentiment"]]
+        divergence = compute_divergence(close_dir, sentiment_score)
+
+        entry = build_symbol_entry(parsed, symbol, now_iso, ctx, divergence)
         symbol_entries.append(entry)
         success_count += 1
-        print(f"[OK]   {symbol}: sentiment={entry['sentiment']} confidence={entry['confidence']}")
+        print(
+            f"[OK]   {symbol}: sentiment={entry['sentiment']} "
+            f"confidence={entry['confidence']} divergence={divergence}"
+        )
 
-    # ── 시장 전체 수집 ───────────────────────────────────────────────────────
+        if divergence in ("bullish_divergence", "bearish_divergence"):
+            short = "bullish" if divergence == "bullish_divergence" else "bearish"
+            divergences.append(f"{symbol}({short})")
+
+    # ── 시장 전체 수집 ────────────────────────────────────────────────────────
     print("[INFO] 질의 중: MARKET")
     market_raw_text = call_hermes(MARKET_PROMPT)
     market_entry = None
@@ -261,7 +391,6 @@ def main():
             print(f"[OK]   MARKET: sentiment={market_entry['sentiment']} extreme_flag={market_entry['extreme_flag']}")
 
     if market_entry is None:
-        # 시장 전체 실패 시 중립 기본값으로 폴백 (수집 실패임을 confidence=low로 명시)
         market_entry = {
             "as_of": now_iso,
             "sentiment": "neutral",
@@ -272,10 +401,10 @@ def main():
             "confidence": "low",
         }
 
-    # ── latest.json + history/<date>.json 저장 ───────────────────────────────
+    # ── latest.json + history/<date>.json 저장 ────────────────────────────────
     snapshot = {
         "generated_at": now_iso,
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "market": market_entry,
         "symbols": symbol_entries,
     }
@@ -292,12 +421,18 @@ def main():
 
     print(f"[INFO] 파일 저장 완료: {latest_path}, {history_path}")
 
-    # ── git commit/push ──────────────────────────────────────────────────────
+    # ── git commit/push ───────────────────────────────────────────────────────
     push_ok = git_commit_push(REPO_PATH, date_str, time_str)
     if not push_ok:
         print("[WARN] git push 실패 — 로컬 파일은 저장됨", file=sys.stderr)
 
-    print(f"\n{'[OK]' if push_ok else '[WARN]'} {success_count}/{total} 종목 수집 성공")
+    # ── 요약 출력 ─────────────────────────────────────────────────────────────
+    status = "[OK]" if push_ok else "[WARN]"
+    print(f"\n{status} {success_count}/{total} 종목 수집 성공")
+    if divergences:
+        print(f"divergence 발생: {', '.join(divergences)}")
+    else:
+        print("divergence: 없음 (모두 aligned/none)")
 
 
 if __name__ == "__main__":

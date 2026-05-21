@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/pjhwa/market-sentiment-data/schema.json",
   "title": "MarketSentimentSnapshot",
-  "description": "SniperBoard 소셜 심리 파이프라인 데이터 계약 v1.0",
+  "description": "SniperBoard 소셜 심리 파이프라인 데이터 계약 v1.1",
   "type": "object",
   "required": ["generated_at", "market", "symbols", "schema_version"],
   "additionalProperties": false,
@@ -14,7 +14,8 @@
     },
     "schema_version": {
       "type": "string",
-      "const": "1.0"
+      "enum": ["1.0", "1.1"],
+      "description": "1.0: 기본 스키마. 1.1: price_context + divergence 추가."
     },
     "market": {
       "$ref": "#/definitions/MarketSentiment"
@@ -93,8 +94,45 @@
         "source": {
           "type": "string",
           "description": "출처 추적용 문자열"
+        },
+        "price_context": {
+          "$ref": "#/definitions/PriceContext",
+          "description": "수집에 쓴 중립 가격 단서 (감사·재현용). v1.1에서 추가. optional."
+        },
+        "divergence": {
+          "$ref": "#/definitions/DivergenceEnum",
+          "description": "가격 방향과 심리의 일치/불일치. v1.1에서 추가. optional."
         }
       }
+    },
+    "PriceContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "volatility": {
+          "type": ["string", "null"],
+          "enum": ["calm", "normal", "elevated", "extreme", null],
+          "description": "당일 변동폭 ÷ ATR14 기반 변동성 크기 (방향 없음)"
+        },
+        "volume_ratio": {
+          "type": ["number", "null"],
+          "description": "최근 거래량 ÷ vol_avg20 배수"
+        },
+        "near_key_level": {
+          "type": ["string", "null"],
+          "enum": ["none", "near_52w_high", "near_52w_low", null],
+          "description": "52주 고점/저점 ±3% 이내 여부 (위치만, 돌파 판정 없음)"
+        },
+        "abnormal_move": {
+          "type": ["boolean", "null"],
+          "description": "|당일변동| > 1.5×ATR14 이면 true (방향 무관)"
+        }
+      }
+    },
+    "DivergenceEnum": {
+      "type": "string",
+      "enum": ["aligned", "none", "bullish_divergence", "bearish_divergence"],
+      "description": "가격↑심리↓=bearish_divergence, 가격↓심리↑=bullish_divergence, 그 외=aligned/none"
     },
     "MarketSentiment": {
       "type": "object",
