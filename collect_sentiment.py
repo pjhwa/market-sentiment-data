@@ -22,7 +22,7 @@ from collect.price_context import (
 )
 
 # ── 설정 ──────────────────────────────────────────────────────────────────────
-REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent))
+REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent)).resolve()
 HERMES_CMD = os.environ.get("HERMES_CMD", "/Users/jerry/.local/bin/hermes")
 HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
 CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))

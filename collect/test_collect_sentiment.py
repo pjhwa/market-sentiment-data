@@ -36,6 +36,27 @@ class TestDetectSlot(unittest.TestCase):
         with patch.dict(os.environ, {"SENTIMENT_SLOT": "post_close"}):
             self.assertEqual(cs.detect_slot(dt), "post_close")
 
+    def test_boundary_lower_pre_open(self):
+        dt = datetime(2026, 5, 21, 9, 0, tzinfo=timezone.utc)
+        self.assertEqual(cs.detect_slot(dt), "pre_open")
+
+    def test_boundary_below_lower_post_close(self):
+        dt = datetime(2026, 5, 21, 8, 59, tzinfo=timezone.utc)
+        self.assertEqual(cs.detect_slot(dt), "post_close")
+
+    def test_boundary_upper_pre_open(self):
+        dt = datetime(2026, 5, 21, 17, 59, tzinfo=timezone.utc)
+        self.assertEqual(cs.detect_slot(dt), "pre_open")
+
+    def test_boundary_upper_post_close(self):
+        dt = datetime(2026, 5, 21, 18, 0, tzinfo=timezone.utc)
+        self.assertEqual(cs.detect_slot(dt), "post_close")
+
+    def test_invalid_env_override_falls_back_to_time(self):
+        dt = datetime(2026, 5, 21, 13, 0, tzinfo=timezone.utc)
+        with patch.dict(os.environ, {"SENTIMENT_SLOT": "invalid_value"}):
+            self.assertEqual(cs.detect_slot(dt), "pre_open")
+
 
 class TestHistoryFilename(unittest.TestCase):
     def test_pre_open_filename(self):
