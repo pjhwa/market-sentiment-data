@@ -14,8 +14,13 @@
     },
     "schema_version": {
       "type": "string",
-      "enum": ["1.0", "1.1"],
-      "description": "1.0: 기본 스키마. 1.1: price_context + divergence 추가."
+      "enum": ["1.0", "1.1", "1.2"],
+      "description": "1.0: 기본 스키마. 1.1: price_context + divergence 추가. 1.2: slot + intraday_shift 추가."
+    },
+    "slot": {
+      "type": "string",
+      "enum": ["pre_open", "post_close"],
+      "description": "수집 슬롯. pre_open: 미국 장 개장 전(13:00 UTC). post_close: 미국 장 마감 후(21:00 UTC)."
     },
     "market": {
       "$ref": "#/definitions/MarketSentiment"
@@ -102,6 +107,10 @@
         "divergence": {
           "$ref": "#/definitions/DivergenceEnum",
           "description": "가격 방향과 심리의 일치/불일치. v1.1에서 추가. optional."
+        },
+        "intraday_shift": {
+          "$ref": "#/definitions/IntradayShiftEnum",
+          "description": "post_close 슬롯에서 당일 pre_open 대비 심리 변화. v1.2 추가."
         }
       }
     },
@@ -134,6 +143,11 @@
       "enum": ["aligned", "none", "bullish_divergence", "bearish_divergence"],
       "description": "가격↑심리↓=bearish_divergence, 가격↓심리↑=bullish_divergence, 그 외=aligned/none"
     },
+    "IntradayShiftEnum": {
+      "type": ["string", "null"],
+      "enum": ["cooling", "stable", "heating", null],
+      "description": "post_close에서 당일 pre_open 대비 심리 변화. pre_open 슬롯에서는 항상 null."
+    },
     "MarketSentiment": {
       "type": "object",
       "required": [
@@ -155,7 +169,11 @@
           "type": "string",
           "description": "시장 전체 화제의 핵심 사유 (한 줄)"
         },
-        "confidence": { "$ref": "#/definitions/ConfidenceEnum" }
+        "confidence": { "$ref": "#/definitions/ConfidenceEnum" },
+        "intraday_shift": {
+          "$ref": "#/definitions/IntradayShiftEnum",
+          "description": "post_close 슬롯에서 당일 pre_open 대비 심리 변화. v1.2 추가."
+        }
       }
     }
   }
