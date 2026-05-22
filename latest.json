@@ -1,26 +1,26 @@
 {
-  "generated_at": "2026-05-22T02:26:15Z",
+  "generated_at": "2026-05-22T13:00:01Z",
   "schema_version": "1.2",
-  "slot": "post_close",
+  "slot": "pre_open",
   "market": {
-    "as_of": "2026-05-22T02:26:15Z",
-    "sentiment": "fearful",
-    "sentiment_score": -1,
+    "as_of": "2026-05-22T13:00:01Z",
+    "sentiment": "neutral",
+    "sentiment_score": 0,
     "trend_vs_yesterday": "stable",
     "extreme_flag": "none",
-    "key_reason": "S&P 500 랠리의 좁은 폭과 Fed 금리 불확실성으로 신중한 심리",
+    "key_reason": "S&P 500 상승세가 이어지지만 밸류에이션 과열과 좁은 시장 폭으로 우려가 커지고 있다",
     "confidence": "med",
-    "intraday_shift": "cooling"
+    "intraday_shift": null
   },
   "symbols": [
     {
       "symbol": "TSLA",
-      "as_of": "2026-05-22T02:26:15Z",
+      "as_of": "2026-05-22T13:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
-      "trend_vs_yesterday": "heating",
+      "trend_vs_yesterday": "stable",
       "mention_volume": "normal",
-      "key_reason": "기술적 지지선 방어와 단기 상승 목표 설정이 주요 논의",
+      "key_reason": "TSLA 기술적 지지 유지와 그록 통합에 대한 흥분이 보임",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -31,17 +31,17 @@
         "abnormal_move": false
       },
       "divergence": "bullish_divergence",
-      "intraday_shift": "stable"
+      "intraday_shift": null
     },
     {
       "symbol": "AAPL",
-      "as_of": "2026-05-22T02:26:15Z",
+      "as_of": "2026-05-22T13:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "normal",
-      "key_reason": "상승 추세 유지 중이나 RSI 과매수와 단기 조정 경고 병존",
-      "bot_suspected": "unclear",
+      "key_reason": "애플 AI 롤아웃과 생태계 강점에 대한 기대감",
+      "bot_suspected": "yes",
       "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
@@ -51,17 +51,17 @@
         "abnormal_move": false
       },
       "divergence": "aligned",
-      "intraday_shift": "stable"
+      "intraday_shift": null
     },
     {
       "symbol": "NVDA",
-      "as_of": "2026-05-22T02:26:15Z",
+      "as_of": "2026-05-22T13:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
-      "trend_vs_yesterday": "cooling",
+      "trend_vs_yesterday": "stable",
       "mention_volume": "elevated",
-      "key_reason": "실적 호조에도 매도 뉴스 반응으로 단기 조정 보이나 AI 수요 기대감 지속",
-      "bot_suspected": "unclear",
+      "key_reason": "강력한 AI 실적 호조와 장기 성장 기대가 지배적",
+      "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
@@ -71,16 +71,16 @@
         "abnormal_move": false
       },
       "divergence": "bullish_divergence",
-      "intraday_shift": "stable"
+      "intraday_shift": null
     },
     {
       "symbol": "META",
-      "as_of": "2026-05-22T02:26:15Z",
+      "as_of": "2026-05-22T13:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "low",
-      "key_reason": "AI 광고 성장과 META AI 10억 사용자 돌파로 펀더멘털 긍정적",
+      "key_reason": "AI 성장과 합리적 밸류에이션으로 장기 낙관론 우세",
       "bot_suspected": "unclear",
       "confidence": "low",
       "source": "grok-oauth via hermes",
@@ -91,17 +91,17 @@
         "abnormal_move": false
       },
       "divergence": "aligned",
-      "intraday_shift": "stable"
+      "intraday_shift": null
     },
     {
       "symbol": "AMZN",
-      "as_of": "2026-05-22T02:26:15Z",
+      "as_of": "2026-05-22T13:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "normal",
-      "key_reason": "기술적 지지 유지와 AWS·광고 강점으로 낙관적 차트 의견 우세",
-      "bot_suspected": "unclear",
+      "mention_volume": "low",
+      "key_reason": "AWS 성장과 실적 호조에 대한 낙관적 언급이 주를 이룸",
+      "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
@@ -111,16 +111,16 @@
         "abnormal_move": false
       },
       "divergence": "aligned",
-      "intraday_shift": "stable"
+      "intraday_shift": null
     },
     {
       "symbol": "GOOGL",
-      "as_of": "2026-05-22T02:26:15Z",
+      "as_of": "2026-05-22T13:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "normal",
-      "key_reason": "조정 후 지지선에서 매수 기회로 보는 건설적 논의가 주를 이룸",
+      "key_reason": "AI 리더십과 클라우드 성장에 대한 건설적 논의가 주를 이룸",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -131,7 +131,7 @@
         "abnormal_move": false
       },
       "divergence": "aligned",
-      "intraday_shift": "stable"
+      "intraday_shift": null
     }
   ]
 }
