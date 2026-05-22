@@ -44,6 +44,25 @@ _PROMPT_DIRECTION_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
+# ── 슬롯 감지 ──────────────────────────────────────────────────────────────────
+
+def detect_slot(now: datetime) -> str:
+    """UTC 시각으로 수집 슬롯 판별. SENTIMENT_SLOT 환경변수로 오버라이드 가능.
+    09:00–17:59 UTC → pre_open (미국 장 개장 전)
+    그 외 → post_close (미국 장 마감 후)
+    """
+    override = os.environ.get("SENTIMENT_SLOT", "").strip()
+    if override in ("pre_open", "post_close"):
+        return override
+    if 9 <= now.hour < 18:
+        return "pre_open"
+    return "post_close"
+
+
+def history_filename(date_str: str, slot: str) -> Path:
+    return REPO_PATH / "history" / f"{date_str}_{slot}.json"
+
+
 # ── Grok 프롬프트 빌더 ─────────────────────────────────────────────────────────
 
 _NEAR_KEY_LEVEL_HUMAN = {
@@ -295,11 +314,11 @@ def build_market_entry(raw: dict, now_iso: str) -> dict:
 
 # ── git ───────────────────────────────────────────────────────────────────────
 
-def git_commit_push(repo: Path, date_str: str, time_str: str) -> bool:
+def git_commit_push(repo: Path, date_str: str, time_str: str, history_path: Path) -> bool:
     def run(args):
         return subprocess.run(args, cwd=repo, capture_output=True, text=True)
 
-    run(["git", "add", "latest.json", f"history/{date_str}.json"])
+    run(["git", "add", "latest.json", str(history_path.relative_to(repo))])
     result = run(["git", "commit", "-m", f"sentiment: {date_str} {time_str} update"])
     if result.returncode != 0:
         if "nothing to commit" in result.stdout or "nothing to commit" in result.stderr:
@@ -326,6 +345,8 @@ def main():
     now_iso = now.strftime("%Y-%m-%dT%H:%M:%SZ")
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H:%M")
+    slot = detect_slot(now)
+    print(f"[INFO] 슬롯: {slot}")
 
     print(f"[INFO] 수집 시작: {now_iso}")
 
@@ -415,13 +436,14 @@ def main():
     # ── latest.json + history/<date>.json 저장 ────────────────────────────────
     snapshot = {
         "generated_at": now_iso,
-        "schema_version": "1.1",
+        "schema_version": "1.2",
+        "slot": slot,
         "market": market_entry,
         "symbols": symbol_entries,
     }
 
     latest_path = REPO_PATH / "latest.json"
-    history_path = REPO_PATH / "history" / f"{date_str}.json"
+    history_path = history_filename(date_str, slot)
     history_path.parent.mkdir(exist_ok=True)
 
     with open(latest_path, "w", encoding="utf-8") as f:
@@ -433,7 +455,7 @@ def main():
     print(f"[INFO] 파일 저장 완료: {latest_path}, {history_path}")
 
     # ── git commit/push ───────────────────────────────────────────────────────
-    push_ok = git_commit_push(REPO_PATH, date_str, time_str)
+    push_ok = git_commit_push(REPO_PATH, date_str, time_str, history_path)
     if not push_ok:
         print("[WARN] git push 실패 — 로컬 파일은 저장됨", file=sys.stderr)
 
