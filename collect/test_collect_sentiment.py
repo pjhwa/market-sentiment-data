@@ -68,5 +68,47 @@ class TestHistoryFilename(unittest.TestCase):
         self.assertEqual(path.name, "2026-05-21_post_close.json")
 
 
+class TestComputeIntradayShift(unittest.TestCase):
+    def test_heating(self):
+        self.assertEqual(cs.compute_intraday_shift(0, 1), "heating")
+
+    def test_cooling(self):
+        self.assertEqual(cs.compute_intraday_shift(1, 0), "cooling")
+
+    def test_stable(self):
+        self.assertEqual(cs.compute_intraday_shift(1, 1), "stable")
+
+    def test_large_jump(self):
+        self.assertEqual(cs.compute_intraday_shift(-2, 2), "heating")
+
+
+class TestLoadPreOpenScores(unittest.TestCase):
+    def test_returns_scores_when_file_exists(self):
+        import json, tempfile
+        snapshot = {
+            "slot": "pre_open",
+            "market": {"sentiment_score": 1},
+            "symbols": [
+                {"symbol": "TSLA", "sentiment_score": -1},
+                {"symbol": "AAPL", "sentiment_score": 0},
+            ],
+        }
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(snapshot, f)
+            tmp = Path(f.name)
+        try:
+            result = cs.load_pre_open_scores(tmp)
+            self.assertEqual(result["market"], 1)
+            self.assertEqual(result["symbols"]["TSLA"], -1)
+            self.assertEqual(result["symbols"]["AAPL"], 0)
+        finally:
+            tmp.unlink()
+
+    def test_returns_empty_when_file_missing(self):
+        result = cs.load_pre_open_scores(Path("/nonexistent/path.json"))
+        self.assertIsNone(result["market"])
+        self.assertEqual(result["symbols"], {})
+
+
 if __name__ == "__main__":
     unittest.main()

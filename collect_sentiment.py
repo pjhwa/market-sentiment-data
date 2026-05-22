@@ -182,6 +182,38 @@ def compute_divergence(price_dir: str, sentiment_score: int) -> str:
     return "none"
 
 
+# ── intraday_shift 계산 ────────────────────────────────────────────────────
+
+def compute_intraday_shift(prev_score: int, curr_score: int) -> str:
+    if curr_score > prev_score:
+        return "heating"
+    if curr_score < prev_score:
+        return "cooling"
+    return "stable"
+
+
+def load_pre_open_scores(path: Path) -> dict:
+    """pre_open 스냅샷에서 sentiment_score를 추출.
+    반환: {"market": int|None, "symbols": {symbol: score}}
+    파일 없거나 파싱 실패 시 빈 구조 반환.
+    """
+    result: dict = {"market": None, "symbols": {}}
+    if not path.exists():
+        print(f"[INFO] pre_open 파일 없음 (intraday_shift=null): {path}", file=sys.stderr)
+        return result
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        market = data.get("market") or {}
+        result["market"] = market.get("sentiment_score")
+        for sym in data.get("symbols") or []:
+            if sym.get("symbol") and sym.get("sentiment_score") is not None:
+                result["symbols"][sym["symbol"]] = sym["sentiment_score"]
+    except Exception as e:
+        print(f"[WARN] pre_open 파일 파싱 실패 ({e}), intraday_shift=null", file=sys.stderr)
+    return result
+
+
 # ── hermes 호출 ────────────────────────────────────────────────────────────────
 
 HERMES_RETRY = int(os.environ.get("HERMES_RETRY", "1"))  # 타임아웃 시 재시도 횟수
@@ -357,6 +389,9 @@ def main():
     total = len(WATCHLIST) + 1
     divergences: list[str] = []  # "TSLA(bullish_divergence)" 형식
 
+    pre_open_path = history_filename(date_str, "pre_open")
+    pre_open_scores = load_pre_open_scores(pre_open_path) if slot == "post_close" else {"market": None, "symbols": {}}
+
     # ── 종목별 수집 ───────────────────────────────────────────────────────────
     symbol_entries = []
     for symbol in WATCHLIST:
@@ -393,6 +428,11 @@ def main():
         divergence = compute_divergence(close_dir, sentiment_score)
 
         entry = build_symbol_entry(parsed, symbol, now_iso, ctx, divergence)
+        prev_score = pre_open_scores["symbols"].get(symbol)
+        entry["intraday_shift"] = (
+            compute_intraday_shift(prev_score, entry["sentiment_score"])
+            if prev_score is not None else None
+        )
         symbol_entries.append(entry)
         success_count += 1
         print(
@@ -419,6 +459,11 @@ def main():
             print("[SKIP] MARKET: 검증 실패", file=sys.stderr)
         else:
             market_entry = build_market_entry(market_parsed, now_iso)
+            prev_market_score = pre_open_scores["market"]
+            market_entry["intraday_shift"] = (
+                compute_intraday_shift(prev_market_score, market_entry["sentiment_score"])
+                if prev_market_score is not None else None
+            )
             success_count += 1
             print(f"[OK]   MARKET: sentiment={market_entry['sentiment']} extreme_flag={market_entry['extreme_flag']}")
 
@@ -431,6 +476,7 @@ def main():
             "extreme_flag": "none",
             "key_reason": "시장 전체 데이터 수집 실패",
             "confidence": "low",
+            "intraday_shift": None,
         }
 
     # ── latest.json + history/<date>.json 저장 ────────────────────────────────
