@@ -12,16 +12,18 @@ SniperBoard를 비롯한 모든 소비 프로그램은 이 리포의 raw URL만 
 ```
 market-sentiment-data/
 ├── README.md              # 이 문서
-├── schema.json            # 데이터 계약 (JSON Schema draft-07)
+├── schema.json            # 데이터 계약 (JSON Schema draft-07, v1.2)
 ├── latest.json            # 가장 최근 스냅샷 — 소비측이 주로 읽는 파일
 └── history/
-    ├── 2026-05-21.json    # 일별 스냅샷 (UTC 기준 날짜)
+    ├── 2026-05-21_pre_open.json    # 당일 pre_open 슬롯 (13:00 UTC)
+    ├── 2026-05-21_post_close.json  # 당일 post_close 슬롯 (21:00 UTC)
     └── ...
 ```
 
 - **`latest.json`**: cron 실행마다 덮어쓰기. 항상 최신 상태.
-- **`history/YYYY-MM-DD.json`**: 일별 아카이브. "어제 대비 변화" 계산에 활용.
-- **`schema.json`**: 모든 필드의 enum·타입을 정의. 수집·소비 양쪽에서 검증에 재사용.
+- **`history/YYYY-MM-DD_pre_open.json`**: 미국 장 개장 전(13:00 UTC) 스냅샷.
+- **`history/YYYY-MM-DD_post_close.json`**: 미국 장 마감 후(21:00 UTC) 스냅샷. `intraday_shift` 포함.
+- **`history/YYYY-MM-DD.json`**: v1.1 이전 구형 파일. 소비측 폴백으로 보존.
 
 ---
 
@@ -74,12 +76,15 @@ data = resp.json()
 | `bot_suspected` | `yes` `no` `unclear` |
 | `confidence` | `high` `med` `low` |
 | `extreme_flag` (market만) | `none` `extreme_fear` `extreme_greed` |
+| `slot` | `pre_open` `post_close` |
+| `intraday_shift` | `cooling` `stable` `heating` `null` |
 
 ---
 
 ## 수집 주기
 
-하루 1~2회 (KST 06:30, 22:30). 미국장 마감 후 + 장중 1회.
+하루 2회 (KST 06:30 = UTC 13:00 pre_open, KST 22:30 = UTC 21:00 post_close).
+미국 주식장 개장 전·후 각 1회씩 수집하여 `intraday_shift` 변화를 추적합니다.
 보조 지표이므로 분 단위 폴링은 불필요합니다.
 
 ---
