@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SniperBoard 소셜 심리 수집기 (계층 1, v1.1)
+SniperBoard 소셜 심리 수집기 (계층 1, v1.2)
 ① SniperBoard에서 중립적 가격 맥락 fetch (방향 제거)
 ② 맥락을 끼워 넣어 Grok에 질의 (방향 단어 가드 통과 필수)
 ③ 심리 수집 후 가격 방향과 비교해 divergence 계산
