@@ -27,7 +27,14 @@ HERMES_CMD = os.environ.get("HERMES_CMD", "/Users/jerry/.local/bin/hermes")
 HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
 CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))
 
-WATCHLIST = ["TSLA", "AAPL", "NVDA", "META", "AMZN", "GOOGL"]
+WATCHLIST = [
+    ("TSLA",  "Tesla"),
+    ("AAPL",  "Apple"),
+    ("NVDA",  "Nvidia"),
+    ("META",  "Meta Platforms"),
+    ("AMZN",  "Amazon"),
+    ("GOOGL", "Alphabet / Google"),
+]
 
 SENTIMENT_SCORE_MAP = {
     "very_fearful": -2,
@@ -73,8 +80,9 @@ _NEAR_KEY_LEVEL_HUMAN = {
 
 _SYMBOL_PROMPT_BASE = """\
 You are a data extraction tool, not an analyst. Read current public X (Twitter) posts \
-about ${SYMBOL} and report the crowd's sentiment. Respond with ONE JSON object ONLY — \
-no prose, no code fences.
+about {COMPANY} (ticker: {SYMBOL}) and report the crowd's sentiment. \
+Search using both the company name "{COMPANY}" and the ticker "${SYMBOL}" to capture \
+all relevant discussion. Respond with ONE JSON object ONLY — no prose, no code fences.
 {CONTEXT_BLOCK}
 Schema (exact enums):
 {{
@@ -125,7 +133,7 @@ Rules:
 - Output the raw JSON object and nothing else."""
 
 
-def build_prompt(symbol: str, ctx: dict) -> str:
+def build_prompt(symbol: str, company: str, ctx: dict) -> str:
     """가격 맥락을 중립 단서로만 끼워 넣어 프롬프트를 생성.
     ⛔ 생성된 프롬프트에 방향 단어가 없는지 가드(assert)를 통과해야 한다.
     """
@@ -155,6 +163,7 @@ def build_prompt(symbol: str, ctx: dict) -> str:
     prompt = (
         _SYMBOL_PROMPT_BASE
         .replace("{SYMBOL}", symbol)
+        .replace("{COMPANY}", company)
         .replace("{CONTEXT_BLOCK}", context_block)
     )
 
@@ -443,15 +452,15 @@ def main():
 
     # ── 종목별 수집 ───────────────────────────────────────────────────────────
     symbol_entries = []
-    for symbol in WATCHLIST:
-        print(f"[INFO] 질의 중: {symbol}")
+    for symbol, company in WATCHLIST:
+        print(f"[INFO] 질의 중: {symbol} ({company})")
 
         # ① 중립적 가격 맥락 (방향 없음)
         ctx = fetch_price_context(symbol)
 
         # ② 맥락 주입 프롬프트 빌드 (방향 단어 가드 포함)
         try:
-            prompt = build_prompt(symbol, ctx)
+            prompt = build_prompt(symbol, company, ctx)
         except AssertionError as e:
             print(f"[ERROR] {symbol}: 프롬프트 오염 방지선 위반 — {e}", file=sys.stderr)
             continue
