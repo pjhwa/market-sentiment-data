@@ -23,8 +23,13 @@ CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))
 HERMES_RETRY = int(os.environ.get("HERMES_RETRY", "1"))
 
 WATCHLIST = ["TSLA", "AAPL", "NVDA", "META", "AMZN", "GOOGL"]
-UPCOMING_WINDOW_DAYS = 60
+UPCOMING_WINDOW_DAYS = 30  # 30일 이후는 EPS 컨센서스 미형성 → 노이즈
 RECENT_QUARTERS = 8
+
+# 어닝 플레이의 실질적 가시권 임계값
+TIER_IMMINENT_DAYS = 7    # 이벤트 위험 관리 구간
+TIER_APPROACHING_DAYS = 21  # 포지션 계획 시작 구간
+# 22-30일: watching 구간 (EPS estimate 없으면 제외)
 
 
 def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict], list[dict]]:
@@ -125,10 +130,23 @@ def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict]
             if earnings_date is not None:
                 days_until = (earnings_date - today.date()).days
                 if 0 <= days_until <= UPCOMING_WINDOW_DAYS:
+                    # watching 구간(22-30일)에서 EPS 추정치 미형성 시 노이즈 — 제외
+                    if days_until > TIER_APPROACHING_DAYS and eps_estimate is None:
+                        print(f"[SKIP] {sym}: {days_until}일 후, EPS estimate 없음 — 가시권 밖")
+                        continue
+
+                    if days_until <= TIER_IMMINENT_DAYS:
+                        tier = "imminent"
+                    elif days_until <= TIER_APPROACHING_DAYS:
+                        tier = "approaching"
+                    else:
+                        tier = "watching"
+
                     upcoming_raw.append({
                         "symbol": sym,
                         "earnings_date": str(earnings_date),
                         "days_until": days_until,
+                        "relevance_tier": tier,
                         "eps_estimate": round(eps_estimate, 2) if eps_estimate is not None else None,
                         "revenue_estimate_b": rev_estimate_b,
                         "historical_beat_rate": beat_rate,
@@ -148,7 +166,8 @@ def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict]
 
 def build_earnings_prompt(upcoming_raw: list[dict], recent_raw: list[dict]) -> str:
     upcoming_block = "\n".join([
-        f"- {u['symbol']}: {u['days_until']}일 후 ({u['earnings_date']}), "
+        f"- {u['symbol']}: {u['days_until']}일 후 ({u['earnings_date']}) "
+        f"[tier={u['relevance_tier']}], "
         f"EPS estimate={u['eps_estimate']}, revenue_estimate={u['revenue_estimate_b']}B, "
         f"historical_beat_rate={u['historical_beat_rate']}"
         for u in upcoming_raw
@@ -163,8 +182,13 @@ def build_earnings_prompt(upcoming_raw: list[dict], recent_raw: list[dict]) -> s
 
     return f"""You are a professional earnings analyst. Based on the following data, generate earnings intelligence in JSON format.
 
-UPCOMING EARNINGS (60일 이내):
+UPCOMING EARNINGS (30일 이내, EPS estimate 미형성 종목은 사전 필터링됨):
 {upcoming_block}
+
+relevance_tier 의미:
+- imminent (0-7일): 이벤트 위험 관리 구간. 포지션 직접 노출 최소화. 옵션 IV 급등.
+- approaching (8-21일): 컨센서스 형성 중. 포지션 계획 및 진입 구간.
+- watching (22-30일): EPS estimate 존재 시에만 포함. 모니터링만.
 
 RECENT RESULTS (지난 분기):
 {recent_block}
@@ -176,12 +200,13 @@ Generate ONE JSON object with this EXACT schema (no prose, no code fences):
       "symbol": "TICKER",
       "earnings_date": "YYYY-MM-DD",
       "days_until": 0,
+      "relevance_tier": "imminent|approaching|watching",
       "eps_estimate": null,
       "revenue_estimate_b": null,
       "historical_beat_rate": null,
-      "ai_summary": "2-3문장 어닝 맥락 설명 (한국어)",
+      "ai_summary": "2-3문장 어닝 맥락 설명. tier에 맞는 시의성 강조 (한국어)",
       "risk_level": "one of high/med/low",
-      "action_note": "트레이더를 위한 한 줄 조언 (한국어)"
+      "action_note": "트레이더를 위한 한 줄 조언. tier별 구체적 행동 지침 (한국어)"
     }}
   ],
   "recent_results": [
@@ -196,10 +221,10 @@ Generate ONE JSON object with this EXACT schema (no prose, no code fences):
   ]
 }}
 
-risk_level 기준:
-- high: 어닝 3일 이내, historical_beat_rate < 0.7, 혹은 가이던스 불확실성 높음
-- med: 어닝 4-14일, beat_rate 0.7-0.85
-- low: 어닝 15일 이상, beat_rate > 0.85
+risk_level 기준 (날짜 우선, beat_rate 보조):
+- high: days_until <= 7 (이벤트 임박, 포지션 직접 위험)
+- med: days_until 8-21 (포지션 계획 구간, EPS estimate 존재)
+- low: days_until 22-30 (모니터링 구간, EPS estimate 형성됨)
 
 Output raw JSON only."""
 
@@ -242,6 +267,7 @@ def extract_json(text: str) -> dict | None:
 
 
 VALID_RISK_LEVELS = {"high", "med", "low"}
+VALID_TIERS = {"imminent", "approaching", "watching"}
 
 
 def validate_earnings(data: dict) -> bool:
@@ -253,6 +279,11 @@ def validate_earnings(data: dict) -> bool:
     for item in upcoming:
         if item.get("risk_level") not in VALID_RISK_LEVELS:
             print(f"[WARN] {item.get('symbol')}: risk_level={item.get('risk_level')!r}", file=sys.stderr)
+            return False
+        # relevance_tier는 선택적 — 없어도 통과 (구버전 호환)
+        tier = item.get("relevance_tier")
+        if tier is not None and tier not in VALID_TIERS:
+            print(f"[WARN] {item.get('symbol')}: relevance_tier={tier!r}", file=sys.stderr)
             return False
     return True
 
@@ -304,7 +335,7 @@ def main():
 
     snapshot = {
         "generated_at": now_iso,
-        "schema_version": "1.0",
+        "schema_version": "2.0",
         "upcoming_earnings": parsed["upcoming_earnings"],
         "recent_results": parsed["recent_results"],
     }
