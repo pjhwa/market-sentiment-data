@@ -89,13 +89,81 @@ data = resp.json()
 
 ## 수집 주기
 
-하루 2회 (KST 06:30 = UTC 13:00 pre_open, KST 22:30 = UTC 21:00 post_close).
-미국 주식장 개장 전·후 각 1회씩 수집하여 `intraday_shift` 변화를 추적합니다.
-보조 지표이므로 분 단위 폴링은 불필요합니다.
+| 데이터 | 스크립트 | cron (UTC) | 슬롯 |
+|--------|----------|-----------|------|
+| 소셜 심리 | `collect_sentiment.py` | `00 6,22 * * *` | pre_open / post_close |
+| AI Daily Brief | `collect/collect_brief.py` | `30 6,22 * * *` | pre_open / post_close |
+| Earnings Intelligence | `collect/collect_earnings.py` | `30 6 * * *` | 하루 1회 |
+
+- 소셜 심리 수집(06:00/22:00 UTC) 완료 30분 후 Brief/Earnings 수집
+- Brief는 소셜 심리 + 기술 지표를 결합하여 Grok으로 분석
+- Earnings는 yfinance `.calendar` + `.earnings_history`로 원시 데이터 수집 후 Grok 해석
+
+---
+
+## AI Daily Brief 스키마 (`brief/latest.json`)
+
+```json
+{
+  "generated_at": "2026-05-24T04:46:56Z",
+  "schema_version": "1.0",
+  "slot": "pre_open",
+  "market_brief": {
+    "summary": "...",
+    "tone": "bullish | cautious | bearish | neutral",
+    "key_themes": ["...", "..."],
+    "watch_points": "..."
+  },
+  "symbol_briefs": [
+    {
+      "symbol": "TSLA",
+      "setup_quality": "A+ | A | B | C | D",
+      "brief": "...",
+      "key_risk": "...",
+      "key_opportunity": "...",
+      "action_bias": "buy | hold | watch | avoid"
+    }
+  ]
+}
+```
+
+---
+
+## Earnings Intelligence 스키마 (`earnings/latest.json`)
+
+```json
+{
+  "generated_at": "2026-05-24T04:46:27Z",
+  "schema_version": "1.0",
+  "upcoming_earnings": [
+    {
+      "symbol": "NVDA",
+      "earnings_date": "2026-05-28",
+      "days_until": 4,
+      "eps_estimate": 0.89,
+      "revenue_estimate_b": 43.1,
+      "historical_beat_rate": 0.92,
+      "ai_summary": "...",
+      "risk_level": "high | med | low",
+      "action_note": "..."
+    }
+  ],
+  "recent_results": [
+    {
+      "symbol": "TSLA",
+      "report_date": "2026-04-22",
+      "eps_actual": 0.27,
+      "eps_estimate": 0.45,
+      "surprise_pct": -40.0,
+      "ai_reaction": "..."
+    }
+  ]
+}
+```
 
 ---
 
 ## 관련 프로젝트
 
 - **[SniperBoard](https://github.com/pjhwa/sniperboard)** — 이 데이터를 소비하는 트레이딩 대시보드
-- 수집 스크립트: `collect_sentiment.py` (맥미니 cron으로 실행)
+- 수집 스크립트: `collect_sentiment.py`, `collect/collect_brief.py`, `collect/collect_earnings.py` (맥미니 cron으로 실행)
