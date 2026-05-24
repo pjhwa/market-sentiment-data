@@ -14,7 +14,7 @@
     },
     "schema_version": {
       "type": "string",
-      "enum": ["1.0", "1.1", "1.2"],
+      "enum": ["1.0", "1.1", "1.2", "1.3"],
       "description": "1.0: 기본 스키마. 1.1: price_context + divergence 추가. 1.2: slot + intraday_shift 추가."
     },
     "slot": {
@@ -42,6 +42,12 @@
       "type": "integer",
       "enum": [-2, -1, 0, 1, 2],
       "description": "sentiment 범주에서 결정론적으로 파생된 수치. very_fearful=-2, fearful=-1, neutral=0, optimistic=+1, euphoric=+2. Grok이 직접 생성하는 값이 아님."
+    },
+    "CompositeScore": {
+      "type": "number",
+      "minimum": -2.0,
+      "maximum": 2.0,
+      "description": "sentiment_score에 confidence·bot_suspected·mention_volume·divergence·trend·intraday_shift를 결합한 복합 점수. -2.0~+2.0 범위, 소수점 1자리. v1.3에서 추가."
     },
     "TrendEnum": {
       "type": "string",
@@ -111,6 +117,10 @@
         "intraday_shift": {
           "$ref": "#/definitions/IntradayShiftEnum",
           "description": "post_close 슬롯에서 당일 pre_open 대비 심리 변화. v1.2 추가."
+        },
+        "composite_score": {
+          "$ref": "#/definitions/CompositeScore",
+          "description": "모든 수집 신호를 결합한 복합 점수. v1.3 추가. optional."
         }
       }
     },
@@ -173,6 +183,10 @@
         "intraday_shift": {
           "$ref": "#/definitions/IntradayShiftEnum",
           "description": "post_close 슬롯에서 당일 pre_open 대비 심리 변화. v1.2 추가."
+        },
+        "composite_score": {
+          "$ref": "#/definitions/CompositeScore",
+          "description": "모든 수집 신호를 결합한 복합 점수. v1.3 추가. optional."
         }
       }
     }

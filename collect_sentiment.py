@@ -167,6 +167,55 @@ def build_prompt(symbol: str, ctx: dict) -> str:
     return prompt
 
 
+# ── composite_score 계산 ───────────────────────────────────────────────────────
+
+def compute_symbol_composite(
+    sentiment_score: int,
+    confidence: str,
+    bot_suspected: str,
+    mention_volume: str,
+    divergence: str,
+    trend_vs_yesterday: str,
+    intraday_shift: str | None,
+) -> float:
+    """수집된 모든 신호를 결합해 -2.0~+2.0 범위의 복합 점수를 계산.
+
+    raw sentiment_score는 Grok 응답을 정수로만 반환하지만,
+    신뢰도·봇의심·언급량·가격다이버전스·추세 방향을 반영해 실제 시장 상황에 가까운 수치를 만든다.
+    """
+    conf_mult = {"high": 1.0, "med": 0.85, "low": 0.5}.get(confidence, 0.85)
+    # 봇 의심 글이 많으면 신호 강도를 약하게
+    bot_mult = {"yes": 0.6, "unclear": 0.85, "no": 1.0}.get(bot_suspected, 1.0)
+    # 언급량이 낮으면 신호 희박 → 약화, 급증이면 증폭
+    vol_mult = {"low": 0.7, "normal": 1.0, "elevated": 1.2, "surging": 1.3}.get(mention_volume, 1.0)
+    # bullish_divergence: 가격↓인데 심리↑ → 낙관 과신 억제
+    # bearish_divergence: 가격↑인데 심리↓ → 공포 과신 억제
+    div_adj = {"bullish_divergence": -0.5, "bearish_divergence": 0.5, "aligned": 0.0, "none": 0.0}.get(divergence, 0.0)
+    trend_adj = {"cooling": -0.3, "stable": 0.0, "heating": 0.3}.get(trend_vs_yesterday, 0.0)
+    shift_adj = {"cooling": -0.2, "stable": 0.0, "heating": 0.2}.get(intraday_shift or "stable", 0.0)
+
+    score = sentiment_score * conf_mult * bot_mult * vol_mult + div_adj + trend_adj + shift_adj
+    return round(max(-2.0, min(2.0, score)), 1)
+
+
+def compute_market_composite(
+    sentiment_score: int,
+    confidence: str,
+    extreme_flag: str,
+    trend_vs_yesterday: str,
+    intraday_shift: str | None,
+) -> float:
+    """시장 전체 composite_score 계산."""
+    conf_mult = {"high": 1.0, "med": 0.85, "low": 0.5}.get(confidence, 0.85)
+    # 극단적 공포/탐욕은 신호 강도 증폭
+    extreme_mult = 1.3 if extreme_flag in ("extreme_fear", "extreme_greed") else 1.0
+    trend_adj = {"cooling": -0.3, "stable": 0.0, "heating": 0.3}.get(trend_vs_yesterday, 0.0)
+    shift_adj = {"cooling": -0.2, "stable": 0.0, "heating": 0.2}.get(intraday_shift or "stable", 0.0)
+
+    score = sentiment_score * conf_mult * extreme_mult + trend_adj + shift_adj
+    return round(max(-2.0, min(2.0, score)), 1)
+
+
 # ── divergence 계산 ────────────────────────────────────────────────────────────
 
 def compute_divergence(price_dir: str, sentiment_score: int) -> str:
@@ -433,6 +482,15 @@ def main():
             compute_intraday_shift(prev_score, entry["sentiment_score"])
             if prev_score is not None else None
         )
+        entry["composite_score"] = compute_symbol_composite(
+            sentiment_score=entry["sentiment_score"],
+            confidence=entry["confidence"],
+            bot_suspected=entry["bot_suspected"],
+            mention_volume=entry["mention_volume"],
+            divergence=entry.get("divergence", "none"),
+            trend_vs_yesterday=entry["trend_vs_yesterday"],
+            intraday_shift=entry.get("intraday_shift"),
+        )
         symbol_entries.append(entry)
         success_count += 1
         print(
@@ -463,6 +521,13 @@ def main():
             market_entry["intraday_shift"] = (
                 compute_intraday_shift(prev_market_score, market_entry["sentiment_score"])
                 if prev_market_score is not None else None
+            )
+            market_entry["composite_score"] = compute_market_composite(
+                sentiment_score=market_entry["sentiment_score"],
+                confidence=market_entry["confidence"],
+                extreme_flag=market_entry["extreme_flag"],
+                trend_vs_yesterday=market_entry["trend_vs_yesterday"],
+                intraday_shift=market_entry.get("intraday_shift"),
             )
             success_count += 1
             print(f"[OK]   MARKET: sentiment={market_entry['sentiment']} extreme_flag={market_entry['extreme_flag']}")
