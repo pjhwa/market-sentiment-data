@@ -14,10 +14,16 @@ market-sentiment-data/
 ├── README.md              # 이 문서
 ├── schema.json            # 데이터 계약 (JSON Schema draft-07, v1.2)
 ├── latest.json            # 가장 최근 스냅샷 — 소비측이 주로 읽는 파일
-└── history/
-    ├── 2026-05-21_pre_open.json    # 당일 pre_open 슬롯 (13:00 UTC)
-    ├── 2026-05-21_post_close.json  # 당일 post_close 슬롯 (21:00 UTC)
-    └── ...
+├── history/
+│   ├── 2026-05-21_pre_open.json    # 당일 pre_open 슬롯 (13:00 UTC)
+│   ├── 2026-05-21_post_close.json  # 당일 post_close 슬롯 (21:00 UTC)
+│   └── ...
+├── brief/
+│   ├── latest.json             # AI Daily Brief 최신 스냅샷
+│   └── history/               # YYYY-MM-DD_<slot>.json
+└── earnings/
+    ├── latest.json             # 어닝 인텔리전스 최신
+    └── history/               # YYYY-MM-DD.json
 ```
 
 - **`latest.json`**: cron 실행마다 덮어쓰기. 항상 최신 상태.
