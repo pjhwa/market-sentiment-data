@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-24T09:42:43Z",
+  "generated_at": "2026-05-24T22:00:02Z",
   "schema_version": "2.0",
   "upcoming_earnings": [],
   "recent_results": [
@@ -9,7 +9,7 @@
       "eps_actual": 0.41,
       "eps_estimate": 0.35,
       "surprise_pct": 17.1,
-      "ai_reaction": "TSLA가 예상 상회로 실적 호조, 전기차 수요 회복 신호에 트레이더 매수 모멘텀 주시."
+      "ai_reaction": "17.1% 서프라이즈로 강한 실적 호조, 트레이더는 단기 모멘텀 주시하며 포지션 관리 필요"
     },
     {
       "symbol": "AAPL",
@@ -17,7 +17,7 @@
       "eps_actual": 2.01,
       "eps_estimate": 1.94,
       "surprise_pct": 3.5,
-      "ai_reaction": "AAPL 소폭 상회로 안정적 실적 확인, 시장 안도 속 장기 보유 전략 유효."
+      "ai_reaction": "3.5% 소폭 상회한 안정적 실적, 시장 반응은 긍정적이나 큰 변동성은 제한적"
     },
     {
       "symbol": "NVDA",
@@ -25,7 +25,7 @@
       "eps_actual": 1.87,
       "eps_estimate": 1.77,
       "surprise_pct": 5.5,
-      "ai_reaction": "NVDA 양호한 상회로 AI 수요 지속 확인, 섹터 리더십 강화 기대."
+      "ai_reaction": "5.5% 상회하며 AI 수요 지속 확인, 트레이더는 섹터 리더십 활용 기회 포착"
     },
     {
       "symbol": "META",
@@ -33,7 +33,7 @@
       "eps_actual": 10.44,
       "eps_estimate": 6.66,
       "surprise_pct": 56.8,
-      "ai_reaction": "META 대폭 상회로 광고 수익 급증, 주가 급등 모멘텀 트레이더 주목."
+      "ai_reaction": "56.8% 대폭 상회한 광고 사업 호조, 주가 상승 압력 강하고 모멘텀 트레이딩 유리"
     },
     {
       "symbol": "AMZN",
@@ -41,7 +41,7 @@
       "eps_actual": 2.78,
       "eps_estimate": 1.65,
       "surprise_pct": 68.2,
-      "ai_reaction": "AMZN 대폭 상회로 클라우드 성장 가속, e커머스 회복에 매수 기회."
+      "ai_reaction": "68.2% 기록적 서프라이즈, 클라우드·이커머스 강세로 트레이더는 모멘텀 지속 주시"
     },
     {
       "symbol": "GOOGL",
@@ -49,7 +49,7 @@
       "eps_actual": 5.11,
       "eps_estimate": 2.67,
       "surprise_pct": 91.6,
-      "ai_reaction": "GOOGL 압도적 상회로 검색·클라우드 폭발, 빅테크 강세 지속 시사."
+      "ai_reaction": "91.6% 대형 상회한 검색·클라우드 실적, 시장 반응 매우 긍정적이며 상승 모멘텀 기대"
     }
   ]
 }
