@@ -1,28 +1,28 @@
 {
-  "generated_at": "2026-05-25T09:25:02Z",
+  "generated_at": "2026-05-25T13:00:01Z",
   "schema_version": "1.2",
   "slot": "pre_open",
   "market": {
-    "as_of": "2026-05-25T09:25:02Z",
-    "sentiment": "optimistic",
-    "sentiment_score": 1,
+    "as_of": "2026-05-25T13:00:01Z",
+    "sentiment": "fearful",
+    "sentiment_score": -1,
     "trend_vs_yesterday": "stable",
     "extreme_flag": "none",
-    "key_reason": "AI 낙관과 실적 호조로 S&P 500 랠리 지속",
+    "key_reason": "S&P500 고평가와 소비자 심리 악화 우려가 있지만 AI 모멘텀으로 랠리가 지속 중",
     "confidence": "med",
     "intraday_shift": null,
-    "composite_score": 0.8
+    "composite_score": -0.8
   },
   "symbols": [
     {
       "symbol": "TSLA",
-      "as_of": "2026-05-25T09:25:02Z",
+      "as_of": "2026-05-25T13:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "elevated",
-      "key_reason": "Optimus와 Robotaxi/AI 비전에 대한 기대와 제품 출시 소식이 지배적",
-      "bot_suspected": "unclear",
+      "mention_volume": "normal",
+      "key_reason": "장기 AI/로보틱스 비전과 FSD, 신차 프로그램에 대한 긍정적 논의가 주를 이룸",
+      "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
@@ -33,16 +33,16 @@
       },
       "divergence": "aligned",
       "intraday_shift": null,
-      "composite_score": 0.9
+      "composite_score": 0.8
     },
     {
       "symbol": "AAPL",
-      "as_of": "2026-05-25T09:25:02Z",
-      "sentiment": "optimistic",
-      "sentiment_score": 1,
+      "as_of": "2026-05-25T13:00:01Z",
+      "sentiment": "neutral",
+      "sentiment_score": 0,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "normal",
-      "key_reason": "서비스 성장, 바이백, 현금 흐름에 대한 긍정적 언급 다수",
+      "mention_volume": "low",
+      "key_reason": "AI 전략 기대와 밸류에이션 우려가 혼재",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -52,20 +52,20 @@
         "near_key_level": "near_52w_high",
         "abnormal_move": false
       },
-      "divergence": "aligned",
+      "divergence": "none",
       "intraday_shift": null,
-      "composite_score": 0.8
+      "composite_score": 0.0
     },
     {
       "symbol": "NVDA",
-      "as_of": "2026-05-25T09:25:02Z",
+      "as_of": "2026-05-25T13:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "normal",
-      "key_reason": "AI 수요와 Blackwell 램프 지속 언급",
+      "mention_volume": "elevated",
+      "key_reason": "BofA 가격 목표 상향과 기록적 실적에 따른 AI 성장 기대",
       "bot_suspected": "no",
-      "confidence": "low",
+      "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "normal",
@@ -75,18 +75,18 @@
       },
       "divergence": "bullish_divergence",
       "intraday_shift": null,
-      "composite_score": 0.0
+      "composite_score": 0.5
     },
     {
       "symbol": "META",
-      "as_of": "2026-05-25T09:25:02Z",
+      "as_of": "2026-05-25T13:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "normal",
-      "key_reason": "AI 성장 전망과 저평가 밸류에이션에 대한 낙관적 논의가 지배적",
+      "mention_volume": "low",
+      "key_reason": "AI 투자와 광고 성장에 대한 건설적 논의가 주를 이룸",
       "bot_suspected": "no",
-      "confidence": "med",
+      "confidence": "low",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "calm",
@@ -96,16 +96,16 @@
       },
       "divergence": "aligned",
       "intraday_shift": null,
-      "composite_score": 0.8
+      "composite_score": 0.3
     },
     {
       "symbol": "AMZN",
-      "as_of": "2026-05-25T09:25:02Z",
+      "as_of": "2026-05-25T13:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "normal",
-      "key_reason": "AWS AI 성장 기대감이 주된 논의",
+      "mention_volume": "low",
+      "key_reason": "AWS 성장 가속과 기술적 매수 신호로 낙관적",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -117,16 +117,16 @@
       },
       "divergence": "bullish_divergence",
       "intraday_shift": null,
-      "composite_score": 0.3
+      "composite_score": 0.1
     },
     {
       "symbol": "GOOGL",
-      "as_of": "2026-05-25T09:25:02Z",
+      "as_of": "2026-05-25T13:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "low",
-      "key_reason": "AI 수요로 구글 클라우드 매출 급성장",
+      "key_reason": "AI와 클라우드 성장에 대한 낙관적 전망이 지배적이다.",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
