@@ -85,6 +85,68 @@ def fetch_technical_context() -> dict:
     }
 
 
+def build_brief_context_snapshot(tech: dict, sentiment: dict, captured_at: str) -> dict:
+    """Phase 1 Context Attribution용 스냅샷 생성.
+
+    Brief 생성 시점의 기술적/레짐/심리 맥락을 구조화하여 brief JSON에 embed.
+    나중에 /api/brief 응답에서 "이 Brief가 생성될 당시 시장 상황"을 보여주기 위함.
+
+    스키마는 sniperboard/docs/yf-accuracy-harden-data-model.md 를 기준으로 함 (v1).
+    """
+    regime = tech.get("regime", {}) or {}
+    dd = tech.get("distribution_days", {}) or {}
+    sym_detail = tech.get("symbol_detail", {}) or {}
+
+    # avg_stage2 / avg_rs_score 계산 (WATCHLIST 종목 기준)
+    stage2_scores = []
+    rs_scores = []
+    for sym, _ in WATCHLIST:
+        s = sym_detail.get(sym, {})
+        if "stage2_score" in s:
+            stage2_scores.append(s["stage2_score"])
+        if "rs_score" in s:
+            rs_scores.append(s["rs_score"])
+
+    avg_stage2 = round(sum(stage2_scores) / len(stage2_scores), 1) if stage2_scores else None
+    avg_rs = round(sum(rs_scores) / len(rs_scores), 1) if rs_scores else None
+
+    spy_dd = dd.get("spy", {}) or {}
+    regime_components = regime.get("components", {}) or {}
+
+    # 간단 key_factors (v1)
+    key_factors = []
+    if regime.get("regime") in ("RISK_ON", "CONSTRUCTIVE"):
+        key_factors.append(f"Regime {regime.get('regime')}")
+    if avg_stage2 and avg_stage2 >= 5:
+        key_factors.append("Stage2 평균 5점 이상")
+    if avg_rs and avg_rs >= 60:
+        key_factors.append("평균 RS 60 이상")
+    if spy_dd.get("count", 0) >= 5:
+        key_factors.append("SPY Distribution Day 다수")
+
+    market_sent = sentiment.get("market", {}) or {}
+
+    return {
+        "captured_at": captured_at,
+        "source": "sniperboard",
+        "regime": {
+            "total": regime.get("total"),
+            "label": regime.get("regime"),
+        },
+        "technical_summary": {
+            "avg_stage2": avg_stage2,
+            "avg_rs_score": avg_rs,
+            "spy_vs_ema200_pct": regime_components.get("trend"),  # 근사 (trend 컴포넌트가 % 기반)
+            "distribution_day_spy": spy_dd.get("count"),
+        },
+        "market_sentiment": {
+            "composite_score": market_sent.get("composite_score"),
+            "label": market_sent.get("sentiment"),
+        },
+        "key_factors": key_factors or ["데이터 기반 요약"],
+    }
+
+
 def load_sentiment() -> dict:
     """latest.json에서 소셜 심리 로드."""
     latest_path = REPO_PATH / "latest.json"
@@ -288,12 +350,16 @@ def main():
         print("[ERROR] Brief 검증 실패 — 종료", file=sys.stderr)
         sys.exit(1)
 
+    # Phase 1: Context Attribution — Brief 생성 시점의 기술/레짐/심리 맥락 스냅샷
+    context_snapshot = build_brief_context_snapshot(tech, sentiment, now_iso)
+
     snapshot = {
         "generated_at": now_iso,
         "schema_version": "1.0",
         "slot": slot,
         "market_brief": parsed["market_brief"],
         "symbol_briefs": parsed["symbol_briefs"],
+        "context": context_snapshot,   # Phase 1 추가: 생성 당시 맥락 (Context Attribution)
     }
 
     latest_path = REPO_PATH / "brief" / "latest.json"
