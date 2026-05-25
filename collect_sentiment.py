@@ -15,6 +15,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+from collect.git_utils import commit_and_push
 from collect.price_context import (
     fetch_close_direction,
     fetch_market_context,
@@ -405,27 +406,16 @@ def build_market_entry(raw: dict, now_iso: str) -> dict:
 # ── git ───────────────────────────────────────────────────────────────────────
 
 def git_commit_push(repo: Path, date_str: str, time_str: str, history_path: Path) -> bool:
-    def run(args):
-        return subprocess.run(args, cwd=repo, capture_output=True, text=True)
+    """소셜 심리 데이터 push (cron 환경에서도 안정적으로 동작)"""
+    rel_history = str(history_path.relative_to(repo))
+    commit_message = f"sentiment: {date_str} {time_str} update"
 
-    run(["git", "add", "latest.json", str(history_path.relative_to(repo))])
-    result = run(["git", "commit", "-m", f"sentiment: {date_str} {time_str} update"])
-    if result.returncode != 0:
-        if "nothing to commit" in result.stdout or "nothing to commit" in result.stderr:
-            print("[INFO] 커밋할 변경사항 없음 (이미 최신)", file=sys.stderr)
-            return True
-        print(f"[ERROR] git commit 실패: {result.stderr[:300]}", file=sys.stderr)
-        return False
-
-    result = run(["git", "push"])
-    if result.returncode != 0:
-        print(
-            f"[ERROR] git push 실패: {result.stderr[:300]}\n"
-            "[HINT] 인증 문제일 가능성 — PAT/deploy key 설정 또는 SSH 키를 확인하세요.",
-            file=sys.stderr,
-        )
-        return False
-    return True
+    return commit_and_push(
+        repo=repo,
+        commit_message=commit_message,
+        files_to_add=["latest.json", rel_history],
+        push=True,
+    )
 
 
 # ── 메인 ──────────────────────────────────────────────────────────────────────
@@ -577,7 +567,8 @@ def main():
     # ── git commit/push ───────────────────────────────────────────────────────
     push_ok = git_commit_push(REPO_PATH, date_str, time_str, history_path)
     if not push_ok:
-        print("[WARN] git push 실패 — 로컬 파일은 저장됨", file=sys.stderr)
+        print("[FATAL] git push 실패 — 최신 sentiment 데이터가 GitHub에 반영되지 않았습니다.")
+        sys.exit(1)
 
     # ── 요약 출력 ─────────────────────────────────────────────────────────────
     status = "[OK]" if push_ok else "[WARN]"

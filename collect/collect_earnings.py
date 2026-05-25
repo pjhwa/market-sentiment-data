@@ -17,6 +17,10 @@ from pathlib import Path
 
 import yfinance as yf
 
+# git_utils를 같은 디렉토리에서 import
+sys.path.insert(0, str(Path(__file__).parent))
+from git_utils import commit_and_push
+
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
 HERMES_CMD = os.environ.get("HERMES_CMD", "/Users/jerry/.local/bin/hermes")
 HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
@@ -442,23 +446,16 @@ def validate_snapshot(snapshot: dict) -> bool:
 
 
 def git_commit_push(repo: Path, date_str: str, time_str: str, history_path: Path) -> bool:
-    def run(args):
-        return subprocess.run(args, cwd=repo, capture_output=True, text=True)
-
+    """어닝 데이터 push (모든 수집기 공통 안정 로직)"""
     rel_history = str(history_path.relative_to(repo))
-    run(["git", "add", "earnings/latest.json", rel_history])
-    result = run(["git", "commit", "-m", f"earnings: {date_str} {time_str} update"])
-    if result.returncode != 0:
-        if "nothing to commit" in result.stdout + result.stderr:
-            print("[INFO] 커밋할 변경사항 없음", file=sys.stderr)
-            return True
-        print(f"[ERROR] git commit 실패: {result.stderr[:300]}", file=sys.stderr)
-        return False
-    result = run(["git", "push"])
-    if result.returncode != 0:
-        print(f"[ERROR] git push 실패: {result.stderr[:300]}", file=sys.stderr)
-        return False
-    return True
+    commit_message = f"earnings: {date_str} {time_str} update"
+
+    return commit_and_push(
+        repo=repo,
+        commit_message=commit_message,
+        files_to_add=["earnings/latest.json", rel_history],
+        push=True,
+    )
 
 
 def main(dry_run: bool = False):
@@ -618,7 +615,11 @@ def main(dry_run: bool = False):
     print(f"[INFO] 저장 완료: {latest_path}")
 
     push_ok = git_commit_push(REPO_PATH, date_str, time_str, history_path)
-    print(f"{'[OK]' if push_ok else '[WARN]'} 어닝 수집 완료 (partial={partial})")
+    if not push_ok:
+        print("[FATAL] git push 실패 — 최신 earnings 데이터가 GitHub에 반영되지 않았습니다.")
+        sys.exit(1)
+
+    print(f"[OK] 어닝 수집 + GitHub push 완료 (partial={partial})")
 
 
 if __name__ == "__main__":

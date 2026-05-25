@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 """
-AI Daily Brief 수집기
+AI Daily Brief 수집기 (Phase 1 Context 포함)
+
 ① Sniperboard API에서 Regime, DD, 종목별 Stage2/신호 수집
 ② latest.json에서 소셜 심리 읽기
-③ Grok(Hermes)으로 brief JSON 생성
-④ brief/latest.json + brief/history/<date>_<slot>.json 저장 → git push
+③ Grok(Hermes)으로 brief JSON 생성 (context 포함)
+④ brief/latest.json + brief/history/<date>_<slot>.json 저장
+⑤ **성공 시 반드시 git commit + push** → sniperboard가 최신 context를 즉시 볼 수 있게 함
+
+중요: push가 실패하면 전체 작업을 실패로 처리합니다. (cron 알림 목적)
+cron 환경에서는 SSH deploy key를 사용하는 것을 강력 권장합니다.
 """
 
 import json
@@ -16,6 +21,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
+
+from collect.git_utils import commit_and_push
 
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
 HERMES_CMD = os.environ.get("HERMES_CMD", "/Users/jerry/.local/bin/hermes")
@@ -305,23 +312,19 @@ def validate_brief(data: dict) -> bool:
 
 
 def git_commit_push(repo: Path, date_str: str, time_str: str, history_path: Path) -> bool:
-    def run(args):
-        return subprocess.run(args, cwd=repo, capture_output=True, text=True)
-
+    """
+    Brief(+context) 생성 후 GitHub에 push.
+    실패하면 전체 작업 실패로 처리 (cron에서 감지 가능하게).
+    """
     rel_history = str(history_path.relative_to(repo))
-    run(["git", "add", "brief/latest.json", rel_history])
-    result = run(["git", "commit", "-m", f"brief: {date_str} {time_str} update"])
-    if result.returncode != 0:
-        if "nothing to commit" in result.stdout + result.stderr:
-            print("[INFO] 커밋할 변경사항 없음", file=sys.stderr)
-            return True
-        print(f"[ERROR] git commit 실패: {result.stderr[:300]}", file=sys.stderr)
-        return False
-    result = run(["git", "push"])
-    if result.returncode != 0:
-        print(f"[ERROR] git push 실패: {result.stderr[:300]}", file=sys.stderr)
-        return False
-    return True
+    commit_message = f"brief: {date_str} {time_str} update (with context)"
+
+    return commit_and_push(
+        repo=repo,
+        commit_message=commit_message,
+        files_to_add=["brief/latest.json", rel_history],
+        push=True,
+    )
 
 
 def main():
@@ -374,7 +377,11 @@ def main():
     print(f"[INFO] 저장 완료: {latest_path}, {history_path}")
 
     push_ok = git_commit_push(REPO_PATH, date_str, time_str, history_path)
-    print(f"{'[OK]' if push_ok else '[WARN]'} Brief 수집 완료")
+    if not push_ok:
+        print("[FATAL] GitHub push에 실패했습니다. 최신 context가 sniperboard에 반영되지 않았습니다.")
+        sys.exit(1)
+
+    print("[OK] Brief 수집 + GitHub push 완료 (최신 context 반영됨)")
 
 
 if __name__ == "__main__":
