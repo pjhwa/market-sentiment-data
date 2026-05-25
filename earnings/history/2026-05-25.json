@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-25T09:16:16Z",
+  "generated_at": "2026-05-25T22:00:02Z",
   "schema_version": "2.0",
   "upcoming_earnings": [],
   "recent_results": [
@@ -8,49 +8,49 @@
       "report_date": "2026-03-31",
       "eps_actual": 0.41,
       "eps_estimate": 0.35,
-      "surprise_pct": 17.15,
-      "ai_reaction": "Grok 파싱 실패 — AI 반응 생략 (partial)"
+      "surprise_pct": 17.1,
+      "ai_reaction": "17.1% 서프라이즈로 강세 반응, 다음 분기 가이던스 주시하며 모멘텀 유지 가능"
     },
     {
       "symbol": "AAPL",
       "report_date": "2026-03-31",
       "eps_actual": 2.01,
       "eps_estimate": 1.94,
-      "surprise_pct": 3.46,
-      "ai_reaction": "Grok 파싱 실패 — AI 반응 생략 (partial)"
+      "surprise_pct": 3.5,
+      "ai_reaction": "소폭 상회했으나 기대치 낮아 제한적 상승, 서비스 매출 추이 모니터링 필요"
     },
     {
       "symbol": "NVDA",
       "report_date": "2026-04-30",
       "eps_actual": 1.87,
       "eps_estimate": 1.77,
-      "surprise_pct": 5.54,
-      "ai_reaction": "Grok 파싱 실패 — AI 반응 생략 (partial)"
+      "surprise_pct": 5.5,
+      "ai_reaction": "견고한 실적으로 AI 수요 확인, 섹터 리더십 강화 및 변동성 주의"
     },
     {
       "symbol": "META",
       "report_date": "2026-03-31",
       "eps_actual": 10.44,
       "eps_estimate": 6.66,
-      "surprise_pct": 56.79,
-      "ai_reaction": "Grok 파싱 실패 — AI 반응 생략 (partial)"
+      "surprise_pct": 56.8,
+      "ai_reaction": "56.8% 대형 서프라이즈, 광고 사업 호조로 주가 상방 압력 지속"
     },
     {
       "symbol": "AMZN",
       "report_date": "2026-03-31",
       "eps_actual": 2.78,
       "eps_estimate": 1.65,
-      "surprise_pct": 68.18,
-      "ai_reaction": "Grok 파싱 실패 — AI 반응 생략 (partial)"
+      "surprise_pct": 68.2,
+      "ai_reaction": "68.2% 큰 폭 상회, 클라우드 성장 가속 확인하며 롱 포지션 유리"
     },
     {
       "symbol": "GOOGL",
       "report_date": "2026-03-31",
       "eps_actual": 5.11,
       "eps_estimate": 2.67,
-      "surprise_pct": 91.59,
-      "ai_reaction": "Grok 파싱 실패 — AI 반응 생략 (partial)"
+      "surprise_pct": 91.6,
+      "ai_reaction": "91.6% 놀라운 서프라이즈, 검색·AI 투자 성과 입증으로 강력한 모멘텀"
     }
   ],
-  "partial": true
+  "partial": false
 }
