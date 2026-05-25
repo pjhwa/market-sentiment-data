@@ -1,71 +1,71 @@
 {
-  "generated_at": "2026-05-25T09:17:20Z",
+  "generated_at": "2026-05-25T13:30:00Z",
   "schema_version": "1.0",
   "slot": "pre_open",
   "market_brief": {
-    "summary": "건설적 체제이나 SPY 분포일 위험",
+    "summary": "건설적 체제 속 분배일 위험 신호",
     "tone": "cautious",
     "key_themes": [
-      "분포일 위험",
-      "건설적 리스크"
+      "AI 성장",
+      "분배일 누적"
     ],
-    "watch_points": "SPY 분포일 6일 QQQ 5일로 변동성 확대 주의"
+    "watch_points": "SPY 6일 QQQ 5일 분배일로 변동성 확대 주의"
   },
   "symbol_briefs": [
     {
       "symbol": "TSLA",
       "setup_quality": "A",
-      "brief": "Stage2 6점에 UPTREND 구조 유지. GC above 상태이나 RS 40.6로 상대강도 약세. 단기 반등 시도 중이나 분포일 영향 주의 필요.",
+      "brief": "Stage2 6점과 UPTREND 구조로 기술적 양호하다. AI와 FSD 비전에 대한 낙관적 소셜 심리가 강점이다. RS 40.6로 상대강도는 다소 낮은 편이다.",
       "key_risk": "RS 낮아 시장 조정 시 낙폭 확대 가능",
-      "key_opportunity": "GC above 지지로 반등 모멘텀 기대",
+      "key_opportunity": "gc_above와 장기 AI 비전으로 반등 여력",
       "action_bias": "watch"
     },
     {
       "symbol": "AAPL",
       "setup_quality": "B",
-      "brief": "Stage2 7점 최고점이나 DISTRIBUTION 구조 전환. 52주 고점 근처에서 GC above 유지 중. 혼재 신호로 관망 필요.",
-      "key_risk": "DISTRIBUTION 구조로 하락 전환 위험",
-      "key_opportunity": "고점 근처 지지선에서 반등 가능성",
+      "brief": "Stage2 7점 최고점이나 DISTRIBUTION 구조로 혼조 신호다. AI 전략 기대와 밸류에이션 우려가 상존한다. gc_above는 유지 중이다.",
+      "key_risk": "DISTRIBUTION 구조 전환으로 단기 조정 위험",
+      "key_opportunity": "52주 고점 근처 안정적 흐름과 중립 심리",
       "action_bias": "hold"
     },
     {
       "symbol": "NVDA",
       "setup_quality": "A",
-      "brief": "Stage2 6점 UPTREND 유지하며 GC above. RS 55.8 양호하나 52주 고점 대비 9% 하락. 모멘텀 지속 기대.",
-      "key_risk": "분포일 영향으로 단기 조정 가능",
-      "key_opportunity": "UPTREND 구조에서 추가 상승 여력",
+      "brief": "Stage2 6점 UPTREND에 BofA 목표 상향으로 AI 성장 기대 높다. 기록적 실적 모멘텀과 gc_above가 지지한다. RS 55.8 양호하다.",
+      "key_risk": "고밸류에이션 부담과 시장 분배일 영향",
+      "key_opportunity": "AI 리더십 유지로 추가 상승 잠재력",
       "action_bias": "buy"
     },
     {
       "symbol": "META",
       "setup_quality": "C",
-      "brief": "Stage2 3점으로 낮고 bear_flag 발생. DISTRIBUTION 구조에 GC above 미달. RS 23.5로 최저 수준.",
-      "key_risk": "bear_flag으로 급락 위험 높음",
-      "key_opportunity": "반등 시 구조 개선까지 관망",
+      "brief": "Stage2 3점에 bear_flag 출현으로 기술적 약세 전환 우려된다. DISTRIBUTION 구조로 gc_above도 이탈했다. 소셜 낙관론과 구조가 괴리된다.",
+      "key_risk": "bear_flag과 낮은 RS 23.5로 하락 위험 높음",
+      "key_opportunity": "AI 투자와 광고 성장 기대 지속",
       "action_bias": "avoid"
     },
     {
       "symbol": "AMZN",
       "setup_quality": "A+",
-      "brief": "Stage2 7점에 RS 87.8 최고 수준. ACCUMULATION 구조 GC above. 52주 고점 대비 소폭 조정 양호.",
-      "key_risk": "전반적 분포일로 시장 동조 하락 가능",
-      "key_opportunity": "강한 RS와 축적 구조로 상승 주도 기대",
+      "brief": "Stage2 7점과 RS 87.8로 최상위 기술적 강세다. AWS 성장 가속과 ACCUMULATION 구조가 긍정적이다. gc_above와 낙관적 소셜이 일치한다.",
+      "key_risk": "전반적 시장 분배일로 인한 단기 압력",
+      "key_opportunity": "기술적 매수 신호와 클라우드 성장 모멘텀",
       "action_bias": "buy"
     },
     {
       "symbol": "GOOGL",
       "setup_quality": "B",
-      "brief": "Stage2 7점이나 DISTRIBUTION 구조. RS 79.0 양호하고 GC above. 52주 고점 6.3% 하락 중 혼재.",
-      "key_risk": "DISTRIBUTION으로 추세 전환 위험",
-      "key_opportunity": "RS 높아 상대적 강세 유지 가능",
+      "brief": "Stage2 7점과 RS 79.0로 강세이나 DISTRIBUTION 구조로 신호 혼재다. AI와 클라우드 성장 낙관론이 지배적이다. gc_above는 긍정적 요인이다.",
+      "key_risk": "DISTRIBUTION 전환으로 모멘텀 약화 우려",
+      "key_opportunity": "AI 클라우드 성장 기대와 높은 RS",
       "action_bias": "hold"
     }
   ],
   "context": {
-    "captured_at": "2026-05-25T09:17:20Z",
+    "captured_at": "2026-05-25T13:30:00Z",
     "source": "sniperboard",
     "regime": {
-      "total": 75.1,
+      "total": 75.2,
       "label": "CONSTRUCTIVE"
     },
     "technical_summary": {
@@ -75,8 +75,8 @@
       "distribution_day_spy": 6
     },
     "market_sentiment": {
-      "composite_score": null,
-      "label": "neutral"
+      "composite_score": -0.8,
+      "label": "fearful"
     },
     "key_factors": [
       "Regime CONSTRUCTIVE",
