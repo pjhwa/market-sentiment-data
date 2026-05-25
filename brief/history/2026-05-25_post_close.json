@@ -1,71 +1,71 @@
 {
-  "generated_at": "2026-05-25T08:31:11Z",
+  "generated_at": "2026-05-25T21:30:01Z",
   "schema_version": "1.0",
   "slot": "post_close",
   "market_brief": {
-    "summary": "컨스트럭티브 정세 속 분배일 위험 주의",
+    "summary": "건설적 정권이나 SPY 분배일 위험",
     "tone": "cautious",
     "key_themes": [
-      "AI 인프라 수요",
-      "빅테크 실적 기대"
+      "AI 로보틱스",
+      "클라우드 AI"
     ],
-    "watch_points": "SPY 6일 QQQ 5일 분배일로 단기 조정 가능성 주시"
+    "watch_points": "SPY 6회 분배일로 단기 조정 주의"
   },
   "symbol_briefs": [
     {
       "symbol": "TSLA",
       "setup_quality": "A",
-      "brief": "Stage2 6점에 UPTREND 구조 유지 중이다. FSD 개선과 로드스터 기대감으로 소셜 낙관적이나 RS 40.6로 상대강도 약하다. gc_above 신호가 단기 지지를 제공한다.",
-      "key_risk": "RS 40.6로 모멘텀 부족",
-      "key_opportunity": "FSD와 차세대 로드스터 기대감",
-      "action_bias": "watch"
+      "brief": "Stage2 6점에 UPTREND 구조 유지. FSD Optimus 중심 AI 로보틱스 기대감으로 소셜 낙관적. RS 40.6로 상승 여력 존재.",
+      "key_risk": "SPY 분배일 환경에서 단기 변동성 확대",
+      "key_opportunity": "AI 로보틱스 테마로 추가 모멘텀 가능",
+      "action_bias": "buy"
     },
     {
       "symbol": "AAPL",
       "setup_quality": "B",
-      "brief": "Stage2 7점 최고 점수지만 DISTRIBUTION 구조로 진입했다. WWDC AI 업데이트와 서비스 매출 성장 기대가 소셜 낙관을 유지한다. gc_above로 단기 지지선은 존재한다.",
-      "key_risk": "DISTRIBUTION 구조 매도 압력",
-      "key_opportunity": "WWDC AI 업데이트 기대",
+      "brief": "Stage2 7점 최고이나 DISTRIBUTION 구조 전환. 밸류에이션 논쟁으로 소셜 중립. RS 59.6이나 구조 약화 신호.",
+      "key_risk": "DISTRIBUTION 구조로 하락 전환 위험",
+      "key_opportunity": "AI 서비스 경쟁력 회복 시 반등",
       "action_bias": "hold"
     },
     {
       "symbol": "NVDA",
       "setup_quality": "A",
-      "brief": "Stage2 6점 UPTREND 유지하며 gc_above 신호 긍정적이다. AI 인프라 수요 강세와 루빈 플랫폼 기대가 주된 테마다. RS 55.8로 아직 70 이상은 아니다.",
-      "key_risk": "52주 고점 대비 9% 하락 부담",
-      "key_opportunity": "AI 인프라 수요 지속",
+      "brief": "Stage2 6점 UPTREND에 gc_above 양호. AI 지배력과 71% 이익률로 장기 낙관론 유지. RS 55.8 수준.",
+      "key_risk": "고평가 우려와 시장 분배일 영향",
+      "key_opportunity": "AI 반도체 수요 지속으로 상승",
       "action_bias": "buy"
     },
     {
       "symbol": "META",
       "setup_quality": "C",
-      "brief": "Stage2 3점으로 낮고 bear_flag 발생해 DISTRIBUTION 구조다. AI 대규모 투자 비용 우려가 광고 사업 성장 기대와 상충한다. gc_above false로 기술적 취약하다.",
-      "key_risk": "bear_flag와 gc_above 부재",
-      "key_opportunity": "광고 사업 성장 기대",
-      "action_bias": "avoid"
+      "brief": "Stage2 3점에 bear_flag 발생하며 DISTRIBUTION 구조. 수익 성장에도 불구하고 구조적 약세. RS 23.5로 저조.",
+      "key_risk": "bear_flag으로 추가 하락 위험",
+      "key_opportunity": "사용자 규모 기반 반등 가능성",
+      "action_bias": "watch"
     },
     {
       "symbol": "AMZN",
       "setup_quality": "A+",
-      "brief": "Stage2 7점에 RS 87.8로 최고 수준이다. ACCUMULATION 구조에 gc_above 신호가 강력하다. AWS 성장과 AI 수요로 장기 보유 선호가 지배적이다.",
-      "key_risk": "composite_score -0.2 소폭 부정",
-      "key_opportunity": "AWS AI 수요 장기 성장",
+      "brief": "Stage2 7점에 ACCUMULATION 구조. RS 87.8 최고 수준으로 gc_above. AWS AI 성장과 로보틱스 기대감 강함.",
+      "key_risk": "전반적 시장 분배일로 단기 압력",
+      "key_opportunity": "AI 클라우드 선도로 강한 상승 모멘텀",
       "action_bias": "buy"
     },
     {
       "symbol": "GOOGL",
       "setup_quality": "B",
-      "brief": "Stage2 7점 고득점이나 DISTRIBUTION 구조 진입했다. 고평가 우려와 AI 투자 수익성 논쟁으로 소셜 중립이다. gc_above는 유지 중이나 모멘텀 약화 신호다.",
-      "key_risk": "고평가와 수익성 논쟁",
-      "key_opportunity": "AI 투자 잠재력",
-      "action_bias": "watch"
+      "brief": "Stage2 7점이나 DISTRIBUTION 구조. AI 클라우드 성장과 Gemini에 소셜 낙관적. RS 79.0 양호하나 구조 약화.",
+      "key_risk": "DISTRIBUTION으로 모멘텀 약화 가능",
+      "key_opportunity": "Gemini 기능 개선으로 반등 여력",
+      "action_bias": "hold"
     }
   ],
   "context": {
-    "captured_at": "2026-05-25T08:31:11Z",
+    "captured_at": "2026-05-25T21:30:01Z",
     "source": "sniperboard",
     "regime": {
-      "total": 75.1,
+      "total": 75.3,
       "label": "CONSTRUCTIVE"
     },
     "technical_summary": {
@@ -75,7 +75,7 @@
       "distribution_day_spy": 6
     },
     "market_sentiment": {
-      "composite_score": 0.8,
+      "composite_score": 1.3,
       "label": "optimistic"
     },
     "key_factors": [
