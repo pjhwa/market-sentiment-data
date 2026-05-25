@@ -6,6 +6,7 @@ Earnings Intelligence 수집기
 ③ earnings/latest.json + earnings/history/<date>.json 저장 → git push
 """
 
+import argparse
 import json
 import os
 import re
@@ -32,16 +33,37 @@ TIER_APPROACHING_DAYS = 21  # 포지션 계획 시작 구간
 # 22-30일: watching 구간 (EPS estimate 없으면 제외)
 
 
-def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict], list[dict]]:
-    """워치리스트 전체 어닝 데이터 수집. (upcoming_raw, recent_raw) 반환."""
+def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict], list[dict], list[str]]:
+    """워치리스트 전체 어닝 데이터 수집 (강화된 폴백/검증/로깅).
+    Returns: (upcoming_raw, recent_raw, failed_syms)
+    """
     upcoming_raw = []
     recent_raw = []
+    failed_syms = []
 
     for sym in symbols:
         try:
             ticker = yf.Ticker(sym)
 
-            cal = ticker.calendar
+            # Structured per-symbol logging: raw calendar shape when possible
+            cal = None
+            cal_shape = None
+            cal_keys = None
+            try:
+                cal = ticker.calendar
+                if cal is not None:
+                    if hasattr(cal, "shape"):
+                        cal_shape = cal.shape
+                    elif isinstance(cal, (dict, list)):
+                        cal_shape = f"len={len(cal)}"
+                    if hasattr(cal, "columns"):
+                        cal_keys = list(cal.columns)
+                    elif isinstance(cal, dict):
+                        cal_keys = list(cal.keys())[:8]
+            except Exception as e:
+                print(f"[DEBUG] {sym}: calendar access error (will fallback): {type(e).__name__}")
+            print(f"[DEBUG] {sym}: raw_calendar shape={cal_shape} keys/cols={cal_keys}")
+
             earnings_date = None
             if cal is not None and not (hasattr(cal, 'empty') and cal.empty):
                 if hasattr(cal, 'columns') and 'Earnings Date' in cal.columns:
@@ -66,23 +88,90 @@ def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict]
             rev_estimate_b = None
             if cal is not None:
                 try:
+                    # Strengthened key fallbacks (yf version variance: EPS Estimate / Earnings Average / avg etc.)
+                    eps_keys = ["EPS Estimate", "Earnings Average", "Earnings Mean", "avg", "mean"]
+                    rev_keys = ["Revenue Estimate", "Revenue Average", "Revenue Mean"]
                     if hasattr(cal, 'columns'):
-                        if 'EPS Estimate' in cal.columns:
-                            eps_estimate = float(cal['EPS Estimate'].iloc[0])
-                        if 'Revenue Estimate' in cal.columns:
-                            rev_estimate_b = round(float(cal['Revenue Estimate'].iloc[0]) / 1e9, 2)
+                        for k in eps_keys:
+                            if k in cal.columns:
+                                eps_estimate = float(cal[k].iloc[0])
+                                break
+                        for k in rev_keys:
+                            if k in cal.columns:
+                                rev_estimate_b = round(float(cal[k].iloc[0]) / 1e9, 2)
+                                break
                     elif isinstance(cal, dict):
-                        if 'EPS Estimate' in cal:
-                            val = cal['EPS Estimate']
-                            eps_estimate = float(val[0] if isinstance(val, list) else val)
-                        if 'Revenue Estimate' in cal:
-                            val = cal['Revenue Estimate']
-                            rev_raw = float(val[0] if isinstance(val, list) else val)
-                            rev_estimate_b = round(rev_raw / 1e9, 2)
+                        for k in eps_keys:
+                            if k in cal:
+                                val = cal[k]
+                                eps_estimate = float(val[0] if isinstance(val, list) else val)
+                                break
+                        for k in rev_keys:
+                            if k in cal:
+                                val = cal[k]
+                                rev_raw = float(val[0] if isinstance(val, list) else val)
+                                rev_estimate_b = round(rev_raw / 1e9, 2)
+                                break
                 except Exception:
                     pass
 
+            # Strengthened fallback chain: calendar → earnings_dates / earnings_estimate / other attrs
+            # (defensive for yf version differences and scrape failures)
+            if earnings_date is None or eps_estimate is None:
+                for attr in ("earnings_estimate", "earnings_dates"):
+                    try:
+                        data = getattr(ticker, attr, None)
+                        if data is None:
+                            continue
+                        if callable(data):
+                            data = data()
+                        if data is None or (hasattr(data, "empty") and data.empty):
+                            continue
+                        print(f"[DEBUG] {sym}: fallback source active: {attr} type={type(data).__name__}")
+                        # Date extraction (earnings_dates often has date in index or col)
+                        if earnings_date is None and hasattr(data, "index") and len(data) > 0:
+                            try:
+                                idx0 = data.index[0]
+                                if hasattr(idx0, "date"):
+                                    earnings_date = idx0.date()
+                                else:
+                                    earnings_date = datetime.strptime(str(idx0)[:10], "%Y-%m-%d").date()
+                            except Exception:
+                                pass
+                        if hasattr(data, "columns"):
+                            # eps from avg etc in estimate table (0q = next)
+                            if eps_estimate is None:
+                                for k in ("avg", "EPS Estimate", "Earnings Average"):
+                                    if k in data.columns:
+                                        try:
+                                            eps_estimate = float(data[k].iloc[0])
+                                            break
+                                        except Exception:
+                                            pass
+                            # rev rarely here
+                        # dict-like or iloc fallback for estimates
+                        if eps_estimate is None and hasattr(data, "iloc") and len(data) > 0:
+                            try:
+                                row0 = data.iloc[0]
+                                for k in ("avg", "EPS Estimate", "Earnings Average", "mean"):
+                                    if k in getattr(row0, "keys", lambda: [])() or (hasattr(row0, "get") and row0.get(k) is not None):
+                                        eps_estimate = float(row0.get(k) if hasattr(row0, "get") else row0[k])
+                                        break
+                            except Exception:
+                                pass
+                        if earnings_date is not None or eps_estimate is not None:
+                            break  # good enough from this fallback
+                    except Exception as e:
+                        print(f"[DEBUG] {sym}: fallback {attr} skipped ({type(e).__name__})")
+                        continue
+
             hist = ticker.earnings_history
+            try:
+                h_shape = getattr(hist, "shape", None) if hist is not None else None
+                h_cols = list(getattr(hist, "columns", [])) if hist is not None and hasattr(hist, "columns") else None
+                print(f"[DEBUG] {sym}: raw_earnings_history shape={h_shape} cols={h_cols}")
+            except Exception:
+                pass
             beat_count = 0
             total_count = 0
             last_result = None
@@ -155,13 +244,15 @@ def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict]
             if last_result is not None:
                 recent_raw.append(last_result)
 
-            print(f"[OK]   {sym}: earnings_date={earnings_date}, beat_rate={beat_rate}")
+            # Clear per-symbol success path with key facts
+            print(f"[OK]   {sym}: earnings_date={earnings_date}, eps_est={eps_estimate}, beat_rate={beat_rate}, days_until={(earnings_date - today.date()).days if earnings_date else None}")
 
         except Exception as e:
-            print(f"[WARN] {sym}: 수집 실패 — {e}", file=sys.stderr)
+            print(f"[FAIL] {sym}: 수집 실패 — {e}", file=sys.stderr)
+            failed_syms.append(sym)
 
     upcoming_raw.sort(key=lambda x: x["days_until"])
-    return upcoming_raw, recent_raw
+    return upcoming_raw, recent_raw, failed_syms
 
 
 def build_earnings_prompt(upcoming_raw: list[dict], recent_raw: list[dict]) -> str:
@@ -269,6 +360,21 @@ def extract_json(text: str) -> dict | None:
 VALID_RISK_LEVELS = {"high", "med", "low"}
 VALID_TIERS = {"imminent", "approaching", "watching"}
 
+# Lightweight schema for earnings snapshot (used with jsonschema when available).
+# Does not alter main schema.json (earnings is separate contract).
+EARNINGS_SNAPSHOT_SCHEMA = {
+    "type": "object",
+    "required": ["generated_at", "schema_version", "upcoming_earnings", "recent_results"],
+    "properties": {
+        "generated_at": {"type": "string"},
+        "schema_version": {"type": "string"},
+        "upcoming_earnings": {"type": "array"},
+        "recent_results": {"type": "array"},
+        "partial": {"type": "boolean"}
+    },
+    "additionalProperties": True  # allow future additive fields
+}
+
 
 def validate_earnings(data: dict) -> bool:
     upcoming = data.get("upcoming_earnings")
@@ -285,7 +391,54 @@ def validate_earnings(data: dict) -> bool:
         if tier is not None and tier not in VALID_TIERS:
             print(f"[WARN] {item.get('symbol')}: relevance_tier={tier!r}", file=sys.stderr)
             return False
+        # Numeric validation where expected (defensive for partial/ malformed AI)
+        for num_key in ("eps_estimate", "revenue_estimate_b", "historical_beat_rate", "days_until"):
+            v = item.get(num_key)
+            if v is not None:
+                try:
+                    float(v)
+                except (TypeError, ValueError):
+                    print(f"[WARN] {item.get('symbol')}: {num_key} not numeric: {v!r}", file=sys.stderr)
+                    return False
+    for item in recent:
+        for num_key in ("eps_actual", "eps_estimate", "surprise_pct"):
+            v = item.get(num_key)
+            if v is not None:
+                try:
+                    float(v)
+                except (TypeError, ValueError):
+                    print(f"[WARN] {item.get('symbol')}: {num_key} not numeric: {v!r}", file=sys.stderr)
+                    return False
     return True
+
+
+def validate_snapshot(snapshot: dict) -> bool:
+    """Schema-ish validation before write: lightweight + jsonschema (if installed)."""
+    # Lightweight structural check (always)
+    required = ["generated_at", "schema_version", "upcoming_earnings", "recent_results"]
+    for key in required:
+        if key not in snapshot:
+            print(f"[WARN] snapshot missing required key: {key}", file=sys.stderr)
+            return False
+    if not isinstance(snapshot.get("upcoming_earnings"), list) or not isinstance(snapshot.get("recent_results"), list):
+        print("[WARN] upcoming_earnings / recent_results not lists", file=sys.stderr)
+        return False
+
+    # jsonschema when available (no hard dep)
+    try:
+        from jsonschema import validate as js_validate, ValidationError
+        js_validate(instance=snapshot, schema=EARNINGS_SNAPSHOT_SCHEMA)
+        print("[INFO] jsonschema validation passed for earnings snapshot")
+        return True
+    except ImportError:
+        print("[INFO] jsonschema unavailable — lightweight validation only (ok)")
+        return True
+    except ValidationError as e:
+        print(f"[WARN] jsonschema validation error: {e.message}", file=sys.stderr)
+        return False
+    except Exception as e:
+        print(f"[WARN] schema validation unexpected issue: {e}", file=sys.stderr)
+        return False
 
 
 def git_commit_push(repo: Path, date_str: str, time_str: str, history_path: Path) -> bool:
@@ -308,37 +461,150 @@ def git_commit_push(repo: Path, date_str: str, time_str: str, history_path: Path
     return True
 
 
-def main():
+def main(dry_run: bool = False):
+    """Main collection. Supports --dry-run to skip side effects (hermes, writes, git)."""
     now = datetime.now(timezone.utc)
     now_iso = now.strftime("%Y-%m-%dT%H:%M:%SZ")
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H:%M")
-    print(f"[INFO] 어닝 수집 시작: {now_iso}")
+    print(f"[INFO] 어닝 수집 시작: {now_iso} (dry_run={dry_run})")
 
-    upcoming_raw, recent_raw = fetch_earnings_data(WATCHLIST, now)
-    print(f"[INFO] upcoming={len(upcoming_raw)}, recent={len(recent_raw)}")
+    upcoming_raw, recent_raw, failed_syms = fetch_earnings_data(WATCHLIST, now)
+    print(f"[INFO] upcoming={len(upcoming_raw)}, recent={len(recent_raw)}, failed={len(failed_syms)}")
+    if failed_syms:
+        print(f"[WARN] 부분 실패 심볼: {failed_syms}")
+
+    partial = bool(failed_syms)
 
     if not upcoming_raw and not recent_raw:
         print("[INFO] 어닝 데이터 없음 — 빈 스냅샷 저장")
         parsed = {"upcoming_earnings": [], "recent_results": []}
     else:
-        prompt = build_earnings_prompt(upcoming_raw, recent_raw)
-        print("[INFO] Grok 호출 중...")
-        raw_text = call_hermes(prompt)
-        if raw_text is None:
-            print("[ERROR] Grok 호출 실패 — 종료", file=sys.stderr)
-            sys.exit(1)
-        parsed = extract_json(raw_text)
-        if parsed is None or not validate_earnings(parsed):
-            print("[ERROR] 어닝 검증 실패 — 종료", file=sys.stderr)
-            sys.exit(1)
+        if dry_run:
+            print("[DRY-RUN] Grok/hermes 호출 생략 — raw 데이터로 스텁 partial 시뮬레이션")
+            partial = True
+            parsed = {
+                "upcoming_earnings": [
+                    {
+                        "symbol": u["symbol"],
+                        "earnings_date": u["earnings_date"],
+                        "days_until": u["days_until"],
+                        "relevance_tier": u["relevance_tier"],
+                        "eps_estimate": u.get("eps_estimate"),
+                        "revenue_estimate_b": u.get("revenue_estimate_b"),
+                        "historical_beat_rate": u.get("historical_beat_rate"),
+                        "ai_summary": "[DRY-RUN] hermes 생략됨 — 원시 yfinance 데이터만.",
+                        "risk_level": "high" if u.get("days_until", 99) <= 7 else ("med" if u.get("days_until", 99) <= 21 else "low"),
+                        "action_note": "dry-run 모드"
+                    }
+                    for u in upcoming_raw
+                ],
+                "recent_results": [
+                    {
+                        "symbol": r["symbol"],
+                        "report_date": r["report_date"],
+                        "eps_actual": r["eps_actual"],
+                        "eps_estimate": r["eps_estimate"],
+                        "surprise_pct": r["surprise_pct"],
+                        "ai_reaction": "[DRY-RUN] hermes 생략 (partial 시뮬)"
+                    }
+                    for r in recent_raw
+                ]
+            }
+        else:
+            prompt = build_earnings_prompt(upcoming_raw, recent_raw)
+            print("[INFO] Grok 호출 중...")
+            raw_text = call_hermes(prompt)
+            if raw_text is None:
+                print("[WARN] Grok 호출 실패 — partial 스냅샷 생성 (AI 스텁으로 원시 데이터 보존)", file=sys.stderr)
+                partial = True
+                # Produce usable output: factual yf data + stub AI fields (no crash)
+                parsed = {
+                    "upcoming_earnings": [
+                        {
+                            "symbol": u["symbol"],
+                            "earnings_date": u["earnings_date"],
+                            "days_until": u["days_until"],
+                            "relevance_tier": u["relevance_tier"],
+                            "eps_estimate": u.get("eps_estimate"),
+                            "revenue_estimate_b": u.get("revenue_estimate_b"),
+                            "historical_beat_rate": u.get("historical_beat_rate"),
+                            "ai_summary": "Grok/Hermes 호출 실패 (partial). 원시 yfinance 데이터만 사용.",
+                            "risk_level": "high" if u.get("days_until", 99) <= 7 else ("med" if u.get("days_until", 99) <= 21 else "low"),
+                            "action_note": "부분 수집 실패 — 별도 확인 및 수동 모니터링 권장"
+                        }
+                        for u in upcoming_raw
+                    ],
+                    "recent_results": [
+                        {
+                            "symbol": r["symbol"],
+                            "report_date": r["report_date"],
+                            "eps_actual": r["eps_actual"],
+                            "eps_estimate": r["eps_estimate"],
+                            "surprise_pct": r["surprise_pct"],
+                            "ai_reaction": "Grok/Hermes 호출 실패 — AI 반응 분석 생략 (partial)"
+                        }
+                        for r in recent_raw
+                    ]
+                }
+            else:
+                parsed = extract_json(raw_text)
+                if parsed is None or not validate_earnings(parsed):
+                    print("[WARN] 어닝 파싱/검증 실패 — partial 스냅샷으로 계속 (원시 데이터 우선)", file=sys.stderr)
+                    partial = True
+                    # Usable fallback from raw (same structure as hermes success path)
+                    parsed = {
+                        "upcoming_earnings": [
+                            {
+                                "symbol": u["symbol"],
+                                "earnings_date": u["earnings_date"],
+                                "days_until": u["days_until"],
+                                "relevance_tier": u["relevance_tier"],
+                                "eps_estimate": u.get("eps_estimate"),
+                                "revenue_estimate_b": u.get("revenue_estimate_b"),
+                                "historical_beat_rate": u.get("historical_beat_rate"),
+                                "ai_summary": "Grok 응답 파싱 실패 (partial). 원시 데이터 기반.",
+                                "risk_level": "high" if u.get("days_until", 99) <= 7 else ("med" if u.get("days_until", 99) <= 21 else "low"),
+                                "action_note": "부분 수집 — AI 요약 없음, 수동 확인"
+                            }
+                            for u in upcoming_raw
+                        ],
+                        "recent_results": [
+                            {
+                                "symbol": r["symbol"],
+                                "report_date": r["report_date"],
+                                "eps_actual": r["eps_actual"],
+                                "eps_estimate": r["eps_estimate"],
+                                "surprise_pct": r["surprise_pct"],
+                                "ai_reaction": "Grok 파싱 실패 — AI 반응 생략 (partial)"
+                            }
+                            for r in recent_raw
+                        ]
+                    }
 
     snapshot = {
         "generated_at": now_iso,
         "schema_version": "2.0",
         "upcoming_earnings": parsed["upcoming_earnings"],
         "recent_results": parsed["recent_results"],
+        "partial": partial,
     }
+
+    # Schema validation (jsonschema + lightweight) BEFORE any write — required by hardening
+    schema_ok = validate_snapshot(snapshot)
+    if not schema_ok:
+        print("[WARN] 스키마 검증 실패 — partial 플래그 강제 설정", file=sys.stderr)
+        snapshot["partial"] = True
+        partial = True
+
+    if dry_run:
+        print(f"[DRY-RUN] 스냅샷 생성 완료 (partial={partial}, schema_ok={schema_ok}) — 파일 기록·git·추가 hermes 호출 모두 생략")
+        # Structured summary for dry-run verification (no secrets)
+        print(f"[DRY-RUN] upcoming count={len(snapshot['upcoming_earnings'])}, recent count={len(snapshot['recent_results'])}")
+        if snapshot["upcoming_earnings"]:
+            ex = snapshot["upcoming_earnings"][0]
+            print(f"[DRY-RUN] sample upcoming: {ex.get('symbol')} on {ex.get('earnings_date')} tier={ex.get('relevance_tier')} eps={ex.get('eps_estimate')}")
+        return
 
     latest_path = REPO_PATH / "earnings" / "latest.json"
     history_dir = REPO_PATH / "earnings" / "history"
@@ -352,8 +618,11 @@ def main():
     print(f"[INFO] 저장 완료: {latest_path}")
 
     push_ok = git_commit_push(REPO_PATH, date_str, time_str, history_path)
-    print(f"{'[OK]' if push_ok else '[WARN]'} 어닝 수집 완료")
+    print(f"{'[OK]' if push_ok else '[WARN]'} 어닝 수집 완료 (partial={partial})")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Earnings Intelligence collector (hardened)")
+    parser.add_argument("--dry-run", action="store_true", help="Collect/validate/log only; skip hermes calls after fetch, file writes, and git push")
+    args = parser.parse_args()
+    main(dry_run=args.dry_run)
