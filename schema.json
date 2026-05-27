@@ -158,6 +158,7 @@
     "TopNews": {
       "type": "object",
       "additionalProperties": false,
+      "required": ["headline", "summary", "source"],
       "properties": {
         "headline": {
           "type": "string",
