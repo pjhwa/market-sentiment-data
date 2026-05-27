@@ -14,8 +14,8 @@
     },
     "schema_version": {
       "type": "string",
-      "enum": ["1.0", "1.1", "1.2", "1.3"],
-      "description": "1.0: 기본 스키마. 1.1: price_context + divergence 추가. 1.2: slot + intraday_shift 추가."
+      "enum": ["1.0", "1.1", "1.2", "1.3", "1.4"],
+      "description": "1.0: 기본. 1.1: price_context+divergence. 1.2: slot+intraday_shift. 1.3: composite_score. 1.4: top_news 추가."
     },
     "slot": {
       "type": "string",
@@ -121,6 +121,13 @@
         "composite_score": {
           "$ref": "#/definitions/CompositeScore",
           "description": "모든 수집 신호를 결합한 복합 점수. v1.3 추가. optional."
+        },
+        "top_news": {
+          "oneOf": [
+            { "$ref": "#/definitions/TopNews" },
+            { "type": "null" }
+          ],
+          "description": "가장 많이 언급된 뉴스/포스트 1건. 없으면 null. v1.4 추가."
         }
       }
     },
@@ -145,6 +152,24 @@
         "abnormal_move": {
           "type": ["boolean", "null"],
           "description": "|당일변동| > 1.5×ATR14 이면 true (방향 무관)"
+        }
+      }
+    },
+    "TopNews": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "headline": {
+          "type": "string",
+          "description": "가장 많이 언급된 뉴스/포스트의 원문 제목 또는 캡션 (영문 그대로)"
+        },
+        "summary": {
+          "type": "string",
+          "description": "1-2문장 한국어 요약"
+        },
+        "source": {
+          "type": "string",
+          "description": "출처 문자열 (예: Bloomberg, @elonmusk, CNBC)"
         }
       }
     },
@@ -187,6 +212,13 @@
         "composite_score": {
           "$ref": "#/definitions/CompositeScore",
           "description": "모든 수집 신호를 결합한 복합 점수. v1.3 추가. optional."
+        },
+        "top_news": {
+          "oneOf": [
+            { "$ref": "#/definitions/TopNews" },
+            { "type": "null" }
+          ],
+          "description": "가장 많이 언급된 뉴스/포스트 1건. 없으면 null. v1.4 추가."
         }
       }
     }
