@@ -366,7 +366,7 @@ def validate_market_fields(data: dict) -> bool:
     return True
 
 
-def validate_top_news(data) -> bool:
+def validate_top_news(data: dict | None) -> bool:
     """top_news 구조 검증. None은 허용(optional 필드)."""
     if data is None:
         return True
