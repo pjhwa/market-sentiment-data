@@ -403,6 +403,8 @@ def build_symbol_entry(raw: dict, symbol: str, now_iso: str, ctx: dict, divergen
     if pc is not None:
         entry["price_context"] = pc
     entry["divergence"] = divergence
+    tn = raw.get("top_news")
+    entry["top_news"] = tn if validate_top_news(tn) and tn is not None else None
     return entry
 
 
@@ -416,6 +418,7 @@ def build_market_entry(raw: dict, now_iso: str) -> dict:
         "extreme_flag": raw["extreme_flag"],
         "key_reason": raw.get("key_reason", ""),
         "confidence": raw["confidence"],
+        "top_news": raw.get("top_news") if validate_top_news(raw.get("top_news")) and raw.get("top_news") is not None else None,
     }
 
 
@@ -562,7 +565,7 @@ def main():
     # ── latest.json + history/<date>.json 저장 ────────────────────────────────
     snapshot = {
         "generated_at": now_iso,
-        "schema_version": "1.2",
+        "schema_version": "1.4",
         "slot": slot,
         "market": market_entry,
         "symbols": symbol_entries,

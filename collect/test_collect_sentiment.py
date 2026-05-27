@@ -138,5 +138,66 @@ class TestValidateTopNews(unittest.TestCase):
         self.assertFalse(cs.validate_top_news("not a dict"))
 
 
+class TestBuildSymbolEntryTopNews(unittest.TestCase):
+    def _base_raw(self):
+        return {
+            "sentiment": "optimistic",
+            "trend_vs_yesterday": "stable",
+            "mention_volume": "normal",
+            "key_reason": "테스트 이유",
+            "bot_suspected": "no",
+            "confidence": "med",
+        }
+
+    def test_top_news_included_when_present(self):
+        raw = self._base_raw()
+        raw["top_news"] = {
+            "headline": "BofA raises AAPL to $250",
+            "summary": "BofA가 목표주가를 상향했다.",
+            "source": "Bloomberg",
+        }
+        entry = cs.build_symbol_entry(raw, "AAPL", "2026-05-28T13:00:00Z", {}, "aligned")
+        self.assertIsNotNone(entry.get("top_news"))
+        self.assertEqual(entry["top_news"]["source"], "Bloomberg")
+
+    def test_top_news_null_when_absent(self):
+        raw = self._base_raw()
+        entry = cs.build_symbol_entry(raw, "AAPL", "2026-05-28T13:00:00Z", {}, "aligned")
+        self.assertIsNone(entry.get("top_news"))
+
+    def test_top_news_null_when_explicitly_none(self):
+        raw = self._base_raw()
+        raw["top_news"] = None
+        entry = cs.build_symbol_entry(raw, "AAPL", "2026-05-28T13:00:00Z", {}, "aligned")
+        self.assertIsNone(entry.get("top_news"))
+
+
+class TestBuildMarketEntryTopNews(unittest.TestCase):
+    def _base_raw(self):
+        return {
+            "sentiment": "fearful",
+            "trend_vs_yesterday": "cooling",
+            "extreme_flag": "none",
+            "key_reason": "마켓 테스트",
+            "confidence": "high",
+        }
+
+    def test_top_news_included_when_present(self):
+        raw = self._base_raw()
+        raw["top_news"] = {
+            "headline": "Fed holds rates",
+            "summary": "연준이 금리를 동결했다.",
+            "source": "Reuters",
+        }
+        entry = cs.build_market_entry(raw, "2026-05-28T13:00:00Z")
+        self.assertIsNotNone(entry.get("top_news"))
+        self.assertEqual(entry["top_news"]["source"], "Reuters")
+
+    def test_top_news_null_when_absent(self):
+        raw = self._base_raw()
+        entry = cs.build_market_entry(raw, "2026-05-28T13:00:00Z")
+        self.assertIsNone(entry.get("top_news"))
+
+
 if __name__ == "__main__":
     unittest.main()
