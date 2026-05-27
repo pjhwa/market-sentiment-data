@@ -366,6 +366,18 @@ def validate_market_fields(data: dict) -> bool:
     return True
 
 
+def validate_top_news(data) -> bool:
+    """top_news 구조 검증. None은 허용(optional 필드)."""
+    if data is None:
+        return True
+    if not isinstance(data, dict):
+        return False
+    for field in ("headline", "summary", "source"):
+        if field not in data or not isinstance(data[field], str):
+            return False
+    return True
+
+
 # ── 엔트리 빌더 ────────────────────────────────────────────────────────────────
 
 def build_symbol_entry(raw: dict, symbol: str, now_iso: str, ctx: dict, divergence: str) -> dict:

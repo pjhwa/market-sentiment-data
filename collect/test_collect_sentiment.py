@@ -110,5 +110,33 @@ class TestLoadPreOpenScores(unittest.TestCase):
         self.assertEqual(result["symbols"], {})
 
 
+class TestValidateTopNews(unittest.TestCase):
+    def test_valid_top_news(self):
+        tn = {
+            "headline": "BofA raises AAPL target to $250",
+            "summary": "BofA가 애플 목표주가를 상향했다.",
+            "source": "Bloomberg",
+        }
+        self.assertTrue(cs.validate_top_news(tn))
+
+    def test_none_is_valid(self):
+        self.assertTrue(cs.validate_top_news(None))
+
+    def test_missing_headline_invalid(self):
+        self.assertFalse(cs.validate_top_news({"summary": "요약", "source": "출처"}))
+
+    def test_missing_summary_invalid(self):
+        self.assertFalse(cs.validate_top_news({"headline": "제목", "source": "출처"}))
+
+    def test_missing_source_invalid(self):
+        self.assertFalse(cs.validate_top_news({"headline": "제목", "summary": "요약"}))
+
+    def test_non_string_headline_invalid(self):
+        self.assertFalse(cs.validate_top_news({"headline": 123, "summary": "요약", "source": "출처"}))
+
+    def test_non_dict_non_none_invalid(self):
+        self.assertFalse(cs.validate_top_news("not a dict"))
+
+
 if __name__ == "__main__":
     unittest.main()
