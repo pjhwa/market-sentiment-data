@@ -163,6 +163,18 @@ data = resp.json()
 
 ---
 
+## SniperBoard에서 history/ 활용 방식
+
+SniperBoard의 `GET /api/sentiment/history?symbol=TSLA&days=7` 엔드포인트는 이 리포의 `history/` 폴더에서 N일치 파일을 순회하여 심리 추이 포인트를 반환합니다.
+
+- SentimentBoard에서 종목 카드를 클릭하면 주가 라인 + 심리 composite_score 오버레이 차트가 펼쳐집니다.
+- **7일 / 30일 토글**: 현재 history는 ~7일치. 30일치가 누적되면 심리 고점/저점과 주가 반전 패턴 분석이 가능해집니다.
+- 슬롯 마커: ▲ pre_open (장 전), ● post_close (장 후)
+- 파일 명명 규칙 유지가 중요: `YYYY-MM-DD_pre_open.json` / `YYYY-MM-DD_post_close.json`
+  - 구형 `YYYY-MM-DD.json`은 폴백으로 처리됨 (pre_open 슬롯으로 간주)
+
+---
+
 ## 관련 프로젝트
 
 - **[SniperBoard](https://github.com/pjhwa/sniperboard)** — 이 데이터를 소비하는 트레이딩 대시보드
