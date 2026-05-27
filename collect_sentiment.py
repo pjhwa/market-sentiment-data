@@ -93,13 +93,15 @@ Schema (exact enums):
   "mention_volume": one of ["low","normal","elevated","surging"],
   "key_reason": "one short sentence in Korean",
   "bot_suspected": one of ["yes","no","unclear"],
-  "confidence": one of ["high","med","low"]
+  "confidence": one of ["high","med","low"],
+  "top_news": {{"headline": "원문 제목 또는 가장 많이 공유된 포스트 캡션", "summary": "1-2문장 한국어 요약", "source": "출처(Bloomberg/@username 등)"}} or null if no clear top story
 }}
 
 Rules:
 - Determine sentiment ONLY from real posts, never inferred from the price context.
 - No invented percentages. Categorical enums only.
 - Thin/noisy sample → confidence "low".
+- top_news: pick the single most-shared or most-discussed news/post about this ticker. If nothing stands out, set it to null.
 - Output raw JSON only."""
 
 _CONTEXT_BLOCK_TEMPLATE = """\
@@ -124,13 +126,15 @@ Schema (use these exact enum values):
   "trend_vs_yesterday": one of ["cooling","stable","heating"],
   "extreme_flag": one of ["none","extreme_fear","extreme_greed"],
   "key_reason": "one short sentence in Korean",
-  "confidence": one of ["high","med","low"]
+  "confidence": one of ["high","med","low"],
+  "top_news": {"headline": "원문 제목 또는 가장 많이 공유된 포스트 캡션", "summary": "1-2문장 한국어 요약", "source": "출처(Bloomberg/@username 등)"} or null if no clear top story
 }
 
 Rules:
 - Do NOT invent precise percentages. Use only the categorical enums above.
 - If the sample seems thin or very noisy, set confidence to "low".
 - If you cannot determine a field, use "neutral"/"stable"/"none" and lower confidence.
+- top_news: pick the single most-shared or most-discussed market news/macro post. If nothing stands out, set it to null.
 - Output the raw JSON object and nothing else."""
 
 
