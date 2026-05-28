@@ -1,197 +1,197 @@
 {
-  "generated_at": "2026-05-28T13:00:00Z",
+  "generated_at": "2026-05-28T21:00:01Z",
   "schema_version": "1.4",
-  "slot": "pre_open",
+  "slot": "post_close",
   "market": {
-    "as_of": "2026-05-28T13:00:00Z",
+    "as_of": "2026-05-28T21:00:01Z",
     "sentiment": "optimistic",
     "sentiment_score": 1,
     "trend_vs_yesterday": "heating",
     "extreme_flag": "none",
-    "key_reason": "S&P 500가 9주 연속 상승세를 보이며 VIX 하락으로 공포가 완화됐으나 좁은 랠리와 지정학 리스크로 신중한 분위기다.",
-    "confidence": "med",
+    "key_reason": "S&P 500 신고가 경신과 기술주 랠리로 위험자산 선호 심리가 강하다",
+    "confidence": "high",
     "top_news": {
-      "headline": "S&P 500 on track for 9th consecutive weekly gain",
-      "summary": "S&P 500가 기록적 주간 상승을 이어가고 있으나 AI 집중 랠리와 이란 관련 유가 급등으로 인한 인플레이션·성장 둔화 우려가 제기된다.",
-      "source": "@AlphaMarketsX / @Bancaraglobal"
+      "headline": "S&P 500 closes at fresh all-time high",
+      "summary": "S&P 500가 신고가를 기록하며 나스닥과 함께 상승했고, 냉각된 PCE 데이터가 금리 하락을 지원하며 랠리를 뒷받침했다.",
+      "source": "@mimiru_usstock"
     },
-    "intraday_shift": null,
-    "composite_score": 1.1
+    "intraday_shift": "stable",
+    "composite_score": 1.3
   },
   "symbols": [
     {
       "symbol": "TSLA",
-      "as_of": "2026-05-28T13:00:00Z",
+      "as_of": "2026-05-28T21:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
-      "trend_vs_yesterday": "stable",
-      "mention_volume": "normal",
-      "key_reason": "유럽 판매 회복과 FSD 호평으로 주주들이 낙관적 분위기",
-      "bot_suspected": "no",
+      "trend_vs_yesterday": "heating",
+      "mention_volume": "surging",
+      "key_reason": "Cybercab 자율주행 데모 영상으로 인한 강한 낙관적 반응",
+      "bot_suspected": "unclear",
       "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "calm",
-        "volume_ratio": 0.8,
+        "volume_ratio": 0.6,
         "near_key_level": "none",
         "abnormal_move": false
       },
-      "divergence": "bullish_divergence",
+      "divergence": "aligned",
       "top_news": {
-        "headline": "April registrations jumped 46.5% YoY to 10,654 units",
-        "summary": "유럽에서 3개월 연속 판매 증가. 모델 Y가 여러 시장 1위.",
-        "source": "@Tslachan"
+        "headline": "Cybercab driving itself autonomously out of the Giga Texas factory",
+        "summary": "Elon Musk가 Giga Texas에서 Cybercab의 무인 자율주행 영상을 게시. 170만 뷰 이상으로 커뮤니티에서 역사적 순간으로 평가하며 큰 호응.",
+        "source": "@elonmusk"
       },
-      "intraday_shift": null,
-      "composite_score": 0.3
+      "intraday_shift": "stable",
+      "composite_score": 1.2
     },
     {
       "symbol": "AAPL",
-      "as_of": "2026-05-28T13:00:00Z",
+      "as_of": "2026-05-28T21:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "normal",
-      "key_reason": "BofA 가격 목표 상향과 AI 에이전트 스토리가 주요 논의",
-      "bot_suspected": "no",
-      "confidence": "med",
+      "mention_volume": "low",
+      "key_reason": "애플 AI 기능 업데이트와 BofA 목표가 상향 소식에 긍정적 논의",
+      "bot_suspected": "unclear",
+      "confidence": "low",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "calm",
-        "volume_ratio": 1.0,
-        "near_key_level": "near_52w_high",
-        "abnormal_move": false
-      },
-      "divergence": "aligned",
-      "top_news": {
-        "headline": "BofA Securities raised its price target to $380 (Buy)",
-        "summary": "애플의 AI 허브 역할과 서비스 성장에 대한 낙관적 분석이 공유되며 장기 전망 강조",
-        "source": "@big_Drew19"
-      },
-      "intraday_shift": null,
-      "composite_score": 0.8
-    },
-    {
-      "symbol": "NVDA",
-      "as_of": "2026-05-28T13:00:00Z",
-      "sentiment": "optimistic",
-      "sentiment_score": 1,
-      "trend_vs_yesterday": "stable",
-      "mention_volume": "normal",
-      "key_reason": "AI 인프라와 신제품에 대한 장기 낙관적 논의가 주를 이룸",
-      "bot_suspected": "unclear",
-      "confidence": "med",
-      "source": "grok-oauth via hermes",
-      "price_context": {
-        "volatility": "calm",
-        "volume_ratio": 1.0,
-        "near_key_level": "none",
-        "abnormal_move": false
-      },
-      "divergence": "bullish_divergence",
-      "top_news": null,
-      "intraday_shift": null,
-      "composite_score": 0.2
-    },
-    {
-      "symbol": "META",
-      "as_of": "2026-05-28T13:00:00Z",
-      "sentiment": "optimistic",
-      "sentiment_score": 1,
-      "trend_vs_yesterday": "heating",
-      "mention_volume": "elevated",
-      "key_reason": "기술적 브레이크아웃과 빅테크 강세에 대한 낙관적 반응",
-      "bot_suspected": "no",
-      "confidence": "med",
-      "source": "grok-oauth via hermes",
-      "price_context": {
-        "volatility": "extreme",
-        "volume_ratio": 1.4,
-        "near_key_level": "none",
-        "abnormal_move": true
-      },
-      "divergence": "aligned",
-      "top_news": null,
-      "intraday_shift": null,
-      "composite_score": 1.3
-    },
-    {
-      "symbol": "AMZN",
-      "as_of": "2026-05-28T13:00:00Z",
-      "sentiment": "optimistic",
-      "sentiment_score": 1,
-      "trend_vs_yesterday": "heating",
-      "mention_volume": "normal",
-      "key_reason": "AWS AI 수요와 Kuiper 위성 발사 준비에 대한 건설적 논의",
-      "bot_suspected": "unclear",
-      "confidence": "med",
-      "source": "grok-oauth via hermes",
-      "price_context": {
-        "volatility": "normal",
         "volume_ratio": 0.9,
         "near_key_level": "near_52w_high",
         "abnormal_move": false
       },
       "divergence": "aligned",
       "top_news": {
-        "headline": "Amazon preparing first 48 Leo satellites for New Glenn launch",
-        "summary": "아마존이 Blue Origin New Glenn 로켓으로 첫 48개 LEO 위성 발사 준비, Starlink 경쟁과 장기 성장으로 긍정적 반응.",
-        "source": "@Amazonleo"
+        "headline": "Bank of America raises AAPL PT to $380",
+        "summary": "강력한 분기 실적 후 BofA가 목표가를 $380으로 상향 조정. AI 이니셔티브와 에코시스템 성장 기대.",
+        "source": "@tickerade"
       },
-      "intraday_shift": null,
-      "composite_score": 1.0
+      "intraday_shift": "stable",
+      "composite_score": 0.3
     },
     {
-      "symbol": "GOOGL",
-      "as_of": "2026-05-28T13:00:00Z",
-      "sentiment": "fearful",
-      "sentiment_score": -1,
+      "symbol": "NVDA",
+      "as_of": "2026-05-28T21:00:01Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
-      "mention_volume": "elevated",
-      "key_reason": "구글 엔지니어 내부자 거래 스캔들이 주요 화제로 부각되며 부정적 반응 주도",
+      "mention_volume": "normal",
+      "key_reason": "AI 서버 수요 강세와 GTC Taipei 이벤트 기대감",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "calm",
-        "volume_ratio": 0.8,
+        "volume_ratio": 0.9,
         "near_key_level": "none",
         "abnormal_move": false
       },
-      "divergence": "bearish_divergence",
+      "divergence": "aligned",
       "top_news": {
-        "headline": "Google Engineer Charged in $1.2M Polymarket Insider Trading Case",
-        "summary": "수석 구글 소프트웨어 엔지니어 Michele Spagnuolo가 내부 'Year in Search' 데이터를 이용해 폴리마켓에서 약 120만 달러 수익을 낸 혐의로 체포됐다. 구글은 협조 중이며 PR 타격이 큰 소식으로 평가됨.",
-        "source": "@Alice_MiaX / X posts"
+        "headline": "Dell crushes earnings with strong AI server revenue including GB200",
+        "summary": "Dell 실적 호조가 NVDA AI 인프라 수요를 확인시켜줌. GTC Taipei에서 Jensen Huang 키노트 예정.",
+        "source": "@oyoy__ / @nvidia"
       },
-      "intraday_shift": null,
-      "composite_score": -0.5
+      "intraday_shift": "stable",
+      "composite_score": 0.8
     },
     {
-      "symbol": "PLTR",
-      "as_of": "2026-05-28T13:00:00Z",
+      "symbol": "META",
+      "as_of": "2026-05-28T21:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "heating",
       "mention_volume": "elevated",
-      "key_reason": "일본 시장 진출 바이럴 이벤트로 성장 기대감이 커짐",
-      "bot_suspected": "unclear",
+      "key_reason": "AI 데이터센터 투자 긍정론과 유료 구독 발표로 옵션 트레이더 모멘텀",
+      "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "calm",
-        "volume_ratio": 0.8,
+        "volume_ratio": 1.0,
         "near_key_level": "none",
         "abnormal_move": false
       },
       "divergence": "bullish_divergence",
       "top_news": {
-        "headline": "Thank you Japan 🇯🇵",
-        "summary": "팔란티어가 일본 행사 영상을 공개하며 1억 뷰 이상 기록. AI 플랫폼 국제 확장에 대한 논의가 활발하다.",
-        "source": "@PalantirTech"
+        "headline": "someone buying $16,300 worth of 0DTE 620 calls on $META, then the company announcing paid subscriptions rollout minutes later",
+        "summary": "유료 구독 발표 직후 대형 옵션 수익 사례가 바이럴되며 META 논의 활발",
+        "source": "@StockOptionCole"
       },
-      "intraday_shift": null,
-      "composite_score": 0.7
+      "intraday_shift": "stable",
+      "composite_score": 0.8
+    },
+    {
+      "symbol": "AMZN",
+      "as_of": "2026-05-28T21:00:01Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "heating",
+      "mention_volume": "elevated",
+      "key_reason": "AWS AI 성장 기대와 콜 옵션 매수 활발",
+      "bot_suspected": "no",
+      "confidence": "med",
+      "source": "grok-oauth via hermes",
+      "price_context": {
+        "volatility": "calm",
+        "volume_ratio": 0.9,
+        "near_key_level": "near_52w_high",
+        "abnormal_move": false
+      },
+      "divergence": "aligned",
+      "top_news": {
+        "headline": "@awscloud next generation of Amazon OpenSearch Serverless for agentic AI",
+        "summary": "AWS가 에이전틱 AI 워크로드용 OpenSearch Serverless 신규 버전을 발표하며 최대 60% 비용 절감과 빠른 오토스케일링을 강조했다.",
+        "source": "@awscloud"
+      },
+      "intraday_shift": "stable",
+      "composite_score": 1.3
+    },
+    {
+      "symbol": "GOOGL",
+      "as_of": "2026-05-28T21:00:01Z",
+      "sentiment": "neutral",
+      "sentiment_score": 0,
+      "trend_vs_yesterday": "stable",
+      "mention_volume": "low",
+      "key_reason": "저조한 활동 속 스팸과 한 건의 이익실현 포스트만 확인",
+      "bot_suspected": "unclear",
+      "confidence": "low",
+      "source": "grok-oauth via hermes",
+      "price_context": {
+        "volatility": "calm",
+        "volume_ratio": 0.7,
+        "near_key_level": "none",
+        "abnormal_move": false
+      },
+      "divergence": "none",
+      "top_news": null,
+      "intraday_shift": "heating",
+      "composite_score": 0.2
+    },
+    {
+      "symbol": "PLTR",
+      "as_of": "2026-05-28T21:00:01Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
+      "trend_vs_yesterday": "heating",
+      "mention_volume": "normal",
+      "key_reason": "AI 인프라 종목군에서 PLTR +8% 반등하며 6월 추가 상승 기대",
+      "bot_suspected": "no",
+      "confidence": "low",
+      "source": "grok-oauth via hermes",
+      "price_context": {
+        "volatility": "extreme",
+        "volume_ratio": 1.2,
+        "near_key_level": "none",
+        "abnormal_move": true
+      },
+      "divergence": "aligned",
+      "top_news": null,
+      "intraday_shift": "stable",
+      "composite_score": 0.8
     }
   ]
 }
