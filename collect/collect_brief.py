@@ -38,6 +38,7 @@ WATCHLIST = [
     ("META", "Meta Platforms"),
     ("AMZN", "Amazon"),
     ("GOOGL", "Alphabet / Google"),
+    ("PLTR", "Palantir"),
 ]
 
 
@@ -239,7 +240,7 @@ setup_quality 기준:
 - C: Stage2 3점 이하, 소셜 공포 또는 bear_flag
 - D: Stage2 2점 이하 또는 downtrend 심화
 
-symbol_briefs에 WATCHLIST 6종목 전부 포함 순서: TSLA, AAPL, NVDA, META, AMZN, GOOGL
+symbol_briefs에 WATCHLIST 7종목 전부 포함 순서: TSLA, AAPL, NVDA, META, AMZN, GOOGL, PLTR
 Output raw JSON only."""
 
 

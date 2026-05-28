@@ -27,7 +27,7 @@ HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
 CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))
 HERMES_RETRY = int(os.environ.get("HERMES_RETRY", "1"))
 
-WATCHLIST = ["TSLA", "AAPL", "NVDA", "META", "AMZN", "GOOGL"]
+WATCHLIST = ["TSLA", "AAPL", "NVDA", "META", "AMZN", "GOOGL", "PLTR"]
 UPCOMING_WINDOW_DAYS = 30  # 30일 이후는 EPS 컨센서스 미형성 → 노이즈
 RECENT_QUARTERS = 8
 

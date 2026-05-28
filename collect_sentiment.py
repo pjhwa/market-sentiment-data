@@ -35,6 +35,7 @@ WATCHLIST = [
     ("META",  "Meta Platforms"),
     ("AMZN",  "Amazon"),
     ("GOOGL", "Alphabet / Google"),
+    ("PLTR",  "Palantir"),
 ]
 
 SENTIMENT_SCORE_MAP = {
