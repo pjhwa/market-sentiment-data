@@ -61,19 +61,26 @@ def build_prompt(macro_items: list, slot: str) -> str:
 MACRO DATA ({slot_kor}):
 {data_block}
 
+WRITING RULES:
+- overall.summary: 시장 전체 한 문장 (한국어, 40자 이내)
+- overall.bullets: 3개. 각 bullet은 "핵심 신호 → 시장 의미" 형식 (한국어, 25자 이내).
+  좋은 예: "VIX 15 하락 → 공포 낮음, 매수 우호"  "QQQ·SMH 상승추세 → 기술주 강세"  "원유 분산 → 원자재 조정 중"
+  나쁜 예: "VIX 15.3 DOWNTREND"  (단순 수치·상태 나열 금지)
+- groups.text: 해당 그룹이 지금 의미하는 바를 한 문장으로 (40자 이내)
+
 Generate ONE JSON object with this EXACT schema (no prose, no code fences):
 {{
   "overall": {{
-    "summary": "시장 전체 한 문장 요약 (한국어, 40자 이내)",
-    "bullets": ["핵심 포인트1 (한국어, 20자 이내)", "핵심 포인트2", "핵심 포인트3"]
+    "summary": "...",
+    "bullets": ["신호1 → 의미1", "신호2 → 의미2", "신호3 → 의미3"]
   }},
   "groups": {{
-    "volatility":  {{ "text": "변동성 그룹 해석 (한국어, 40자 이내)" }},
-    "breadth":     {{ "text": "시장 폭 그룹 해석 (한국어, 40자 이내)" }},
-    "credit":      {{ "text": "신용 스트레스 그룹 해석 (한국어, 40자 이내)" }},
-    "rates":       {{ "text": "달러·금리 그룹 해석 (한국어, 40자 이내)" }},
-    "commodities": {{ "text": "원자재 그룹 해석 (한국어, 40자 이내)" }},
-    "sectors":     {{ "text": "섹터 ETF 그룹 해석 (한국어, 40자 이내)" }}
+    "volatility":  {{ "text": "..." }},
+    "breadth":     {{ "text": "..." }},
+    "credit":      {{ "text": "..." }},
+    "rates":       {{ "text": "..." }},
+    "commodities": {{ "text": "..." }},
+    "sectors":     {{ "text": "..." }}
   }}
 }}
 
