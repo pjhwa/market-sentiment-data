@@ -1,0 +1,33 @@
+{
+  "generated_at": "2026-05-30T00:23:55Z",
+  "schema_version": "1.0",
+  "slot": "post_close",
+  "overall": {
+    "summary": "저변동성 속 기술주 중심 강세",
+    "bullets": [
+      "VIX 15.3 DOWNTREND",
+      "QQQ·SMH UPTREND",
+      "원유·금 DISTRIBUTION"
+    ]
+  },
+  "groups": {
+    "volatility": {
+      "text": "VIX 급락으로 저변동성 국면"
+    },
+    "breadth": {
+      "text": "소형주·반도체 강세로 폭 확대"
+    },
+    "credit": {
+      "text": "신용채 가격 상승에도 DOWNTREND"
+    },
+    "rates": {
+      "text": "달러 DOWNTREND, 금리 하락 압력"
+    },
+    "commodities": {
+      "text": "원유·금 모두 DISTRIBUTION 단계"
+    },
+    "sectors": {
+      "text": "기술·반도체 UPTREND, 에너지 약세"
+    }
+  }
+}
