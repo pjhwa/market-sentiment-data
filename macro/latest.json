@@ -1,33 +1,33 @@
 {
-  "generated_at": "2026-05-30T13:45:00Z",
+  "generated_at": "2026-05-30T21:45:00Z",
   "schema_version": "1.0",
-  "slot": "pre_open",
+  "slot": "post_close",
   "overall": {
-    "summary": "기술주 강세 속 변동성 낮아 매수 우호적",
+    "summary": "기술주 강세, 변동성 낮고 원자재 약세",
     "bullets": [
       "VIX 15 하락 → 공포 낮음, 매수 우호",
-      "QQQ·SMH 상승추세 → 기술주 강세",
-      "원유 분산 → 원자재 조정 중"
+      "QQQ·SMH 상승추세 → 기술·반도체 강세",
+      "원유·금 분산 → 원자재 섹터 조정"
     ]
   },
   "groups": {
     "volatility": {
-      "text": "VIX·VVIX 하락 → 변동성 축소 국면"
+      "text": "VIX·VVIX 모두 하락 → 변동성 낮아 안정적"
     },
     "breadth": {
-      "text": "RSP·IWM 상승 → 시장 참여 확대"
+      "text": "RSP·IWM 상승추세 → 시장 폭 확대"
     },
     "credit": {
-      "text": "HYG·JNK 소폭 상승 → 신용 안정"
+      "text": "HYG·JNK·LQD DOWNTREND → 신용시장 안정"
     },
     "rates": {
-      "text": "TNX 상승추세 → 금리 압력 지속"
+      "text": "TNX UPTREND, TLT DOWNTREND → 금리 상승 압력"
     },
     "commodities": {
-      "text": "CL·GLD 분산 → 원자재 약세"
+      "text": "CL·GLD DISTRIBUTION → 원자재 가격 조정"
     },
     "sectors": {
-      "text": "SMH·QQQ 강세 → 기술 섹터 주도"
+      "text": "SMH·MAGS UPTREND → 성장주 중심 강세"
     }
   }
 }

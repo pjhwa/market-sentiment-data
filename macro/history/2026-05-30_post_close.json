@@ -1,33 +1,33 @@
 {
-  "generated_at": "2026-05-30T00:35:16Z",
+  "generated_at": "2026-05-30T21:45:00Z",
   "schema_version": "1.0",
   "slot": "post_close",
   "overall": {
-    "summary": "저변동성 속 기술주 강세, 위험선호 지속",
+    "summary": "기술주 강세, 변동성 낮고 원자재 약세",
     "bullets": [
-      "VIX 15 하락 → 공포 낮아 매수 우호",
-      "QQQ·SMH 상승추세 → 기술주 모멘텀 강력",
-      "원유·금 분산 → 원자재 섹터 조정 중"
+      "VIX 15 하락 → 공포 낮음, 매수 우호",
+      "QQQ·SMH 상승추세 → 기술·반도체 강세",
+      "원유·금 분산 → 원자재 섹터 조정"
     ]
   },
   "groups": {
     "volatility": {
-      "text": "VIX·VVIX 모두 하락하며 시장 변동성 축소"
+      "text": "VIX·VVIX 모두 하락 → 변동성 낮아 안정적"
     },
     "breadth": {
-      "text": "RSP·IWM 상승으로 시장 폭 확대 국면"
+      "text": "RSP·IWM 상승추세 → 시장 폭 확대"
     },
     "credit": {
-      "text": "하이일드·투자등급채 양호, 스프레드 안정"
+      "text": "HYG·JNK·LQD DOWNTREND → 신용시장 안정"
     },
     "rates": {
-      "text": "10년물 금리 상승추세, 장기채는 구조적 약세"
+      "text": "TNX UPTREND, TLT DOWNTREND → 금리 상승 압력"
     },
     "commodities": {
-      "text": "원유·금 모두 분산 단계로 조정 진행 중"
+      "text": "CL·GLD DISTRIBUTION → 원자재 가격 조정"
     },
     "sectors": {
-      "text": "기술·반도체 강세, 에너지·소비재는 약세"
+      "text": "SMH·MAGS UPTREND → 성장주 중심 강세"
     }
   }
 }
