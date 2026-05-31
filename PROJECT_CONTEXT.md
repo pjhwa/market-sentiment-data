@@ -242,6 +242,36 @@ Fetches earnings data via yfinance and generates Grok-based risk interpretation.
 6. Grok call with tiered data → risk interpretation per symbol
 7. Write `earnings/latest.json` + history file
 
+**Grok output schema (v2.0 — bilingual, per symbol):**
+```json
+{
+  "upcoming_earnings": [{
+    "symbol": "TSLA",
+    "earnings_date": "2026-07-22",
+    "days_until": 52,
+    "eps_estimate": 0.62,
+    "revenue_estimate_b": 27.4,
+    "historical_beat_rate": 0.75,
+    "ai_summary_en": "Strong delivery growth expected; FSD ramp key upside catalyst.",
+    "ai_summary_ko": "강한 인도 성장 기대; FSD 확대가 핵심 상방 촉매.",
+    "risk_level": "med",
+    "action_note_en": "Hold through earnings; size down if already extended.",
+    "action_note_ko": "실적 통과 시 보유 유지; 이미 과확장 시 비중 축소."
+  }],
+  "recent_results": [{
+    "symbol": "AAPL",
+    "report_date": "2026-05-01",
+    "eps_actual": 1.65,
+    "eps_estimate": 1.58,
+    "surprise_pct": 4.4,
+    "ai_reaction_en": "Beat on EPS and revenue; services growth re-accelerating.",
+    "ai_reaction_ko": "EPS·매출 모두 상회; 서비스 부문 성장 재가속."
+  }]
+}
+```
+
+**v1.x backward-compat fields** (`ai_summary`, `action_note`, `ai_reaction`) are no longer generated but remain accepted by SniperBoard via `tField()` fallback.
+
 **Hardening features:**
 - calendar → `earnings_dates`/`earnings_estimate` fallback
 - Numeric and date validation (0–30 day bounds, EPS sanity checks)
@@ -266,25 +296,29 @@ Fetches SniperBoard's macro data and generates group-level AI interpretation.
 - Commodities: GLD, SLV, USO, DBA
 - Sectors: XLF, XLE, XLK, XLV, XLU, XLB
 
-**Grok output schema:**
+**Grok output schema (v2.0 — bilingual):**
 ```json
 {
   "overall": {
-    "summary": "one-sentence market summary (Korean, ≤40 chars)",
-    "bullets": ["signal → meaning", "signal → meaning", "signal → meaning"]
+    "summary_en": "one-sentence market summary (English, ≤60 chars)",
+    "summary_ko": "한 문장 시장 요약 (Korean, ≤40 chars)",
+    "bullets_en": ["signal → meaning", "signal → meaning", "signal → meaning"],
+    "bullets_ko": ["신호 → 시장 의미", "신호 → 시장 의미", "신호 → 시장 의미"]
   },
   "groups": {
-    "volatility":  { "text": "..." },
-    "breadth":     { "text": "..." },
-    "credit":      { "text": "..." },
-    "rates":       { "text": "..." },
-    "commodities": { "text": "..." },
-    "sectors":     { "text": "..." }
+    "volatility":  { "text_en": "...", "text_ko": "..." },
+    "breadth":     { "text_en": "...", "text_ko": "..." },
+    "credit":      { "text_en": "...", "text_ko": "..." },
+    "rates":       { "text_en": "...", "text_ko": "..." },
+    "commodities": { "text_en": "...", "text_ko": "..." },
+    "sectors":     { "text_en": "...", "text_ko": "..." }
   }
 }
 ```
 
 Bullet format rule: "핵심 신호 → 시장 의미" (signal → market meaning), ≤25 chars each. Raw state listing is prohibited.
+
+**v1.x backward-compat fields** (`summary`, `bullets[]`, `text`) are no longer generated but remain accepted by SniperBoard via `tField()` fallback.
 
 ---
 
