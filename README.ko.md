@@ -14,7 +14,7 @@ SniperBoard를 비롯한 모든 소비 프로그램은 이 리포의 raw URL만 
 ```
 market-sentiment-data/
 ├── README.md              # 이 문서
-├── schema.json            # 데이터 계약 (JSON Schema draft-07, v1.4)
+├── schema.json            # 데이터 계약 (JSON Schema draft-07, v2.0)
 ├── latest.json            # 가장 최근 스냅샷 — 소비측이 주로 읽는 파일
 ├── history/
 │   ├── 2026-05-21_pre_open.json    # 당일 pre_open 슬롯 (13:00 UTC)
@@ -33,7 +33,7 @@ market-sentiment-data/
 - **`history/YYYY-MM-DD_post_close.json`**: 미국 장 마감 후(21:00 UTC) 스냅샷. `intraday_shift` 포함.
 - **`history/YYYY-MM-DD.json`**: v1.1 이전 구형 파일. 소비측 폴백으로 보존.
 
-> **schema_version 이력:** 1.0 기본 | 1.1 price_context+divergence | 1.2 slot+intraday_shift | 1.3 composite_score | **1.4 top_news 추가 (현재)**
+> **schema_version 이력:** 1.0 기본 | 1.1 price_context+divergence | 1.2 slot+intraday_shift | 1.3 composite_score | 1.4 top_news | **2.0 이중 언어 _en/_ko 필드 (현재)**
 
 ---
 
@@ -88,8 +88,10 @@ data = resp.json()
 | `extreme_flag` (market만) | `none` `extreme_fear` `extreme_greed` |
 | `slot` | `pre_open` `post_close` |
 | `intraday_shift` | `cooling` `stable` `heating` `null` |
-| `top_news.headline` | 문자열 — 가장 많이 언급된 뉴스/포스트 원문 제목 |
-| `top_news.summary` | 문자열 — 1-2문장 한국어 요약 |
+| `top_news.headline_en` | 문자열 — 가장 많이 언급된 뉴스/포스트 원문 제목 (영어) |
+| `top_news.headline_ko` | 문자열 — 제목 한국어 번역 |
+| `top_news.summary_en` | 문자열 — 1-2문장 요약 (영어) |
+| `top_news.summary_ko` | 문자열 — 1-2문장 요약 (한국어) |
 | `top_news.source` | 문자열 — 출처 (Bloomberg, @username 등) |
 
 ---

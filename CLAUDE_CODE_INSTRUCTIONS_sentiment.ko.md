@@ -65,7 +65,8 @@
   "sentiment_score": 1,
   "trend_vs_yesterday": "cooling",
   "mention_volume": "elevated",
-  "key_reason": "Q2 인도량 가이던스 상향에 대한 기대",
+  "key_reason_en": "Expectations for raised Q2 delivery guidance",
+  "key_reason_ko": "Q2 인도량 가이던스 상향에 대한 기대",
   "bot_suspected": "no",
   "confidence": "high",
   "source": "grok-oauth via hermes"
@@ -80,11 +81,12 @@
 | `sentiment_score` | 정수 −2 ~ +2 | 위 범주의 수치 매핑 (계산 편의용) |
 | `trend_vs_yesterday` | `cooling` `stable` `heating` | 어제 대비 변화 |
 | `mention_volume` | `low` `normal` `elevated` `surging` | 언급량 |
-| `key_reason` | 한 줄 문자열 | 화제의 핵심 사유 |
+| `key_reason_en` | 한 줄 문자열 (영어) | 화제의 핵심 사유 (영어) |
+| `key_reason_ko` | 한 줄 문자열 (한국어) | 화제의 핵심 사유 (한국어) |
 | `bot_suspected` | `yes` `no` `unclear` | 봇·펌프성 글 의심 여부 |
 | `confidence` | `high` `med` `low` | Grok 자체 신뢰도. `low`면 소비측에서 중립 취급 |
 | `source` | 문자열 | 출처 추적용 |
-| `top_news` (optional) | `{headline, summary, source}` or `null` | 수집 시점에 가장 많이 언급된 뉴스 1건. v1.4 추가. |
+| `top_news` (optional) | `{headline_en, headline_ko, summary_en, summary_ko, source}` or `null` | 수집 시점에 가장 많이 언급된 뉴스 1건. v1.4 추가, v2.0에서 이중 언어 필드로 확장. |
 
 > **중요:** 정량값(`sentiment_score`)은 범주(`sentiment`)에서 결정론적으로 파생된 것일 뿐, Grok이 "73% 긍정" 같은 가짜 정밀도를 주게 하지 마라. 이전 분석에서 합의된 원칙이다 — Grok은 표본을 통제하지 못하므로 범주값만 신뢰한다.
 
@@ -99,7 +101,8 @@
     "sentiment_score": 0,
     "trend_vs_yesterday": "stable",
     "extreme_flag": "none",
-    "key_reason": "FOMC 앞두고 관망세",
+    "key_reason_en": "Risk-off ahead of FOMC",
+    "key_reason_ko": "FOMC 앞두고 관망세",
     "confidence": "med"
   },
   "symbols": [ /* 위 per-symbol 객체 배열, WATCHLIST 6종목 */ ],
@@ -155,7 +158,8 @@ Schema (use these exact enum values):
   "sentiment": one of ["very_fearful","fearful","neutral","optimistic","euphoric"],
   "trend_vs_yesterday": one of ["cooling","stable","heating"],
   "mention_volume": one of ["low","normal","elevated","surging"],
-  "key_reason": "one short sentence in Korean",
+  "key_reason_en": "one short sentence in English",
+  "key_reason_ko": "one short sentence in Korean",
   "bot_suspected": one of ["yes","no","unclear"],
   "confidence": one of ["high","med","low"]
 }
@@ -215,6 +219,8 @@ Rules:
 > **비용·예의 주의:** Grok 호출 빈도 = 비용/부하. 하루 1~2회로 시작하라. 분 단위 폴링은 보조 지표에 과하다. 또한 cron 환경에는 PATH가 빈약하므로 `hermes` 절대경로를 쓰거나 스크립트 안에서 PATH를 보강하라.
 
 **top_news 추가 (2026-05-28, schema v1.4):** `collect_sentiment.py` 프롬프트에 `top_news` 필드 추가. Grok이 가장 많이 공유/언급된 뉴스 1건을 `{headline, summary, source}` 형태로 반환. 없으면 `null`. `validate_top_news()` 헬퍼로 구조 검증 후 `build_symbol_entry`/`build_market_entry`에 포함. SniperBoard SentimentBoard에서 "주요 뉴스" 박스로 표시.
+
+**이중 언어 필드 확장 (schema v2.0):** `top_news`의 `headline`→`headline_en`+`headline_ko`, `summary`→`summary_en`+`summary_ko`로 분리. `key_reason`→`key_reason_en`+`key_reason_ko`로 분리. 소비측은 locale에 따라 `_en` 또는 `_ko` 필드를 선택해 표시.
 
 **Earnings 수집기 별도 강화 (2026-05 Phase 3, yf-accuracy-harden plan complete):** `collect/collect_earnings.py` 는 calendar → earnings_dates/earnings_estimate 폴백, 0-30일 날짜·numeric EPS 검증, raw shape 로깅 (per-sym + overall), jsonschema + lightweight 스키마 검증 pre-write, partial 플래그 + hermes/fail 시에도 graceful usable output (no crash, sys.exit 방지), --dry-run 지원. (schema.json 은 earnings 전용 정의를 갖고 있지 않으며 별도 내부 스키마 사용.) Phase 5: 48 collect/ tests green. 
 
