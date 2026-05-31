@@ -1,36 +1,30 @@
 {
-  "generated_at": "2026-05-31T08:47:00Z",
+  "generated_at": "2026-05-31T21:00:01Z",
   "schema_version": "2.0",
   "slot": "post_close",
   "market": {
-    "as_of": "2026-05-31T08:47:00Z",
-    "sentiment": "optimistic",
-    "sentiment_score": 1,
+    "as_of": "2026-05-31T21:00:01Z",
+    "sentiment": "fearful",
+    "sentiment_score": -1,
     "trend_vs_yesterday": "stable",
     "extreme_flag": "none",
-    "key_reason_en": "S&P 500 hitting record highs on narrow AI/tech leadership and record-low correlations.",
-    "key_reason_ko": "S&P 500가 AI·기술주 집중과 사상 최저 상관관계 속에 신고점을 기록 중이다.",
+    "key_reason_en": "S&P 500 near all-time highs but X commentary shows caution over high valuations, AI concentration, Buffett cash pile, and recession risks.",
+    "key_reason_ko": "S&P 500가 사상 최고치 근처지만 X에서는 높은 밸류에이션, AI 집중, 버핏 현금 보유, 경기침체 위험에 대한 경계감이 두드러진다.",
     "confidence": "med",
-    "top_news": {
-      "headline_en": "S&P 500 Tech Sector Hits 37% of Index, Highest Ever",
-      "headline_ko": "S&P 500 기술 섹터 지수 비중 37%로 사상 최고",
-      "summary_en": "Information Technology sector reaches all-time high 37% share of S&P 500 market cap, exceeding dot-com bubble peak, driven by a handful of AI mega-caps.",
-      "summary_ko": "정보기술 섹터가 S&P 500 시가총액 비중 37%로 사상 최고를 기록하며 닷컴 버블 피크를 넘어섰다. 소수 AI mega-cap 주도.",
-      "source": "@MarioNawfal"
-    },
-    "intraday_shift": null,
-    "composite_score": 0.8
+    "top_news": null,
+    "intraday_shift": "stable",
+    "composite_score": -0.8
   },
   "symbols": [
     {
       "symbol": "TSLA",
-      "as_of": "2026-05-31T08:47:00Z",
+      "as_of": "2026-05-31T21:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
-      "trend_vs_yesterday": "stable",
-      "mention_volume": "elevated",
-      "key_reason_en": "Strong owner enthusiasm around FSD progress and long-term autonomy/robotaxi/Optimus potential amid valuation debate.",
-      "key_reason_ko": "FSD 진행과 장기 자율주행/로보택시/옵티머스 잠재력에 대한 소유주 열정이 밸류에이션 논쟁 속에서도 두드러집니다.",
+      "trend_vs_yesterday": "heating",
+      "mention_volume": "normal",
+      "key_reason_en": "Positive discussion driven by FSD V14 updates, vision AI improvements, and Texas robotaxi regulatory approval.",
+      "key_reason_ko": "FSD V14 업데이트, 비전 AI 개선, 텍사스 로보택시 규제 승인으로 인한 긍정적 논의가 주를 이룸.",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -41,20 +35,26 @@
         "abnormal_move": false
       },
       "divergence": "bullish_divergence",
-      "top_news": null,
-      "intraday_shift": null,
-      "composite_score": 0.5
+      "top_news": {
+        "headline_en": "Texas Authorizes Tesla to Operate Driverless Vehicles Commercially",
+        "headline_ko": "텍사스, 테슬라 무인 차량 상업 운영 승인",
+        "summary_en": "Texas granted Tesla Level 4 self-certification for unsupervised robotaxi operations effective May 28, 2026, enabling commercial driverless service in Dallas and Houston.",
+        "summary_ko": "텍사스가 2026년 5월 28일부터 테슬라의 무인 로보택시 상업 운영을 위한 레벨 4 자가 인증을 승인하여 댈러스와 휴스턴에서 서비스가 가능해짐.",
+        "source": "X discussions / @ICannot_Enough"
+      },
+      "intraday_shift": "stable",
+      "composite_score": 0.6
     },
     {
       "symbol": "AAPL",
-      "as_of": "2026-05-31T08:47:00Z",
+      "as_of": "2026-05-31T21:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
-      "trend_vs_yesterday": "heating",
+      "trend_vs_yesterday": "stable",
       "mention_volume": "elevated",
-      "key_reason_en": "Bank of America raised price target to $380 with Buy rating amid AI momentum and WWDC anticipation",
-      "key_reason_ko": "뱅크오브아메리카가 AI 모멘텀과 WWDC 기대감으로 목표주가를 380달러로 상향 조정",
-      "bot_suspected": "unclear",
+      "key_reason_en": "Dominant buzz around late 2027 smart glasses (N50) launch and 2028 iOS/macOS redesigns with mixed excitement and skepticism on timelines.",
+      "key_reason_ko": "2027년 말 스마트 글래스(N50) 출시와 2028년 iOS/macOS 대규모 재설계 소식으로 기대와 타임라인 회의가 섞인 논의가 지배적입니다.",
+      "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
@@ -65,26 +65,26 @@
       },
       "divergence": "aligned",
       "top_news": {
-        "headline_en": "Bank of America raises AAPL price target from $330 to $380, names it top pick alongside NVDA",
-        "headline_ko": "뱅크오브아메리카 AAPL 목표주가 330→380달러 상향, NVDA와 함께 최선호주 지명",
-        "summary_en": "BofA upgraded Apple citing ongoing tech/AI rally and positioned it as a key holding in the current market environment.",
-        "summary_ko": "BofA는 기술·AI 랠리를 이유로 애플을 상향 조정하며 현재 시장에서 핵심 보유 종목으로 평가했다.",
-        "source": "@StockMarketZaps"
+        "headline_en": "Apple Targeting Late 2027 Launch for Smart Glasses (N50)",
+        "headline_ko": "애플, 스마트 글래스(N50) 2027년 말 출시 목표",
+        "summary_en": "Apple developing smart glasses codenamed N50 for late 2027 with deep iPhone integration, AI/AR features aiming to disrupt $200B eyewear market.",
+        "summary_ko": "애플이 아이폰과 깊게 통합된 AI/AR 기능의 스마트 글래스(N50)를 2027년 말 출시 목표로 개발 중이며 2000억 달러 규모 안경 시장을 혁신할 계획입니다.",
+        "source": "X / @theapplecycle @uncledoomer"
       },
-      "intraday_shift": null,
-      "composite_score": 1.2
+      "intraday_shift": "stable",
+      "composite_score": 1.0
     },
     {
       "symbol": "NVDA",
-      "as_of": "2026-05-31T08:47:00Z",
+      "as_of": "2026-05-31T21:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
-      "trend_vs_yesterday": "heating",
+      "trend_vs_yesterday": "stable",
       "mention_volume": "elevated",
-      "key_reason_en": "Strong excitement around NVIDIA's upcoming Computex keynote on ARM-based N1/N1X laptop chips and physical AI expansion.",
-      "key_reason_ko": "NVIDIA의 Computex 기조연설에서 ARM 기반 N1/N1X 노트북 칩과 물리적 AI 확장에 대한 기대감이 크다.",
+      "key_reason_en": "Strong earnings, AI demand, and new product momentum offset export control concerns.",
+      "key_reason_ko": "강력한 실적, AI 수요, 신제품 모멘텀이 수출 규제 우려를 상쇄합니다.",
       "bot_suspected": "no",
-      "confidence": "high",
+      "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "calm",
@@ -94,24 +94,24 @@
       },
       "divergence": "bullish_divergence",
       "top_news": {
-        "headline_en": "A new era of PC.",
-        "headline_ko": "PC의 새로운 시대.",
-        "summary_en": "NVIDIA teases ARM-based N1/N1X SoCs for Windows laptops at Computex, partnering with Microsoft and Arm; major OEMs like Dell lined up.",
-        "summary_ko": "NVIDIA가 Computex에서 Microsoft, Arm과 함께 Windows 노트북용 ARM 기반 N1/N1X 칩을 예고하며 Dell 등 주요 OEM이 참여한다.",
-        "source": "@nvidia"
+        "headline_en": "US Tightens AI Chip Export Controls on Nvidia to Chinese Entities",
+        "headline_ko": "미국, 중국 본사 기업 대상 Nvidia AI 칩 수출 규제 강화",
+        "summary_en": "Commerce Dept requires export licenses for advanced Nvidia chips to Chinese-headquartered firms even via foreign subs. Posts describe it as escalation in US-China chip war with short-term market impact.",
+        "summary_ko": "상무부가 중국 본사 기업에 대한 첨단 Nvidia 칩 수출 허가를 의무화. US-중국 칩 전쟁 격화로 단기 시장 영향 언급.",
+        "source": "@wallstengine and related X posts"
       },
-      "intraday_shift": null,
-      "composite_score": 1.0
+      "intraday_shift": "stable",
+      "composite_score": 0.5
     },
     {
       "symbol": "META",
-      "as_of": "2026-05-31T08:47:00Z",
+      "as_of": "2026-05-31T21:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
-      "trend_vs_yesterday": "stable",
+      "trend_vs_yesterday": "heating",
       "mention_volume": "elevated",
-      "key_reason_en": "Discussion centers on Meta One subscription rollout and AI monetization as growth drivers with positive analyst notes.",
-      "key_reason_ko": "Meta One 구독 롤아웃과 AI 수익화가 성장 동력으로 논의되며 긍정적 분석가 의견이 주를 이룸.",
+      "key_reason_en": "Investors view META as undervalued due to AI monetization progress in advertising and strong data moat despite capex.",
+      "key_reason_ko": "투자자들은 광고 AI 수익화 진전과 강력한 데이터 해자 때문에 META를 저평가된 종목으로 본다.",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -122,25 +122,19 @@
         "abnormal_move": false
       },
       "divergence": "bullish_divergence",
-      "top_news": {
-        "headline_en": "Meta rolling out paid subscriptions globally under Meta One strategy including AI and creator plans",
-        "headline_ko": "Meta, Meta One 전략으로 AI 및 크리에이터 플랜 포함 유료 구독 전 세계 롤아웃",
-        "summary_en": "Meta is expanding paid subscriptions across Instagram, Facebook, and WhatsApp as part of diversification beyond ads into recurring revenue and AI products. Analysts reiterate Buy ratings with significant upside targets.",
-        "summary_ko": "Meta가 광고 외 수익 다각화를 위해 Instagram, Facebook, WhatsApp 전반에 유료 구독을 확대하고 있으며 AI 제품으로의 전환을 추진 중. 분석가들은 Buy 등급과 상당한 상승 여력을 재확인.",
-        "source": "@TacticzH / Rosenblatt"
-      },
-      "intraday_shift": null,
-      "composite_score": 0.5
+      "top_news": null,
+      "intraday_shift": "stable",
+      "composite_score": 0.8
     },
     {
       "symbol": "AMZN",
-      "as_of": "2026-05-31T08:47:00Z",
+      "as_of": "2026-05-31T21:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "elevated",
-      "key_reason_en": "Investors highlight accelerating AWS AI growth, logistics automation gains, and reasonable valuation after reset.",
-      "key_reason_ko": "투자자들은 AWS AI 성장 가속, 물류 자동화 개선, 밸류에이션 리셋 후 합리적 가격을 강조합니다.",
+      "key_reason_en": "Positive buzz around $6B AWS-Snowflake deal and Bridgewater doubling its position amid AI/cloud growth focus.",
+      "key_reason_ko": "$6B 규모 AWS-스노우플레이크 계약과 브리지워터의 포지션 확대, AI 클라우드 성장에 긍정적 반응.",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -152,24 +146,24 @@
       },
       "divergence": "bullish_divergence",
       "top_news": {
-        "headline_en": "Bank of America reiterates Buy rating on AMZN with $310 price target",
-        "headline_ko": "Bank of America, AMZN에 Buy 등급 재확인 및 목표가 $310 제시",
-        "summary_en": "BofA highlights Amazon's logistics moat, robotics progress, and grocery opportunity as key drivers. Stock discussed near $270-274 with strong AWS momentum.",
-        "summary_ko": "BofA는 아마존의 물류 경쟁력, 로봇 공학 진전, 식료품 기회를 주요 동력으로 지적. 주가는 $270-274 근처에서 AWS 모멘텀 강세로 논의됨.",
-        "source": "@1rabbitresearch / BofA Securities"
+        "headline_en": "Amazon signs $6B multi-year deal with Snowflake on AWS",
+        "headline_ko": "아마존, 스노우플레이크와 AWS 60억 달러 다년 계약 체결",
+        "summary_en": "Snowflake to spend $6B over five years on AWS including Graviton and GPU instances for AI workloads, highlighting AWS infrastructure strength.",
+        "summary_ko": "스노우플레이크가 향후 5년간 AWS에 60억 달러 지출, AI 워크로드용 그래비톤·GPU 인스턴스 사용 확대하며 AWS 인프라 역할 강조.",
+        "source": "@StockSavvyShay / X"
       },
-      "intraday_shift": null,
+      "intraday_shift": "stable",
       "composite_score": 0.5
     },
     {
       "symbol": "GOOGL",
-      "as_of": "2026-05-31T08:47:00Z",
+      "as_of": "2026-05-31T21:00:01Z",
       "sentiment": "optimistic",
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "elevated",
-      "key_reason_en": "Strong Q1 earnings beat and Google Cloud margin momentum viewed as validation of AI/cloud strategy with long-term compounding potential.",
-      "key_reason_ko": "강력한 1분기 실적 상회와 Google Cloud 마진 모멘텀이 AI/클라우드 전략의 검증으로 평가되며 장기 복리 잠재력이 주목받고 있다.",
+      "key_reason_en": "Strong Google Cloud growth to $20B (+63%) and AI platform positioning highlighted in recent earnings discussions.",
+      "key_reason_ko": "최근 실적 논의에서 Google Cloud가 200억 달러(+63%)로 성장하고 AI 플랫폼으로의 포지셔닝이 강조됨.",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -181,26 +175,26 @@
       },
       "divergence": "bullish_divergence",
       "top_news": {
-        "headline_en": "Alphabet posts strong Q1 beat as Google Cloud margins approach AWS levels on half the revenue",
-        "headline_ko": "Alphabet, Google Cloud 마진이 AWS 수준에 근접하며 1분기 실적 대폭 상회",
-        "summary_en": "Posts highlight advertising, YouTube and especially Cloud strength after earnings, with Cloud margins nearly matching AWS despite lower revenue; viewed as proof of AI investment payoff.",
-        "summary_ko": "광고·유튜브·클라우드 실적이 1분기 어닝을 주도했으며, 클라우드 마진이 매출 절반 수준에서 AWS에 근접해 AI 투자 성과로 평가됨.",
-        "source": "@fiscal_ai / earnings discussion"
+        "headline_en": "Alphabet reports $109.9B revenue (+22% YoY) with Google Cloud hitting $20B quarterly run-rate",
+        "headline_ko": "Alphabet, 매출 1099억 달러(+22% YoY) 보고하며 Google Cloud 분기 200억 달러 달성",
+        "summary_en": "Posts focus on Q1 results showing Cloud backlog near $460B and operating margin expansion, positioning Alphabet as a leading AI infrastructure name alongside peers.",
+        "summary_ko": "게시물들은 1분기 실적에서 Cloud 백로그 약 4600억 달러와 영업 마진 확대를 강조하며 Alphabet을 AI 인프라 선도주로 평가.",
+        "source": "X trader/analyst posts"
       },
-      "intraday_shift": null,
+      "intraday_shift": "stable",
       "composite_score": 0.5
     },
     {
       "symbol": "PLTR",
-      "as_of": "2026-05-31T08:47:00Z",
-      "sentiment": "euphoric",
-      "sentiment_score": 2,
+      "as_of": "2026-05-31T21:00:01Z",
+      "sentiment": "optimistic",
+      "sentiment_score": 1,
       "trend_vs_yesterday": "heating",
-      "mention_volume": "surging",
-      "key_reason_en": "Q1 results showing 85% revenue growth plus confirmed PRISMA AI deployment in Ukrainian drone operations driving strong retail excitement and momentum.",
-      "key_reason_ko": "Q1 실적 85% 매출 성장에 우크라이나 드론 작전에 PRISMA AI 배치 확인 소식이 더해지며 소매 투자자들의 강한 기대와 모멘텀을 유발.",
+      "mention_volume": "elevated",
+      "key_reason_en": "Retail traders bullish on AI/defense growth, recent breakout on heavy volume, and Trump comments despite UK contract criticism.",
+      "key_reason_ko": "소매 투자자들이 AI/방산 성장, 대량 거래량 돌파, 트럼프 언급에 낙관적이며 영국 계약 논란에도 불구하고 있다.",
       "bot_suspected": "no",
-      "confidence": "high",
+      "confidence": "med",
       "source": "grok-oauth via hermes",
       "price_context": {
         "volatility": "elevated",
@@ -210,14 +204,14 @@
       },
       "divergence": "aligned",
       "top_news": {
-        "headline_en": "CNN confirms Palantir PRISMA software used in Ukrainian long-range drone strike command centers",
-        "headline_ko": "CNN, 팔란티어 PRISMA 소프트웨어가 우크라이나 장거리 드론 공격 지휘 센터에서 사용 중이라고 확인",
-        "summary_en": "CNN footage shows commanders using Palantir PRISMA for real-time mapping, flight path optimization, and AI overlays to route drones through Russian air defense gaps.",
-        "summary_ko": "CNN 영상에서 지휘관들이 실시간 지도 작성, 비행 경로 최적화, AI 오버레이를 통해 러시아 방공망을 피하는 드론 경로를 설정하는 데 PRISMA를 사용하는 모습 포착.",
-        "source": "CNN/@GlobalFlash_Cam"
+        "headline_en": "UK MoD £240m Palantir contract leak raises transparency and cronyism concerns",
+        "headline_ko": "영국 국방부 2억 4천만 파운드 팔란티어 계약 유출로 투명성 및 정실 논란",
+        "summary_en": "Leaked contract details show no competitive tender, heavy redactions, and gag clauses; critics question sovereignty and data control given Palantir's US intel ties.",
+        "summary_ko": "유출된 계약서에 경쟁 입찰 없음, 대량 편집, 재갈 조항이 드러나며 팔란티어의 미국 정보기관 연계로 주권과 데이터 통제에 대한 비판이 제기됐다.",
+        "source": "@EaarthNet / X posts"
       },
-      "intraday_shift": null,
-      "composite_score": 2.0
+      "intraday_shift": "stable",
+      "composite_score": 1.3
     }
   ]
 }
