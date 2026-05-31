@@ -113,8 +113,10 @@ class TestLoadPreOpenScores(unittest.TestCase):
 class TestValidateTopNews(unittest.TestCase):
     def test_valid_top_news(self):
         tn = {
-            "headline": "BofA raises AAPL target to $250",
-            "summary": "BofA가 애플 목표주가를 상향했다.",
+            "headline_en": "BofA raises AAPL target to $250",
+            "headline_ko": "BofA, 애플 목표주가 $250으로 상향",
+            "summary_en": "BofA raised its Apple price target to $250.",
+            "summary_ko": "BofA가 애플 목표주가를 상향했다.",
             "source": "Bloomberg",
         }
         self.assertTrue(cs.validate_top_news(tn))
@@ -122,17 +124,27 @@ class TestValidateTopNews(unittest.TestCase):
     def test_none_is_valid(self):
         self.assertTrue(cs.validate_top_news(None))
 
-    def test_missing_headline_invalid(self):
-        self.assertFalse(cs.validate_top_news({"summary": "요약", "source": "출처"}))
+    def test_missing_headline_en_invalid(self):
+        self.assertFalse(cs.validate_top_news({
+            "headline_ko": "제목", "summary_en": "summary", "summary_ko": "요약", "source": "출처",
+        }))
 
-    def test_missing_summary_invalid(self):
-        self.assertFalse(cs.validate_top_news({"headline": "제목", "source": "출처"}))
+    def test_missing_summary_en_invalid(self):
+        self.assertFalse(cs.validate_top_news({
+            "headline_en": "headline", "headline_ko": "제목", "summary_ko": "요약", "source": "출처",
+        }))
 
     def test_missing_source_invalid(self):
-        self.assertFalse(cs.validate_top_news({"headline": "제목", "summary": "요약"}))
+        self.assertFalse(cs.validate_top_news({
+            "headline_en": "headline", "headline_ko": "제목",
+            "summary_en": "summary", "summary_ko": "요약",
+        }))
 
-    def test_non_string_headline_invalid(self):
-        self.assertFalse(cs.validate_top_news({"headline": 123, "summary": "요약", "source": "출처"}))
+    def test_non_string_headline_en_invalid(self):
+        self.assertFalse(cs.validate_top_news({
+            "headline_en": 123, "headline_ko": "제목",
+            "summary_en": "summary", "summary_ko": "요약", "source": "출처",
+        }))
 
     def test_non_dict_non_none_invalid(self):
         self.assertFalse(cs.validate_top_news("not a dict"))
@@ -144,7 +156,8 @@ class TestBuildSymbolEntryTopNews(unittest.TestCase):
             "sentiment": "optimistic",
             "trend_vs_yesterday": "stable",
             "mention_volume": "normal",
-            "key_reason": "테스트 이유",
+            "key_reason_en": "Test reason",
+            "key_reason_ko": "테스트 이유",
             "bot_suspected": "no",
             "confidence": "med",
         }
@@ -152,8 +165,10 @@ class TestBuildSymbolEntryTopNews(unittest.TestCase):
     def test_top_news_included_when_present(self):
         raw = self._base_raw()
         raw["top_news"] = {
-            "headline": "BofA raises AAPL to $250",
-            "summary": "BofA가 목표주가를 상향했다.",
+            "headline_en": "BofA raises AAPL to $250",
+            "headline_ko": "BofA, 애플 목표주가 $250으로 상향",
+            "summary_en": "BofA raised its Apple price target.",
+            "summary_ko": "BofA가 목표주가를 상향했다.",
             "source": "Bloomberg",
         }
         entry = cs.build_symbol_entry(raw, "AAPL", "2026-05-28T13:00:00Z", {}, "aligned")
@@ -178,15 +193,18 @@ class TestBuildMarketEntryTopNews(unittest.TestCase):
             "sentiment": "fearful",
             "trend_vs_yesterday": "cooling",
             "extreme_flag": "none",
-            "key_reason": "마켓 테스트",
+            "key_reason_en": "Market test reason",
+            "key_reason_ko": "마켓 테스트",
             "confidence": "high",
         }
 
     def test_top_news_included_when_present(self):
         raw = self._base_raw()
         raw["top_news"] = {
-            "headline": "Fed holds rates",
-            "summary": "연준이 금리를 동결했다.",
+            "headline_en": "Fed holds rates",
+            "headline_ko": "연준 금리 동결",
+            "summary_en": "The Fed held rates steady at its latest meeting.",
+            "summary_ko": "연준이 금리를 동결했다.",
             "source": "Reuters",
         }
         entry = cs.build_market_entry(raw, "2026-05-28T13:00:00Z")
@@ -197,6 +215,90 @@ class TestBuildMarketEntryTopNews(unittest.TestCase):
         raw = self._base_raw()
         entry = cs.build_market_entry(raw, "2026-05-28T13:00:00Z")
         self.assertIsNone(entry.get("top_news"))
+
+
+class TestValidateBilingualFields(unittest.TestCase):
+    def test_validate_symbol_fields_accepts_bilingual(self):
+        data = {
+            "symbol": "TSLA",
+            "sentiment": "optimistic",
+            "trend_vs_yesterday": "heating",
+            "mention_volume": "elevated",
+            "key_reason_en": "Robotaxi enthusiasm dominates",
+            "key_reason_ko": "로보택시 열광이 지배적이다",
+            "bot_suspected": "no",
+            "confidence": "med",
+        }
+        self.assertTrue(cs.validate_symbol_fields(data, "TSLA"))
+
+    def test_validate_symbol_fields_rejects_old_key_reason(self):
+        data = {
+            "symbol": "TSLA",
+            "sentiment": "optimistic",
+            "trend_vs_yesterday": "heating",
+            "mention_volume": "elevated",
+            "key_reason": "old field",
+            "bot_suspected": "no",
+            "confidence": "med",
+        }
+        self.assertFalse(cs.validate_symbol_fields(data, "TSLA"))
+
+    def test_validate_top_news_accepts_bilingual(self):
+        news = {
+            "headline_en": "Tesla announces new model",
+            "headline_ko": "테슬라 신모델 발표",
+            "summary_en": "Tesla announced a new affordable model targeting mass market.",
+            "summary_ko": "테슬라가 대중 시장을 겨냥한 저가형 신모델을 발표했다.",
+            "source": "@elonmusk",
+        }
+        self.assertTrue(cs.validate_top_news(news))
+
+    def test_validate_top_news_rejects_old_headline(self):
+        news = {
+            "headline": "old headline",
+            "summary": "old summary",
+            "source": "@foo",
+        }
+        self.assertFalse(cs.validate_top_news(news))
+
+    def test_validate_top_news_accepts_none(self):
+        self.assertTrue(cs.validate_top_news(None))
+
+    def test_build_symbol_entry_uses_bilingual_fields(self):
+        raw = {
+            "sentiment": "optimistic",
+            "trend_vs_yesterday": "heating",
+            "mention_volume": "elevated",
+            "key_reason_en": "Robotaxi enthusiasm dominates",
+            "key_reason_ko": "로보택시 열광이 지배적이다",
+            "bot_suspected": "no",
+            "confidence": "med",
+            "top_news": {
+                "headline_en": "Tesla new model",
+                "headline_ko": "테슬라 신모델",
+                "summary_en": "Summary in English",
+                "summary_ko": "한국어 요약",
+                "source": "@foo",
+            },
+        }
+        entry = cs.build_symbol_entry(raw, "TSLA", "2026-05-31T21:00:00Z", {"available": False}, "none")
+        self.assertEqual(entry["key_reason_en"], "Robotaxi enthusiasm dominates")
+        self.assertEqual(entry["key_reason_ko"], "로보택시 열광이 지배적이다")
+        self.assertNotIn("key_reason", entry)
+
+    def test_build_market_entry_uses_bilingual_fields(self):
+        raw = {
+            "sentiment": "optimistic",
+            "trend_vs_yesterday": "heating",
+            "extreme_flag": "none",
+            "key_reason_en": "S&P 500 at record highs",
+            "key_reason_ko": "S&P 500 사상 최고 기록",
+            "confidence": "med",
+            "top_news": None,
+        }
+        entry = cs.build_market_entry(raw, "2026-05-31T21:00:00Z")
+        self.assertEqual(entry["key_reason_en"], "S&P 500 at record highs")
+        self.assertNotIn("key_reason", entry)
 
 
 if __name__ == "__main__":

@@ -92,17 +92,18 @@ Schema (exact enums):
   "sentiment": one of ["very_fearful","fearful","neutral","optimistic","euphoric"],
   "trend_vs_yesterday": one of ["cooling","stable","heating"],
   "mention_volume": one of ["low","normal","elevated","surging"],
-  "key_reason": "one short sentence in Korean",
+  "key_reason_en": "one short sentence in English",
+  "key_reason_ko": "한국어로 한 문장",
   "bot_suspected": one of ["yes","no","unclear"],
   "confidence": one of ["high","med","low"],
-  "top_news": {{"headline": "원문 제목 또는 가장 많이 공유된 포스트 캡션", "summary": "1-2문장 한국어 요약", "source": "출처(Bloomberg/@username 등)"}} or null if no clear top story
+  "top_news": {{"headline_en": "original English headline or most-shared post caption", "headline_ko": "한국어 제목 또는 번역", "summary_en": "1-2 sentence English summary", "summary_ko": "1-2문장 한국어 요약", "source": "출처(Bloomberg/@username 등)"}} or null if no clear top story
 }}
 
 Rules:
 - Determine sentiment ONLY from real posts, never inferred from the price context.
 - No invented percentages. Categorical enums only.
 - Thin/noisy sample → confidence "low".
-- top_news: pick the single most-shared or most-discussed news/post about this ticker. If nothing stands out, set it to null.
+- top_news: pick the single most-shared or most-discussed news/post about this ticker. Provide headline and summary in BOTH English (_en) and Korean (_ko). If nothing stands out, set it to null.
 - Output raw JSON only."""
 
 _CONTEXT_BLOCK_TEMPLATE = """\
@@ -126,16 +127,17 @@ Schema (use these exact enum values):
   "sentiment": one of ["very_fearful","fearful","neutral","optimistic","euphoric"],
   "trend_vs_yesterday": one of ["cooling","stable","heating"],
   "extreme_flag": one of ["none","extreme_fear","extreme_greed"],
-  "key_reason": "one short sentence in Korean",
+  "key_reason_en": "one short sentence in English",
+  "key_reason_ko": "한국어로 한 문장",
   "confidence": one of ["high","med","low"],
-  "top_news": {"headline": "원문 제목 또는 가장 많이 공유된 포스트 캡션", "summary": "1-2문장 한국어 요약", "source": "출처(Bloomberg/@username 등)"} or null if no clear top story
+  "top_news": {"headline_en": "original English headline or most-shared post caption", "headline_ko": "한국어 제목 또는 번역", "summary_en": "1-2 sentence English summary", "summary_ko": "1-2문장 한국어 요약", "source": "출처(Bloomberg/@username 등)"} or null if no clear top story
 }
 
 Rules:
 - Do NOT invent precise percentages. Use only the categorical enums above.
 - If the sample seems thin or very noisy, set confidence to "low".
 - If you cannot determine a field, use "neutral"/"stable"/"none" and lower confidence.
-- top_news: pick the single most-shared or most-discussed market news/macro post. If nothing stands out, set it to null.
+- top_news: pick the single most-shared or most-discussed market news/macro post. Provide headline and summary in BOTH English (_en) and Korean (_ko). If nothing stands out, set it to null.
 - Output the raw JSON object and nothing else."""
 
 
@@ -348,9 +350,10 @@ def validate_symbol_fields(data: dict, symbol: str) -> bool:
         if data[field] not in valid_values:
             print(f"[WARN] {symbol}: {field}={data[field]!r} 허용값 아님", file=sys.stderr)
             return False
-    if "key_reason" not in data or not isinstance(data["key_reason"], str):
-        print(f"[WARN] {symbol}: key_reason 누락 또는 타입 오류", file=sys.stderr)
-        return False
+    for field in ("key_reason_en", "key_reason_ko"):
+        if field not in data or not isinstance(data[field], str):
+            print(f"[WARN] {symbol}: {field} 누락 또는 타입 오류", file=sys.stderr)
+            return False
     return True
 
 
@@ -372,12 +375,12 @@ def validate_market_fields(data: dict) -> bool:
 
 
 def validate_top_news(data: dict | None) -> bool:
-    """top_news 구조 검증. None은 허용(optional 필드)."""
+    """top_news 구조 검증. None은 허용(optional 필드). v2.0: _en/_ko 필드 필수."""
     if data is None:
         return True
     if not isinstance(data, dict):
         return False
-    for field in ("headline", "summary", "source"):
+    for field in ("headline_en", "headline_ko", "summary_en", "summary_ko", "source"):
         if field not in data or not isinstance(data[field], str):
             return False
     return True
@@ -394,7 +397,8 @@ def build_symbol_entry(raw: dict, symbol: str, now_iso: str, ctx: dict, divergen
         "sentiment_score": SENTIMENT_SCORE_MAP[sentiment],
         "trend_vs_yesterday": raw["trend_vs_yesterday"],
         "mention_volume": raw["mention_volume"],
-        "key_reason": raw.get("key_reason", ""),
+        "key_reason_en": raw.get("key_reason_en", ""),
+        "key_reason_ko": raw.get("key_reason_ko", ""),
         "bot_suspected": raw["bot_suspected"],
         "confidence": raw["confidence"],
         "source": f"{'grok-oauth' if not HERMES_PROVIDER else HERMES_PROVIDER} via hermes",
@@ -417,7 +421,8 @@ def build_market_entry(raw: dict, now_iso: str) -> dict:
         "sentiment_score": SENTIMENT_SCORE_MAP[sentiment],
         "trend_vs_yesterday": raw["trend_vs_yesterday"],
         "extreme_flag": raw["extreme_flag"],
-        "key_reason": raw.get("key_reason", ""),
+        "key_reason_en": raw.get("key_reason_en", ""),
+        "key_reason_ko": raw.get("key_reason_ko", ""),
         "confidence": raw["confidence"],
         "top_news": raw.get("top_news") if validate_top_news(raw.get("top_news")) and raw.get("top_news") is not None else None,
     }
@@ -558,7 +563,8 @@ def main():
             "sentiment_score": 0,
             "trend_vs_yesterday": "stable",
             "extreme_flag": "none",
-            "key_reason": "시장 전체 데이터 수집 실패",
+            "key_reason_en": "Failed to collect market sentiment data",
+            "key_reason_ko": "시장 전체 데이터 수집 실패",
             "confidence": "low",
             "intraday_shift": None,
         }
@@ -566,7 +572,7 @@ def main():
     # ── latest.json + history/<date>.json 저장 ────────────────────────────────
     snapshot = {
         "generated_at": now_iso,
-        "schema_version": "1.4",
+        "schema_version": "2.0",
         "slot": slot,
         "market": market_entry,
         "symbols": symbol_entries,
