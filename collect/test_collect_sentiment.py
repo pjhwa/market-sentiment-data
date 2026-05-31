@@ -10,7 +10,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-import collect_sentiment as cs
+from collect import collect_sentiment as cs
 
 
 class TestDetectSlot(unittest.TestCase):
