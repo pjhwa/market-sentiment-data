@@ -14,8 +14,8 @@
     },
     "schema_version": {
       "type": "string",
-      "enum": ["1.0", "1.1", "1.2", "1.3", "1.4"],
-      "description": "1.0: 기본. 1.1: price_context+divergence. 1.2: slot+intraday_shift. 1.3: composite_score. 1.4: top_news 추가."
+      "enum": ["1.0", "1.1", "1.2", "1.3", "1.4", "2.0"],
+      "description": "1.0: 기본. 1.1: price_context+divergence. 1.2: slot+intraday_shift. 1.3: composite_score. 1.4: top_news 추가. 2.0: bilingual _en/_ko fields."
     },
     "slot": {
       "type": "string",
@@ -78,7 +78,7 @@
       "type": "object",
       "required": [
         "symbol", "as_of", "sentiment", "sentiment_score",
-        "trend_vs_yesterday", "mention_volume", "key_reason",
+        "trend_vs_yesterday", "mention_volume", "key_reason_en", "key_reason_ko",
         "bot_suspected", "confidence", "source"
       ],
       "additionalProperties": false,
@@ -96,9 +96,13 @@
         "sentiment_score": { "$ref": "#/definitions/SentimentScore" },
         "trend_vs_yesterday": { "$ref": "#/definitions/TrendEnum" },
         "mention_volume": { "$ref": "#/definitions/VolumeEnum" },
-        "key_reason": {
+        "key_reason_en": {
           "type": "string",
-          "description": "화제의 핵심 사유 (한 줄)"
+          "description": "화제의 핵심 사유 영문 (한 줄)"
+        },
+        "key_reason_ko": {
+          "type": "string",
+          "description": "화제의 핵심 사유 한국어 (한 줄)"
         },
         "bot_suspected": { "$ref": "#/definitions/BotEnum" },
         "confidence": { "$ref": "#/definitions/ConfidenceEnum" },
@@ -158,13 +162,21 @@
     "TopNews": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["headline", "summary", "source"],
+      "required": ["headline_en", "headline_ko", "summary_en", "summary_ko", "source"],
       "properties": {
-        "headline": {
+        "headline_en": {
           "type": "string",
-          "description": "가장 많이 언급된 뉴스/포스트의 원문 제목 또는 캡션 (영문 그대로)"
+          "description": "가장 많이 언급된 뉴스/포스트의 원문 제목 또는 캡션 (영문)"
         },
-        "summary": {
+        "headline_ko": {
+          "type": "string",
+          "description": "제목의 한국어 번역"
+        },
+        "summary_en": {
+          "type": "string",
+          "description": "1-2문장 영문 요약"
+        },
+        "summary_ko": {
           "type": "string",
           "description": "1-2문장 한국어 요약"
         },
@@ -188,7 +200,7 @@
       "type": "object",
       "required": [
         "as_of", "sentiment", "sentiment_score",
-        "trend_vs_yesterday", "extreme_flag", "key_reason", "confidence"
+        "trend_vs_yesterday", "extreme_flag", "key_reason_en", "key_reason_ko", "confidence"
       ],
       "additionalProperties": false,
       "properties": {
@@ -201,9 +213,13 @@
         "sentiment_score": { "$ref": "#/definitions/SentimentScore" },
         "trend_vs_yesterday": { "$ref": "#/definitions/TrendEnum" },
         "extreme_flag": { "$ref": "#/definitions/ExtremeFlagEnum" },
-        "key_reason": {
+        "key_reason_en": {
           "type": "string",
-          "description": "시장 전체 화제의 핵심 사유 (한 줄)"
+          "description": "시장 전체 화제의 핵심 사유 영문 (한 줄)"
+        },
+        "key_reason_ko": {
+          "type": "string",
+          "description": "시장 전체 화제의 핵심 사유 한국어 (한 줄)"
         },
         "confidence": { "$ref": "#/definitions/ConfidenceEnum" },
         "intraday_shift": {
