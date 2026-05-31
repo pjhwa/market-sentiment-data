@@ -4,7 +4,7 @@
 
 **Layer 2 — shared data repository** for SniperBoard's AI-powered market intelligence pipeline.
 
-A Mac mini cron job runs four collectors daily, querying Grok via Hermes and fetching data from the SniperBoard backend. Results are committed to this repository as standard JSON. Any consuming program — including SniperBoard — only needs the raw GitHub URL.
+A server cron job runs four collectors daily, querying Grok via Hermes and fetching data from the SniperBoard backend. Results are committed to this repository as standard JSON. Any consuming program — including SniperBoard — only needs the raw GitHub URL.
 
 ---
 
@@ -213,7 +213,7 @@ python -m collect.collect_earnings --dry-run
 | `SNIPERBOARD_API_BASE` | `http://localhost:5001` | SniperBoard backend URL |
 | `SENTIMENT_SLOT` | auto-detect | Override slot: `pre_open` or `post_close` |
 
-**Cron example (Mac mini, UTC-based):**
+**Cron example (server, UTC-based):**
 ```bash
 # pre_open: 13:00 UTC (22:00 KST)
 0 13 * * 1-5  cd ~/dev/market-sentiment-data && python collect_sentiment.py >> ~/sentiment.log 2>&1

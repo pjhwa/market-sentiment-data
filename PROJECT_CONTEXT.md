@@ -10,12 +10,12 @@ Architecture and code reference for Claude Code and developers. Read this before
 
 ## 1. Architecture Overview
 
-Social sentiment data is separated into **3 layers**. This separation is the core design principle — the collection actor (Hermes/Mac mini) and the consumption actor (SniperBoard) are loosely coupled through a GitHub repository as shared storage.
+Social sentiment data is separated into **3 layers**. This separation is the core design principle — the collection actor (Hermes/server) and the consumption actor (SniperBoard) are loosely coupled through a GitHub repository as shared storage.
 
 ```
 ┌─────────────────────────┐     ┌──────────────────────────┐     ┌──────────────────────┐
 │  Layer 1: Collect        │     │  Layer 2: Storage         │     │  Layer 3: Consume    │
-│  (Mac mini cron)         │     │  (this GitHub repo)       │     │  (SniperBoard etc.)  │
+│  (server cron)           │     │  (this GitHub repo)       │     │  (SniperBoard etc.)  │
 │                          │     │                           │     │                      │
 │  4 collectors:           │ git │  latest.json              │ raw │  FastAPI services    │
 │  · collect_sentiment.py  │push │  history/                 │fetch│  /api/sentiment      │

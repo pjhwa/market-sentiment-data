@@ -4,7 +4,7 @@
 
 **계층 2 — SniperBoard AI 시장 인텔리전스 파이프라인의 공유 데이터 저장소.**
 
-Mac mini 크론 잡이 매일 4개의 수집기를 실행하여 Hermes를 통해 Grok에 쿼리하고 SniperBoard 백엔드에서 데이터를 수집합니다. 결과는 표준 JSON 형식으로 이 저장소에 커밋됩니다. SniperBoard를 포함한 모든 소비 프로그램은 raw GitHub URL만 있으면 됩니다.
+서버 크론 잡이 매일 4개의 수집기를 실행하여 Hermes를 통해 Grok에 쿼리하고 SniperBoard 백엔드에서 데이터를 수집합니다. 결과는 표준 JSON 형식으로 이 저장소에 커밋됩니다. SniperBoard를 포함한 모든 소비 프로그램은 raw GitHub URL만 있으면 됩니다.
 
 ---
 
