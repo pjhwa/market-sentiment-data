@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-05-30T21:00:01Z",
-  "schema_version": "1.4",
+  "schema_version": "2.0",
   "slot": "post_close",
   "market": {
     "as_of": "2026-05-30T21:00:01Z",
@@ -8,15 +8,18 @@
     "sentiment_score": 1,
     "trend_vs_yesterday": "heating",
     "extreme_flag": "none",
-    "key_reason": "S&P 500가 AI·기술주 집중으로 사상 최고 기록과 9주 연속 상승세를 이어가고 있다.",
     "confidence": "med",
-    "top_news": {
-      "headline": "The Information Technology sector now represents 37% of the S&P 500’s market cap — an all-time high",
-      "summary": "S&P 500 기술 섹터 비중이 37%로 사상 최고를 기록하며 AI 관련 주식이 상승의 대부분을 주도. 도트컴 버블 시대를 넘어선 집중 현상이 지적된다.",
-      "source": "@KobeissiLetter"
-    },
     "intraday_shift": "stable",
-    "composite_score": 1.1
+    "composite_score": 1.1,
+    "key_reason_en": "[EN pending next cron] S&P 500가 AI·기술주 집중으로 사상 최고 기록과 9주 연속 상승세를 이어가고 있다.",
+    "key_reason_ko": "S&P 500가 AI·기술주 집중으로 사상 최고 기록과 9주 연속 상승세를 이어가고 있다.",
+    "top_news": {
+      "headline_en": "The Information Technology sector now represents 37% of the S&P 500’s market cap — an all-time high",
+      "headline_ko": "The Information Technology sector now represents 37% of the S&P 500’s market cap — an all-time high",
+      "summary_en": "S&P 500 기술 섹터 비중이 37%로 사상 최고를 기록하며 AI 관련 주식이 상승의 대부분을 주도. 도트컴 버블 시대를 넘어선 집중 현상이 지적된다.",
+      "summary_ko": "S&P 500 기술 섹터 비중이 37%로 사상 최고를 기록하며 AI 관련 주식이 상승의 대부분을 주도. 도트컴 버블 시대를 넘어선 집중 현상이 지적된다.",
+      "source": "@KobeissiLetter"
+    }
   },
   "symbols": [
     {
@@ -26,7 +29,6 @@
       "sentiment_score": 1,
       "trend_vs_yesterday": "heating",
       "mention_volume": "elevated",
-      "key_reason": "로보택시와 사이버캡에 대한 열광이 지배적이다",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -37,13 +39,17 @@
         "abnormal_move": false
       },
       "divergence": "bullish_divergence",
-      "top_news": {
-        "headline": "If Elon Musk gave you a free Tesla right now, would you accept?",
-        "summary": "무료 테슬라 폴이 높은 참여를 끌며 로보택시 디자인과 자율주행 잠재력에 대한 포스트가 다수 공유되고 있다.",
-        "source": "@abmarkman"
-      },
       "intraday_shift": "stable",
-      "composite_score": 0.8
+      "composite_score": 0.8,
+      "key_reason_en": "[EN pending next cron] 로보택시와 사이버캡에 대한 열광이 지배적이다",
+      "key_reason_ko": "로보택시와 사이버캡에 대한 열광이 지배적이다",
+      "top_news": {
+        "headline_en": "If Elon Musk gave you a free Tesla right now, would you accept?",
+        "headline_ko": "If Elon Musk gave you a free Tesla right now, would you accept?",
+        "summary_en": "무료 테슬라 폴이 높은 참여를 끌며 로보택시 디자인과 자율주행 잠재력에 대한 포스트가 다수 공유되고 있다.",
+        "summary_ko": "무료 테슬라 폴이 높은 참여를 끌며 로보택시 디자인과 자율주행 잠재력에 대한 포스트가 다수 공유되고 있다.",
+        "source": "@abmarkman"
+      }
     },
     {
       "symbol": "AAPL",
@@ -52,7 +58,6 @@
       "sentiment_score": 1,
       "trend_vs_yesterday": "heating",
       "mention_volume": "elevated",
-      "key_reason": "WWDC AI 기대와 1000억 달러 매수백으로 단기 낙관론 지배",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -63,9 +68,11 @@
         "abnormal_move": false
       },
       "divergence": "aligned",
-      "top_news": null,
       "intraday_shift": "stable",
-      "composite_score": 1.3
+      "composite_score": 1.3,
+      "key_reason_en": "[EN pending next cron] WWDC AI 기대와 1000억 달러 매수백으로 단기 낙관론 지배",
+      "key_reason_ko": "WWDC AI 기대와 1000억 달러 매수백으로 단기 낙관론 지배",
+      "top_news": null
     },
     {
       "symbol": "NVDA",
@@ -74,7 +81,6 @@
       "sentiment_score": 1,
       "trend_vs_yesterday": "cooling",
       "mention_volume": "elevated",
-      "key_reason": "AI 인프라 수요와 Jensen Huang 이벤트로 장기 낙관론 유지 중",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -85,13 +91,17 @@
         "abnormal_move": false
       },
       "divergence": "bullish_divergence",
-      "top_news": {
-        "headline": "Jensen Huang at Nvidia employee event in Taiwan",
-        "summary": "CEO가 대만 이벤트에서 춤추며 즐기는 모습이 바이럴되며 긍정적 분위기 확산",
-        "source": "@Junayvi"
-      },
       "intraday_shift": "stable",
-      "composite_score": 0.2
+      "composite_score": 0.2,
+      "key_reason_en": "[EN pending next cron] AI 인프라 수요와 Jensen Huang 이벤트로 장기 낙관론 유지 중",
+      "key_reason_ko": "AI 인프라 수요와 Jensen Huang 이벤트로 장기 낙관론 유지 중",
+      "top_news": {
+        "headline_en": "Jensen Huang at Nvidia employee event in Taiwan",
+        "headline_ko": "Jensen Huang at Nvidia employee event in Taiwan",
+        "summary_en": "CEO가 대만 이벤트에서 춤추며 즐기는 모습이 바이럴되며 긍정적 분위기 확산",
+        "summary_ko": "CEO가 대만 이벤트에서 춤추며 즐기는 모습이 바이럴되며 긍정적 분위기 확산",
+        "source": "@Junayvi"
+      }
     },
     {
       "symbol": "META",
@@ -100,7 +110,6 @@
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "elevated",
-      "key_reason": "저평가된 밸류에이션과 AI 광고 성장 기대가 강한 매수 의견으로 이어짐",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -111,9 +120,11 @@
         "abnormal_move": false
       },
       "divergence": "bullish_divergence",
-      "top_news": null,
       "intraday_shift": "stable",
-      "composite_score": 0.5
+      "composite_score": 0.5,
+      "key_reason_en": "[EN pending next cron] 저평가된 밸류에이션과 AI 광고 성장 기대가 강한 매수 의견으로 이어짐",
+      "key_reason_ko": "저평가된 밸류에이션과 AI 광고 성장 기대가 강한 매수 의견으로 이어짐",
+      "top_news": null
     },
     {
       "symbol": "AMZN",
@@ -122,7 +133,6 @@
       "sentiment_score": 1,
       "trend_vs_yesterday": "heating",
       "mention_volume": "elevated",
-      "key_reason": "AWS 성장과 AI 인프라 투자로 장기 복리 자산으로 평가됨",
       "bot_suspected": "unclear",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -133,9 +143,11 @@
         "abnormal_move": false
       },
       "divergence": "bullish_divergence",
-      "top_news": null,
       "intraday_shift": "stable",
-      "composite_score": 0.7
+      "composite_score": 0.7,
+      "key_reason_en": "[EN pending next cron] AWS 성장과 AI 인프라 투자로 장기 복리 자산으로 평가됨",
+      "key_reason_ko": "AWS 성장과 AI 인프라 투자로 장기 복리 자산으로 평가됨",
+      "top_news": null
     },
     {
       "symbol": "GOOGL",
@@ -144,7 +156,6 @@
       "sentiment_score": 1,
       "trend_vs_yesterday": "stable",
       "mention_volume": "elevated",
-      "key_reason": "Alphabet의 Google Cloud 63% 성장 및 Waymo 확대가 장기 성장 동력으로 평가된다",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -155,13 +166,17 @@
         "abnormal_move": false
       },
       "divergence": "bullish_divergence",
-      "top_news": {
-        "headline": "Alphabet Q1 revenue $109.9B (+22% YoY), Google Cloud $20B (+63% YoY)",
-        "summary": "실적 호조와 AI/클라우드 모멘텀이 지속되며 장기 보유 매력이 강조되고 있다. Capex 증가에도 불구하고 다각화된 성장 엔진이 긍정적으로 평가된다.",
-        "source": "@stock_duty / @S_NewsRoomCOM"
-      },
       "intraday_shift": "stable",
-      "composite_score": 0.5
+      "composite_score": 0.5,
+      "key_reason_en": "[EN pending next cron] Alphabet의 Google Cloud 63% 성장 및 Waymo 확대가 장기 성장 동력으로 평가된다",
+      "key_reason_ko": "Alphabet의 Google Cloud 63% 성장 및 Waymo 확대가 장기 성장 동력으로 평가된다",
+      "top_news": {
+        "headline_en": "Alphabet Q1 revenue $109.9B (+22% YoY), Google Cloud $20B (+63% YoY)",
+        "headline_ko": "Alphabet Q1 revenue $109.9B (+22% YoY), Google Cloud $20B (+63% YoY)",
+        "summary_en": "실적 호조와 AI/클라우드 모멘텀이 지속되며 장기 보유 매력이 강조되고 있다. Capex 증가에도 불구하고 다각화된 성장 엔진이 긍정적으로 평가된다.",
+        "summary_ko": "실적 호조와 AI/클라우드 모멘텀이 지속되며 장기 보유 매력이 강조되고 있다. Capex 증가에도 불구하고 다각화된 성장 엔진이 긍정적으로 평가된다.",
+        "source": "@stock_duty / @S_NewsRoomCOM"
+      }
     },
     {
       "symbol": "PLTR",
@@ -170,7 +185,6 @@
       "sentiment_score": 1,
       "trend_vs_yesterday": "heating",
       "mention_volume": "elevated",
-      "key_reason": "AIP 상업 성장과 기술적 돌파로 낙관적 의견이 우세함",
       "bot_suspected": "no",
       "confidence": "med",
       "source": "grok-oauth via hermes",
@@ -181,9 +195,11 @@
         "abnormal_move": false
       },
       "divergence": "aligned",
-      "top_news": null,
       "intraday_shift": "stable",
-      "composite_score": 1.3
+      "composite_score": 1.3,
+      "key_reason_en": "[EN pending next cron] AIP 상업 성장과 기술적 돌파로 낙관적 의견이 우세함",
+      "key_reason_ko": "AIP 상업 성장과 기술적 돌파로 낙관적 의견이 우세함",
+      "top_news": null
     }
   ]
 }

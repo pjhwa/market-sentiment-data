@@ -1,71 +1,98 @@
 {
   "generated_at": "2026-05-30T21:30:01Z",
-  "schema_version": "1.0",
+  "schema_version": "2.0",
   "slot": "post_close",
   "market_brief": {
-    "summary": "건설적 체제 유지, SPY 분배일 경고",
+    "summary_en": "[EN pending next cron] 건설적 체제 유지, SPY 분배일 경고",
+    "summary_ko": "건설적 체제 유지, SPY 분배일 경고",
     "tone": "cautious",
-    "key_themes": [
+    "key_themes_en": [
       "AI 인프라",
       "빅테크 성장"
     ],
-    "watch_points": "SPY 분배일 4일 도달로 단기 변동성 주의"
+    "key_themes_ko": [
+      "AI 인프라",
+      "빅테크 성장"
+    ],
+    "watch_points_en": "[EN pending next cron] SPY 분배일 4일 도달로 단기 변동성 주의",
+    "watch_points_ko": "SPY 분배일 4일 도달로 단기 변동성 주의"
   },
   "symbol_briefs": [
     {
       "symbol": "TSLA",
       "setup_quality": "A",
-      "brief": "Stage2 6/7에 UPTREND 구조 유지. 로보택시와 사이버캡 열광으로 소셜 optimistic 지배적. GC above 상태이나 RS 45.1로 상대강도 제한.",
-      "key_risk": "RS 45.1로 시장 대비 약세 가능성",
-      "key_opportunity": "로보택시 이벤트 모멘텀 기대",
+      "brief_en": "[EN pending next cron] Stage2 6/7에 UPTREND 구조 유지. 로보택시와 사이버캡 열광으로 소셜 optimistic 지배적. GC above 상태이나 RS 45.1로 상대강도 제한.",
+      "brief_ko": "Stage2 6/7에 UPTREND 구조 유지. 로보택시와 사이버캡 열광으로 소셜 optimistic 지배적. GC above 상태이나 RS 45.1로 상대강도 제한.",
+      "key_risk_en": "[EN pending next cron] RS 45.1로 시장 대비 약세 가능성",
+      "key_risk_ko": "RS 45.1로 시장 대비 약세 가능성",
+      "key_opportunity_en": "[EN pending next cron] 로보택시 이벤트 모멘텀 기대",
+      "key_opportunity_ko": "로보택시 이벤트 모멘텀 기대",
       "action_bias": "watch"
     },
     {
       "symbol": "AAPL",
       "setup_quality": "B",
-      "brief": "Stage2 6/7이지만 DISTRIBUTION 구조 진입. WWDC AI 기대와 1000억 달러 매수백으로 낙관론 우세. GC above 유지.",
-      "key_risk": "DISTRIBUTION 단계로 단기 압력 가능",
-      "key_opportunity": "WWDC AI 모멘텀과 대규모 매수백",
+      "brief_en": "[EN pending next cron] Stage2 6/7이지만 DISTRIBUTION 구조 진입. WWDC AI 기대와 1000억 달러 매수백으로 낙관론 우세. GC above 유지.",
+      "brief_ko": "Stage2 6/7이지만 DISTRIBUTION 구조 진입. WWDC AI 기대와 1000억 달러 매수백으로 낙관론 우세. GC above 유지.",
+      "key_risk_en": "[EN pending next cron] DISTRIBUTION 단계로 단기 압력 가능",
+      "key_risk_ko": "DISTRIBUTION 단계로 단기 압력 가능",
+      "key_opportunity_en": "[EN pending next cron] WWDC AI 모멘텀과 대규모 매수백",
+      "key_opportunity_ko": "WWDC AI 모멘텀과 대규모 매수백",
       "action_bias": "hold"
     },
     {
       "symbol": "NVDA",
       "setup_quality": "A",
-      "brief": "Stage2 5/7 UPTREND에 GC above. AI 인프라 수요와 Jensen Huang 이벤트로 장기 낙관 유지. RS 60.4 양호.",
-      "key_risk": "52주 고점 대비 10.7% 조정 부담",
-      "key_opportunity": "AI 인프라 수요 장기 성장",
+      "brief_en": "[EN pending next cron] Stage2 5/7 UPTREND에 GC above. AI 인프라 수요와 Jensen Huang 이벤트로 장기 낙관 유지. RS 60.4 양호.",
+      "brief_ko": "Stage2 5/7 UPTREND에 GC above. AI 인프라 수요와 Jensen Huang 이벤트로 장기 낙관 유지. RS 60.4 양호.",
+      "key_risk_en": "[EN pending next cron] 52주 고점 대비 10.7% 조정 부담",
+      "key_risk_ko": "52주 고점 대비 10.7% 조정 부담",
+      "key_opportunity_en": "[EN pending next cron] AI 인프라 수요 장기 성장",
+      "key_opportunity_ko": "AI 인프라 수요 장기 성장",
       "action_bias": "buy"
     },
     {
       "symbol": "META",
       "setup_quality": "D",
-      "brief": "Stage2 2/7로 낮은 점수, DISTRIBUTION 구조. 저평가 밸류에이션과 AI 광고 성장 기대가 매수 의견 주도.",
-      "key_risk": "RS 22.7 극저로 구조적 취약",
-      "key_opportunity": "저평가 매수와 AI 광고 성장",
+      "brief_en": "[EN pending next cron] Stage2 2/7로 낮은 점수, DISTRIBUTION 구조. 저평가 밸류에이션과 AI 광고 성장 기대가 매수 의견 주도.",
+      "brief_ko": "Stage2 2/7로 낮은 점수, DISTRIBUTION 구조. 저평가 밸류에이션과 AI 광고 성장 기대가 매수 의견 주도.",
+      "key_risk_en": "[EN pending next cron] RS 22.7 극저로 구조적 취약",
+      "key_risk_ko": "RS 22.7 극저로 구조적 취약",
+      "key_opportunity_en": "[EN pending next cron] 저평가 매수와 AI 광고 성장",
+      "key_opportunity_ko": "저평가 매수와 AI 광고 성장",
       "action_bias": "avoid"
     },
     {
       "symbol": "AMZN",
       "setup_quality": "A+",
-      "brief": "Stage2 6/7, RS 88.7 고점, UPTREND. AWS 성장과 AI 인프라 투자로 장기 복리 자산 평가. GC above.",
-      "key_risk": "시장 분배일 영향으로 단기 변동",
-      "key_opportunity": "AWS AI 인프라 성장 동력",
+      "brief_en": "[EN pending next cron] Stage2 6/7, RS 88.7 고점, UPTREND. AWS 성장과 AI 인프라 투자로 장기 복리 자산 평가. GC above.",
+      "brief_ko": "Stage2 6/7, RS 88.7 고점, UPTREND. AWS 성장과 AI 인프라 투자로 장기 복리 자산 평가. GC above.",
+      "key_risk_en": "[EN pending next cron] 시장 분배일 영향으로 단기 변동",
+      "key_risk_ko": "시장 분배일 영향으로 단기 변동",
+      "key_opportunity_en": "[EN pending next cron] AWS AI 인프라 성장 동력",
+      "key_opportunity_ko": "AWS AI 인프라 성장 동력",
       "action_bias": "buy"
     },
     {
       "symbol": "GOOGL",
       "setup_quality": "A",
-      "brief": "Stage2 5/7 UPTREND, RS 77.3 양호. Google Cloud 63% 성장과 Waymo 확대가 장기 성장 동력. GC above.",
-      "key_risk": "52주 고점 대비 6.9% 하락",
-      "key_opportunity": "클라우드 성장과 Waymo 확대",
+      "brief_en": "[EN pending next cron] Stage2 5/7 UPTREND, RS 77.3 양호. Google Cloud 63% 성장과 Waymo 확대가 장기 성장 동력. GC above.",
+      "brief_ko": "Stage2 5/7 UPTREND, RS 77.3 양호. Google Cloud 63% 성장과 Waymo 확대가 장기 성장 동력. GC above.",
+      "key_risk_en": "[EN pending next cron] 52주 고점 대비 6.9% 하락",
+      "key_risk_ko": "52주 고점 대비 6.9% 하락",
+      "key_opportunity_en": "[EN pending next cron] 클라우드 성장과 Waymo 확대",
+      "key_opportunity_ko": "클라우드 성장과 Waymo 확대",
       "action_bias": "buy"
     },
     {
       "symbol": "PLTR",
       "setup_quality": "C",
-      "brief": "Stage2 3/7에 DISTRIBUTION 구조. GC breakout 발생했으나 RS 44.6 낮음. AIP 상업 성장 기대가 낙관론 주도.",
-      "key_risk": "DISTRIBUTION 단계와 낮은 RS",
-      "key_opportunity": "GC breakout과 AIP 성장 모멘텀",
+      "brief_en": "[EN pending next cron] Stage2 3/7에 DISTRIBUTION 구조. GC breakout 발생했으나 RS 44.6 낮음. AIP 상업 성장 기대가 낙관론 주도.",
+      "brief_ko": "Stage2 3/7에 DISTRIBUTION 구조. GC breakout 발생했으나 RS 44.6 낮음. AIP 상업 성장 기대가 낙관론 주도.",
+      "key_risk_en": "[EN pending next cron] DISTRIBUTION 단계와 낮은 RS",
+      "key_risk_ko": "DISTRIBUTION 단계와 낮은 RS",
+      "key_opportunity_en": "[EN pending next cron] GC breakout과 AIP 성장 모멘텀",
+      "key_opportunity_ko": "GC breakout과 AIP 성장 모멘텀",
       "action_bias": "watch"
     }
   ],
