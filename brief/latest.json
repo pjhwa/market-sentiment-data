@@ -1,103 +1,103 @@
 {
-  "generated_at": "2026-05-31T13:30:01Z",
+  "generated_at": "2026-05-31T21:30:00Z",
   "schema_version": "2.0",
-  "slot": "pre_open",
+  "slot": "post_close",
   "market_brief": {
-    "summary_en": "Constructive risk regime (78.3) supported by trend and momentum, but SPY distribution days at 4 and fearful social sentiment (-0.8) warrant caution.",
-    "summary_ko": "건설적 정권이나 SPY 분배일 4일 주의",
+    "summary_en": "Constructive risk regime holds with strong trend and momentum, yet SPY distribution warnings and fearful social sentiment signal caution.",
+    "summary_ko": "건설적 체제 유지 중 SPY 분배일 경고",
     "tone": "cautious",
     "key_themes_en": [
-      "Tech leadership resilience",
-      "Distribution pressure"
+      "Constructive regime",
+      "SPY distribution pressure"
     ],
     "key_themes_ko": [
-      "기술주 주도력",
-      "분배 압력"
+      "건설적 체제",
+      "SPY 분배일 압력"
     ],
-    "watch_points_en": "Monitor SPY distribution days and whether breadth improves from current zero reading.",
-    "watch_points_ko": "SPY 분배일 지속과 브레드스 회복 여부 주시"
+    "watch_points_en": "Monitor SPY distribution day count and market breadth recovery.",
+    "watch_points_ko": "SPY 분배일 확대와 시장 폭 회복 주시"
   },
   "symbol_briefs": [
     {
       "symbol": "TSLA",
       "setup_quality": "A",
-      "brief_en": "TSLA holds Stage 2 uptrend with GC above and optimistic social sentiment. RS at 45.1 lags the group but structure remains intact with composite 0.8.",
-      "brief_ko": "TSLA는 Stage 2 상승 추세와 GC 위, 낙관적 소셜 감성을 유지한다. RS 45.1은 낮지만 구조는 건전하며 종합 점수 0.8을 기록했다.",
-      "key_risk_en": "Weak breadth and low RS may limit upside if market turns risk-off.",
-      "key_risk_ko": "약한 브레드스와 낮은 RS로 리스크 회피 시 상승 제한",
-      "key_opportunity_en": "GC above offers pullback entry in constructive regime.",
-      "key_opportunity_ko": "GC 위 위치로 건설적 정권에서 조정 매수 기회",
-      "action_bias": "hold"
+      "brief_en": "TSLA holds Stage 2 uptrend with gold cross above key levels and optimistic social sentiment. Composite score of 0.6 reflects balanced technical and social support despite moderate RS.",
+      "brief_ko": "TSLA는 스테이지2 상승 추세와 골든크로스 위에 위치하며 낙관적 소셜 심리를 보인다. 복합 점수 0.6은 기술적·소셜 지지를 반영한다.",
+      "key_risk_en": "RS at 45.1 may cap gains if breadth stays weak.",
+      "key_risk_ko": "RS 45.1로 폭이 약하면 상승 제한 가능",
+      "key_opportunity_en": "Pullback to gold cross offers constructive entry.",
+      "key_opportunity_ko": "골든크로스 조정 시 진입 기회",
+      "action_bias": "watch"
     },
     {
       "symbol": "AAPL",
       "setup_quality": "B",
-      "brief_en": "AAPL shows strong RS 65.0 and Stage 2 but has shifted into DISTRIBUTION structure. Optimistic sentiment and GC above provide partial support amid mixed signals.",
-      "brief_ko": "AAPL은 RS 65.0과 Stage 2를 유지하지만 DISTRIBUTION 구조로 전환됐다. 낙관적 감성과 GC 위가 혼조 신호를 일부 완화한다.",
-      "key_risk_en": "Distribution phase risks further consolidation or breakdown.",
-      "key_risk_ko": "DISTRIBUTION 단계로 추가 조정 또는 하락 위험",
-      "key_opportunity_en": "High RS may drive relative outperformance if regime holds.",
-      "key_opportunity_ko": "높은 RS로 정권 유지 시 상대적 초과 성과 가능",
+      "brief_en": "AAPL shows Stage 2 structure but has entered distribution phase with RS at 65.0. Optimistic sentiment and gold cross provide some support amid mixed signals.",
+      "brief_ko": "AAPL은 스테이지2 구조이나 분배 구간 진입, RS 65.0 수준이다. 낙관적 심리와 골든크로스가 혼재 신호를 완화한다.",
+      "key_risk_en": "Distribution structure raises risk of further consolidation.",
+      "key_risk_ko": "분배 구조로 추가 조정 위험",
+      "key_opportunity_en": "High RS offers relative strength if market stabilizes.",
+      "key_opportunity_ko": "높은 RS로 시장 안정 시 상대적 강세 기대",
       "action_bias": "watch"
     },
     {
       "symbol": "NVDA",
       "setup_quality": "A",
-      "brief_en": "NVDA maintains Stage 2 uptrend with GC above and optimistic social sentiment. RS 60.4 and 10.7% drawdown from highs suggest monitoring but setup is constructive overall.",
-      "brief_ko": "NVDA는 Stage 2 상승 추세, GC 위, 낙관적 소셜 감성을 유지한다. RS 60.4와 10.7% 고점 하락은 주의 요인이나 전반 건설적이다.",
-      "key_risk_en": "Fearful market sentiment could pressure high-beta tech names.",
-      "key_risk_ko": "공포 시장 감성이 고베타 기술주 압박 가능",
-      "key_opportunity_en": "Regime momentum supports continuation if breadth stabilizes.",
-      "key_opportunity_ko": "정권 모멘텀으로 브레드스 안정 시 상승 지속",
-      "action_bias": "hold"
+      "brief_en": "NVDA maintains Stage 2 uptrend with gold cross and optimistic social sentiment. RS of 60.4 and composite 0.5 indicate solid technical foundation despite recent high pullback.",
+      "brief_ko": "NVDA는 스테이지2 상승 추세와 골든크로스를 유지하며 낙관적 소셜 심리를 보인다. RS 60.4와 복합 점수 0.5가 기술적 기반을 뒷받침한다.",
+      "key_risk_en": "52-week high drawdown of 10.7% could extend if momentum fades.",
+      "key_risk_ko": "52주 고점 대비 10.7% 조정 연장 위험",
+      "key_opportunity_en": "Uptrend structure supports dips as buying opportunities.",
+      "key_opportunity_ko": "상승 구조로 조정 매수 기회",
+      "action_bias": "watch"
     },
     {
       "symbol": "META",
       "setup_quality": "D",
-      "brief_en": "META lags severely with Stage 2 score of only 2 and DISTRIBUTION structure. Weak RS 22.7 and GC below signal caution despite optimistic social sentiment.",
-      "brief_ko": "META는 Stage 2 점수 2와 DISTRIBUTION 구조로 크게 뒤처진다. RS 22.7과 GC 미만은 주의 신호이나 소셜은 낙관적이다.",
-      "key_risk_en": "Continued underperformance and breakdown risk remain elevated.",
-      "key_risk_ko": "지속 저성과와 하락 위험 여전",
-      "key_opportunity_en": "Social optimism may fuel short-term relief if market stabilizes.",
-      "key_opportunity_ko": "시장 안정 시 소셜 낙관으로 단기 반등 가능",
+      "brief_en": "META has weakened to Stage 2 score of only 2 with distribution structure and low RS of 22.7. Gold cross absence and 20.4% drawdown outweigh optimistic sentiment.",
+      "brief_ko": "META는 스테이지2 점수 2점으로 분배 구조 진입, RS 22.7에 20.4% 조정을 기록했다. 골든크로스 부재가 낙관 심리를 압도한다.",
+      "key_risk_en": "Further downside risk from broken structure and weak RS.",
+      "key_risk_ko": "구조 붕괴와 낮은 RS로 추가 하락 위험",
+      "key_opportunity_en": "Stabilization above recent lows could trigger relief rally.",
+      "key_opportunity_ko": "최근 저점 안착 시 반등 가능",
       "action_bias": "avoid"
     },
     {
       "symbol": "AMZN",
       "setup_quality": "A+",
-      "brief_en": "AMZN leads with exceptional RS 88.7, Stage 2 uptrend, GC above, and optimistic sentiment. Strong structure and high composite make it a top pick in the current regime.",
-      "brief_ko": "AMZN은 RS 88.7, Stage 2 상승 추세, GC 위, 낙관적 감성으로 선도한다. 강한 구조와 높은 종합 점수로 현 정권 최우선 종목.",
-      "key_risk_en": "SPY distribution warning could trigger broad tech pullback.",
-      "key_risk_ko": "SPY 분배일 경고로 기술 섹터 조정 위험",
-      "key_opportunity_en": "Top RS position favors continued leadership and outperformance.",
-      "key_opportunity_ko": "최상위 RS로 지속 주도와 초과 성과 유리",
+      "brief_en": "AMZN leads with Stage 2 score of 6, highest RS at 88.7, and clean uptrend above gold cross. Optimistic sentiment and minimal drawdown create high-conviction setup.",
+      "brief_ko": "AMZN은 스테이지2 6점, RS 88.7 최고 수준, 골든크로스 위 상승 추세를 유지한다. 낙관 심리와 낮은 조정으로 고신뢰도 셋업이다.",
+      "key_risk_en": "Any market-wide distribution escalation could pressure even strong names.",
+      "key_risk_ko": "시장 분배일 확대 시 강한 종목도 압력",
+      "key_opportunity_en": "Strong RS and structure favor continued outperformance on dips.",
+      "key_opportunity_ko": "강한 RS와 구조로 조정 시 아웃퍼폼 기대",
       "action_bias": "buy"
     },
     {
       "symbol": "GOOGL",
       "setup_quality": "A",
-      "brief_en": "GOOGL holds Stage 2 uptrend with strong RS 77.3, GC above, and optimistic social sentiment. Solid structure supports constructive bias within the regime.",
-      "brief_ko": "GOOGL은 Stage 2 상승 추세와 RS 77.3, GC 위, 낙관적 소셜 감성을 유지한다. 견고한 구조가 정권 내 건설적 편향을 지원한다.",
-      "key_risk_en": "Fearful sentiment may weigh on growth-oriented names.",
-      "key_risk_ko": "공포 감성이 성장주에 부담 요인",
-      "key_opportunity_en": "High RS and regime support offer favorable risk-reward.",
-      "key_opportunity_ko": "높은 RS와 정권 지원으로 양호한 위험 대비 수익",
-      "action_bias": "hold"
+      "brief_en": "GOOGL holds Stage 2 uptrend with RS 77.3 and gold cross intact. Optimistic social sentiment and moderate drawdown support constructive bias despite 5/7 stage score.",
+      "brief_ko": "GOOGL은 스테이지2 상승 추세, RS 77.3, 골든크로스 유지 중이다. 낙관적 소셜 심리가 5/7 점수를 보완한다.",
+      "key_risk_en": "Breadth weakness may limit near-term momentum.",
+      "key_risk_ko": "시장 폭 약세로 단기 모멘텀 제한",
+      "key_opportunity_en": "High RS provides relative strength in constructive regime.",
+      "key_opportunity_ko": "높은 RS로 건설적 체제 내 상대 강세",
+      "action_bias": "watch"
     },
     {
       "symbol": "PLTR",
       "setup_quality": "C",
-      "brief_en": "PLTR displays mixed signals with Stage 2 at 3 and DISTRIBUTION structure, yet GC breakout and high composite 1.3 hint at potential strength. Optimistic sentiment helps but overall setup is fragile.",
-      "brief_ko": "PLTR은 Stage 2 3점과 DISTRIBUTION 구조로 혼조이나 GC 브레이크아웃과 종합 1.3이 잠재력을 시사한다. 낙관적 소셜이 도움이 되나 전반 취약하다.",
-      "key_risk_en": "Low Stage score and distribution phase raise downside risk.",
-      "key_risk_ko": "낮은 Stage 점수와 분배 단계로 하락 위험 증가",
-      "key_opportunity_en": "GC breakout may signal reversal if breadth recovers.",
-      "key_opportunity_ko": "GC 브레이크아웃으로 브레드스 회복 시 반전 신호",
-      "action_bias": "watch"
+      "brief_en": "PLTR shows early distribution with Stage 2 score of 3 and RS 44.6 despite gold cross breakout. Optimistic sentiment fails to offset weak structure and 24.6% drawdown.",
+      "brief_ko": "PLTR은 스테이지2 3점, 분배 구조 진입, RS 44.6에 24.6% 조정을 보인다. 낙관 심리가 약한 구조를 상쇄하지 못한다.",
+      "key_risk_en": "Distribution structure and low stage score increase downside risk.",
+      "key_risk_ko": "분배 구조와 낮은 스테이지 점수로 하락 위험",
+      "key_opportunity_en": "Breakout above gold cross may attract momentum if market improves.",
+      "key_opportunity_ko": "골든크로스 돌파 후 시장 개선 시 모멘텀 유입 가능",
+      "action_bias": "avoid"
     }
   ],
   "context": {
-    "captured_at": "2026-05-31T13:30:01Z",
+    "captured_at": "2026-05-31T21:30:00Z",
     "source": "sniperboard",
     "regime": {
       "total": 78.3,
