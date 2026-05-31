@@ -23,7 +23,7 @@ from collect.price_context import (
 )
 
 # ── 설정 ──────────────────────────────────────────────────────────────────────
-REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent)).resolve()
+REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
 HERMES_CMD = os.environ.get("HERMES_CMD", "/Users/jerry/.local/bin/hermes")
 HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
 CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))
@@ -69,7 +69,7 @@ def detect_slot(now: datetime) -> str:
 
 
 def history_filename(date_str: str, slot: str) -> Path:
-    return REPO_PATH / "history" / f"{date_str}_{slot}.json"
+    return REPO_PATH / "sentiment" / "history" / f"{date_str}_{slot}.json"
 
 
 # ── Grok 프롬프트 빌더 ─────────────────────────────────────────────────────────
@@ -438,7 +438,7 @@ def git_commit_push(repo: Path, date_str: str, time_str: str, history_path: Path
     return commit_and_push(
         repo=repo,
         commit_message=commit_message,
-        files_to_add=["latest.json", rel_history],
+        files_to_add=["sentiment/latest.json", rel_history],
         push=True,
     )
 
@@ -578,7 +578,7 @@ def main():
         "symbols": symbol_entries,
     }
 
-    latest_path = REPO_PATH / "latest.json"
+    latest_path = REPO_PATH / "sentiment" / "latest.json"
     history_path = history_filename(date_str, slot)
     history_path.parent.mkdir(exist_ok=True)
 
