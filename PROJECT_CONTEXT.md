@@ -17,8 +17,8 @@ Social sentiment data is separated into **3 layers**. This separation is the cor
 │  Layer 1: Collect        │     │  Layer 2: Storage         │     │  Layer 3: Consume    │
 │  (server cron)           │     │  (this GitHub repo)       │     │  (SniperBoard etc.)  │
 │                          │     │                           │     │                      │
-│  4 collectors:           │ git │  latest.json              │ raw │  FastAPI services    │
-│  · collect_sentiment.py  │push │  history/                 │fetch│  /api/sentiment      │
+│  4 collectors:           │ git │  sentiment/latest.json    │ raw │  FastAPI services    │
+│  · collect_sentiment.py  │push │  sentiment/history/       │fetch│  /api/sentiment      │
 │  · collect_brief.py      │────▶│  brief/                   │────▶│  /api/brief          │
 │  · collect_earnings.py   │     │  earnings/                │     │  /api/earnings       │
 │  · collect_macro_insight │     │  macro/                   │     │  /api/macro-insight  │
@@ -38,9 +38,9 @@ Social sentiment data is separated into **3 layers**. This separation is the cor
 
 ```
 market-sentiment-data/
-├── collect_sentiment.py          # Collector 1 — entry point, runs as: python collect_sentiment.py
 ├── collect/
 │   ├── __init__.py
+│   ├── collect_sentiment.py      # Collector 1 — python -m collect.collect_sentiment
 │   ├── collect_brief.py          # Collector 2 — python -m collect.collect_brief
 │   ├── collect_earnings.py       # Collector 3 — python -m collect.collect_earnings
 │   ├── collect_macro_insight.py  # Collector 4 — python -m collect.collect_macro_insight
@@ -50,14 +50,22 @@ market-sentiment-data/
 │   ├── test_collect_brief.py
 │   ├── test_collect_brief_context.py
 │   └── test_price_context.py
-├── latest.json                   # Sentiment: always-current snapshot
-├── history/YYYY-MM-DD_<slot>.json
-├── brief/latest.json             # AI Daily Brief: always-current
-├── brief/history/YYYY-MM-DD_<slot>.json
-├── earnings/latest.json          # Earnings Intelligence: always-current
-├── earnings/history/YYYY-MM-DD.json
-├── macro/latest.json             # Macro Insight: always-current
-├── macro/history/YYYY-MM-DD_<slot>.json
+├── sentiment/
+│   ├── latest.json               # Sentiment: always-current snapshot
+│   ├── sentiment.log             # Cron log for collect_sentiment
+│   └── history/YYYY-MM-DD_<slot>.json
+├── brief/
+│   ├── latest.json               # AI Daily Brief: always-current
+│   ├── brief.log                 # Cron log for collect_brief
+│   └── history/YYYY-MM-DD_<slot>.json
+├── earnings/
+│   ├── latest.json               # Earnings Intelligence: always-current
+│   ├── earnings.log              # Cron log for collect_earnings
+│   └── history/YYYY-MM-DD.json
+├── macro/
+│   ├── latest.json               # Macro Insight: always-current
+│   ├── macro.log                 # Cron log for collect_macro_insight
+│   └── history/YYYY-MM-DD_<slot>.json
 ├── schema.json                   # JSON Schema draft-07 v2.0 (sentiment only)
 ├── README.md / README.ko.md
 └── PROJECT_CONTEXT.md / PROJECT_CONTEXT.ko.md
@@ -85,7 +93,7 @@ All config is injected via environment variables. Never hardcode paths or tokens
 
 ---
 
-## 4. Collector 1 — Social Sentiment (`collect_sentiment.py`)
+## 4. Collector 1 — Social Sentiment (`collect/collect_sentiment.py`)
 
 ### Overview
 
@@ -95,7 +103,7 @@ The main sentiment collector. Runs twice daily. For 7 watchlist symbols + the br
 3. Call Grok via `hermes -z`; parse and validate JSON response
 4. Compute divergence (post-collection, after Grok is done)
 5. Compute composite_score
-6. Write `latest.json` + `history/YYYY-MM-DD_<slot>.json`
+6. Write `sentiment/latest.json` + `sentiment/history/YYYY-MM-DD_<slot>.json`
 7. `git commit + push`
 
 **Watchlist:** `TSLA, AAPL, NVDA, META, AMZN, GOOGL, PLTR`
@@ -282,7 +290,7 @@ Bullet format rule: "핵심 신호 → 시장 의미" (signal → market meaning
 
 ## 8. Data Schema Reference (v2.0)
 
-### `latest.json` top-level structure
+### `sentiment/latest.json` top-level structure
 
 ```json
 {
@@ -353,8 +361,8 @@ SniperBoard consumes this repository via its backend services. The consumer must
 
 | SniperBoard endpoint | Source file | Cache TTL |
 |---------------------|------------|-----------|
-| `GET /api/sentiment` | `latest.json` | 5–10 min |
-| `GET /api/sentiment/history` | `history/*.json` | 5 min |
+| `GET /api/sentiment` | `sentiment/latest.json` | 5–10 min |
+| `GET /api/sentiment/history` | `sentiment/history/*.json` | 5 min |
 | `GET /api/brief` | `brief/latest.json` | 5–10 min |
 | `GET /api/earnings` | `earnings/latest.json` | 60 min |
 | `GET /api/macro-insight` | `macro/latest.json` | 5–10 min |
@@ -388,21 +396,17 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 ## 10. Cron Schedule
 
 ```bash
-# ─── pre_open (13:00 UTC / 22:00 KST) ─────────────────────────────────────
-0 13 * * 1-5  cd ~/dev/market-sentiment-data && python collect_sentiment.py >> ~/sentiment.log 2>&1
-5 13 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_brief >> ~/brief.log 2>&1
-10 13 * * 1-5 cd ~/dev/market-sentiment-data && python -m collect.collect_macro_insight >> ~/macro.log 2>&1
+# ─── pre_open (06:00 KST / 22:00 KST) ──────────────────────────────────────
+# All collectors run with PYTHONPATH and python -m module notation
+00 6,22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 python3 -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
+30 6,22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 python3 -m collect.collect_brief >> brief/brief.log 2>&1
+45 6,22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 python3 -m collect.collect_macro_insight >> macro/macro.log 2>&1
 
-# ─── post_close (21:00 UTC / 06:00 KST next day) ───────────────────────────
-0 21 * * 1-5  cd ~/dev/market-sentiment-data && python collect_sentiment.py >> ~/sentiment.log 2>&1
-5 21 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_brief >> ~/brief.log 2>&1
-10 21 * * 1-5 cd ~/dev/market-sentiment-data && python -m collect.collect_macro_insight >> ~/macro.log 2>&1
-
-# ─── earnings (once daily, 14:00 UTC) ──────────────────────────────────────
-0 14 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_earnings >> ~/earnings.log 2>&1
+# ─── earnings (once daily, 07:00) ────────────────────────────────────────────
+00 7 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data python3 -m collect.collect_earnings >> earnings/earnings.log 2>&1
 ```
 
-> **PATH note:** cron environments have minimal PATH. Use absolute paths to `python` and `hermes`, or set `PATH` explicitly at the top of each cron line.
+> **PATH note:** cron environments have minimal PATH. Use absolute paths to `python3` and `hermes`, or set `PATH` explicitly. All log files live inside their data directory (e.g. `sentiment/sentiment.log`).
 
 ---
 
@@ -423,7 +427,7 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 ## 12. Testing
 
 ```bash
-python -m pytest collect/ -v          # 48 tests (Phase 5)
+PYTHONPATH=/path/to/market-sentiment-data python -m pytest collect/ -v
 
 # Key test files:
 # collect/test_collect_sentiment.py   — prompt guard, divergence, composite_score, validation
@@ -438,7 +442,7 @@ Tests are co-located in `collect/` and run with pytest. No external services req
 
 ## 13. Cross-Repo Linkage (SniperBoard)
 
-- `sniperboard/backend/services/sentiment_service.py` — fetches `latest.json` + history
+- `sniperboard/backend/services/sentiment_service.py` — fetches `sentiment/latest.json` + `sentiment/history/`
 - `sniperboard/backend/services/brief_service.py` — fetches `brief/latest.json`
 - `sniperboard/backend/services/earnings_service.py` — fetches `earnings/latest.json` with 60-min cache; attaches `meta.age_minutes` to `/api/earnings` responses
 - `sniperboard/backend/services/macro_insight_service.py` — fetches `macro/latest.json`

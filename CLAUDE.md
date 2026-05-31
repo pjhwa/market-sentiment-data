@@ -31,7 +31,7 @@ These two files give you an immediate understanding of the project without readi
 
 ## Key Project Entry Points
 
-- **Collector 1**: `collect_sentiment.py` — social sentiment, contamination firewall, divergence, composite_score
+- **Collector 1**: `collect/collect_sentiment.py` — social sentiment, contamination firewall, divergence, composite_score
 - **Collector 2**: `collect/collect_brief.py` — AI Daily Brief (technical + social → Grok)
 - **Collector 3**: `collect/collect_earnings.py` — Earnings Intelligence (yfinance + Grok)
 - **Collector 4**: `collect/collect_macro_insight.py` — Macro Insight (SniperBoard `/api/macro` + Grok)
@@ -48,7 +48,7 @@ See `PROJECT_CONTEXT.md` for full architecture, schema reference, and cron sched
 > **Price direction must never be passed to Grok. Only magnitude, volume ratio, and key-level position are allowed.**
 
 - `price_context.py` returns neutral cues only — mechanical `_assert_no_direction()` on every dict
-- `build_prompt()` in `collect_sentiment.py` asserts no direction words before every Grok call
+- `build_prompt()` in `collect/collect_sentiment.py` asserts no direction words before every Grok call
 - `fetch_close_direction()` result flows **only** into divergence post-processing, never into the prompt
 
 Violating this rule makes sentiment data analytically worthless (it becomes an echo of price).
@@ -61,7 +61,7 @@ This repository is consumed by SniperBoard: **`https://github.com/pjhwa/sniperbo
 
 | Data type | Source file | SniperBoard service |
 |-----------|-------------|---------------------|
-| Social sentiment | `latest.json` / `history/` | `backend/services/sentiment_service.py` |
+| Social sentiment | `sentiment/latest.json` / `sentiment/history/` | `backend/services/sentiment_service.py` |
 | AI Daily Brief | `brief/latest.json` | `backend/services/brief_service.py` |
 | Earnings Intelligence | `earnings/latest.json` | `backend/services/earnings_service.py` |
 | Macro Insight | `macro/latest.json` | `backend/services/macro_insight_service.py` |
