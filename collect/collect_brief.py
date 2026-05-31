@@ -216,18 +216,24 @@ SYMBOLS:
 Generate ONE JSON object with this EXACT schema (no prose, no code fences):
 {{
   "market_brief": {{
-    "summary": "시장 전체 한 문장 요약 (한국어, 30자 이내)",
+    "summary_en": "One-sentence market summary in English",
+    "summary_ko": "시장 전체 한 문장 요약 (한국어, 30자 이내)",
     "tone": "one of bullish/cautious/bearish/neutral",
-    "key_themes": ["테마1", "테마2"],
-    "watch_points": "오늘 주의할 점 한 문장 (한국어)"
+    "key_themes_en": ["theme1", "theme2"],
+    "key_themes_ko": ["테마1", "테마2"],
+    "watch_points_en": "Key thing to watch today in one sentence",
+    "watch_points_ko": "오늘 주의할 점 한 문장 (한국어)"
   }},
   "symbol_briefs": [
     {{
       "symbol": "TICKER",
       "setup_quality": "one of A+/A/B/C/D",
-      "brief": "2-3문장 설명 (한국어)",
-      "key_risk": "핵심 리스크 한 줄 (한국어)",
-      "key_opportunity": "핵심 기회 한 줄 (한국어)",
+      "brief_en": "2-3 sentence analysis in English",
+      "brief_ko": "2-3문장 설명 (한국어)",
+      "key_risk_en": "Key risk in one line",
+      "key_risk_ko": "핵심 리스크 한 줄 (한국어)",
+      "key_opportunity_en": "Key opportunity in one line",
+      "key_opportunity_ko": "핵심 기회 한 줄 (한국어)",
       "action_bias": "one of buy/hold/watch/avoid"
     }}
   ]
@@ -294,21 +300,31 @@ def validate_brief(data: dict) -> bool:
     if mb.get("tone") not in VALID_TONES:
         print(f"[WARN] tone={mb.get('tone')!r} 허용값 아님", file=sys.stderr)
         return False
-    if not isinstance(mb.get("key_themes"), list) or len(mb["key_themes"]) == 0:
-        print("[WARN] key_themes 누락 또는 빈 배열", file=sys.stderr)
+    if not isinstance(mb.get("key_themes_en"), list) or len(mb["key_themes_en"]) == 0:
+        print("[WARN] key_themes_en 누락 또는 빈 배열", file=sys.stderr)
         return False
-
-    symbol_briefs = data.get("symbol_briefs")
-    if not isinstance(symbol_briefs, list) or len(symbol_briefs) == 0:
+    if not isinstance(mb.get("key_themes_ko"), list) or len(mb["key_themes_ko"]) == 0:
+        print("[WARN] key_themes_ko 누락 또는 빈 배열", file=sys.stderr)
+        return False
+    for field in ("summary_en", "summary_ko", "watch_points_en", "watch_points_ko"):
+        if not isinstance(mb.get(field), str) or not mb[field]:
+            print(f"[WARN] market_brief.{field} 누락", file=sys.stderr)
+            return False
+    sbs = data.get("symbol_briefs")
+    if not isinstance(sbs, list) or len(sbs) == 0:
         print("[WARN] symbol_briefs 누락 또는 빈 배열", file=sys.stderr)
         return False
-    for sb in symbol_briefs:
+    for sb in sbs:
         if sb.get("setup_quality") not in VALID_SETUP_QUALITY:
-            print(f"[WARN] {sb.get('symbol')}: setup_quality={sb.get('setup_quality')!r}", file=sys.stderr)
+            print(f"[WARN] setup_quality={sb.get('setup_quality')!r}", file=sys.stderr)
             return False
         if sb.get("action_bias") not in VALID_ACTION_BIAS:
-            print(f"[WARN] {sb.get('symbol')}: action_bias={sb.get('action_bias')!r}", file=sys.stderr)
+            print(f"[WARN] action_bias={sb.get('action_bias')!r}", file=sys.stderr)
             return False
+        for field in ("brief_en", "brief_ko", "key_risk_en", "key_risk_ko", "key_opportunity_en", "key_opportunity_ko"):
+            if not isinstance(sb.get(field), str) or not sb[field]:
+                print(f"[WARN] symbol_brief.{field} 누락", file=sys.stderr)
+                return False
     return True
 
 
@@ -359,7 +375,7 @@ def main():
 
     snapshot = {
         "generated_at": now_iso,
-        "schema_version": "1.0",
+        "schema_version": "2.0",
         "slot": slot,
         "market_brief": parsed["market_brief"],
         "symbol_briefs": parsed["symbol_briefs"],
