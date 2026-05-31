@@ -17,9 +17,7 @@ from pathlib import Path
 
 import yfinance as yf
 
-# git_utils를 같은 디렉토리에서 import
-sys.path.insert(0, str(Path(__file__).parent))
-from git_utils import commit_and_push
+from collect.git_utils import commit_and_push
 
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
 HERMES_CMD = os.environ.get("HERMES_CMD", "/Users/jerry/.local/bin/hermes")
