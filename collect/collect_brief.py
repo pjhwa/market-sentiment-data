@@ -157,7 +157,7 @@ def build_brief_context_snapshot(tech: dict, sentiment: dict, captured_at: str) 
 
 def load_sentiment() -> dict:
     """latest.json에서 소셜 심리 로드."""
-    latest_path = REPO_PATH / "latest.json"
+    latest_path = REPO_PATH / "sentiment" / "latest.json"
     if not latest_path.exists():
         return {}
     try:
