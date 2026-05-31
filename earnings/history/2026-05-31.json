@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-31T09:17:01Z",
+  "generated_at": "2026-05-31T22:00:01Z",
   "schema_version": "2.0",
   "upcoming_earnings": [],
   "recent_results": [
@@ -9,7 +9,8 @@
       "eps_actual": 0.41,
       "eps_estimate": 0.35,
       "surprise_pct": 17.1,
-      "ai_reaction": "강한 EPS 서프라이즈로 시장 긍정 반응 예상, 모멘텀 트레이드 주의"
+      "ai_reaction_en": "TSLA beat by 17.1% with strong operational leverage, boosting EV growth sentiment and reducing near-term downside risk.",
+      "ai_reaction_ko": "TSLA가 17.1% 상회하며 EV 성장 모멘텀을 확인, 단기 하방 리스크 완화."
     },
     {
       "symbol": "AAPL",
@@ -17,7 +18,8 @@
       "eps_actual": 2.01,
       "eps_estimate": 1.94,
       "surprise_pct": 3.5,
-      "ai_reaction": "소폭 상회했으나 큰 서프라이즈 없어, 안정적 주가 흐름 전망"
+      "ai_reaction_en": "AAPL delivered a modest 3.5% beat, reinforcing stability but offering limited catalyst for aggressive upside moves.",
+      "ai_reaction_ko": "AAPL이 3.5% 소폭 상회하며 안정성을 확인했으나 공격적 상승 촉매는 제한적."
     },
     {
       "symbol": "NVDA",
@@ -25,7 +27,8 @@
       "eps_actual": 1.87,
       "eps_estimate": 1.77,
       "surprise_pct": 5.5,
-      "ai_reaction": "AI 수요 확인된 실적, 반도체 섹터 강세 지속 신호"
+      "ai_reaction_en": "NVDA's 5.5% beat reinforces AI leadership, supporting continued accumulation on any post-print dips.",
+      "ai_reaction_ko": "NVDA가 5.5% 상회하며 AI 리더십 재확인, 조정 시 매수 기회로 작용."
     },
     {
       "symbol": "META",
@@ -33,7 +36,8 @@
       "eps_actual": 10.44,
       "eps_estimate": 6.66,
       "surprise_pct": 56.8,
-      "ai_reaction": "대폭 실적 상회로 광고 사업 호조 입증, 고평가 논란 완화 가능"
+      "ai_reaction_en": "META crushed estimates by 56.8%, highlighting exceptional efficiency and triggering broad sector relief rally.",
+      "ai_reaction_ko": "META가 56.8% 대폭 상회하며 효율성 입증, 섹터 전반 안도 랠리 유발."
     },
     {
       "symbol": "AMZN",
@@ -41,7 +45,8 @@
       "eps_actual": 2.78,
       "eps_estimate": 1.65,
       "surprise_pct": 68.2,
-      "ai_reaction": "예상 크게 상회하며 클라우드 성장 확인, 매수세 유입 예상"
+      "ai_reaction_en": "AMZN's massive 68.2% beat signals cloud and advertising strength, favoring long-term holders over short-term traders.",
+      "ai_reaction_ko": "AMZN이 68.2% 대폭 상회하며 클라우드·광고 강세 확인, 장기 보유 유리."
     },
     {
       "symbol": "GOOGL",
@@ -49,7 +54,8 @@
       "eps_actual": 5.11,
       "eps_estimate": 2.67,
       "surprise_pct": 91.6,
-      "ai_reaction": "놀라운 서프라이즈로 AI 투자 성과 입증, 기술주 랠리 촉발"
+      "ai_reaction_en": "GOOGL delivered a stunning 91.6% beat, underscoring AI monetization progress and lifting mega-cap sentiment.",
+      "ai_reaction_ko": "GOOGL이 91.6% 경이적 상회하며 AI 수익화 진전 확인, 메가캡 심리 개선."
     },
     {
       "symbol": "PLTR",
@@ -57,7 +63,8 @@
       "eps_actual": 0.33,
       "eps_estimate": 0.28,
       "surprise_pct": 18.1,
-      "ai_reaction": "수익성 개선 확인, 상업 부문 성장 기대감 고조"
+      "ai_reaction_en": "PLTR beat by 18.1%, validating commercial traction and supporting continued momentum in data analytics names.",
+      "ai_reaction_ko": "PLTR이 18.1% 상회하며 상업적 성과 입증, 데이터 분석 섹터 모멘텀 유지."
     }
   ],
   "partial": false
