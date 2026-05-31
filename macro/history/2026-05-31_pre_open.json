@@ -1,33 +1,45 @@
 {
-  "generated_at": "2026-05-31T09:07:00Z",
-  "schema_version": "1.0",
+  "generated_at": "2026-05-31T13:45:01Z",
+  "schema_version": "2.0",
   "slot": "pre_open",
   "overall": {
-    "summary": "VIX 낮고 기술주 강세, 시장 낙관적",
-    "bullets": [
-      "VIX 15 하락 → 공포 낮음, 매수 우호",
-      "QQQ·SMH 상승추세 → 기술주 강세",
-      "원유·금 분산 → 원자재 조정 중"
+    "summary_en": "Low vol fuels tech-led rally, commodities lag",
+    "summary_ko": "저변동성 속 기술주 랠리, 원자재 약세",
+    "bullets_en": [
+      "VIX at 15 downtrend → low fear, risk-on bias",
+      "QQQ/SMH uptrends → tech leadership intact",
+      "Oil/Gold distribution → commodity pressure builds"
+    ],
+    "bullets_ko": [
+      "VIX 15 하락 → 공포 낮음, 위험선호",
+      "QQQ/SMH 상승추세 → 기술주 주도",
+      "원유/금 분산 → 원자재 압력"
     ]
   },
   "groups": {
     "volatility": {
-      "text": "VIX 급락으로 공포지수 안정화"
+      "text_en": "VIX metrics all down → volatility crush supports risk assets",
+      "text_ko": "VIX 지표 모두 하락 → 변동성 축소, 위험자산 지지"
     },
     "breadth": {
-      "text": "기술·소형주 동반 상승, 폭 확대"
+      "text_en": "RSP/MAGS/SMH uptrends → broad participation, tech strength",
+      "text_ko": "RSP/MAGS/SMH 상승 → 광범위 참여, 기술 강세"
     },
     "credit": {
-      "text": "크레딧 ETF 소폭 상승, 신용 안정"
+      "text_en": "HYG/JNK/LQD above EMA → credit conditions supportive",
+      "text_ko": "HYG/JNK/LQD EMA 상회 → 신용 여건 양호"
     },
     "rates": {
-      "text": "10년물 금리 하락, 채권 회복 조짐"
+      "text_en": "TNX uptrend vs TLT down → higher yields, curve pressure",
+      "text_ko": "TNX 상승 vs TLT 하락 → 금리 상승, 커브 압력"
     },
     "commodities": {
-      "text": "원유·금 모두 분산국면, 약세 지속"
+      "text_en": "CL/GLD distribution → commodity weakness amid equity strength",
+      "text_ko": "CL/GLD 분산 → 주식 강세 속 원자재 약세"
     },
     "sectors": {
-      "text": "반도체 중심 기술 섹터 강세 주도"
+      "text_en": "SMH/QQQ up, XLE/XLY down → rotation into tech/semiconductors",
+      "text_ko": "SMH/QQQ 상승, XLE/XLY 하락 → 기술/반도체 로테이션"
     }
   }
 }
