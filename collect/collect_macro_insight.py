@@ -56,31 +56,37 @@ def build_prompt(macro_items: list, slot: str) -> str:
     data_block = "\n".join(lines)
     slot_kor = "장 개장 전" if slot == "pre_open" else "장 마감 후"
 
-    return f"""You are a professional macro market analyst. Based on the following real-time macro asset data, generate a JSON insight report in Korean.
+    return f"""You are a professional macro market analyst. Based on the following real-time macro asset data, generate a bilingual JSON insight report.
 
 MACRO DATA ({slot_kor}):
 {data_block}
 
 WRITING RULES:
-- overall.summary: 시장 전체 한 문장 (한국어, 40자 이내)
-- overall.bullets: 3개. 각 bullet은 "핵심 신호 → 시장 의미" 형식 (한국어, 25자 이내).
-  좋은 예: "VIX 15 하락 → 공포 낮음, 매수 우호"  "QQQ·SMH 상승추세 → 기술주 강세"  "원유 분산 → 원자재 조정 중"
-  나쁜 예: "VIX 15.3 DOWNTREND"  (단순 수치·상태 나열 금지)
-- groups.text: 해당 그룹이 지금 의미하는 바를 한 문장으로 (40자 이내)
+- overall.summary_en: One sentence describing the overall market in English (≤60 chars)
+- overall.summary_ko: Same in Korean (≤40 chars)
+- overall.bullets_en: 3 items. Each: "key signal → market implication" (English, ≤40 chars each)
+  Good: "VIX drops to 15 → fear low, buy-friendly"  "QQQ/SMH uptrend → tech strength"
+  Bad: "VIX 15.3 DOWNTREND"  (no bare numbers/states)
+- overall.bullets_ko: Same 3 bullets in Korean (≤25 chars each)
+  Good: "VIX 15 하락 → 공포 낮음, 매수 우호"
+- groups.text_en: One sentence on what this group signals now (English, ≤50 chars)
+- groups.text_ko: Same in Korean (≤40 chars)
 
 Generate ONE JSON object with this EXACT schema (no prose, no code fences):
 {{
   "overall": {{
-    "summary": "...",
-    "bullets": ["신호1 → 의미1", "신호2 → 의미2", "신호3 → 의미3"]
+    "summary_en": "...",
+    "summary_ko": "...",
+    "bullets_en": ["signal1 → meaning1", "signal2 → meaning2", "signal3 → meaning3"],
+    "bullets_ko": ["신호1 → 의미1", "신호2 → 의미2", "신호3 → 의미3"]
   }},
   "groups": {{
-    "volatility":  {{ "text": "..." }},
-    "breadth":     {{ "text": "..." }},
-    "credit":      {{ "text": "..." }},
-    "rates":       {{ "text": "..." }},
-    "commodities": {{ "text": "..." }},
-    "sectors":     {{ "text": "..." }}
+    "volatility":  {{ "text_en": "...", "text_ko": "..." }},
+    "breadth":     {{ "text_en": "...", "text_ko": "..." }},
+    "credit":      {{ "text_en": "...", "text_ko": "..." }},
+    "rates":       {{ "text_en": "...", "text_ko": "..." }},
+    "commodities": {{ "text_en": "...", "text_ko": "..." }},
+    "sectors":     {{ "text_en": "...", "text_ko": "..." }}
   }}
 }}
 
@@ -128,16 +134,26 @@ VALID_GROUP_KEYS = {"volatility", "breadth", "credit", "rates", "commodities", "
 
 
 def validate(data: dict) -> bool:
-    if not isinstance(data.get("overall"), dict):
+    overall = data.get("overall", {})
+    if not isinstance(overall, dict):
         print("[WARN] overall 누락", file=sys.stderr)
         return False
-    if not data["overall"].get("summary"):
-        print("[WARN] overall.summary 누락", file=sys.stderr)
-        return False
+    for field in ("summary_en", "summary_ko"):
+        if not overall.get(field):
+            print(f"[WARN] overall.{field} 누락", file=sys.stderr)
+            return False
+    for field in ("bullets_en", "bullets_ko"):
+        if not isinstance(overall.get(field), list) or len(overall[field]) == 0:
+            print(f"[WARN] overall.{field} 누락 또는 비어있음", file=sys.stderr)
+            return False
     groups = data.get("groups", {})
     if set(groups.keys()) != VALID_GROUP_KEYS:
         print(f"[WARN] groups 키 불일치: {set(groups.keys())}", file=sys.stderr)
         return False
+    for key, grp in groups.items():
+        if not grp.get("text_en") or not grp.get("text_ko"):
+            print(f"[WARN] groups.{key}: text_en 또는 text_ko 누락", file=sys.stderr)
+            return False
     return True
 
 
@@ -169,10 +185,18 @@ def main():
 
     snapshot = {
         "generated_at": now_iso,
-        "schema_version": "1.0",
+        "schema_version": "2.0",
         "slot": slot,
-        "overall": parsed["overall"],
-        "groups": parsed["groups"],
+        "overall": {
+            "summary_en": parsed["overall"]["summary_en"],
+            "summary_ko": parsed["overall"]["summary_ko"],
+            "bullets_en": parsed["overall"]["bullets_en"],
+            "bullets_ko": parsed["overall"]["bullets_ko"],
+        },
+        "groups": {
+            key: {"text_en": grp["text_en"], "text_ko": grp["text_ko"]}
+            for key, grp in parsed["groups"].items()
+        },
     }
 
     macro_dir = REPO_PATH / "macro"
