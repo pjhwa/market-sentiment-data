@@ -93,6 +93,17 @@ data = resp.json()
 | `top_news.summary_en` | 문자열 — 1-2문장 요약 (영어) |
 | `top_news.summary_ko` | 문자열 — 1-2문장 요약 (한국어) |
 | `top_news.source` | 문자열 — 출처 (Bloomberg, @username 등) |
+| `key_reason_en` | 문자열 — 심리 핵심 사유 (영어) |
+| `key_reason_ko` | 문자열 — 심리 핵심 사유 (한국어) |
+
+**현재 데이터 상태:**
+- `latest.json` 및 `brief/latest.json`이 v2.0 이중 언어 형식으로 업그레이드됨
+- `_en` 필드는 현재 `[EN pending next cron]` 접두사 포함 — Mac Mini cron이 업데이트된 Grok 프롬프트로 다음 실행(06:00 또는 22:00 UTC) 시 실제 영문 텍스트 생성
+- v1.x history 파일은 변경 없음 — 소비 측에서 폴백 패턴 사용 권장:
+  ```python
+  def get_field(obj, field, locale):
+      return obj.get(f"{field}_{locale}") or obj.get(field) or ""
+  ```
 
 ---
 

@@ -96,7 +96,19 @@ See `schema.json` for full spec. Key enums:
 # Select language based on user preference
 locale = "en"  # or "ko"
 reason = data["market"]["key_reason_en"] if locale == "en" else data["market"]["key_reason_ko"]
+
+# Graceful fallback for v1.x data (no _en/_ko fields):
+def get_field(obj, field, locale):
+    en_val = obj.get(f"{field}_en")
+    ko_val = obj.get(f"{field}_ko")
+    fallback = obj.get(field)
+    return (en_val or fallback or "") if locale == "en" else (ko_val or fallback or "")
 ```
+
+**Current data status:**
+- `latest.json` and `brief/latest.json` have been upgraded to schema v2.0 bilingual format.
+- `_en` fields currently contain `[EN pending next cron]` prefix — actual English text will be generated when the Mac Mini cron runs with the updated Grok prompts (at 06:00 or 22:00 UTC).
+- v1.x history files remain unchanged; consumers should use the fallback pattern above.
 
 ---
 
