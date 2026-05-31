@@ -273,7 +273,7 @@ def build_earnings_prompt(upcoming_raw: list[dict], recent_raw: list[dict]) -> s
         for r in recent_raw
     ]) or "없음"
 
-    return f"""You are a professional earnings analyst. Based on the following data, generate earnings intelligence in JSON format.
+    return f"""You are a professional earnings analyst. Based on the following data, generate bilingual earnings intelligence in JSON format.
 
 UPCOMING EARNINGS (30일 이내, EPS estimate 미형성 종목은 사전 필터링됨):
 {upcoming_block}
@@ -297,9 +297,11 @@ Generate ONE JSON object with this EXACT schema (no prose, no code fences):
       "eps_estimate": null,
       "revenue_estimate_b": null,
       "historical_beat_rate": null,
-      "ai_summary": "2-3문장 어닝 맥락 설명. tier에 맞는 시의성 강조 (한국어)",
-      "risk_level": "one of high/med/low",
-      "action_note": "트레이더를 위한 한 줄 조언. tier별 구체적 행동 지침 (한국어)"
+      "ai_summary_en": "2-3 sentence earnings context in English, tier-appropriate urgency",
+      "ai_summary_ko": "2-3문장 어닝 맥락 설명 (한국어), tier에 맞는 시의성 강조",
+      "risk_level": "high|med|low",
+      "action_note_en": "One-line trader action guidance in English (tier-specific)",
+      "action_note_ko": "트레이더를 위한 한 줄 조언 (한국어), tier별 구체적 행동 지침"
     }}
   ],
   "recent_results": [
@@ -309,15 +311,16 @@ Generate ONE JSON object with this EXACT schema (no prose, no code fences):
       "eps_actual": 0.0,
       "eps_estimate": 0.0,
       "surprise_pct": 0.0,
-      "ai_reaction": "시장 반응 및 트레이더 시사점 한 줄 (한국어)"
+      "ai_reaction_en": "One-line market reaction and trader implication in English",
+      "ai_reaction_ko": "시장 반응 및 트레이더 시사점 한 줄 (한국어)"
     }}
   ]
 }}
 
 risk_level 기준 (날짜 우선, beat_rate 보조):
-- high: days_until <= 7 (이벤트 임박, 포지션 직접 위험)
-- med: days_until 8-21 (포지션 계획 구간, EPS estimate 존재)
-- low: days_until 22-30 (모니터링 구간, EPS estimate 형성됨)
+- high: days_until <= 7
+- med: days_until 8-21
+- low: days_until 22-30
 
 Output raw JSON only."""
 
@@ -388,12 +391,10 @@ def validate_earnings(data: dict) -> bool:
         if item.get("risk_level") not in VALID_RISK_LEVELS:
             print(f"[WARN] {item.get('symbol')}: risk_level={item.get('risk_level')!r}", file=sys.stderr)
             return False
-        # relevance_tier는 선택적 — 없어도 통과 (구버전 호환)
         tier = item.get("relevance_tier")
         if tier is not None and tier not in VALID_TIERS:
             print(f"[WARN] {item.get('symbol')}: relevance_tier={tier!r}", file=sys.stderr)
             return False
-        # Numeric validation where expected (defensive for partial/ malformed AI)
         for num_key in ("eps_estimate", "revenue_estimate_b", "historical_beat_rate", "days_until"):
             v = item.get(num_key)
             if v is not None:
@@ -402,6 +403,10 @@ def validate_earnings(data: dict) -> bool:
                 except (TypeError, ValueError):
                     print(f"[WARN] {item.get('symbol')}: {num_key} not numeric: {v!r}", file=sys.stderr)
                     return False
+        for text_field in ("ai_summary_en", "ai_summary_ko", "action_note_en", "action_note_ko"):
+            if not item.get(text_field):
+                print(f"[WARN] {item.get('symbol')}: {text_field} 누락", file=sys.stderr)
+                return False
     for item in recent:
         for num_key in ("eps_actual", "eps_estimate", "surprise_pct"):
             v = item.get(num_key)
@@ -411,6 +416,10 @@ def validate_earnings(data: dict) -> bool:
                 except (TypeError, ValueError):
                     print(f"[WARN] {item.get('symbol')}: {num_key} not numeric: {v!r}", file=sys.stderr)
                     return False
+        for text_field in ("ai_reaction_en", "ai_reaction_ko"):
+            if not item.get(text_field):
+                print(f"[WARN] {item.get('symbol')}: {text_field} 누락", file=sys.stderr)
+                return False
     return True
 
 
@@ -488,9 +497,11 @@ def main(dry_run: bool = False):
                         "eps_estimate": u.get("eps_estimate"),
                         "revenue_estimate_b": u.get("revenue_estimate_b"),
                         "historical_beat_rate": u.get("historical_beat_rate"),
-                        "ai_summary": "[DRY-RUN] hermes 생략됨 — 원시 yfinance 데이터만.",
+                        "ai_summary_en": "[DRY-RUN] hermes skipped — raw yfinance data only.",
+                        "ai_summary_ko": "[DRY-RUN] hermes 생략됨 — 원시 yfinance 데이터만.",
                         "risk_level": "high" if u.get("days_until", 99) <= 7 else ("med" if u.get("days_until", 99) <= 21 else "low"),
-                        "action_note": "dry-run 모드"
+                        "action_note_en": "dry-run mode",
+                        "action_note_ko": "dry-run 모드",
                     }
                     for u in upcoming_raw
                 ],
@@ -501,7 +512,8 @@ def main(dry_run: bool = False):
                         "eps_actual": r["eps_actual"],
                         "eps_estimate": r["eps_estimate"],
                         "surprise_pct": r["surprise_pct"],
-                        "ai_reaction": "[DRY-RUN] hermes 생략 (partial 시뮬)"
+                        "ai_reaction_en": "[DRY-RUN] hermes skipped (partial simulation)",
+                        "ai_reaction_ko": "[DRY-RUN] hermes 생략 (partial 시뮬)",
                     }
                     for r in recent_raw
                 ]
@@ -524,9 +536,11 @@ def main(dry_run: bool = False):
                             "eps_estimate": u.get("eps_estimate"),
                             "revenue_estimate_b": u.get("revenue_estimate_b"),
                             "historical_beat_rate": u.get("historical_beat_rate"),
-                            "ai_summary": "Grok/Hermes 호출 실패 (partial). 원시 yfinance 데이터만 사용.",
+                            "ai_summary_en": "Grok/Hermes call failed (partial). Raw yfinance data only.",
+                            "ai_summary_ko": "Grok/Hermes 호출 실패 (partial). 원시 yfinance 데이터만 사용.",
                             "risk_level": "high" if u.get("days_until", 99) <= 7 else ("med" if u.get("days_until", 99) <= 21 else "low"),
-                            "action_note": "부분 수집 실패 — 별도 확인 및 수동 모니터링 권장"
+                            "action_note_en": "Partial collection failure — manual monitoring recommended",
+                            "action_note_ko": "부분 수집 실패 — 별도 확인 및 수동 모니터링 권장",
                         }
                         for u in upcoming_raw
                     ],
@@ -537,7 +551,8 @@ def main(dry_run: bool = False):
                             "eps_actual": r["eps_actual"],
                             "eps_estimate": r["eps_estimate"],
                             "surprise_pct": r["surprise_pct"],
-                            "ai_reaction": "Grok/Hermes 호출 실패 — AI 반응 분석 생략 (partial)"
+                            "ai_reaction_en": "Grok/Hermes call failed — AI reaction omitted (partial)",
+                            "ai_reaction_ko": "Grok/Hermes 호출 실패 — AI 반응 분석 생략 (partial)",
                         }
                         for r in recent_raw
                     ]
@@ -558,9 +573,11 @@ def main(dry_run: bool = False):
                                 "eps_estimate": u.get("eps_estimate"),
                                 "revenue_estimate_b": u.get("revenue_estimate_b"),
                                 "historical_beat_rate": u.get("historical_beat_rate"),
-                                "ai_summary": "Grok 응답 파싱 실패 (partial). 원시 데이터 기반.",
+                                "ai_summary_en": "Grok response parse failed (partial). Raw data only.",
+                                "ai_summary_ko": "Grok 응답 파싱 실패 (partial). 원시 데이터 기반.",
                                 "risk_level": "high" if u.get("days_until", 99) <= 7 else ("med" if u.get("days_until", 99) <= 21 else "low"),
-                                "action_note": "부분 수집 — AI 요약 없음, 수동 확인"
+                                "action_note_en": "Partial collection — no AI summary, manual check advised",
+                                "action_note_ko": "부분 수집 — AI 요약 없음, 수동 확인",
                             }
                             for u in upcoming_raw
                         ],
@@ -571,7 +588,8 @@ def main(dry_run: bool = False):
                                 "eps_actual": r["eps_actual"],
                                 "eps_estimate": r["eps_estimate"],
                                 "surprise_pct": r["surprise_pct"],
-                                "ai_reaction": "Grok 파싱 실패 — AI 반응 생략 (partial)"
+                                "ai_reaction_en": "Grok parse failed — AI reaction omitted (partial)",
+                                "ai_reaction_ko": "Grok 파싱 실패 — AI 반응 생략 (partial)",
                             }
                             for r in recent_raw
                         ]
