@@ -1,0 +1,58 @@
+[INFO] 어닝 수집 시작: 2026-05-31T09:17:01Z (dry_run=False)
+[DEBUG] TSLA: raw_calendar shape=len=7 keys/cols=['Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low', 'Revenue Average']
+[DEBUG] TSLA: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   TSLA: earnings_date=2026-07-23, eps_est=0.45396, beat_rate=0.5, days_until=53
+[DEBUG] AAPL: raw_calendar shape=len=9 keys/cols=['Dividend Date', 'Ex-Dividend Date', 'Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low']
+[DEBUG] AAPL: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   AAPL: earnings_date=2026-07-31, eps_est=1.89541, beat_rate=1.0, days_until=61
+[DEBUG] NVDA: raw_calendar shape=len=9 keys/cols=['Dividend Date', 'Ex-Dividend Date', 'Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low']
+[DEBUG] NVDA: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   NVDA: earnings_date=2026-08-27, eps_est=2.07925, beat_rate=1.0, days_until=88
+[DEBUG] META: raw_calendar shape=len=9 keys/cols=['Dividend Date', 'Ex-Dividend Date', 'Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low']
+[DEBUG] META: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   META: earnings_date=2026-07-30, eps_est=7.50889, beat_rate=0.75, days_until=60
+[DEBUG] AMZN: raw_calendar shape=len=7 keys/cols=['Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low', 'Revenue Average']
+[DEBUG] AMZN: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   AMZN: earnings_date=2026-07-31, eps_est=1.81367, beat_rate=0.75, days_until=61
+[DEBUG] GOOGL: raw_calendar shape=len=9 keys/cols=['Dividend Date', 'Ex-Dividend Date', 'Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low']
+[DEBUG] GOOGL: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   GOOGL: earnings_date=2026-07-24, eps_est=2.88339, beat_rate=1.0, days_until=54
+[DEBUG] PLTR: raw_calendar shape=len=7 keys/cols=['Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low', 'Revenue Average']
+[DEBUG] PLTR: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   PLTR: earnings_date=2026-08-04, eps_est=0.34491, beat_rate=1.0, days_until=65
+[INFO] upcoming=0, recent=7, failed=0
+[INFO] Grok 호출 중...
+[INFO] jsonschema validation passed for earnings snapshot
+[INFO] 저장 완료: /Users/jerry/dev/market-sentiment-data/earnings/latest.json
+[INFO] 커밋 완료: earnings: 2026-05-31 09:17 update
+[OK] GitHub push 성공
+[OK] 어닝 수집 + GitHub push 완료 (partial=False)
+[INFO] 어닝 수집 시작: 2026-05-31T22:00:01Z (dry_run=False)
+[DEBUG] TSLA: raw_calendar shape=len=7 keys/cols=['Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low', 'Revenue Average']
+[DEBUG] TSLA: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   TSLA: earnings_date=2026-07-23, eps_est=0.45396, beat_rate=0.5, days_until=53
+[DEBUG] AAPL: raw_calendar shape=len=9 keys/cols=['Dividend Date', 'Ex-Dividend Date', 'Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low']
+[DEBUG] AAPL: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   AAPL: earnings_date=2026-07-31, eps_est=1.89541, beat_rate=1.0, days_until=61
+[DEBUG] NVDA: raw_calendar shape=len=9 keys/cols=['Dividend Date', 'Ex-Dividend Date', 'Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low']
+[DEBUG] NVDA: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   NVDA: earnings_date=2026-08-27, eps_est=2.07925, beat_rate=1.0, days_until=88
+[DEBUG] META: raw_calendar shape=len=9 keys/cols=['Dividend Date', 'Ex-Dividend Date', 'Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low']
+[DEBUG] META: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   META: earnings_date=2026-07-30, eps_est=7.50889, beat_rate=0.75, days_until=60
+[DEBUG] AMZN: raw_calendar shape=len=7 keys/cols=['Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low', 'Revenue Average']
+[DEBUG] AMZN: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   AMZN: earnings_date=2026-07-31, eps_est=1.81367, beat_rate=0.75, days_until=61
+[DEBUG] GOOGL: raw_calendar shape=len=9 keys/cols=['Dividend Date', 'Ex-Dividend Date', 'Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low']
+[DEBUG] GOOGL: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   GOOGL: earnings_date=2026-07-24, eps_est=2.88339, beat_rate=1.0, days_until=54
+[DEBUG] PLTR: raw_calendar shape=len=7 keys/cols=['Earnings Date', 'Earnings High', 'Earnings Low', 'Earnings Average', 'Revenue High', 'Revenue Low', 'Revenue Average']
+[DEBUG] PLTR: raw_earnings_history shape=(4, 4) cols=['epsActual', 'epsEstimate', 'epsDifference', 'surprisePercent']
+[OK]   PLTR: earnings_date=2026-08-04, eps_est=0.34491, beat_rate=1.0, days_until=65
+[INFO] upcoming=0, recent=7, failed=0
+[INFO] Grok 호출 중...
+[INFO] jsonschema validation passed for earnings snapshot
+[INFO] 저장 완료: /Users/jerry/dev/market-sentiment-data/earnings/latest.json
+[INFO] 커밋 완료: earnings: 2026-05-31 22:00 update
+[OK] GitHub push 성공
+[OK] 어닝 수집 + GitHub push 완료 (partial=False)
