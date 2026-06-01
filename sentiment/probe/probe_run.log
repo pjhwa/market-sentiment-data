@@ -1,0 +1,524 @@
+[INFO] 후보 169개 → 57개 배치 (배치당 3종목)
+[INFO] HERMES_CMD=/home/citec/.local/bin/hermes  PROVIDER=(기본값)
+
+[배치 1/57] TSLA, AAPL, NVDA
+  📈 TSLA  : elevated   score= 83.0  (신뢰: high)
+  ➖ AAPL  : normal     score= 56.1  (신뢰: med)
+  🔥 NVDA  : surging    score= 87.0  (신뢰: high)
+
+[배치 2/57] META, AMZN, GOOGL
+  📈 META  : elevated   score= 90.0  (신뢰: high)
+  ➖ AMZN  : normal     score= 75.0  (신뢰: high)
+  ➖ GOOGL : normal     score= 43.4  (신뢰: med)
+
+[배치 3/57] PLTR, MSFT, NFLX
+  🔥 PLTR  : surging    score= 92.0  (신뢰: high)
+  📈 MSFT  : elevated   score= 66.3  (신뢰: med)
+  💤 NFLX  : low        score= 20.4  (신뢰: low)
+
+[배치 4/57] ORCL, AMD, INTC
+  📈 ORCL  : elevated   score= 82.0  (신뢰: high)
+  ➖ AMD   : normal     score= 47.6  (신뢰: med)
+  📈 INTC  : elevated   score= 70.0  (신뢰: high)
+
+[배치 5/57] AVGO, QCOM, MU
+  📈 AVGO  : elevated   score= 65.5  (신뢰: med)
+  📈 QCOM  : elevated   score= 56.1  (신뢰: med)
+  🔥 MU    : surging    score= 92.0  (신뢰: high)
+
+[배치 6/57] SMCI, ARM, TSM
+  📈 SMCI  : elevated   score= 69.7  (신뢰: med)
+  📈 ARM   : elevated   score= 66.3  (신뢰: med)
+  🔥 TSM   : surging    score= 95.0  (신뢰: high)
+
+[배치 7/57] MSTR, COIN, HOOD
+  📈 MSTR  : elevated   score= 70.5  (신뢰: med)
+  📈 COIN  : elevated   score= 69.7  (신뢰: med)
+  📈 HOOD  : elevated   score= 69.7  (신뢰: med)
+
+[배치 8/57] SQ, PYPL, SOFI
+  💤 SQ    : low        score= 25.2  (신뢰: low)
+  ➖ PYPL  : normal     score= 44.2  (신뢰: med)
+  📈 SOFI  : elevated   score= 90.0  (신뢰: high)
+
+[배치 9/57] RIVN, LCID, NIO
+  ➖ RIVN  : normal     score= 57.8  (신뢰: med)
+  💤 LCID  : low        score= 27.6  (신뢰: low)
+  📈 NIO   : elevated   score= 69.7  (신뢰: med)
+
+[배치 10/57] XPEV, LI, F
+  📈 XPEV  : elevated   score= 59.5  (신뢰: med)
+  📈 LI    : elevated   score= 59.5  (신뢰: med)
+  🔥 F     : surging    score= 92.0  (신뢰: high)
+
+[배치 11/57] GM, IONQ, QUBT
+  💤 GM    : low        score= 31.4  (신뢰: med)
+  📈 IONQ  : elevated   score= 81.0  (신뢰: high)
+  ➖ QUBT  : normal     score= 34.0  (신뢰: med)
+
+[배치 12/57] RGTI, QBTS, CRWD
+  📈 RGTI  : elevated   score= 69.7  (신뢰: med)
+  🔥 QBTS  : surging    score= 88.0  (신뢰: high)
+  🔥 CRWD  : surging    score= 92.0  (신뢰: high)
+
+[배치 13/57] SNOW, NET, DDOG
+  📈 SNOW  : elevated   score= 69.7  (신뢰: med)
+  ➖ NET   : normal     score= 59.5  (신뢰: med)
+  💤 DDOG  : low        score= 25.8  (신뢰: low)
+
+[배치 14/57] MDB, SHOP, UBER
+  💤 MDB   : low        score= 22.8  (신뢰: low)
+  ➖ SHOP  : normal     score= 59.5  (신뢰: med)
+  ➖ UBER  : normal     score= 59.5  (신뢰: med)
+
+[배치 15/57] ABNB, RBLX, SPOT
+  ➖ ABNB  : normal     score= 57.8  (신뢰: med)
+  📈 RBLX  : elevated   score= 90.0  (신뢰: high)
+  📈 SPOT  : elevated   score= 85.0  (신뢰: high)
+
+[배치 16/57] DIS, NKLA, LLY
+  ➖ DIS   : normal     score= 53.5  (신뢰: med)
+  💤 NKLA  : low        score= 24.0  (신뢰: low)
+  📈 LLY   : elevated   score= 77.0  (신뢰: high)
+
+[배치 17/57] NVO, MRNA, BNTX
+  📈 NVO   : elevated   score= 90.0  (신뢰: high)
+  📈 MRNA  : elevated   score= 56.1  (신뢰: med)
+  ➖ BNTX  : normal     score= 46.8  (신뢰: med)
+
+[배치 18/57] PFE, ENPH, FSLR
+  ➖ PFE   : normal     score= 63.8  (신뢰: med)
+  📈 ENPH  : elevated   score= 70.0  (신뢰: high)
+  📈 FSLR  : elevated   score= 70.0  (신뢰: high)
+
+[배치 19/57] PLUG, CHPT, NEE
+  📈 PLUG  : elevated   score= 60.4  (신뢰: med)
+  📈 CHPT  : elevated   score= 60.4  (신뢰: med)
+  📈 NEE   : elevated   score= 65.5  (신뢰: med)
+
+[배치 20/57] RKLB, ASTS, LUNR
+  🔥 RKLB  : surging    score=100.0  (신뢰: high)
+  📈 ASTS  : elevated   score= 63.8  (신뢰: med)
+  ➖ LUNR  : normal     score= 47.6  (신뢰: med)
+
+[배치 21/57] BA, LMT, V
+  📈 BA    : elevated   score= 59.5  (신뢰: med)
+  💤 LMT   : low        score= 34.0  (신뢰: med)
+  📈 V     : elevated   score= 77.0  (신뢰: high)
+
+[배치 22/57] MA, AFRM, UPST
+  ➖ MA    : normal     score= 63.8  (신뢰: med)
+  📈 AFRM  : elevated   score= 82.0  (신뢰: high)
+  📈 UPST  : elevated   score= 78.0  (신뢰: high)
+
+[배치 23/57] JPM, AI, SOUN
+  ➖ JPM   : normal     score= 68.0  (신뢰: high)
+  📈 AI    : elevated   score= 60.4  (신뢰: med)
+  ➖ SOUN  : normal     score= 68.0  (신뢰: high)
+
+[배치 24/57] BBAI, PATH, GTLB
+  📈 BBAI  : elevated   score= 82.0  (신뢰: high)
+  ➖ PATH  : normal     score= 46.8  (신뢰: med)
+  📈 GTLB  : elevated   score= 65.5  (신뢰: med)
+
+[배치 25/57] MRVL, ASML, ON
+  📈 MRVL  : elevated   score= 72.2  (신뢰: med)
+  ➖ ASML  : normal     score= 55.2  (신뢰: med)
+  ➖ ON    : normal     score= 53.5  (신뢰: med)
+
+[배치 26/57] PANW, ZS, ZM
+  📈 PANW  : elevated   score= 77.0  (신뢰: high)
+  ➖ ZS    : normal     score= 46.8  (신뢰: med)
+  💤 ZM    : low        score= 16.8  (신뢰: low)
+
+[배치 27/57] SNAP, PINS, TWLO
+  💤 SNAP  : low        score= 16.8  (신뢰: low)
+  📈 PINS  : elevated   score= 65.5  (신뢰: med)
+  💤 TWLO  : low        score= 16.8  (신뢰: low)
+
+[배치 28/57] OKTA, NKE, LULU
+  📈 OKTA  : elevated   score= 77.0  (신뢰: high)
+  ➖ NKE   : normal     score= 57.8  (신뢰: med)
+  ➖ LULU  : normal     score= 46.8  (신뢰: med)
+
+[배치 29/57] WMT, COST, CELH
+  📈 WMT   : elevated   score= 56.1  (신뢰: med)
+  ➖ COST  : normal     score= 75.0  (신뢰: high)
+  📈 CELH  : elevated   score= 69.7  (신뢰: med)
+
+[배치 30/57] EA, TTWO, U
+  📈 EA    : elevated   score= 63.8  (신뢰: med)
+  📈 TTWO  : elevated   score= 82.0  (신뢰: high)
+  ➖ U     : normal     score= 59.5  (신뢰: med)
+
+[배치 31/57] LYFT, DASH, GME
+  📈 LYFT  : elevated   score= 90.0  (신뢰: high)
+  ➖ DASH  : normal     score= 53.5  (신뢰: med)
+  📈 GME   : elevated   score= 71.0  (신뢰: high)
+
+[배치 32/57] AMC, CVNA, RTX
+  ➖ AMC   : normal     score= 63.8  (신뢰: med)
+  ➖ CVNA  : normal     score= 43.4  (신뢰: med)
+  📈 RTX   : elevated   score= 36.0  (신뢰: low)
+
+[배치 33/57] GS, UNH, BRK-B
+  ➖ GS    : normal     score= 70.0  (신뢰: high)
+  📈 UNH   : elevated   score= 70.0  (신뢰: high)
+  🔥 BRK-B : surging    score= 82.0  (신뢰: high)
+
+[배치 34/57] XOM, JNJ, PG
+  📈 XOM   : elevated   score= 66.3  (신뢰: med)
+  📈 JNJ   : elevated   score= 65.5  (신뢰: med)
+  ➖ PG    : normal     score= 75.0  (신뢰: high)
+
+[배치 35/57] ABBV, HD, BAC
+  📈 ABBV  : elevated   score= 69.0  (신뢰: high)
+  ➖ HD    : normal     score= 46.8  (신뢰: med)
+  ➖ BAC   : normal     score= 46.8  (신뢰: med)
+
+[배치 36/57] CVX, KO, MRK
+  📈 CVX   : elevated   score= 61.2  (신뢰: med)
+  ➖ KO    : normal     score= 75.0  (신뢰: high)
+  📈 MRK   : elevated   score= 59.5  (신뢰: med)
+
+[배치 37/57] PEP, CRM, CSCO
+  ➖ PEP   : normal     score= 63.8  (신뢰: med)
+  📈 CRM   : elevated   score= 77.0  (신뢰: high)
+  📈 CSCO  : elevated   score= 77.0  (신뢰: high)
+
+[배치 38/57] MS, NOW, ADBE
+  ➖ MS    : normal     score= 49.3  (신뢰: med)
+  📈 NOW   : elevated   score= 82.0  (신뢰: high)
+  💤 ADBE  : low        score= 22.8  (신뢰: low)
+
+[배치 39/57] INTU, AMAT, IBM
+  📈 INTU  : elevated   score= 75.0  (신뢰: high)
+  📈 AMAT  : elevated   score= 56.1  (신뢰: med)
+  📈 IBM   : elevated   score= 63.8  (신뢰: med)
+
+[배치 40/57] T, VZ, TMUS
+  💤 T     : low        score= 34.8  (신뢰: low)
+  ➖ VZ    : normal     score= 63.8  (신뢰: med)
+  📈 TMUS  : elevated   score= 69.7  (신뢰: med)
+
+[배치 41/57] TXN, LRCX, KLAC
+  ➖ TXN   : normal     score= 47.6  (신뢰: med)
+  📈 LRCX  : elevated   score= 69.0  (신뢰: high)
+  💤 KLAC  : low        score= 30.6  (신뢰: low)
+
+[배치 42/57] ANET, NXPI, ADI
+  📈 ANET  : elevated   score= 90.0  (신뢰: high)
+  📈 NXPI  : elevated   score= 58.6  (신뢰: med)
+  💤 ADI   : low        score= 12.0  (신뢰: low)
+
+[배치 43/57] DELL, AMGN, ISRG
+  📈 DELL  : elevated   score= 82.0  (신뢰: high)
+  ➖ AMGN  : normal     score= 46.8  (신뢰: med)
+  ➖ ISRG  : normal     score= 59.5  (신뢰: med)
+
+[배치 44/57] GILD, REGN, VRTX
+  📈 GILD  : elevated   score= 62.0  (신뢰: med)
+  📈 REGN  : elevated   score= 61.2  (신뢰: med)
+  📈 VRTX  : elevated   score= 62.0  (신뢰: med)
+
+[배치 45/57] MCD, SBUX, CAT
+  🔥 MCD   : surging    score= 92.0  (신뢰: high)
+  ➖ SBUX  : normal     score= 43.4  (신뢰: med)
+  ➖ CAT   : normal     score= 59.5  (신뢰: med)
+
+[배치 46/57] FTNT, ACN, APP
+  📈 FTNT  : elevated   score= 59.5  (신뢰: med)
+  ➖ ACN   : normal     score= 57.8  (신뢰: med)
+  📈 APP   : elevated   score= 90.0  (신뢰: high)
+
+[배치 47/57] AXON, HIMS, RDDT
+  ➖ AXON  : normal     score= 63.8  (신뢰: med)
+  📈 HIMS  : elevated   score= 69.7  (신뢰: med)
+  ➖ RDDT  : normal     score= 63.8  (신뢰: med)
+
+[배치 48/57] DUOL, BABA, PDD
+  📈 DUOL  : elevated   score= 90.0  (신뢰: high)
+  ➖ BABA  : normal     score= 43.4  (신뢰: med)
+  📈 PDD   : elevated   score= 48.4  (신뢰: med)
+
+[배치 49/57] BIDU, SE, MNDY
+  💤 BIDU  : low        score= 55.2  (신뢰: med)
+  ➖ SE    : normal     score= 63.8  (신뢰: med)
+  ➖ MNDY  : normal     score= 59.5  (신뢰: med)
+
+[배치 50/57] CEG, VST, VRT
+  🔥 CEG   : surging    score= 95.0  (신뢰: high)
+  🔥 VST   : surging    score= 95.0  (신뢰: high)
+  📈 VRT   : elevated   score= 85.0  (신뢰: high)
+
+[배치 51/57] ETN, OKLO, SMR
+  📈 ETN   : elevated   score= 72.2  (신뢰: med)
+  🔥 OKLO  : surging    score= 92.0  (신뢰: high)
+  📈 SMR   : elevated   score= 69.7  (신뢰: med)
+
+[배치 52/57] PWR, MARA, RIOT
+  📈 PWR   : elevated   score= 82.0  (신뢰: high)
+  📈 MARA  : elevated   score= 78.0  (신뢰: high)
+  💤 RIOT  : low        score= 12.0  (신뢰: low)
+
+[배치 53/57] CLSK, CORZ, ALAB
+  📈 CLSK  : elevated   score= 85.0  (신뢰: high)
+  📈 CORZ  : elevated   score= 85.0  (신뢰: high)
+  🔥 ALAB  : surging    score= 92.0  (신뢰: high)
+
+[배치 54/57] WOLF, MCHP, HPE
+  📈 WOLF  : elevated   score= 82.0  (신뢰: high)
+  💤 MCHP  : low        score= 47.6  (신뢰: med)
+  ➖ HPE   : normal     score= 67.0  (신뢰: high)
+
+[배치 55/57] VKTX, ZNTL, KTOS
+  📈 VKTX  : elevated   score= 82.0  (신뢰: high)
+  💤 ZNTL  : low        score= 12.0  (신뢰: low)
+  📈 KTOS  : elevated   score= 82.0  (신뢰: high)
+
+[배치 56/57] HII, JD, KWEB
+  📈 HII   : elevated   score= 55.2  (신뢰: med)
+  📈 JD    : elevated   score= 85.0  (신뢰: high)
+  ➖ KWEB  : normal     score= 53.5  (신뢰: med)
+
+[배치 57/57] RBRK
+  📈 RBRK  : elevated   score= 69.7  (신뢰: med)
+
+[저장] /home/citec/tmp/market-sentiment-data/sentiment/probe/2026-06-01_1003.json
+[저장] /home/citec/tmp/market-sentiment-data/sentiment/probe/latest.json  (latest 덮어씀)
+
+══════════════════════════════════════════════════════════════════════════════════════════
+ X 멘션 볼륨 프로브 결과 — 복합 점수 순 (Tier 선별용)
+══════════════════════════════════════════════════════════════════════════════════════════
+#    심볼         점수  볼륨         일관성            리테일      명확도      봇       신뢰    비고
+──────────────────────────────────────────────────────────────────────────────────────────
+1    RKLB    100.0  🔥surging   steady         high     clear    low     ●    Strong operational progress, acquisiti ◀ TOP20
+2    CEG      95.0  🔥surging   steady         med      clear    low     ●    Dominant discussion centers on nuclear ◀ TOP20
+3    TSM      95.0  🔥surging   steady         med      clear    low     ●    AI foundry leadership and aggressive f ◀ TOP20
+4    VST      95.0  🔥surging   steady         med      clear    low     ●    Frequent mentions highlight nuclear as ◀ TOP20
+5    ALAB     92.0  🔥surging   event_driven   high     clear    low     ●    Momentum around CXL connectivity and A ◀ TOP20
+6    CRWD     92.0  🔥surging   event_driven   high     clear    low     ●    Posts surged after NVIDIA CEO Jensen H ◀ TOP20
+7    F        92.0  🔥surging   event_driven   high     clear    low     ●    Heavy trader discussion around recent  ◀ TOP20
+8    MCD      92.0  🔥surging   event_driven   high     clear    low     ●    Viral Elon Musk Dogecoin reply trigger ◀ TOP20
+9    MU       92.0  🔥surging   event_driven   high     clear    low     ●    Active trader discussion around AI mem ◀ TOP20
+10   OKLO     92.0  🔥surging   event_driven   high     clear    low     ●    Strong activity around DOE plutonium f ◀ TOP20
+11   PLTR     92.0  🔥surging   event_driven   high     clear    low     ●    NVIDIA CEO Jensen Huang highlighted PL ◀ TOP20
+12   ANET     90.0  📈elevated  steady         high     clear    low     ●    Discussion centers on strong AI infras ◀ TOP20
+13   APP      90.0  📈elevated  steady         high     clear    low     ●    Growth investors frequently highlight  ◀ TOP20
+14   DUOL     90.0  📈elevated  steady         high     clear    low     ●    Daily organic discussion driven by app ◀ TOP20
+15   LYFT     90.0  📈elevated  steady         high     clear    low     ●    Traders actively discussing improving  ◀ TOP20
+16   META     90.0  📈elevated  steady         high     clear    low     ●    Investors frame Meta as an undervalued ◀ TOP20
+17   NVO      90.0  📈elevated  steady         high     clear    low     ●    Discussion centers on Medicare access  ◀ TOP20
+18   RBLX     90.0  📈elevated  steady         high     clear    low     ●    Platform updates including age-gating  ◀ TOP20
+19   SOFI     90.0  📈elevated  steady         high     clear    low     ●    Strong retail bullish conviction on lo ◀ TOP20
+20   QBTS     88.0  🔥surging   event_driven   high     clear    med     ●    Strong activity driven by CHIPS Act $1 ◀ TOP20
+21   NVDA     87.0  🔥surging   event_driven   med      clear    low     ●    AI PC chips, RTX Spark, and robotics r
+22   CLSK     85.0  📈elevated  steady         med      clear    low     ●    Discussion centers on CleanSpark's AI/
+23   CORZ     85.0  📈elevated  steady         med      clear    low     ●    Focus on CoreWeave hosting deal and sh
+24   JD       85.0  📈elevated  steady         med      clear    low     ●    Focus on JD.com valuation at 0.2x sale
+25   SPOT     85.0  📈elevated  steady         med      clear    low     ●    Upcoming earnings and long-term growth
+26   VRT      85.0  📈elevated  steady         med      clear    low     ●    Posts focus on liquid cooling and powe
+27   TSLA     83.0  📈elevated  steady         high     mixed    low     ●    Robotaxi, FSD v14, and autonomy cataly
+28   AFRM     82.0  📈elevated  event_driven   high     clear    low     ●    Retail traders actively posting about 
+29   BBAI     82.0  📈elevated  event_driven   high     clear    low     ●    Recent commercial ISC platform deploym
+30   BRK-B    82.0  🔥surging   event_driven   low      clear    low     ●    Major Taylor Morrison acquisition anno
+31   DELL     82.0  📈elevated  event_driven   high     clear    low     ●    Q1 earnings and AI server backlog grow
+32   KTOS     82.0  📈elevated  event_driven   high     clear    low     ●    Active discussion around defense budge
+33   NOW      82.0  📈elevated  event_driven   high     clear    low     ●    Retail traders actively discussing tec
+34   ORCL     82.0  📈elevated  event_driven   high     clear    low     ●    Heavy trader focus on AI backlog growt
+35   PWR      82.0  📈elevated  event_driven   high     clear    low     ●    AI power infrastructure buildout and r
+36   TTWO     82.0  📈elevated  event_driven   high     clear    low     ●    GTA 6 anticipation drives most posts a
+37   VKTX     82.0  📈elevated  event_driven   high     clear    low     ●    Discussion driven by analyst price tar
+38   WOLF     82.0  📈elevated  event_driven   high     clear    low     ●    Earnings reaction mixed with strong Si
+39   IONQ     81.0  📈elevated  steady         med      clear    med     ●    Bullish momentum from acquisitions, re
+40   MARA     78.0  📈elevated  event_driven   high     clear    med     ●    Posts highlight power pipeline assets 
+41   UPST     78.0  📈elevated  event_driven   high     clear    med     ●    Heavy retail chatter around short sque
+42   CRM      77.0  📈elevated  event_driven   med      clear    low     ●    Activity driven by announced $2B AI in
+43   CSCO     77.0  📈elevated  event_driven   med      clear    low     ●    Chatter centers on AI networking deman
+44   LLY      77.0  📈elevated  event_driven   med      clear    low     ●    Active posts focus on clinical data re
+45   OKTA     77.0  📈elevated  event_driven   med      clear    low     ●    Strong post-earnings discussion focuse
+46   PANW     77.0  📈elevated  event_driven   med      clear    low     ●    Earnings preview and AI security platf
+47   V        77.0  📈elevated  event_driven   med      clear    low     ●    Activity centers on strong Q2 earnings
+48   AMZN     75.0  ➖normal    steady         high     clear    low     ●    Core discussion centers on AWS AI back
+49   COST     75.0  ➖normal    steady         high     clear    low     ●    Ongoing investor discussion praising b
+50   INTU     75.0  📈elevated  event_driven   high     mixed    low     ●    Active discussion on post-earnings sel
+51   KO       75.0  ➖normal    steady         high     clear    low     ●    Dividend investors highlight $KO as co
+52   PG       75.0  ➖normal    steady         high     clear    low     ●    Dividend investors highlighting its st
+53   ETN      72.2  📈elevated  steady         med      clear    low     ◐    Discussion centers on data center elec
+54   MRVL     72.2  📈elevated  steady         med      clear    low     ◐    Recent strong earnings and co-packaged
+55   GME      71.0  📈elevated  event_driven   high     mixed    med     ●    Retail apes engaged with Ryan Cohen ac
+56   MSTR     70.5  📈elevated  steady         high     mixed    low     ◐    Discussion centers on $STRC 11.5% divi
+57   ENPH     70.0  📈elevated  event_driven   med      mixed    low     ●    Solar tax credit policy risks and rece
+58   FSLR     70.0  📈elevated  event_driven   med      mixed    low     ●    Goldman Sachs upgrade and shared solar
+59   GS       70.0  ➖normal    steady         med      clear    low     ●    Discussion centers on earnings season 
+60   INTC     70.0  📈elevated  event_driven   med      mixed    low     ●    Activity centered on Computex 2026, In
+61   UNH      70.0  📈elevated  event_driven   med      mixed    low     ●    Heavy focus on upcoming earnings, valu
+62   CELH     69.7  📈elevated  event_driven   high     clear    low     ◐    Retail traders actively discussing rec
+63   COIN     69.7  📈elevated  event_driven   high     clear    low     ◐    Focus on India market re-entry with IN
+64   HIMS     69.7  📈elevated  event_driven   high     clear    low     ◐    Retail traders focus on insider buying
+65   HOOD     69.7  📈elevated  event_driven   high     clear    low     ◐    Canada expansion via WonderFi acquisit
+66   NIO      69.7  📈elevated  event_driven   high     clear    low     ◐    Strong May deliveries of 37,705 vehicl
+67   RBRK     69.7  📈elevated  event_driven   high     clear    low     ◐    Discussion centered on upcoming June 4
+68   RGTI     69.7  📈elevated  event_driven   high     clear    low     ◐    Retail traders actively discuss Rigett
+69   SMCI     69.7  📈elevated  event_driven   high     clear    low     ◐    Product launches and NVIDIA collaborat
+70   SMR      69.7  📈elevated  event_driven   high     clear    low     ◐    Focus remains on NRC design certificat
+71   SNOW     69.7  📈elevated  event_driven   high     clear    low     ◐    Targeted financial discussion around r
+72   TMUS     69.7  📈elevated  event_driven   high     clear    low     ◐    Recent Q1 earnings beat driving subscr
+73   ABBV     69.0  📈elevated  event_driven   med      clear    high    ●    Recent EU approval for Venclyxto and Q
+74   LRCX     69.0  📈elevated  event_driven   med      clear    high    ●    Pre-earnings buzz with analyst target 
+75   JPM      68.0  ➖normal    steady         high     mixed    low     ●    Jamie Dimon's acquisition plans and cr
+76   SOUN     68.0  ➖normal    steady         high     mixed    low     ●    Retail traders discussing Q1 revenue g
+77   HPE      67.0  ➖normal    event_driven   high     clear    low     ●    Upcoming earnings and AI server/data c
+78   ARM      66.3  📈elevated  event_driven   high     clear    med     ◐    COMPUTEX keynote and agentic AI focus 
+79   MSFT     66.3  📈elevated  steady         med      mixed    low     ◐    Outage reports mixed with positive AI 
+80   XOM      66.3  📈elevated  event_driven   high     clear    med     ◐    Executive warnings on critically low g
+81   AVGO     65.5  📈elevated  event_driven   med      clear    low     ◐    Pre-earnings buzz centers on AI semico
+82   GTLB     65.5  📈elevated  event_driven   med      clear    low     ◐    NVIDIA earnings commentary highlightin
+83   JNJ      65.5  📈elevated  event_driven   med      clear    low     ◐    Strong Phase 3 oncology data for ERLEA
+84   NEE      65.5  📈elevated  event_driven   med      clear    low     ◐    Posts focus on Dominion acquisition an
+85   PINS     65.5  📈elevated  event_driven   med      clear    low     ◐    Discussion driven by recent cluster of
+86   AMC      63.8  ➖normal    steady         high     clear    low     ◐    Dedicated ape community discusses Q1 o
+87   ASTS     63.8  📈elevated  event_driven   high     mixed    low     ◐    Resilient retail community debating ex
+88   AXON     63.8  ➖normal    steady         high     clear    low     ◐    Growth investors discuss AI software, 
+89   EA       63.8  📈elevated  event_driven   high     mixed    low     ◐    Recent analyst downgrade mixes with no
+90   IBM      63.8  📈elevated  event_driven   high     mixed    low     ◐    Momentum around Trump-linked quantum f
+91   MA       63.8  ➖normal    steady         high     clear    low     ◐    Discussion driven by BitLicense news a
+92   PEP      63.8  ➖normal    steady         high     clear    low     ◐    Steady discussion among income investo
+93   PFE      63.8  ➖normal    steady         high     clear    low     ◐    Ongoing discussion dominated by COVID 
+94   RDDT     63.8  ➖normal    steady         high     clear    low     ◐    Traders highlight AI data licensing po
+95   SE       63.8  ➖normal    steady         high     clear    low     ◐    Bullish posts on Shopee ecosystem, Sea
+96   VZ       63.8  ➖normal    steady         high     clear    low     ◐    Consistent income-investor discussion 
+97   GILD     62.0  📈elevated  event_driven   med      clear    med     ◐    Recent Phase 3 PBC data presentations 
+98   VRTX     62.0  📈elevated  event_driven   med      clear    med     ◐    Truist Buy initiation highlighting kid
+99   CVX      61.2  📈elevated  event_driven   low      clear    low     ◐    Chevron CEO warnings on critically low
+100  REGN     61.2  📈elevated  event_driven   low      clear    low     ◐    WHO Ebola antibody recommendation and 
+101  AI       60.4  📈elevated  event_driven   high     mixed    med     ◐    Focus on upcoming June 3 earnings amid
+102  CHPT     60.4  📈elevated  event_driven   high     mixed    med     ◐    Activity centers on upcoming earnings 
+103  PLUG     60.4  📈elevated  event_driven   high     mixed    med     ◐    Discussion driven by UK green hydrogen
+104  BA       59.5  📈elevated  event_driven   med      mixed    low     ◐    Discussion driven by China jet orders,
+105  CAT      59.5  ➖normal    steady         med      clear    low     ◐    Ongoing positive talk around AI infras
+106  FTNT     59.5  📈elevated  event_driven   med      mixed    low     ◐    Discussion centers on active Fortinet 
+107  ISRG     59.5  ➖normal    steady         med      clear    low     ◐    Long-term robotic surgery adoption vie
+108  LI       59.5  📈elevated  event_driven   med      mixed    low     ◐    Monthly delivery release and upcoming 
+109  MNDY     59.5  ➖normal    steady         med      clear    low     ◐    Moderate mix of product usage chatter 
+110  MRK      59.5  📈elevated  event_driven   med      mixed    low     ◐    ASCO 2026 presentations on sac-TMT ADC
+111  NET      59.5  ➖normal    steady         med      clear    low     ◐    Ongoing developer migration chatter an
+112  SHOP     59.5  ➖normal    steady         med      clear    low     ◐    Investors discuss strong Q1 growth re-
+113  U        59.5  ➖normal    steady         med      clear    low     ◐    Official AI tool updates and Q1 result
+114  UBER     59.5  ➖normal    steady         med      clear    low     ◐    Focus on valuation, FCF growth, buybac
+115  XPEV     59.5  📈elevated  event_driven   med      mixed    low     ◐    May delivery figures and new model exp
+116  NXPI     58.6  📈elevated  event_driven   med      clear    high    ◐    Traders highlight new leveraged ETF la
+117  ABNB     57.8  ➖normal    steady         high     mixed    low     ◐    Local regulatory housing stories and o
+118  ACN      57.8  ➖normal    steady         high     mixed    low     ◐    Investors debate AI's long-term impact
+119  NKE      57.8  ➖normal    steady         high     mixed    low     ◐    Product marketing, NBA Finals, and sne
+120  RIVN     57.8  ➖normal    steady         high     mixed    low     ◐    Enthusiasts discuss vehicle design, VW
+121  AAPL     56.1  ➖normal    steady         med      clear    med     ◐    Ecosystem demand and AI hardware specu
+122  AMAT     56.1  📈elevated  event_driven   med      mixed    med     ◐    Spike from new crypto perpetual future
+123  MRNA     56.1  📈elevated  event_driven   high     noisy    med     ◐    Polarized between new mRNA pipeline an
+124  QCOM     56.1  📈elevated  event_driven   med      mixed    med     ◐    COMPUTEX announcements and data center
+125  WMT      56.1  📈elevated  event_driven   high     noisy    med     ◐    Post-earnings consumer weakness commen
+126  ASML     55.2  ➖normal    steady         low      clear    low     ◐    EUV monopoly position, raised 2026 gui
+127  BIDU     55.2  💤low       steady         high     clear    low     ◐    Quiet discussion focused on deep value
+128  HII      55.2  📈elevated  event_driven   low      mixed    low     ◐    Discussion centers on U.S. Navy shipbu
+129  DASH     53.5  ➖normal    steady         med      mixed    low     ◐    Analyst bullishness on growth offset b
+130  DIS      53.5  ➖normal    steady         med      mixed    low     ◐    Ongoing discussion mixes valuation scr
+131  KWEB     53.5  ➖normal    steady         med      mixed    low     ◐    Debate over whether depressed Chinese 
+132  ON       53.5  ➖normal    event_driven   high     clear    med     ◐    Analyst price target upgrades and posi
+133  MS       49.3  ➖normal    steady         low      mixed    low     ◐    Discussion driven by Morgan Stanley's 
+134  PDD      48.4  📈elevated  event_driven   med      noisy    high    ◐    Post-earnings activity includes buy-th
+135  AMD      47.6  ➖normal    event_driven   high     mixed    med     ◐    Discussion split between AI momentum a
+136  LUNR     47.6  ➖normal    event_driven   high     mixed    med     ◐    Backlog growth and lunar infrastructur
+137  MCHP     47.6  💤low       steady         med      clear    med     ◐    Moderate constructive posts on margins
+138  TXN      47.6  ➖normal    event_driven   high     mixed    med     ◐    Discussion centers on congressional tr
+139  AMGN     46.8  ➖normal    event_driven   med      mixed    low     ◐    ASCO oncology data and MariTide obesit
+140  BAC      46.8  ➖normal    steady         med      mixed    high    ◐    BofA Bull-Bear Index sell signal and t
+141  BNTX     46.8  ➖normal    event_driven   med      mixed    low     ◐    Oncology pipeline updates and analyst 
+142  HD       46.8  ➖normal    steady         high     noisy    high    ◐    Housing market and remodeling demand t
+143  LULU     46.8  ➖normal    event_driven   med      mixed    low     ◐    Pre-earnings watchlist mentions with f
+144  PATH     46.8  ➖normal    event_driven   med      mixed    low     ◐    Q1 earnings and agentic automation piv
+145  ZS       46.8  ➖normal    event_driven   med      mixed    low     ◐    Post-earnings watchlist mentions and c
+146  PYPL     44.2  ➖normal    event_driven   high     mixed    high    ◐    Focus on Q2 guidance, cost savings, We
+147  BABA     43.4  ➖normal    event_driven   med      mixed    med     ◐    Discussion centers on recent earnings,
+148  CVNA     43.4  ➖normal    event_driven   med      mixed    med     ◐    Traders debate technical setups after 
+149  GOOGL    43.4  ➖normal    event_driven   med      mixed    med     ◐    Tokyo retail store launch dominates al
+150  SBUX     43.4  ➖normal    event_driven   med      mixed    med     ◐    Pre-earnings discussion shows cautious
+151  RTX      36.0  📈elevated  steady         low      noisy    high    ○    Aerospace and defense backlog discussi
+152  T        34.8  💤low       steady         high     mixed    low     ○    Sparse retail chatter focused on divid
+153  LMT      34.0  💤low       event_driven   low      mixed    low     ◐    Relatively quiet outside of upcoming e
+154  QUBT     34.0  ➖normal    sporadic       high     noisy    high    ◐    Speculative retail chatter on quantum 
+155  GM       31.4  💤low       event_driven   med      mixed    high    ◐    Actual automaker discussion on earning
+156  KLAC     30.6  💤low       steady         low      clear    med     ○    Mostly grouped mentions within semicon
+157  LCID     27.6  💤low       event_driven   high     mixed    med     ○    New CEO announcement generates cautiou
+158  DDOG     25.8  💤low       sporadic       high     mixed    low     ○    Scattered portfolio holding updates an
+159  SQ       25.2  💤low       event_driven   high     mixed    high    ○    Higher-signal discussion quiet outside
+160  NKLA     24.0  💤low       sporadic       low      clear    low     ○    Very few mentions, mostly dismissive w
+161  ADBE     22.8  💤low       sporadic       med      mixed    low     ○    Sparse stock-focused posts mixed with 
+162  MDB      22.8  💤low       sporadic       med      mixed    low     ○    Insufficient recent posts found to ass
+163  NFLX     20.4  💤low       sporadic       high     noisy    med     ○    Sparse stock discussion dominated by t
+164  SNAP     16.8  💤low       sporadic       low      noisy    low     ○    Very low chatter volume on X right now
+165  TWLO     16.8  💤low       sporadic       low      noisy    low     ○    Quiet on X with one scanner noting lar
+166  ZM       16.8  💤low       sporadic       low      noisy    low     ○    Stock discussion minimal as most menti
+167  ADI      12.0  💤low       sporadic       low      noisy    high    ○    Limited genuine discussion; $ADI casht
+168  RIOT     12.0  💤low       sporadic       low      noisy    high    ○    Organic discussion is sparse; results 
+169  ZNTL     12.0  💤low       sporadic       low      noisy    high    ○    Sparse discussion limited to news aler
+──────────────────────────────────────────────────────────────────────────────────────────
+
+총 169개 스캔 완료 | 상위 20개 자동 선별
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 상위 20 중 Tier1 권장 (20개) — 개별 심층 분석 · 하루 2회
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RKLB    100.0점  surging     Strong operational progress, acquisitions, and backlog fueli
+  CEG      95.0점  surging     Dominant discussion centers on nuclear power supply deals fo
+  TSM      95.0점  surging     AI foundry leadership and aggressive fab expansion dominatin
+  VST      95.0점  surging     Frequent mentions highlight nuclear assets, hyperscaler PPAs
+  ALAB     92.0점  surging     Momentum around CXL connectivity and AI infrastructure ahead
+  CRWD     92.0점  surging     Posts surged after NVIDIA CEO Jensen Huang publicly endorsed
+  F        92.0점  surging     Heavy trader discussion around recent high-engagement moment
+  MCD      92.0점  surging     Viral Elon Musk Dogecoin reply triggered heavy meme and part
+  MU       92.0점  surging     Active trader discussion around AI memory demand, recent ear
+  OKLO     92.0점  surging     Strong activity around DOE plutonium fuel program selection,
+  PLTR     92.0점  surging     NVIDIA CEO Jensen Huang highlighted PLTR alongside AI agent 
+  ANET     90.0점  elevated    Discussion centers on strong AI infrastructure demand and po
+  APP      90.0점  elevated    Growth investors frequently highlight AppLovin's elite softw
+  DUOL     90.0점  elevated    Daily organic discussion driven by app streaks, memes, and t
+  LYFT     90.0점  elevated    Traders actively discussing improving fundamentals, AV strat
+  META     90.0점  elevated    Investors frame Meta as an undervalued AI compounder with ad
+  NVO      90.0점  elevated    Discussion centers on Medicare access expansion starting Jul
+  RBLX     90.0점  elevated    Platform updates including age-gating tests and new gift fea
+  SOFI     90.0점  elevated    Strong retail bullish conviction on long-term holds, stablec
+  QBTS     88.0점  surging     Strong activity driven by CHIPS Act $100M funding announceme
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 상위 20 중 Tier2 권장 (0개) — 배치 묶음 · 하루 1회
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+──────────────────────────────────────────────────────────────────────────────────────────
+ collect_sentiment.py 복사용
+──────────────────────────────────────────────────────────────────────────────────────────
+TIER1_WATCHLIST = [
+    ("RKLB ", "Rocket Lab"),
+    ("CEG  ", "Constellation Energy"),
+    ("TSM  ", "TSMC"),
+    ("VST  ", "Vistra Energy"),
+    ("ALAB ", "Astera Labs"),
+    ("CRWD ", "CrowdStrike"),
+    ("F    ", "Ford"),
+    ("MCD  ", "McDonald's"),
+    ("MU   ", "Micron"),
+    ("OKLO ", "Oklo"),
+    ("PLTR ", "Palantir"),
+    ("ANET ", "Arista Networks"),
+    ("APP  ", "AppLovin"),
+    ("DUOL ", "Duolingo"),
+    ("LYFT ", "Lyft"),
+    ("META ", "Meta Platforms"),
+    ("NVO  ", "Novo Nordisk"),
+    ("RBLX ", "Roblox"),
+    ("SOFI ", "SoFi"),
+    ("QBTS ", "D-Wave Quantum"),
+]
+
+TIER2_WATCHLIST = [
+]
+
