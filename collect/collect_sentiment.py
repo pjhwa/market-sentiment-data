@@ -46,14 +46,33 @@ HERMES_CMD = _find_hermes()
 HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
 CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))
 
-WATCHLIST = [
-    ("TSLA",  "Tesla"),
-    ("AAPL",  "Apple"),
+# TIER1: 빅테크/대형주 — 개별 심층 분석, 하루 2회 (pre_open + post_close)
+TIER1_WATCHLIST = [
+    ("TSM",   "TSMC"),
     ("NVDA",  "Nvidia"),
     ("META",  "Meta Platforms"),
-    ("AMZN",  "Amazon"),
-    ("GOOGL", "Alphabet / Google"),
+    ("TSLA",  "Tesla"),
     ("PLTR",  "Palantir"),
+    ("MU",    "Micron"),
+    ("CRWD",  "CrowdStrike"),
+    ("AMZN",  "Amazon"),
+    ("MSFT",  "Microsoft"),
+    ("AAPL",  "Apple"),
+    ("GOOGL", "Alphabet / Google"),
+]
+
+# TIER2: 모멘텀/테마주 — 배치 묶음 분석, 하루 1회 (post_close 전용)
+TIER2_WATCHLIST = [
+    ("RKLB",  "Rocket Lab"),
+    ("CEG",   "Constellation Energy"),
+    ("VST",   "Vistra Energy"),
+    ("ALAB",  "Astera Labs"),
+    ("OKLO",  "Oklo"),
+    ("APP",   "AppLovin"),
+    ("ANET",  "Arista Networks"),
+    ("NVO",   "Novo Nordisk"),
+    ("QBTS",  "D-Wave Quantum"),
+    ("SOFI",  "SoFi"),
 ]
 
 SENTIMENT_SCORE_MAP = {
@@ -134,6 +153,43 @@ IMPORTANT about the context:
 ONLY from the actual posts you read. Do not assume a big move means a particular mood.
 
 """
+
+_TIER2_BATCH_PROMPT_HEADER = """\
+You are a data extraction tool, not an analyst. For each ticker listed below, read current \
+public X (Twitter) posts and report the crowd's sentiment. Search using both the company \
+name and the ticker symbol. Respond with ONE JSON ARRAY only — one object per ticker, \
+in the exact same order as listed. No prose, no code fences.
+
+Tickers:
+{TICKER_LINES}
+
+Schema for each object (exact enums):
+{{
+  "symbol": "TICKER",
+  "sentiment": one of ["very_fearful","fearful","neutral","optimistic","euphoric"],
+  "trend_vs_yesterday": one of ["cooling","stable","heating"],
+  "mention_volume": one of ["low","normal","elevated","surging"],
+  "key_reason_en": "one short sentence in English",
+  "key_reason_ko": "한국어로 한 문장",
+  "bot_suspected": one of ["yes","no","unclear"],
+  "confidence": one of ["high","med","low"],
+  "top_news": {{"headline_en": "...", "headline_ko": "...", "summary_en": "...", "summary_ko": "...", "source": "..."}} or null
+}}
+
+Rules:
+- Determine sentiment ONLY from real posts, never infer from price direction.
+- No invented percentages. Categorical enums only.
+- Thin/noisy sample → confidence "low".
+- top_news: pick the single most-shared/discussed news for that ticker in BOTH _en and _ko. null if nothing stands out.
+- Output raw JSON array only."""
+
+
+def build_tier2_batch_prompt(watchlist: list[tuple[str, str]]) -> str:
+    ticker_lines = "\n".join(
+        f"- {symbol} ({company})" for symbol, company in watchlist
+    )
+    return _TIER2_BATCH_PROMPT_HEADER.replace("{TICKER_LINES}", ticker_lines)
+
 
 MARKET_PROMPT = """\
 You are a data extraction tool, not an analyst. Look at current public X (Twitter) \
@@ -353,6 +409,22 @@ def extract_json(text: str) -> dict | None:
         return None
 
 
+def extract_json_array(text: str) -> list | None:
+    match = re.search(r"\[.*\]", text, re.DOTALL)
+    if not match:
+        print(f"[ERROR] JSON 배열을 찾을 수 없음. 응답: {text[:300]!r}", file=sys.stderr)
+        return None
+    try:
+        result = json.loads(match.group())
+        if not isinstance(result, list):
+            print(f"[ERROR] JSON 배열이 아님: {type(result)}", file=sys.stderr)
+            return None
+        return result
+    except json.JSONDecodeError as e:
+        print(f"[ERROR] JSON 배열 파싱 실패: {e}. 원문: {match.group()[:300]!r}", file=sys.stderr)
+        return None
+
+
 def validate_symbol_fields(data: dict, symbol: str) -> bool:
     required_enums = {
         "sentiment": list(SENTIMENT_SCORE_MAP.keys()),
@@ -406,10 +478,11 @@ def validate_top_news(data: dict | None) -> bool:
 
 # ── 엔트리 빌더 ────────────────────────────────────────────────────────────────
 
-def build_symbol_entry(raw: dict, symbol: str, now_iso: str, ctx: dict, divergence: str) -> dict:
+def build_symbol_entry(raw: dict, symbol: str, now_iso: str, ctx: dict, divergence: str, tier: int = 1) -> dict:
     sentiment = raw["sentiment"]
     entry = {
         "symbol": symbol,
+        "tier": tier,
         "as_of": now_iso,
         "sentiment": sentiment,
         "sentiment_score": SENTIMENT_SCORE_MAP[sentiment],
@@ -477,28 +550,25 @@ def main():
     fetch_market_context()
 
     success_count = 0
-    total = len(WATCHLIST) + 1
     divergences: list[str] = []  # "TSLA(bullish_divergence)" 형식
 
     pre_open_path = history_filename(date_str, "pre_open")
     pre_open_scores = load_pre_open_scores(pre_open_path) if slot == "post_close" else {"market": None, "symbols": {}}
 
-    # ── 종목별 수집 ───────────────────────────────────────────────────────────
     symbol_entries = []
-    for symbol, company in WATCHLIST:
-        print(f"[INFO] 질의 중: {symbol} ({company})")
 
-        # ① 중립적 가격 맥락 (방향 없음)
+    # ── TIER1: 개별 심층 분석, 하루 2회 ──────────────────────────────────────
+    for symbol, company in TIER1_WATCHLIST:
+        print(f"[INFO] 질의 중: {symbol} ({company}) [Tier1]")
+
         ctx = fetch_price_context(symbol)
 
-        # ② 맥락 주입 프롬프트 빌드 (방향 단어 가드 포함)
         try:
             prompt = build_prompt(symbol, company, ctx)
         except AssertionError as e:
             print(f"[ERROR] {symbol}: 프롬프트 오염 방지선 위반 — {e}", file=sys.stderr)
             continue
 
-        # ③ Grok 호출
         raw_text = call_hermes(prompt)
         if raw_text is None:
             print(f"[SKIP] {symbol}: hermes 호출 실패", file=sys.stderr)
@@ -513,12 +583,11 @@ def main():
             print(f"[SKIP] {symbol}: 검증 실패", file=sys.stderr)
             continue
 
-        # ④ 다이버전스 계산 — Grok 호출이 끝난 뒤에만. close_dir는 여기서만 사용.
         close_dir = fetch_close_direction(symbol)
         sentiment_score = SENTIMENT_SCORE_MAP[parsed["sentiment"]]
         divergence = compute_divergence(close_dir, sentiment_score)
 
-        entry = build_symbol_entry(parsed, symbol, now_iso, ctx, divergence)
+        entry = build_symbol_entry(parsed, symbol, now_iso, ctx, divergence, tier=1)
         prev_score = pre_open_scores["symbols"].get(symbol)
         entry["intraday_shift"] = (
             compute_intraday_shift(prev_score, entry["sentiment_score"])
@@ -543,6 +612,63 @@ def main():
         if divergence in ("bullish_divergence", "bearish_divergence"):
             short = "bullish" if divergence == "bullish_divergence" else "bearish"
             divergences.append(f"{symbol}({short})")
+
+    # ── TIER2: 배치 묶음 분석, post_close 전용 ───────────────────────────────
+    if slot == "post_close":
+        print(f"[INFO] TIER2 배치 질의 시작 ({len(TIER2_WATCHLIST)}종목)")
+        batch_prompt = build_tier2_batch_prompt(TIER2_WATCHLIST)
+        batch_raw = call_hermes(batch_prompt)
+
+        if batch_raw is None:
+            print("[SKIP] TIER2 배치: hermes 호출 실패", file=sys.stderr)
+        else:
+            batch_parsed = extract_json_array(batch_raw)
+            if batch_parsed is None:
+                print("[SKIP] TIER2 배치: JSON 배열 추출 실패", file=sys.stderr)
+            else:
+                # 심볼 순서 매핑 (Grok이 순서를 지키지 않을 수 있으므로 symbol 기준으로 매핑)
+                tier2_map = {sym: comp for sym, comp in TIER2_WATCHLIST}
+                for item in batch_parsed:
+                    symbol = item.get("symbol", "").upper()
+                    if symbol not in tier2_map:
+                        print(f"[WARN] TIER2 배치: 알 수 없는 심볼 '{symbol}' — 스킵", file=sys.stderr)
+                        continue
+                    if not validate_symbol_fields(item, symbol):
+                        print(f"[SKIP] TIER2 {symbol}: 검증 실패", file=sys.stderr)
+                        continue
+
+                    close_dir = fetch_close_direction(symbol)
+                    sentiment_score = SENTIMENT_SCORE_MAP[item["sentiment"]]
+                    divergence = compute_divergence(close_dir, sentiment_score)
+
+                    ctx: dict = {"available": False}
+                    entry = build_symbol_entry(item, symbol, now_iso, ctx, divergence, tier=2)
+                    prev_score = pre_open_scores["symbols"].get(symbol)
+                    entry["intraday_shift"] = (
+                        compute_intraday_shift(prev_score, entry["sentiment_score"])
+                        if prev_score is not None else None
+                    )
+                    entry["composite_score"] = compute_symbol_composite(
+                        sentiment_score=entry["sentiment_score"],
+                        confidence=entry["confidence"],
+                        bot_suspected=entry["bot_suspected"],
+                        mention_volume=entry["mention_volume"],
+                        divergence=entry.get("divergence", "none"),
+                        trend_vs_yesterday=entry["trend_vs_yesterday"],
+                        intraday_shift=entry.get("intraday_shift"),
+                    )
+                    symbol_entries.append(entry)
+                    success_count += 1
+                    print(
+                        f"[OK]   {symbol} [Tier2]: sentiment={entry['sentiment']} "
+                        f"confidence={entry['confidence']} divergence={divergence}"
+                    )
+
+                    if divergence in ("bullish_divergence", "bearish_divergence"):
+                        short = "bullish" if divergence == "bullish_divergence" else "bearish"
+                        divergences.append(f"{symbol}({short})")
+    else:
+        print(f"[INFO] TIER2 건너뜀 (슬롯={slot}, post_close 전용)")
 
     # ── 시장 전체 수집 ────────────────────────────────────────────────────────
     print("[INFO] 질의 중: MARKET")
@@ -615,8 +741,9 @@ def main():
         sys.exit(1)
 
     # ── 요약 출력 ─────────────────────────────────────────────────────────────
+    expected = len(TIER1_WATCHLIST) + (len(TIER2_WATCHLIST) if slot == "post_close" else 0) + 1
     status = "[OK]" if push_ok else "[WARN]"
-    print(f"\n{status} {success_count}/{total} 종목 수집 성공")
+    print(f"\n{status} {success_count}/{expected} 수집 성공 (TIER1={len(TIER1_WATCHLIST)}, TIER2={'배치' if slot == 'post_close' else '건너뜀'}, MARKET=1)")
     if divergences:
         print(f"divergence 발생: {', '.join(divergences)}")
     else:
