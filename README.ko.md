@@ -51,19 +51,25 @@ market-sentiment-data/
 
 ## 4개의 수집기
 
-### 1. 소셜 심리 (`collect_sentiment.py`)
+### 1. 소셜 심리 (`collect/collect_sentiment.py`)
 
-**하루 2회** 실행 (pre_open, post_close 슬롯). 7개 워치리스트 종목 + 미국 시장 전체에 대해:
+종목을 두 Tier로 분리해 수집:
 
 1. SniperBoard에서 **중립적 가격 맥락** 수집 (변동성 크기, 거래량 비율, 52주 위치 — 방향 제거)
 2. 맥락을 관찰 단서로만 Grok 프롬프트에 주입 (오염 방지선: 방향 단어 기계적 차단)
-3. `hermes -z --provider grok-oauth`로 Grok 쿼리
+3. `hermes -z`로 Grok 쿼리; JSON 응답 파싱·검증
 4. Grok 응답 후 **divergence** 계산 (가격 방향 vs 심리 부호)
 5. **composite_score** (−2.0~+2.0) 계산 — 신뢰도·봇의심·언급량·divergence·추세 가중치 반영
 
-**워치리스트:** TSLA, AAPL, NVDA, META, AMZN, GOOGL, PLTR
+**TIER1 — 빅테크/대형주 (11종목): 개별 심층 분석, 하루 2회 (pre_open + post_close)**
+TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL
 
-**출력: `latest.json` 및 `history/YYYY-MM-DD_<slot>.json`**
+**TIER2 — 모멘텀/테마주 (10종목): 배치 묶음 분석, 하루 1회 (post_close 전용)**
+RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI
+
+각 엔트리에 `"tier": 1|2` 필드 포함. TIER2 엔트리는 배치 특성상 `price_context` 생략.
+
+**출력: `sentiment/latest.json` 및 `sentiment/history/YYYY-MM-DD_<slot>.json`**
 
 ### 2. AI 일일 브리프 (`collect/collect_brief.py`)
 

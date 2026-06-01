@@ -51,19 +51,25 @@ market-sentiment-data/
 
 ## The Four Collectors
 
-### 1. Social Sentiment (`collect_sentiment.py`)
+### 1. Social Sentiment (`collect/collect_sentiment.py`)
 
-Runs **twice daily** (pre_open and post_close slots). For each of 7 watchlist symbols + the broad US market:
+Runs **twice daily** (pre_open and post_close slots). Symbols are split into two tiers:
 
 1. Fetches **neutral price context** from SniperBoard (volatility magnitude, volume ratio, 52-week position — direction removed)
 2. Injects context into a Grok prompt as observational cues only (contamination firewall: no directional words allowed)
-3. Queries Grok via `hermes -z --provider grok-oauth`
+3. Queries Grok via `hermes -z`; parses and validates JSON response
 4. Computes **divergence** (price direction vs. sentiment sign) after Grok responds
 5. Computes **composite_score** (−2.0 ~ +2.0) weighting confidence, bot suspicion, mention volume, divergence, and trend
 
-**Watchlist:** TSLA, AAPL, NVDA, META, AMZN, GOOGL, PLTR
+**TIER1 — 빅테크/대형주 (11종목): 개별 심층 분석, 하루 2회 (pre_open + post_close)**
+TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL
 
-**Output: `latest.json` and `history/YYYY-MM-DD_<slot>.json`**
+**TIER2 — 모멘텀/테마주 (10종목): 배치 묶음 분석, 하루 1회 (post_close 전용)**
+RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI
+
+Each symbol entry includes a `"tier": 1|2` field. TIER2 entries omit `price_context` (batch mode).
+
+**Output: `sentiment/latest.json` and `sentiment/history/YYYY-MM-DD_<slot>.json`**
 
 ### 2. AI Daily Brief (`collect/collect_brief.py`)
 

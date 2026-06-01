@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-06-01 -->
+<!-- AUTO-GENERATED: 2026-06-01 (TIER1/TIER2 재편) -->
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 
@@ -125,7 +125,7 @@ Final score multiplied by `confidence` (1.0 / 0.85 / 0.6).
 
 ### Overview
 
-The main sentiment collector. Runs twice daily. For 7 watchlist symbols + the broad US market:
+The main sentiment collector. Runs twice daily. For TIER1 symbols individually + the broad US market, and TIER2 symbols as a batch (post_close only):
 1. Fetch neutral price context (no direction) from SniperBoard
 2. Build Grok prompt with context injected as observational cues
 3. Call Grok via `hermes -z`; parse and validate JSON response
@@ -134,7 +134,16 @@ The main sentiment collector. Runs twice daily. For 7 watchlist symbols + the br
 6. Write `sentiment/latest.json` + `sentiment/history/YYYY-MM-DD_<slot>.json`
 7. `git commit + push`
 
-**Watchlist:** `TSLA, AAPL, NVDA, META, AMZN, GOOGL, PLTR`
+**TIER1 — 빅테크/대형주 (11종목, 개별 심층 분석, 하루 2회):**
+`TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL`
+
+**TIER2 — 모멘텀/테마주 (10종목, 배치 묶음 분석, post_close 전용):**
+`RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI`
+
+**Collection modes:**
+- **TIER1 (개별):** `pre_open` + `post_close` 슬롯 모두 실행. 종목별 개별 Grok 호출. 가격 맥락(price_context) 포함.
+- **TIER2 (배치):** `post_close` 슬롯에만 실행. `build_tier2_batch_prompt()`로 10종목 단일 Grok 호출. price_context 생략.
+- 각 엔트리에 `"tier": 1` 또는 `"tier": 2` 필드 저장.
 
 ### The Contamination Firewall (Most Important Principle)
 
@@ -198,6 +207,7 @@ composite_score = clamp(round(score, 1), -2.0, 2.0)
 | `build_prompt(symbol, company, ctx)` | Builds Grok prompt with neutral context; asserts no direction words |
 | `call_hermes(prompt)` | Subprocess call with timeout + retry |
 | `extract_json(text)` | Extracts first `{`…last `}` from LLM output |
+| `extract_json_array(text)` | Extracts `[…]` array from LLM output (TIER2 배치 응답용) |
 | `validate_symbol_fields(data, symbol)` | Validates enums and required fields |
 | `validate_top_news(data)` | Validates `top_news` optional struct (v2.0 _en/_ko required) |
 | `compute_divergence(price_dir, score)` | Divergence logic (post-processing only) |
@@ -205,7 +215,8 @@ composite_score = clamp(round(score, 1), -2.0, 2.0)
 | `load_pre_open_scores(path)` | Reads earlier pre_open file for intraday_shift |
 | `compute_symbol_composite(...)` | composite_score for symbols |
 | `compute_market_composite(...)` | composite_score for market object |
-| `build_symbol_entry(...)` | Assembles final per-symbol JSON object |
+| `build_symbol_entry(..., tier)` | Assembles final per-symbol JSON object; `tier` 필드 포함 |
+| `build_tier2_batch_prompt(watchlist)` | TIER2 10종목 배치 프롬프트 생성 |
 | `build_market_entry(...)` | Assembles final market JSON object |
 | `git_commit_push(...)` | Delegates to `collect/git_utils.commit_and_push()` |
 
@@ -369,6 +380,7 @@ Bullet format rule: "핵심 신호 → 시장 의미" (signal → market meaning
 ```json
 {
   "symbol": "TSLA",
+  "tier": 1,
   "as_of": "2026-05-31T13:00:00Z",
   "sentiment": "optimistic",
   "sentiment_score": 1,

@@ -97,7 +97,7 @@ market-sentiment-data/
 
 ### 개요
 
-메인 심리 수집기. 하루 2회 실행. 7개 워치리스트 종목 + 미국 시장 전체에 대해:
+메인 심리 수집기. 종목을 두 Tier로 분리해 수집:
 1. SniperBoard에서 중립적 가격 맥락 수집 (방향 없음)
 2. 맥락을 관찰 단서로만 Grok 프롬프트에 주입
 3. `hermes -z`로 Grok 호출; JSON 응답 파싱·검증
@@ -106,7 +106,16 @@ market-sentiment-data/
 6. `sentiment/latest.json` + `sentiment/history/YYYY-MM-DD_<slot>.json` 저장
 7. `git commit + push`
 
-**워치리스트:** `TSLA, AAPL, NVDA, META, AMZN, GOOGL, PLTR`
+**TIER1 — 빅테크/대형주 (11종목, 개별 심층 분석, 하루 2회):**
+`TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL`
+
+**TIER2 — 모멘텀/테마주 (10종목, 배치 묶음 분석, post_close 전용):**
+`RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI`
+
+**수집 방식:**
+- **TIER1 (개별):** pre_open + post_close 모두 실행. 종목별 개별 Grok 호출. 가격 맥락(price_context) 포함.
+- **TIER2 (배치):** post_close에만 실행. `build_tier2_batch_prompt()`로 10종목 단일 Grok 호출. price_context 생략.
+- 각 엔트리에 `"tier": 1` 또는 `"tier": 2` 필드 저장.
 
 ### 오염 방지선 (가장 중요한 원칙)
 
