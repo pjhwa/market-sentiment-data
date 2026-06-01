@@ -20,11 +20,11 @@ market-sentiment-data/
 ├── schema.json                      # Data contract (JSON Schema draft-07, v2.0)
 │
 ├── collect/
-│   ├── collect_sentiment.py         # Collector 1: Social sentiment (TIER1 개별 + TIER2 배치)
+│   ├── collect_sentiment.py         # Collector 1: Social sentiment (TIER1 individual + TIER2 batch)
 │   ├── collect_brief.py             # Collector 2: AI Daily Brief
 │   ├── collect_earnings.py          # Collector 3: Earnings Intelligence
 │   ├── collect_macro_insight.py     # Collector 4: Macro Insight
-│   ├── probe_mention_volume.py      # 종목 선별용 멘션 볼륨 프로브 (169개 후보 스캔)
+│   ├── probe_mention_volume.py      # Symbol selection probe — mention volume scanner (169 candidates)
 │   ├── price_context.py             # Neutral price-context fetcher (for sentiment)
 │   ├── git_utils.py                 # Shared git commit/push helper
 │   ├── test_collect_sentiment.py
@@ -39,8 +39,8 @@ market-sentiment-data/
 │   │   ├── YYYY-MM-DD_pre_open.json    # Pre-US-market snapshot (09:00–17:59 UTC)
 │   │   └── YYYY-MM-DD_post_close.json  # Post-US-market snapshot (18:00+ UTC)
 │   └── probe/
-│       ├── latest.json              # 최신 프로브 결과 (항상 덮어씀)
-│       ├── YYYY-MM-DD_HHmm.json     # 실행별 누적 보관
+│       ├── latest.json              # Latest probe result (always overwritten)
+│       ├── YYYY-MM-DD_HHmm.json     # Per-run archive
 │       └── probe_run.log
 │
 ├── brief/
@@ -78,10 +78,10 @@ Runs **twice daily** (pre_open and post_close slots). Symbols are split into two
 4. Computes **divergence** (price direction vs. sentiment sign) after Grok responds
 5. Computes **composite_score** (−2.0 ~ +2.0) weighting confidence, bot suspicion, mention volume, divergence, and trend
 
-**TIER1 — 빅테크/대형주 (11종목): 개별 심층 분석, 하루 2회 (pre_open + post_close)**
+**TIER1 — Large-cap / Big Tech (11 symbols): individual deep analysis, twice daily (pre_open + post_close)**
 TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL
 
-**TIER2 — 모멘텀/테마주 (10종목): 배치 묶음 분석, 하루 1회 (post_close 전용)**
+**TIER2 — Momentum / Theme plays (10 symbols): batch analysis, once daily (post_close only)**
 RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI
 
 Each symbol entry includes a `"tier": 1|2` field. TIER2 entries omit `price_context` (batch mode).
@@ -242,17 +242,17 @@ PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 **Cron example (server, UTC-based):**
 ```bash
 # pre_open: 13:00 UTC (22:00 KST)
-0 13 * * 1-5  cd ~/dev/market-sentiment-data && python collect_sentiment.py >> ~/sentiment.log 2>&1
-0 13 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_brief >> ~/brief.log 2>&1
-0 13 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_macro_insight >> ~/macro.log 2>&1
+0 13 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
+0 13 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_brief >> brief/brief.log 2>&1
+0 13 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_macro_insight >> macro/macro.log 2>&1
 
 # post_close: 21:00 UTC (06:00 KST)
-0 21 * * 1-5  cd ~/dev/market-sentiment-data && python collect_sentiment.py >> ~/sentiment.log 2>&1
-0 21 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_brief >> ~/brief.log 2>&1
-0 21 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_macro_insight >> ~/macro.log 2>&1
+0 21 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
+0 21 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_brief >> brief/brief.log 2>&1
+0 21 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_macro_insight >> macro/macro.log 2>&1
 
 # earnings: once daily at 14:00 UTC
-0 14 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_earnings >> ~/earnings.log 2>&1
+0 14 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_earnings >> earnings/earnings.log 2>&1
 ```
 
 ---

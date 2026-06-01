@@ -44,7 +44,7 @@ market-sentiment-data/
 │   ├── collect_brief.py          # Collector 2 — python -m collect.collect_brief
 │   ├── collect_earnings.py       # Collector 3 — python -m collect.collect_earnings
 │   ├── collect_macro_insight.py  # Collector 4 — python -m collect.collect_macro_insight
-│   ├── probe_mention_volume.py   # Tier 선별용 1회성 멘션 볼륨 프로브 (169개 후보)
+│   ├── probe_mention_volume.py   # One-shot symbol selection probe — mention volume scanner (169 candidates)
 │   ├── price_context.py          # Neutral price-context fetcher (used by Collector 1)
 │   ├── git_utils.py              # commit_and_push() shared helper
 │   ├── test_collect_sentiment.py
@@ -55,9 +55,9 @@ market-sentiment-data/
 │   ├── latest.json               # Sentiment: always-current snapshot
 │   ├── sentiment.log             # Cron log for collect_sentiment
 │   ├── history/YYYY-MM-DD_<slot>.json
-│   └── probe/                    # 멘션 볼륨 프로브 결과
-│       ├── latest.json           # 최신 프로브 결과 (항상 덮어씀)
-│       └── YYYY-MM-DD_HHmm.json  # 실행별 누적 보관
+│   └── probe/                    # Mention volume probe results
+│       ├── latest.json           # Latest probe result (always overwritten)
+│       └── YYYY-MM-DD_HHmm.json  # Per-run archive
 ├── brief/
 │   ├── latest.json               # AI Daily Brief: always-current
 │   ├── brief.log                 # Cron log for collect_brief
@@ -134,16 +134,16 @@ The main sentiment collector. Runs twice daily. For TIER1 symbols individually +
 6. Write `sentiment/latest.json` + `sentiment/history/YYYY-MM-DD_<slot>.json`
 7. `git commit + push`
 
-**TIER1 — 빅테크/대형주 (11종목, 개별 심층 분석, 하루 2회):**
+**TIER1 — Large-cap / Big Tech (11 symbols, individual deep analysis, twice daily):**
 `TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL`
 
-**TIER2 — 모멘텀/테마주 (10종목, 배치 묶음 분석, post_close 전용):**
+**TIER2 — Momentum / Theme plays (10 symbols, batch analysis, post_close only):**
 `RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI`
 
 **Collection modes:**
-- **TIER1 (개별):** `pre_open` + `post_close` 슬롯 모두 실행. 종목별 개별 Grok 호출. 가격 맥락(price_context) 포함.
-- **TIER2 (배치):** `post_close` 슬롯에만 실행. `build_tier2_batch_prompt()`로 10종목 단일 Grok 호출. price_context 생략.
-- 각 엔트리에 `"tier": 1` 또는 `"tier": 2` 필드 저장.
+- **TIER1 (individual):** Runs on both `pre_open` and `post_close` slots. One Grok call per symbol. Includes price_context.
+- **TIER2 (batch):** Runs on `post_close` only. Single Grok call for all 10 symbols via `build_tier2_batch_prompt()`. price_context omitted.
+- Each entry stores `"tier": 1` or `"tier": 2` field.
 
 ### The Contamination Firewall (Most Important Principle)
 
@@ -207,7 +207,7 @@ composite_score = clamp(round(score, 1), -2.0, 2.0)
 | `build_prompt(symbol, company, ctx)` | Builds Grok prompt with neutral context; asserts no direction words |
 | `call_hermes(prompt)` | Subprocess call with timeout + retry |
 | `extract_json(text)` | Extracts first `{`…last `}` from LLM output |
-| `extract_json_array(text)` | Extracts `[…]` array from LLM output (TIER2 배치 응답용) |
+| `extract_json_array(text)` | Extracts `[…]` array from LLM output (for TIER2 batch responses) |
 | `validate_symbol_fields(data, symbol)` | Validates enums and required fields |
 | `validate_top_news(data)` | Validates `top_news` optional struct (v2.0 _en/_ko required) |
 | `compute_divergence(price_dir, score)` | Divergence logic (post-processing only) |
@@ -216,7 +216,7 @@ composite_score = clamp(round(score, 1), -2.0, 2.0)
 | `compute_symbol_composite(...)` | composite_score for symbols |
 | `compute_market_composite(...)` | composite_score for market object |
 | `build_symbol_entry(..., tier)` | Assembles final per-symbol JSON object; `tier` 필드 포함 |
-| `build_tier2_batch_prompt(watchlist)` | TIER2 10종목 배치 프롬프트 생성 |
+| `build_tier2_batch_prompt(watchlist)` | Builds batch prompt for all TIER2 symbols in a single Grok call |
 | `build_market_entry(...)` | Assembles final market JSON object |
 | `git_commit_push(...)` | Delegates to `collect/git_utils.commit_and_push()` |
 

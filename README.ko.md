@@ -104,9 +104,9 @@ RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI
 
 **yfinance** (calendar + earnings_history)로 워치리스트 종목의 어닝 데이터 수집 후 Grok으로 리스크 해석 생성. 3단계 분류:
 
-- **Imminent** (7일 이내): 이벤트 리스크 관리 구간
-- **Approaching** (8~21일): 포지션 계획 시작 구간
-- **Watching** (22~30일): 조기 인지 구간
+- **임박** (7일 이내): 이벤트 리스크 관리 구간
+- **접근** (8~21일): 포지션 계획 시작 구간
+- **관찰** (22~30일): 조기 인지 구간
 
 calendar → `earnings_dates`/`earnings_estimate` 폴백, 수치·날짜 검증, 단일 종목 실패 시에도 부분 결과 지원, `--dry-run` 모드 제공.
 
@@ -235,7 +235,7 @@ python -m pytest collect/test_price_context.py -v
 python -m pytest collect/test_collect_brief_context.py -v
 ```
 
-Phase 5 (yf-accuracy-harden 플랜 완료) 기준 48개 테스트 통과.
+5단계 (yf-accuracy-harden 플랜 완료) 기준 48개 테스트 통과.
 
 ---
 

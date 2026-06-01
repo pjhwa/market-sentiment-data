@@ -44,6 +44,7 @@ market-sentiment-data/
 │   ├── collect_brief.py          # 수집기 2 — python -m collect.collect_brief
 │   ├── collect_earnings.py       # 수집기 3 — python -m collect.collect_earnings
 │   ├── collect_macro_insight.py  # 수집기 4 — python -m collect.collect_macro_insight
+│   ├── probe_mention_volume.py   # 종목 선별용 1회성 멘션 볼륨 프로브 (169개 후보)
 │   ├── price_context.py          # 중립적 가격 맥락 fetcher (수집기 1 전용)
 │   ├── git_utils.py              # commit_and_push() 공용 헬퍼
 │   ├── test_collect_sentiment.py
@@ -53,7 +54,10 @@ market-sentiment-data/
 ├── sentiment/
 │   ├── latest.json               # 심리: 항상 최신 스냅샷
 │   ├── sentiment.log             # 크론 로그
-│   └── history/YYYY-MM-DD_<slot>.json
+│   ├── history/YYYY-MM-DD_<slot>.json
+│   └── probe/                    # 멘션 볼륨 프로브 결과
+│       ├── latest.json           # 최신 프로브 결과 (항상 덮어씀)
+│       └── YYYY-MM-DD_HHmm.json  # 실행별 누적 보관
 ├── brief/
 │   ├── latest.json               # AI 일일 브리프: 항상 최신
 │   ├── brief.log                 # 크론 로그
@@ -179,6 +183,7 @@ composite_score = clamp(round(score, 1), -2.0, 2.0)
 | `build_prompt(symbol, company, ctx)` | 중립 맥락 주입 프롬프트 빌드; 방향 단어 assert |
 | `call_hermes(prompt)` | 타임아웃+재시도 포함 subprocess 호출 |
 | `extract_json(text)` | LLM 출력에서 첫 `{`~마지막 `}` 추출 |
+| `extract_json_array(text)` | LLM 출력에서 `[…]` 배열 추출 (TIER2 배치 응답용) |
 | `validate_symbol_fields(data, symbol)` | 열거형 및 필수 필드 검증 |
 | `validate_top_news(data)` | `top_news` 선택 구조 검증 (v2.0 _en/_ko 필수) |
 | `compute_divergence(price_dir, score)` | divergence 로직 (후처리 전용) |
@@ -186,7 +191,8 @@ composite_score = clamp(round(score, 1), -2.0, 2.0)
 | `load_pre_open_scores(path)` | intraday_shift용 pre_open 파일 읽기 |
 | `compute_symbol_composite(...)` | 종목 composite_score |
 | `compute_market_composite(...)` | 시장 전체 composite_score |
-| `build_symbol_entry(...)` | 최종 per-symbol JSON 조립 |
+| `build_symbol_entry(..., tier)` | 최종 per-symbol JSON 조립; tier 필드 포함 |
+| `build_tier2_batch_prompt(watchlist)` | TIER2 전체 종목 단일 Grok 호출용 배치 프롬프트 생성 |
 | `build_market_entry(...)` | 최종 market JSON 조립 |
 | `git_commit_push(...)` | `collect/git_utils.commit_and_push()` 위임 |
 
