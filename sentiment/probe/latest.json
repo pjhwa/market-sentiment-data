@@ -1,0 +1,325 @@
+{
+  "generated_at": "2026-06-01T08:34:38Z",
+  "probe_batch_size": 10,
+  "provider": "default",
+  "total_scanned": 7,
+  "failed_symbols": [],
+  "score_schema": {
+    "mention_volume": {
+      "surging": 40,
+      "elevated": 30,
+      "normal": 15,
+      "low": 5
+    },
+    "consistency": {
+      "steady": 20,
+      "event_driven": 12,
+      "sporadic": 5
+    },
+    "retail_dominance": {
+      "high": 15,
+      "med": 10,
+      "low": 5
+    },
+    "sentiment_clarity": {
+      "clear": 15,
+      "mixed": 8,
+      "noisy": 3
+    },
+    "bot_ratio": {
+      "low": 10,
+      "med": 6,
+      "high": 2
+    },
+    "confidence_mult": {
+      "high": 1.0,
+      "med": 0.85,
+      "low": 0.6
+    },
+    "max_score": 100,
+    "note": "score = (sum of field scores) × confidence_mult"
+  },
+  "selection": {
+    "top20": [
+      {
+        "symbol": "TSLA",
+        "company": "Tesla",
+        "probe_score": 100.0,
+        "mention_volume": "surging",
+        "consistency": "steady",
+        "retail_dominance": "high",
+        "sentiment_clarity": "clear",
+        "bot_ratio": "low",
+        "confidence": "high",
+        "note": "test entry"
+      },
+      {
+        "symbol": "NVDA",
+        "company": "Nvidia",
+        "probe_score": 95.0,
+        "mention_volume": "surging",
+        "consistency": "steady",
+        "retail_dominance": "med",
+        "sentiment_clarity": "clear",
+        "bot_ratio": "low",
+        "confidence": "high",
+        "note": "test entry"
+      },
+      {
+        "symbol": "AAPL",
+        "company": "Apple",
+        "probe_score": 90.0,
+        "mention_volume": "elevated",
+        "consistency": "steady",
+        "retail_dominance": "high",
+        "sentiment_clarity": "clear",
+        "bot_ratio": "low",
+        "confidence": "high",
+        "note": "test entry"
+      },
+      {
+        "symbol": "META",
+        "company": "Meta Platforms",
+        "probe_score": 79.0,
+        "mention_volume": "elevated",
+        "consistency": "steady",
+        "retail_dominance": "high",
+        "sentiment_clarity": "mixed",
+        "bot_ratio": "med",
+        "confidence": "high",
+        "note": "test entry"
+      },
+      {
+        "symbol": "MSTR",
+        "company": "MicroStrategy",
+        "probe_score": 66.3,
+        "mention_volume": "elevated",
+        "consistency": "event_driven",
+        "retail_dominance": "high",
+        "sentiment_clarity": "clear",
+        "bot_ratio": "med",
+        "confidence": "med",
+        "note": "test entry"
+      },
+      {
+        "symbol": "AMD",
+        "company": "AMD",
+        "probe_score": 53.5,
+        "mention_volume": "normal",
+        "consistency": "steady",
+        "retail_dominance": "med",
+        "sentiment_clarity": "mixed",
+        "bot_ratio": "low",
+        "confidence": "med",
+        "note": "test entry"
+      },
+      {
+        "symbol": "LCID",
+        "company": "Lucid Motors",
+        "probe_score": 15.0,
+        "mention_volume": "low",
+        "consistency": "sporadic",
+        "retail_dominance": "med",
+        "sentiment_clarity": "noisy",
+        "bot_ratio": "high",
+        "confidence": "low",
+        "note": "test entry"
+      }
+    ],
+    "tier1_top10": {
+      "count": 5,
+      "symbols": [
+        "TSLA",
+        "NVDA",
+        "AAPL",
+        "META",
+        "MSTR"
+      ],
+      "description": "개별 심층 분석 · 하루 2회 · mention_volume surging/elevated",
+      "code": "TIER1_WATCHLIST = [\n    (\"TSLA \", \"Tesla\"),\n    (\"NVDA \", \"Nvidia\"),\n    (\"AAPL \", \"Apple\"),\n    (\"META \", \"Meta Platforms\"),\n    (\"MSTR \", \"MicroStrategy\"),\n]",
+      "entries": [
+        {
+          "symbol": "TSLA",
+          "company": "Tesla",
+          "probe_score": 100.0,
+          "mention_volume": "surging",
+          "consistency": "steady",
+          "retail_dominance": "high",
+          "sentiment_clarity": "clear",
+          "bot_ratio": "low",
+          "confidence": "high",
+          "note": "test entry"
+        },
+        {
+          "symbol": "NVDA",
+          "company": "Nvidia",
+          "probe_score": 95.0,
+          "mention_volume": "surging",
+          "consistency": "steady",
+          "retail_dominance": "med",
+          "sentiment_clarity": "clear",
+          "bot_ratio": "low",
+          "confidence": "high",
+          "note": "test entry"
+        },
+        {
+          "symbol": "AAPL",
+          "company": "Apple",
+          "probe_score": 90.0,
+          "mention_volume": "elevated",
+          "consistency": "steady",
+          "retail_dominance": "high",
+          "sentiment_clarity": "clear",
+          "bot_ratio": "low",
+          "confidence": "high",
+          "note": "test entry"
+        },
+        {
+          "symbol": "META",
+          "company": "Meta Platforms",
+          "probe_score": 79.0,
+          "mention_volume": "elevated",
+          "consistency": "steady",
+          "retail_dominance": "high",
+          "sentiment_clarity": "mixed",
+          "bot_ratio": "med",
+          "confidence": "high",
+          "note": "test entry"
+        },
+        {
+          "symbol": "MSTR",
+          "company": "MicroStrategy",
+          "probe_score": 66.3,
+          "mention_volume": "elevated",
+          "consistency": "event_driven",
+          "retail_dominance": "high",
+          "sentiment_clarity": "clear",
+          "bot_ratio": "med",
+          "confidence": "med",
+          "note": "test entry"
+        }
+      ]
+    },
+    "tier2_top10": {
+      "count": 2,
+      "symbols": [
+        "AMD",
+        "LCID"
+      ],
+      "description": "배치 묶음 · 하루 1회 · mention_volume normal/low but high score",
+      "code": "TIER2_WATCHLIST = [\n    (\"AMD  \", \"AMD\"),\n    (\"LCID \", \"Lucid Motors\"),\n]",
+      "entries": [
+        {
+          "symbol": "AMD",
+          "company": "AMD",
+          "probe_score": 53.5,
+          "mention_volume": "normal",
+          "consistency": "steady",
+          "retail_dominance": "med",
+          "sentiment_clarity": "mixed",
+          "bot_ratio": "low",
+          "confidence": "med",
+          "note": "test entry"
+        },
+        {
+          "symbol": "LCID",
+          "company": "Lucid Motors",
+          "probe_score": 15.0,
+          "mention_volume": "low",
+          "consistency": "sporadic",
+          "retail_dominance": "med",
+          "sentiment_clarity": "noisy",
+          "bot_ratio": "high",
+          "confidence": "low",
+          "note": "test entry"
+        }
+      ]
+    }
+  },
+  "ranked_results": [
+    {
+      "symbol": "TSLA",
+      "company": "Tesla",
+      "probe_score": 100.0,
+      "mention_volume": "surging",
+      "consistency": "steady",
+      "retail_dominance": "high",
+      "sentiment_clarity": "clear",
+      "bot_ratio": "low",
+      "confidence": "high",
+      "note": "test entry"
+    },
+    {
+      "symbol": "NVDA",
+      "company": "Nvidia",
+      "probe_score": 95.0,
+      "mention_volume": "surging",
+      "consistency": "steady",
+      "retail_dominance": "med",
+      "sentiment_clarity": "clear",
+      "bot_ratio": "low",
+      "confidence": "high",
+      "note": "test entry"
+    },
+    {
+      "symbol": "AAPL",
+      "company": "Apple",
+      "probe_score": 90.0,
+      "mention_volume": "elevated",
+      "consistency": "steady",
+      "retail_dominance": "high",
+      "sentiment_clarity": "clear",
+      "bot_ratio": "low",
+      "confidence": "high",
+      "note": "test entry"
+    },
+    {
+      "symbol": "META",
+      "company": "Meta Platforms",
+      "probe_score": 79.0,
+      "mention_volume": "elevated",
+      "consistency": "steady",
+      "retail_dominance": "high",
+      "sentiment_clarity": "mixed",
+      "bot_ratio": "med",
+      "confidence": "high",
+      "note": "test entry"
+    },
+    {
+      "symbol": "MSTR",
+      "company": "MicroStrategy",
+      "probe_score": 66.3,
+      "mention_volume": "elevated",
+      "consistency": "event_driven",
+      "retail_dominance": "high",
+      "sentiment_clarity": "clear",
+      "bot_ratio": "med",
+      "confidence": "med",
+      "note": "test entry"
+    },
+    {
+      "symbol": "AMD",
+      "company": "AMD",
+      "probe_score": 53.5,
+      "mention_volume": "normal",
+      "consistency": "steady",
+      "retail_dominance": "med",
+      "sentiment_clarity": "mixed",
+      "bot_ratio": "low",
+      "confidence": "med",
+      "note": "test entry"
+    },
+    {
+      "symbol": "LCID",
+      "company": "Lucid Motors",
+      "probe_score": 15.0,
+      "mention_volume": "low",
+      "consistency": "sporadic",
+      "retail_dominance": "med",
+      "sentiment_clarity": "noisy",
+      "bot_ratio": "high",
+      "confidence": "low",
+      "note": "test entry"
+    }
+  ]
+}

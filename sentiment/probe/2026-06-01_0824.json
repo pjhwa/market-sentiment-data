@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-06-01T08:24:24Z",
+  "probe_batch_size": 10,
+  "provider": "default",
+  "total_scanned": 1,
+  "failed_symbols": [],
+  "tier1_recommended": [],
+  "tier2_recommended": [
+    "TEST"
+  ],
+  "results": [
+    {
+      "symbol": "TEST",
+      "mention_volume": "normal",
+      "confidence": "high",
+      "note": "test"
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-05-31 -->
+<!-- AUTO-GENERATED: 2026-06-01 -->
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 
@@ -44,6 +44,7 @@ market-sentiment-data/
 │   ├── collect_brief.py          # Collector 2 — python -m collect.collect_brief
 │   ├── collect_earnings.py       # Collector 3 — python -m collect.collect_earnings
 │   ├── collect_macro_insight.py  # Collector 4 — python -m collect.collect_macro_insight
+│   ├── probe_mention_volume.py   # Tier 선별용 1회성 멘션 볼륨 프로브 (169개 후보)
 │   ├── price_context.py          # Neutral price-context fetcher (used by Collector 1)
 │   ├── git_utils.py              # commit_and_push() shared helper
 │   ├── test_collect_sentiment.py
@@ -53,7 +54,10 @@ market-sentiment-data/
 ├── sentiment/
 │   ├── latest.json               # Sentiment: always-current snapshot
 │   ├── sentiment.log             # Cron log for collect_sentiment
-│   └── history/YYYY-MM-DD_<slot>.json
+│   ├── history/YYYY-MM-DD_<slot>.json
+│   └── probe/                    # 멘션 볼륨 프로브 결과
+│       ├── latest.json           # 최신 프로브 결과 (항상 덮어씀)
+│       └── YYYY-MM-DD_HHmm.json  # 실행별 누적 보관
 ├── brief/
 │   ├── latest.json               # AI Daily Brief: always-current
 │   ├── brief.log                 # Cron log for collect_brief
@@ -80,7 +84,7 @@ All config is injected via environment variables. Never hardcode paths or tokens
 | Variable | Default | Used by |
 |----------|---------|---------|
 | `SENTIMENT_REPO_PATH` | script directory | all collectors |
-| `HERMES_CMD` | `/Users/jerry/.local/bin/hermes` | all collectors |
+| `HERMES_CMD` | 자동탐색 (`shutil.which` → `~/.local/bin` → `/opt/homebrew/bin` → `/usr/local/bin`) | all collectors |
 | `HERMES_PROVIDER` | `""` (empty = no `--provider` flag) | all collectors |
 | `HERMES_TIMEOUT` | `120` | all collectors |
 | `HERMES_RETRY` | `1` | all collectors |
@@ -93,7 +97,31 @@ All config is injected via environment variables. Never hardcode paths or tokens
 
 ---
 
-## 4. Collector 1 — Social Sentiment (`collect/collect_sentiment.py`)
+## 4. Probe Tool — Mention Volume Scanner (`collect/probe_mention_volume.py`)
+
+One-shot script for data-driven Tier1/Tier2 symbol selection before expanding the watchlist to 20 symbols. Scans 169 candidate symbols across 25 sectors by querying Grok for 7 signal-quality dimensions.
+
+**Run:** `PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume`
+
+**Output:** `sentiment/probe/latest.json` — ranked results + ready-to-paste `TIER1_WATCHLIST` / `TIER2_WATCHLIST` code blocks.
+
+**Scoring (probe_score 0~100):**
+
+| Dimension | Max pts | Rationale |
+|-----------|---------|-----------|
+| `mention_volume` | 40 | No data = no signal |
+| `consistency` | 20 | Event-only stocks have lower daily collection value |
+| `retail_dominance` | 15 | Retail posts drive actionable sentiment |
+| `sentiment_clarity` | 15 | Clear mood → reliable signal |
+| `bot_ratio` | 10 | High bots dilute signal quality |
+
+Final score multiplied by `confidence` (1.0 / 0.85 / 0.6).
+
+**Design doc:** `docs/superpowers/specs/2026-06-01-probe-mention-volume-design.md`
+
+---
+
+## 5. Collector 1 — Social Sentiment (`collect/collect_sentiment.py`)
 
 ### Overview
 
@@ -183,7 +211,7 @@ composite_score = clamp(round(score, 1), -2.0, 2.0)
 
 ---
 
-## 5. Collector 2 — AI Daily Brief (`collect/collect_brief.py`)
+## 6. Collector 2 — AI Daily Brief (`collect/collect_brief.py`)
 
 ### Overview
 
@@ -227,7 +255,7 @@ Runs after the sentiment collector. Combines technical and social data → Grok 
 
 ---
 
-## 6. Collector 3 — Earnings Intelligence (`collect/collect_earnings.py`)
+## 7. Collector 3 — Earnings Intelligence (`collect/collect_earnings.py`)
 
 ### Overview
 
@@ -282,7 +310,7 @@ Fetches earnings data via yfinance and generates Grok-based risk interpretation.
 
 ---
 
-## 7. Collector 4 — Macro Insight (`collect/collect_macro_insight.py`)
+## 8. Collector 4 — Macro Insight (`collect/collect_macro_insight.py`)
 
 ### Overview
 
@@ -322,7 +350,7 @@ Bullet format rule: "핵심 신호 → 시장 의미" (signal → market meaning
 
 ---
 
-## 8. Data Schema Reference (v2.0)
+## 9. Data Schema Reference (v2.0)
 
 ### `sentiment/latest.json` top-level structure
 
@@ -387,7 +415,7 @@ Bullet format rule: "핵심 신호 → 시장 의미" (signal → market meaning
 
 ---
 
-## 9. Layer 3 — SniperBoard Consumer
+## 10. Layer 3 — SniperBoard Consumer
 
 SniperBoard consumes this repository via its backend services. The consumer must treat all v1.x-added fields as optional to maintain backward compatibility with history files.
 
@@ -427,7 +455,7 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 
 ---
 
-## 10. Cron Schedule
+## 11. Cron Schedule
 
 ```bash
 # ─── pre_open (06:00 KST / 22:00 KST) ──────────────────────────────────────
@@ -444,7 +472,7 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 
 ---
 
-## 11. Safety Guardrails (Non-Negotiable)
+## 12. Safety Guardrails (Non-Negotiable)
 
 | Principle | Code implementation |
 |-----------|---------------------|
@@ -458,7 +486,7 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 
 ---
 
-## 12. Testing
+## 13. Testing
 
 ```bash
 PYTHONPATH=/path/to/market-sentiment-data python -m pytest collect/ -v
@@ -474,7 +502,7 @@ Tests are co-located in `collect/` and run with pytest. No external services req
 
 ---
 
-## 13. Cross-Repo Linkage (SniperBoard)
+## 14. Cross-Repo Linkage (SniperBoard)
 
 - `sniperboard/backend/services/sentiment_service.py` — fetches `sentiment/latest.json` + `sentiment/history/`
 - `sniperboard/backend/services/brief_service.py` — fetches `brief/latest.json`

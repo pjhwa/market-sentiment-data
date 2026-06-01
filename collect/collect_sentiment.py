@@ -10,10 +10,28 @@ SniperBoard 소셜 심리 수집기 (계층 1, v1.2)
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+
+def _find_hermes() -> str:
+    """HERMES_CMD 환경변수 → PATH 자동탐색 → 플랫폼별 기본 경로 순으로 탐색."""
+    if val := os.environ.get("HERMES_CMD"):
+        return val
+    if found := shutil.which("hermes"):
+        return found
+    candidates = [
+        Path.home() / ".local/bin/hermes",       # Linux (pip install)
+        Path("/opt/homebrew/bin/hermes"),          # macOS Apple Silicon
+        Path("/usr/local/bin/hermes"),             # macOS Intel / Linux
+    ]
+    for p in candidates:
+        if p.exists():
+            return str(p)
+    return str(Path.home() / ".local/bin/hermes")
 
 from collect.git_utils import commit_and_push
 from collect.price_context import (
@@ -24,7 +42,7 @@ from collect.price_context import (
 
 # ── 설정 ──────────────────────────────────────────────────────────────────────
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
-HERMES_CMD = os.environ.get("HERMES_CMD", "/Users/jerry/.local/bin/hermes")
+HERMES_CMD = _find_hermes()
 HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
 CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))
 
