@@ -16,35 +16,52 @@ market-sentiment-data/
 ├── README.ko.md                     # 이 문서 (한국어)
 ├── PROJECT_CONTEXT.md               # 아키텍처 & 코드 레퍼런스 (영어)
 ├── PROJECT_CONTEXT.ko.md            # 아키텍처 & 코드 레퍼런스 (한국어)
+├── CLAUDE.md                        # Claude Code 지침
 ├── schema.json                      # 데이터 계약 (JSON Schema draft-07, v2.0)
 │
-├── collect_sentiment.py             # 수집기 1: 소셜 심리 (메인)
 ├── collect/
+│   ├── collect_sentiment.py         # 수집기 1: 소셜 심리 (TIER1 개별 + TIER2 배치)
 │   ├── collect_brief.py             # 수집기 2: AI 일일 브리프
 │   ├── collect_earnings.py          # 수집기 3: 어닝 인텔리전스
 │   ├── collect_macro_insight.py     # 수집기 4: 매크로 인사이트
+│   ├── probe_mention_volume.py      # 종목 선별용 멘션 볼륨 프로브 (169개 후보 스캔)
 │   ├── price_context.py             # 중립적 가격 맥락 fetcher (심리 수집용)
-│   └── git_utils.py                 # 공용 git commit/push 헬퍼
+│   ├── git_utils.py                 # 공용 git commit/push 헬퍼
+│   ├── test_collect_sentiment.py
+│   ├── test_collect_brief.py
+│   ├── test_collect_brief_context.py
+│   └── test_price_context.py
 │
-├── latest.json                      # 심리 스냅샷 — 항상 최신
-├── history/
-│   ├── YYYY-MM-DD_pre_open.json     # 미국 장 개장 전 스냅샷 (UTC 09:00~17:59)
-│   └── YYYY-MM-DD_post_close.json   # 미국 장 마감 후 스냅샷 (UTC 18:00~)
+├── sentiment/
+│   ├── latest.json                  # 심리 스냅샷 — 항상 최신
+│   ├── sentiment.log                # 크론 로그
+│   ├── history/
+│   │   ├── YYYY-MM-DD_pre_open.json    # 미국 장 개장 전 스냅샷 (UTC 09:00~17:59)
+│   │   └── YYYY-MM-DD_post_close.json  # 미국 장 마감 후 스냅샷 (UTC 18:00~)
+│   └── probe/
+│       ├── latest.json              # 최신 프로브 결과 (항상 덮어씀)
+│       ├── YYYY-MM-DD_HHmm.json     # 실행별 누적 보관
+│       └── probe_run.log
 │
 ├── brief/
 │   ├── latest.json                  # AI 일일 브리프 — 항상 최신
+│   ├── brief.log                    # 크론 로그
 │   └── history/
 │       └── YYYY-MM-DD_<slot>.json
 │
 ├── earnings/
 │   ├── latest.json                  # 어닝 인텔리전스 — 항상 최신
+│   ├── earnings.log                 # 크론 로그
 │   └── history/
 │       └── YYYY-MM-DD.json
 │
-└── macro/
-    ├── latest.json                  # 매크로 인사이트 — 항상 최신
-    └── history/
-        └── YYYY-MM-DD_<slot>.json
+├── macro/
+│   ├── latest.json                  # 매크로 인사이트 — 항상 최신
+│   ├── macro.log                    # 크론 로그
+│   └── history/
+│       └── YYYY-MM-DD_<slot>.json
+│
+└── docs/                            # 설계 스펙 및 플랜
 ```
 
 ---
@@ -85,7 +102,7 @@ RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI
 
 ### 3. 어닝 인텔리전스 (`collect/collect_earnings.py`)
 
-**yfinance** (calendar + earnings_history)로 7개 워치리스트 종목의 어닝 데이터 수집 후 Grok으로 리스크 해석 생성. 3단계 분류:
+**yfinance** (calendar + earnings_history)로 워치리스트 종목의 어닝 데이터 수집 후 Grok으로 리스크 해석 생성. 3단계 분류:
 
 - **Imminent** (7일 이내): 이벤트 리스크 관리 구간
 - **Approaching** (8~21일): 포지션 계획 시작 구간
@@ -147,7 +164,7 @@ def get_field(obj, field, locale):
 
 ```bash
 # 최신 심리 스냅샷
-curl https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/latest.json
+curl https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/sentiment/latest.json
 
 # 최신 AI 일일 브리프
 curl https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/brief/latest.json
@@ -162,7 +179,7 @@ curl https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/macro/la
 비공개 레포의 경우 헤더에 PAT 토큰 추가:
 ```bash
 curl -H "Authorization: token $SENTIMENT_DATA_TOKEN" \
-     https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/latest.json
+     https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/sentiment/latest.json
 ```
 
 > **소스 코드에 토큰을 절대 하드코딩하지 마세요.** docker-compose env 또는 cron 환경으로 주입하세요.
@@ -172,8 +189,8 @@ curl -H "Authorization: token $SENTIMENT_DATA_TOKEN" \
 ## 파이프라인 실행
 
 ```bash
-# 1. 소셜 심리 (UTC 13:00, 21:00 실행)
-python collect_sentiment.py
+# 1. 소셜 심리 (하루 2회 실행)
+python -m collect.collect_sentiment
 
 # 2. AI 일일 브리프 (심리 수집 후 실행)
 python -m collect.collect_brief
@@ -186,6 +203,9 @@ python -m collect.collect_macro_insight
 
 # 드라이런 (어닝만, git push 없음)
 python -m collect.collect_earnings --dry-run
+
+# 프로브: 데이터 기반 종목 선별 (1회성)
+PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 ```
 
 **필수 환경변수:**

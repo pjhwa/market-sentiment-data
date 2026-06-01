@@ -16,35 +16,52 @@ market-sentiment-data/
 ├── README.ko.md                     # Korean version
 ├── PROJECT_CONTEXT.md               # Architecture & code reference (English)
 ├── PROJECT_CONTEXT.ko.md            # Architecture & code reference (Korean)
+├── CLAUDE.md                        # Claude Code instructions
 ├── schema.json                      # Data contract (JSON Schema draft-07, v2.0)
 │
-├── collect_sentiment.py             # Collector 1: Social sentiment (main)
 ├── collect/
+│   ├── collect_sentiment.py         # Collector 1: Social sentiment (TIER1 개별 + TIER2 배치)
 │   ├── collect_brief.py             # Collector 2: AI Daily Brief
 │   ├── collect_earnings.py          # Collector 3: Earnings Intelligence
 │   ├── collect_macro_insight.py     # Collector 4: Macro Insight
+│   ├── probe_mention_volume.py      # 종목 선별용 멘션 볼륨 프로브 (169개 후보 스캔)
 │   ├── price_context.py             # Neutral price-context fetcher (for sentiment)
-│   └── git_utils.py                 # Shared git commit/push helper
+│   ├── git_utils.py                 # Shared git commit/push helper
+│   ├── test_collect_sentiment.py
+│   ├── test_collect_brief.py
+│   ├── test_collect_brief_context.py
+│   └── test_price_context.py
 │
-├── latest.json                      # Sentiment snapshot — always current
-├── history/
-│   ├── YYYY-MM-DD_pre_open.json     # Pre-US-market snapshot (09:00–17:59 UTC)
-│   └── YYYY-MM-DD_post_close.json   # Post-US-market snapshot (18:00+ UTC)
+├── sentiment/
+│   ├── latest.json                  # Sentiment snapshot — always current
+│   ├── sentiment.log                # Cron log
+│   ├── history/
+│   │   ├── YYYY-MM-DD_pre_open.json    # Pre-US-market snapshot (09:00–17:59 UTC)
+│   │   └── YYYY-MM-DD_post_close.json  # Post-US-market snapshot (18:00+ UTC)
+│   └── probe/
+│       ├── latest.json              # 최신 프로브 결과 (항상 덮어씀)
+│       ├── YYYY-MM-DD_HHmm.json     # 실행별 누적 보관
+│       └── probe_run.log
 │
 ├── brief/
 │   ├── latest.json                  # AI Daily Brief — always current
+│   ├── brief.log                    # Cron log
 │   └── history/
 │       └── YYYY-MM-DD_<slot>.json
 │
 ├── earnings/
 │   ├── latest.json                  # Earnings Intelligence — always current
+│   ├── earnings.log                 # Cron log
 │   └── history/
 │       └── YYYY-MM-DD.json
 │
-└── macro/
-    ├── latest.json                  # Macro Insight — always current
-    └── history/
-        └── YYYY-MM-DD_<slot>.json
+├── macro/
+│   ├── latest.json                  # Macro Insight — always current
+│   ├── macro.log                    # Cron log
+│   └── history/
+│       └── YYYY-MM-DD_<slot>.json
+│
+└── docs/                            # Design specs and plans
 ```
 
 ---
@@ -150,7 +167,7 @@ def get_field(obj, field, locale):
 
 ```bash
 # Latest sentiment snapshot
-curl https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/latest.json
+curl https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/sentiment/latest.json
 
 # Latest AI Daily Brief
 curl https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/brief/latest.json
@@ -162,7 +179,7 @@ curl https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/earnings
 curl https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/macro/latest.json
 
 # Historical snapshot
-curl https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/history/2026-05-30_post_close.json
+curl https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/sentiment/history/2026-05-30_post_close.json
 ```
 
 ### Private repo (PAT token required)
@@ -171,13 +188,13 @@ curl https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/history/
 export SENTIMENT_DATA_TOKEN="github_pat_xxxx"
 
 curl -H "Authorization: token $SENTIMENT_DATA_TOKEN" \
-     https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/latest.json
+     https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/sentiment/latest.json
 ```
 
 ```python
 import os, requests
 resp = requests.get(
-    "https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/latest.json",
+    "https://raw.githubusercontent.com/pjhwa/market-sentiment-data/main/sentiment/latest.json",
     headers={"Authorization": f"token {os.environ['SENTIMENT_DATA_TOKEN']}"},
     timeout=10,
 )
@@ -191,8 +208,8 @@ data = resp.json()
 ## Running the Pipeline
 
 ```bash
-# 1. Social sentiment (runs at 13:00 and 21:00 UTC)
-python collect_sentiment.py
+# 1. Social sentiment (runs twice daily)
+python -m collect.collect_sentiment
 
 # 2. AI Daily Brief (runs after sentiment)
 python -m collect.collect_brief
@@ -205,6 +222,9 @@ python -m collect.collect_macro_insight
 
 # Dry-run (earnings only, no git push)
 python -m collect.collect_earnings --dry-run
+
+# Probe: data-driven symbol selection (one-shot)
+PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 ```
 
 **Required environment variables:**
