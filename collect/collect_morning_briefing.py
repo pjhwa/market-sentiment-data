@@ -239,6 +239,41 @@ def _format_earnings_block(earnings_data: dict) -> str:
     return "\n".join(lines)
 
 
+def _format_global_context_block(global_ctx: dict) -> str:
+    """글로벌 컨텍스트를 2차 Grok 프롬프트 주입용 텍스트로 변환."""
+    issues = global_ctx.get("issues", [])
+    if not issues:
+        return "GLOBAL CONTEXT: No verified global issues retrieved (search failed or no significant events)."
+
+    lines = [
+        "━━━ GLOBAL MACRO & GEOPOLITICAL CONTEXT ━━━",
+        f"(Verified within 48h as of {global_ctx.get('fetched_at', 'unknown')})",
+        "Use this context to enrich your briefing. Items marked [DEVELOPING] or [UNVERIFIED] should be noted with caution.\n",
+    ]
+    for iss in issues:
+        conf = iss.get("confidence", "confirmed")
+        conf_tag = "" if conf == "confirmed" else f" [{conf.upper()}]"
+        lines.append(
+            f"[{iss.get('rank')}][{iss.get('tier', '').upper()}][{iss.get('category', '')}]{conf_tag} {iss.get('title_en', '')}"
+            f"\n  Source: {iss.get('source_hint', 'unknown')}"
+            f"\n  {iss.get('summary_en', '')}"
+            f"\n  US Impact: {iss.get('us_stock_impact_en', '')}"
+        )
+
+    no_update = global_ctx.get("ongoing_no_update", [])
+    if no_update:
+        lines.append(f"\nOngoing situations with NO new 48h development: {', '.join(no_update)}")
+
+    lines.append("""
+INSTRUCTIONS for using this context:
+- big_picture.summary: incorporate the most impactful issue naturally (1 sentence max)
+- sector_analysis: reflect geopolitical/regulatory tailwinds or headwinds where relevant
+- spotlight/watchlist: if an issue directly names a watchlist ticker, mention it in that stock's analysis
+- For items marked [DEVELOPING] or [UNVERIFIED]: mention with appropriate caution language
+""")
+    return "\n".join(lines)
+
+
 def validate_global_context(data: dict) -> bool:
     """1차 Grok 응답 글로벌 컨텍스트 검증. 0개 이슈는 fallback으로 유효."""
     if not isinstance(data, dict):
@@ -350,7 +385,8 @@ def parse_global_context(text: str) -> dict:
     return data
 
 
-def build_prompt(data: dict, now_kst: str) -> str:
+def build_prompt(data: dict, now_kst: str, global_ctx: dict | None = None) -> str:
+    global_block = _format_global_context_block(global_ctx or {})
     regime = data["regime"]
     dd = data["distribution"]
     spy_dd = dd.get("spy", {})
@@ -367,6 +403,8 @@ def build_prompt(data: dict, now_kst: str) -> str:
 
     return f"""You are a friendly stock market expert writing a morning briefing for Korean retail investors who are NOT finance professionals.
 Today is {now_kst} (KST).
+
+{global_block}
 
 WRITING RULES — follow strictly:
 1. Write as if explaining to a smart friend who doesn't know stock jargon. Use everyday language.

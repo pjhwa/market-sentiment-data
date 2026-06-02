@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from collect.collect_morning_briefing import validate_global_context
+from collect.collect_morning_briefing import validate_global_context, _format_global_context_block
 
 
 def _valid_issue(rank=1):
@@ -139,6 +139,60 @@ class TestParseGlobalContext(unittest.TestCase):
         result = parse_global_context(text)
         self.assertIsInstance(result, dict)
         self.assertIn("issues", result)
+
+
+class TestFormatGlobalContextBlock(unittest.TestCase):
+
+    def _ctx_with_one_issue(self):
+        return {
+            "fetched_at": "2026-06-03T22:15:00Z",
+            "issues": [{
+                "rank": 1,
+                "tier": "breaking",
+                "category": "trade_tariff",
+                "title_en": "US chip controls expanded",
+                "source_hint": "Reuters 2026-06-03",
+                "confidence": "confirmed",
+                "summary_en": "Commerce Dept added 5 countries.",
+                "us_stock_impact_en": "NVDA negative.",
+            }],
+        }
+
+    def test_empty_issues_returns_fallback_string(self):
+        result = _format_global_context_block({"issues": []})
+        self.assertIn("No verified global issues", result)
+
+    def test_empty_dict_returns_fallback_string(self):
+        result = _format_global_context_block({})
+        self.assertIn("No verified global issues", result)
+
+    def test_valid_ctx_contains_title(self):
+        result = _format_global_context_block(self._ctx_with_one_issue())
+        self.assertIn("US chip controls expanded", result)
+
+    def test_valid_ctx_contains_source_hint(self):
+        result = _format_global_context_block(self._ctx_with_one_issue())
+        self.assertIn("Reuters 2026-06-03", result)
+
+    def test_developing_confidence_shows_tag(self):
+        ctx = self._ctx_with_one_issue()
+        ctx["issues"][0]["confidence"] = "developing"
+        result = _format_global_context_block(ctx)
+        self.assertIn("[DEVELOPING]", result)
+
+    def test_confirmed_confidence_no_tag(self):
+        result = _format_global_context_block(self._ctx_with_one_issue())
+        self.assertNotIn("[CONFIRMED]", result)
+
+    def test_ongoing_no_update_shown(self):
+        ctx = self._ctx_with_one_issue()
+        ctx["ongoing_no_update"] = ["central_bank", "ai_regulation"]
+        result = _format_global_context_block(ctx)
+        self.assertIn("central_bank", result)
+
+    def test_instructions_included(self):
+        result = _format_global_context_block(self._ctx_with_one_issue())
+        self.assertIn("big_picture.summary", result)
 
 
 if __name__ == "__main__":
