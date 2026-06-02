@@ -37,7 +37,7 @@ HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
 CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "180"))
 HERMES_RETRY = int(os.environ.get("HERMES_RETRY", "1"))
 SNIPERBOARD_API = os.environ.get("SNIPERBOARD_API_BASE", "http://localhost:5001")
-CALL_TIMEOUT_GLOBAL = int(os.environ.get("HERMES_TIMEOUT_GLOBAL", "90"))
+CALL_TIMEOUT_GLOBAL = int(os.environ.get("HERMES_TIMEOUT_GLOBAL", "150"))
 
 _VALID_GC_CATEGORIES = {"trade_tariff", "geopolitical", "central_bank", "ai_regulation"}
 _VALID_GC_TIERS = {"breaking", "ongoing"}
@@ -343,7 +343,9 @@ TIER 2 — ONGOING WATCH: Persistent situations with NO new development today
 TSM NVDA META TSLA PLTR MU CRWD AMZN MSFT AAPL GOOGL
 RKLB CEG VST ALAB OKLO APP ANET NVO QBTS SOFI
 
-Output raw JSON only (no markdown, no prose before or after):
+Output raw JSON only (no markdown, no prose before or after).
+CRITICAL: The "issues" array must contain EXACTLY 3 items — no more, no fewer.
+If fewer than 3 breaking events exist, fill remaining slots with the most important ONGOING situations.
 {{
   "fetched_at": "{now_iso}",
   "search_window": "48h",
