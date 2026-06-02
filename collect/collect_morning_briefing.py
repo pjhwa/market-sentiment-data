@@ -524,14 +524,15 @@ REQUIREMENTS:
 - Raw JSON only. No prose before or after."""
 
 
-def call_hermes(prompt: str) -> str | None:
+def call_hermes(prompt: str, timeout: int | None = None) -> str | None:
     cmd = [HERMES_CMD, "-z", prompt]
     if HERMES_PROVIDER:
         cmd += ["--provider", HERMES_PROVIDER]
     env = {**os.environ, "PATH": os.environ.get("PATH", "") + ":/usr/local/bin:/opt/homebrew/bin"}
+    effective_timeout = timeout if timeout is not None else CALL_TIMEOUT
     for attempt in range(1 + HERMES_RETRY):
         try:
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=CALL_TIMEOUT, env=env)
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=effective_timeout, env=env)
             if result.returncode != 0:
                 print(f"[ERROR] hermes 비정상 종료: {result.stderr[:300]}", file=sys.stderr)
                 return None
@@ -614,9 +615,24 @@ def main():
     print(f"[INFO] 아침 브리핑 시작: {now_kst}")
 
     data = fetch_all_data()
-    prompt = build_prompt(data, now_kst)
 
-    print("[INFO] Grok 호출 중 (최대 3분 소요)...")
+    # ── 1차 호출: 글로벌 매크로/지정학 컨텍스트 수집 ──────────────────────────
+    global_ctx: dict = {}
+    global_context_prompt = build_global_context_prompt(now_kst, now_iso)
+    print("[INFO] Grok 1차 호출: 글로벌 컨텍스트 수집 중 (최대 90초)...")
+    global_raw = call_hermes(global_context_prompt, timeout=CALL_TIMEOUT_GLOBAL)
+    if global_raw:
+        global_ctx = parse_global_context(global_raw)
+        if global_ctx and global_ctx.get("issues"):
+            print(f"[INFO] 글로벌 이슈 {len(global_ctx['issues'])}개 수집됨")
+        else:
+            print("[WARN] 글로벌 컨텍스트: 이슈 없음 — fallback으로 계속 진행", file=sys.stderr)
+    else:
+        print("[WARN] 글로벌 컨텍스트 Grok 호출 실패 — fallback으로 계속 진행", file=sys.stderr)
+
+    # ── 2차 호출: 아침 브리핑 생성 (글로벌 컨텍스트 주입) ───────────────────
+    prompt = build_prompt(data, now_kst, global_ctx)
+    print("[INFO] Grok 2차 호출: 아침 브리핑 생성 중 (최대 3분 소요)...")
     raw_text = call_hermes(prompt)
     if raw_text is None:
         print("[ERROR] Grok 호출 실패 — 종료", file=sys.stderr)
@@ -629,9 +645,10 @@ def main():
 
     snapshot = {
         "generated_at": now_iso,
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "slot": "morning",
         **parsed,
+        "global_context": global_ctx if global_ctx else {"issues": [], "fallback": True},
     }
 
     briefing_dir = REPO_PATH / "briefing"
