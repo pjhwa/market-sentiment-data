@@ -87,5 +87,59 @@ class TestValidateGlobalContext(unittest.TestCase):
         self.assertTrue(validate_global_context(data))
 
 
+from collect.collect_morning_briefing import parse_global_context
+
+
+class TestParseGlobalContext(unittest.TestCase):
+
+    def _valid_json(self):
+        return '''
+        {
+          "fetched_at": "2026-06-03T22:15:00Z",
+          "search_window": "48h",
+          "issues": [
+            {
+              "rank": 1,
+              "tier": "breaking",
+              "category": "trade_tariff",
+              "title_en": "US chip controls expanded",
+              "title_ko": "미국 칩 수출 확대",
+              "summary_en": "Commerce Dept added 5 countries. Verified by Reuters.",
+              "summary_ko": "상무부가 5개국을 추가했다.",
+              "source_hint": "Reuters 2026-06-03",
+              "confidence": "confirmed",
+              "us_stock_impact_en": "NVDA negative.",
+              "us_stock_impact_ko": "NVDA 부정적.",
+              "impact_direction": "negative"
+            }
+          ],
+          "ongoing_no_update": ["central_bank"]
+        }
+        '''
+
+    def test_valid_json_returns_dict(self):
+        result = parse_global_context(self._valid_json())
+        self.assertIsInstance(result, dict)
+        self.assertEqual(len(result.get("issues", [])), 1)
+
+    def test_empty_string_returns_empty_dict(self):
+        self.assertEqual(parse_global_context(""), {})
+
+    def test_no_json_in_text_returns_empty_dict(self):
+        self.assertEqual(parse_global_context("sorry I cannot search the web right now"), {})
+
+    def test_invalid_json_returns_empty_dict(self):
+        self.assertEqual(parse_global_context("{not valid json}"), {})
+
+    def test_invalid_structure_returns_empty_dict(self):
+        self.assertEqual(parse_global_context('{"data": []}'), {})
+
+    def test_json_embedded_in_prose_extracted(self):
+        text = 'Here is the result:\n' + self._valid_json() + '\nEnd.'
+        result = parse_global_context(text)
+        self.assertIsInstance(result, dict)
+        self.assertIn("issues", result)
+
+
 if __name__ == "__main__":
     unittest.main()

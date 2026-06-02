@@ -273,6 +273,83 @@ def validate_global_context(data: dict) -> bool:
     return True
 
 
+def build_global_context_prompt(now_kst: str, now_iso: str) -> str:
+    return f"""You are a professional financial intelligence analyst with live web search access.
+Today is {now_kst} (KST) / {now_iso} (UTC).
+
+━━━ TASK ━━━
+Search the web for global macro and geopolitical developments from the LAST 48 HOURS
+that could move US stock prices TODAY. Structure output into TWO tiers:
+
+TIER 1 — BREAKING (last 48h): New developments that just happened.
+TIER 2 — ONGOING WATCH: Persistent situations with NO new development today
+  but still carrying active market risk. Check ALL of the following even if not trending:
+  · US-China trade / semiconductor export controls (NVDA, TSM, MU impact)
+  · Taiwan Strait military tension (TSM, NVDA supply chain)
+  · Middle East conflict / Strait of Hormuz (oil, defense: CEG, VST)
+  · Russia-Ukraine war (energy prices, European demand)
+  · ECB / BOJ / BOE policy stance (USD direction, rate-sensitive tech)
+  · US AI/antitrust regulation (GOOGL, META, MSFT, AAPL)
+  · US tariff / trade deal negotiations
+  If a category has NO meaningful update in 48h, add its name to ongoing_no_update.
+
+━━━ RULES — READ CAREFULLY ━━━
+✓ ONLY report events attributable to a real, verifiable source.
+  Include source_hint: e.g. "Reuters 2026-06-03", "White House statement", "BOJ press release"
+✓ Time-box strictly: if you cannot confirm an event occurred within 48 hours, DO NOT include it as new.
+✓ If uncertain about a fact, write "unconfirmed:" at the start of that sentence.
+✗ DO NOT fabricate specific figures (percentages, dates, names) you cannot verify.
+✗ DO NOT present a viral social media claim as confirmed fact.
+✗ DO NOT include background/historical context as if it were a new development.
+✗ DO NOT speculate on price targets or predict market direction.
+✗ DO NOT smooth over uncertainty — if developing and unclear, say so explicitly.
+
+━━━ WATCHLIST TICKERS FOR IMPACT MAPPING ━━━
+TSM NVDA META TSLA PLTR MU CRWD AMZN MSFT AAPL GOOGL
+RKLB CEG VST ALAB OKLO APP ANET NVO QBTS SOFI
+
+Output raw JSON only (no markdown, no prose before or after):
+{{
+  "fetched_at": "{now_iso}",
+  "search_window": "48h",
+  "issues": [
+    {{
+      "rank": 1,
+      "tier": "breaking",
+      "category": "trade_tariff|geopolitical|central_bank|ai_regulation",
+      "title_en": "factual headline ≤80 chars",
+      "title_ko": "사실 위주 30자 이내",
+      "summary_en": "2-3 sentences: WHAT happened, WHERE reported, WHY markets care. Prefix unconfirmed details with 'unconfirmed:'",
+      "summary_ko": "같은 내용 한국어 2-3문장.",
+      "source_hint": "e.g. Reuters 2026-06-03",
+      "confidence": "confirmed|developing|unverified",
+      "us_stock_impact_en": "Name specific tickers and direction. Write 'impact unclear pending confirmation' if unknown.",
+      "us_stock_impact_ko": "감시 종목 티커 명시 + 방향",
+      "impact_direction": "positive|negative|neutral|watch"
+    }}
+  ],
+  "ongoing_no_update": ["category names with no 48h development"]
+}}"""
+
+
+def parse_global_context(text: str) -> dict:
+    """1차 Grok 응답에서 글로벌 컨텍스트 JSON 추출. 실패 시 {} 반환."""
+    if not text:
+        return {}
+    match = re.search(r"\{.*\}", text, re.DOTALL)
+    if not match:
+        print("[WARN] global_context: JSON 블록 없음", file=sys.stderr)
+        return {}
+    try:
+        data = json.loads(match.group())
+    except json.JSONDecodeError as e:
+        print(f"[WARN] global_context: JSON 파싱 실패: {e}", file=sys.stderr)
+        return {}
+    if not validate_global_context(data):
+        return {}
+    return data
+
+
 def build_prompt(data: dict, now_kst: str) -> str:
     regime = data["regime"]
     dd = data["distribution"]
