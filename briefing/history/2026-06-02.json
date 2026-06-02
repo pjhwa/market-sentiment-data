@@ -1,83 +1,83 @@
 {
-  "generated_at": "2026-06-02T23:03:49Z",
+  "generated_at": "2026-06-02T23:11:45Z",
   "schema_version": "1.1",
   "slot": "morning",
-  "headline_en": "AI chip and power stocks hold firm in constructive regime as Bitcoin drops sharply",
-  "headline_ko": "AI 관련주들이 버티는 가운데 비트코인 급락이 눈에 띄네",
+  "headline_en": "Constructive regime holds as AI chip and power stocks defend highs amid quiet US-China controls",
+  "headline_ko": "AI 칩·전력주 고점 근처에서 버티는 가운데 시장은 긍정적",
   "executive_bullets_en": [
-    "Market sits in CONSTRUCTIVE regime (77.7/100) with calm volatility, favoring selective buying in strong names.",
-    "MU and ALAB offer the cleanest setups right now with perfect Stage2 scores and top-tier relative strength near highs.",
-    "Bitcoin's 7% plunge signals fading risk appetite that could pressure growth stocks if it persists."
+    "Market in constructive mode at 77.7 but SPY's 4 distribution days signal early caution on institutional selling.",
+    "MU and ALAB offer the cleanest setups with perfect Stage2 scores, top RS, and energy building near highs.",
+    "GOOGL's $80B equity raise for AI capex triggered dilution fears and a sharp 4% drop."
   ],
   "executive_bullets_ko": [
-    "시장 리스크 점수가 77.7로 건설적 구간이라 좋은 종목을 골라 사기에 괜찮은 환경이야.",
-    "MU와 ALAB가 기술적으로 가장 탄탄한데, 스테이지2 만점에 시장 대비 강한 움직임을 보여.",
-    "비트코인이 7%나 빠지면서 위험 선호 심리가 약해지는 점이 성장주에 부담이 될 수 있어."
+    "시장 점수 77.7로 긍정적이지만 SPY에서 기관 매도 흔적이 4일째 나타나 주의 필요",
+    "MU와 ALAB가 스테이지2 만점에 상대강도 최상위로 고점 근처에서 에너지가 쌓이고 있음",
+    "GOOGL이 AI 투자 자금 조달로 800억 달러 주식 발행을 발표해 희석 우려로 4% 급락"
   ],
   "market_mood": {
     "traffic_light": "green",
-    "label_en": "Constructive",
-    "label_ko": "건설적",
+    "label_en": "Cautiously Positive",
+    "label_ko": "조심스럽게 긍정적",
     "score": 77.7,
-    "explanation_en": "Think of it like a pleasant spring day for sailing — winds are steady, not stormy, so you can move forward but still need to watch the horizon. At 77.7 the regime supports owning quality stocks if you choose carefully rather than buying everything indiscriminately.",
-    "explanation_ko": "마치 배를 타기 좋은 잔잔한 봄날 같아. 폭풍은 아니지만 그렇다고 마구 질주할 분위기도 아니야. 77.7점은 지금 좋은 종목을 골라서 보유하기에 괜찮은 환경이라는 뜻이야."
+    "explanation_en": "The market feels like a river with a steady, reliable current — not a flood of euphoria, but enough momentum to carry strong stocks forward. At 77.7 it suggests buying is reasonable today, though the 4 distribution days on SPY mean you should stay selective rather than chase everything.",
+    "explanation_ko": "마치 잔잔한 강물이 꾸준히 흐르는 느낌이에요. 환희에 찬 홍수는 아니지만 좋은 주식을 밀어줄 힘은 충분합니다. 77.7점이라면 오늘 주식을 사도 되지만 SPY에서 기관 매도 흔적이 4일째 보이니 무작정 따라가기보다는 골라서 움직이는 게 안전해요."
   },
   "big_picture": {
-    "summary_en": "The market is operating in a constructive but not euphoric environment where low volatility and easing yields support selective risk-taking. AI-related themes continue to attract capital while broader participation remains narrow.",
-    "summary_ko": "시장은 건설적이지만 과열되지 않은 상태로, 낮은 변동성과 완화되는 금리가 선별적인 위험 감수를 뒷받침하고 있어. AI 관련 테마로 자금이 몰리는 가운데 시장 참여는 아직 좁은 편이야.",
-    "vix_note_en": "VIX sits at 15.77 after falling further, which in plain terms means investors are unusually calm and not pricing in big swings anytime soon.",
-    "vix_note_ko": "VIX가 15.77까지 떨어졌는데, 이건 투자자들이 큰 출렁임을 전혀 걱정하지 않고 있다는 뜻이야.",
-    "rates_note_en": "The 10-year yield at 4.455% is easing, which tends to help growth stocks by lowering borrowing costs and making future earnings more valuable today.",
-    "rates_note_ko": "미국 10년물 금리가 4.455%로 내려가면서 주식, 특히 성장주에 긍정적으로 작용하고 있어.",
-    "dollar_note_en": "The dollar is essentially flat near 99.22, so currency moves are not providing any meaningful tailwind or headwind for US tech earnings right now.",
-    "dollar_note_ko": "달러는 99.22 근처에서 거의 횡보 중이라 미국 기술주 실적에 환율이 큰 영향을 주고 있지는 않아.",
-    "btc_note_en": "Bitcoin at $66,140 after a 7% drop shows crypto investors are pulling back hard, often an early signal that broader risk appetite may be cooling even if stocks have not yet followed.",
-    "btc_note_ko": "비트코인이 6만 6천 달러까지 7% 빠지면서 가상화폐 투자자들이 위험을 회피하는 모습이야. 주식 시장이 아직 따라가지 않았더라도 위험 선호 심리가 약해지고 있다는 신호일 수 있어."
+    "summary_en": "US-China semiconductor export controls stay in place without fresh announcements, leaving NVDA, TSM and MU exposed to any future tightening. Middle East tensions and ongoing AI antitrust scrutiny remain background risks for energy and big tech names.",
+    "summary_ko": "미중 반도체 수출 규제가 새로운 발표 없이 그대로 유지되면서 NVDA, TSM, MU는 향후 변화에 민감한 상태입니다. 중동 긴장과 빅테크에 대한 AI 독점 규제 우려도 에너지와 기술주에 조용한 압력으로 남아 있어요.",
+    "vix_note_en": "VIX is at 15.77 and falling, which in plain terms means investors are relatively calm rather than scared or overly confident right now.",
+    "vix_note_ko": "VIX가 15.77까지 내려왔어요. 투자자들이 공포에 질리거나 과도하게 자신만만한 상태는 아니라는 뜻입니다.",
+    "rates_note_en": "The 10-year yield sits at 4.455% and has been easing, which is generally helpful for growth stocks as lower rates reduce borrowing costs and support valuations.",
+    "rates_note_ko": "미국 10년물 국채 금리가 4.455%에서 조금씩 내려오고 있어요. 성장주 입장에서는 대출 비용이 줄고 밸류에이션이 받쳐주는 긍정적인 신호입니다.",
+    "dollar_note_en": "DXY at 99.224 is essentially flat in a downtrend, which removes a major headwind for US tech companies with global earnings and foreign investors.",
+    "dollar_note_ko": "달러 지수가 99.224 근처에서 횡보 중인데, 하락 추세라 미국 기술주의 해외 매출과 외국인 투자자에게 큰 부담을 주지 않고 있습니다.",
+    "btc_note_en": "Bitcoin at $66,541 is down sharply today and over the past week, signaling that risk appetite in crypto has cooled even as traditional markets stay constructive.",
+    "btc_note_ko": "비트코인이 6만 6천 달러대에서 6.7%나 빠졌어요. 전통 시장은 괜찮은데 가상자산 쪽에서는 위험을 피하려는 심리가 강해졌다는 신호입니다."
   },
   "sector_analysis": {
-    "leaders_en": "AI memory, networking, and power generation stocks are leading as MU, ALAB, ANET and nuclear names like CEG attract money on data center demand.",
-    "leaders_ko": "AI 메모리와 네트워킹, 전력 관련주들이 앞서가고 있어. MU, ALAB, ANET과 CEG 같은 원전주에 데이터센터 수요로 자금이 몰려.",
-    "laggards_en": "Biotech names like NVO and some software platforms like META are lagging as investors rotate away from names without clear AI catalysts.",
-    "laggards_ko": "NVO 같은 바이오와 META 같은 소프트웨어주는 AI 모멘텀이 약해 투자자들이 빠져나가면서 뒤처지고 있어.",
-    "rotation_signal_en": "Money is clearly rotating into AI infrastructure and energy plays that directly support data centers, signaling investors want tangible AI beneficiaries rather than broad tech exposure.",
-    "rotation_signal_ko": "돈이 AI 인프라와 데이터센터 전력 관련 섹터로 이동하고 있어. 막연한 기술주보다는 실제 AI 수혜가 뚜렷한 종목을 선호하는 흐름이야."
+    "leaders_en": "AI semiconductors and AI power infrastructure are leading as MU, TSM, ALAB, ANET and nuclear names like CEG and VST attract flows on data center demand.",
+    "leaders_ko": "AI 반도체와 AI 전력 인프라 섹터가 주도하고 있어요. MU, TSM, ALAB, ANET와 원전주 CEG, VST로 돈이 몰리는 이유는 데이터센터 전력 수요 때문입니다.",
+    "laggards_en": "Biotech and some software names like NVO and META are lagging as investors rotate toward more direct AI infrastructure plays with clearer near-term catalysts.",
+    "laggards_ko": "바이오와 일부 소프트웨어 종목인 NVO, META는 상대적으로 힘을 못 쓰고 있어요. 투자자들이 당장 눈에 보이는 AI 인프라 쪽으로 옮겨가고 있기 때문입니다.",
+    "rotation_signal_en": "Money is rotating from broad tech and biotech into AI power and connectivity names, signaling investors want exposure to the physical buildout of AI rather than just software stories.",
+    "rotation_signal_ko": "돈이 일반 기술주와 바이오에서 AI 전력·연결성 종목으로 이동하고 있어요. 투자자들이 AI 소프트웨어보다 실제 인프라를 짓는 쪽에 더 관심을 두는 신호입니다."
   },
   "spotlight": [
     {
       "symbol": "MU",
       "company": "Micron Technology",
       "tier": 1,
-      "why_en": "MU sits at a perfect technical setup with Stage2 score of 7/7 and RS 100, trading just 1% below its 52-week high after a quiet accumulation phase. AI memory demand remains the dominant catalyst with strong earnings outlook ahead.",
-      "why_ko": "MU는 스테이지2 7점 만점에 시장상대강도 100점으로 52주 고점에서 1%밖에 떨어지지 않은 완벽한 위치야. AI 메모리 수요가 실적 전망을 뒷받침하며 조용히 에너지를 모으고 있어.",
-      "watch_level_en": "Break above the recent high near $1075 confirms continuation; a drop below $1040 would signal short-term weakness.",
-      "watch_level_ko": "$1075 돌파 시 상승 모멘텀 확인, $1040 하회 시 단기 조정 신호."
-    },
-    {
-      "symbol": "ALAB",
-      "company": "Astera Labs",
-      "tier": 2,
-      "why_en": "ALAB is another top-tier setup with full Stage2 score and RS 100, sitting right at its 52-week high with volume drying up — classic energy accumulation before the next leg. Strong NVIDIA ecosystem alignment adds conviction.",
-      "why_ko": "ALAB도 스테이지2 만점에 RS 100으로 52주 고점에 거래량이 줄어들면서 다음 상승을 위한 에너지를 쌓는 전형적인 모습이야. NVIDIA 생태계와의 연계가 강점.",
-      "watch_level_en": "Sustained move above $360 opens room toward new highs; failure to hold $340 would be the first warning sign.",
-      "watch_level_ko": "$360 위로 안착하면 신고가 도전, $340 지지 실패 시 첫 경고."
+      "why_en": "Perfect 7/7 Stage2 score with RS 100 and trading just 1.1% off highs. AI memory demand narrative is strongest here with earnings expected soon.",
+      "why_ko": "스테이지2 7점 만점에 상대강도 100으로 52주 고점에서 1.1%밖에 떨어지지 않았어요. AI 메모리 수요가 가장 강력하게 부각되는 종목으로 곧 실적 발표를 앞두고 있습니다.",
+      "watch_level_en": "Break above $1,080-$1,100 could trigger fresh momentum; support near $1,000 remains key on any pullback.",
+      "watch_level_ko": "$1,080~$1,100 돌파 시 추가 상승 모멘텀, 조정 시 $1,000 근처에서 지지 확인이 중요합니다."
     },
     {
       "symbol": "GOOGL",
       "company": "Alphabet",
       "tier": 1,
-      "why_en": "GOOGL dropped 4% after announcing an $80B equity raise for AI capex, triggering immediate dilution fears even though the long-term AI spend is necessary. Social sentiment turned fearful quickly.",
-      "why_ko": "GOOGL은 AI 투자 자금 조달을 위해 800억 달러 주식 발행을 발표한 뒤 4% 급락했어. 장기적으로는 필요하지만 단기 희석 우려로 소셜 심리가 한순간에 fearful로 바뀜.",
-      "watch_level_en": "Watch for stabilization above $355; a break below $340 would open further downside toward the recent low.",
-      "watch_level_ko": "$355 위에서 안정되는지 봐야 해. $340 아래로 떨어지면 추가 하락 여지가 커져."
+      "why_en": "Announced $80B equity raise for AI capex, triggering immediate 4% drop and fearful sentiment. Valuation now cheaper but dilution risk is real.",
+      "why_ko": "AI 투자 자금으로 800억 달러 주식 발행을 발표하면서 4% 급락했고 소셜 심리가 fearful로 바뀌었어요. 밸류에이션은 싸졌지만 희석 리스크가 현실입니다.",
+      "watch_level_en": "Watch for stabilization above $355; sustained break below $340 would signal deeper distribution.",
+      "watch_level_ko": "$355 위에서 안정되는지, $340 아래로 내려가면 추가 분산 신호로 봐야 합니다."
+    },
+    {
+      "symbol": "ALAB",
+      "company": "Astera Labs",
+      "tier": 2,
+      "why_en": "Another perfect Stage2 7/7 with RS 100, trading at all-time highs. Scorpio switch traction at Computex adds fresh AI connectivity catalyst.",
+      "why_ko": "스테이지2 7점 만점, 상대강도 100으로 사상 최고가 부근에서 거래 중이에요. Computex에서 Scorpio 스위치가 주목받으며 AI 연결성 촉매가 더해졌습니다.",
+      "watch_level_en": "Any pullback to $340-$345 could offer entry; break above recent high confirms continuation.",
+      "watch_level_ko": "$340~$345까지 조정 시 매수 기회, 최근 고점 돌파하면 상승 추세 확인입니다."
     },
     {
       "symbol": "CEG",
       "company": "Constellation Energy",
       "tier": 2,
-      "why_en": "CEG shows the widest gap between technical weakness (Stage2 0, DOWNTREND) and extremely bullish social sentiment (1.5) driven by AI data center power deals. This mismatch often precedes either a sharp reversal or continued frustration.",
-      "why_ko": "CEG는 기술적으로는 약세인데 소셜 점수가 1.5로 매우 높아. Microsoft 등과의 AI 전력 계약 기대 때문이야. 기술과 심리 사이 괴리가 커서 반전이나 추가 실망 중 하나로 이어질 가능성이 있어.",
-      "watch_level_en": "A decisive move above $290 would flip the technical picture; below $260 keeps it vulnerable.",
-      "watch_level_ko": "$290 돌파 시 기술적 반전 신호, $260 아래면 여전히 취약."
+      "why_en": "Social sentiment highest in the list at 1.5 on AI data center power deals, yet technical structure is weak in DOWNTREND with Stage2 score 0.",
+      "why_ko": "AI 데이터센터 전력 계약으로 소셜 점수가 1.5로 가장 높지만 기술적 구조는 DOWNTREND에 스테이지2 0점으로 약합니다.",
+      "watch_level_en": "Needs decisive break above 200-day moving average to improve structure; below recent lows increases downside risk.",
+      "watch_level_ko": "200일 이동평균선을 확실히 돌파해야 구조가 개선되고, 최근 저점 아래로 떨어지면 하락 위험이 커집니다."
     }
   ],
   "watchlist": [
@@ -85,8 +85,8 @@
       "symbol": "TSM",
       "company": "TSMC",
       "tier": 1,
-      "analysis_en": "TSM has been consolidating quietly just 0.6% below its all-time high after a steady climb, with all moving averages rising and volume drying up in classic accumulation fashion. The structure remains firmly in uptrend with a perfect Stage2 score of 7, suggesting the recent pause is more like a spring coiling than distribution. Social investors remain optimistic, repeatedly highlighting TSMC's irreplaceable role supplying advanced chips to NVIDIA and other AI leaders. Upside potential looks dominant here as long as it holds above the 200-day line.",
-      "analysis_ko": "TSM은 사상 최고점에서 0.6%밖에 떨어지지 않은 채 조용히 횡보 중이야. 모든 이동평균선이 상승하고 거래량이 줄어들면서 마치 스프링처럼 에너지가 모이는 전형적인 모습이야. 스테이지2 7점 만점에 상승 추세가 확고해서 이번 눌림은 분산이 아니라 재상승을 위한 준비 단계로 보인다. 소셜 투자자들은 TSMC가 NVIDIA 등 AI 칩 공급에서 대체 불가능한 위치에 있다는 점을 계속 강조하며 낙관적인 반응을 보이고 있어.",
+      "analysis_en": "TSM is sitting just 0.6% below its 52-week high after a steady climb, with all moving averages rising and volume drying up near the top. This looks like energy quietly accumulating rather than distribution, and the optimistic social tone reflects investors focusing on its irreplaceable role supplying NVIDIA and other AI leaders. The main upside is a clean break into new highs once volume returns.",
+      "analysis_ko": "TSM은 52주 고점에서 0.6%밖에 떨어지지 않은 채 모든 이동평균선 위에서 안정적으로 올라가고 있어요. 거래량이 줄어든 건 팔아치우는 게 아니라 조용히 에너지가 쌓이는 모습으로 보입니다. 소셜 투자자들은 NVIDIA 등 AI 칩 공급에서 대체 불가능한 위치를 강조하며 낙관적이에요. 거래량이 살아나면 신고점 돌파가 가장 큰 상승 동력이 될 것 같습니다.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.8,
       "action": "buy"
@@ -95,8 +95,8 @@
       "symbol": "NVDA",
       "company": "Nvidia",
       "tier": 1,
-      "analysis_en": "NVDA pulled back 5.8% from its recent high but remains above all key moving averages in a confirmed uptrend with a solid Stage2 score of 6. The stock is digesting gains near the 52-week high after strong momentum, and the recent pause with declining volume looks more like healthy consolidation than distribution. Social chatter stays optimistic around new AI platforms such as RTX Spark and agentic infrastructure, though the pullback has made some investors cautious on valuation. The dominant factor is still upside potential if it reclaims the recent high.",
-      "analysis_ko": "NVDA는 최근 고점에서 5.8% 조정받았지만 모든 주요 이동평균선 위에 있으며 상승 추세가 확인된 상태야. 스테이지2 6점으로 52주 고점 근처에서 숨고르기 중인데 거래량 감소는 분산이라기보다는 건강한 조정으로 보인다. 소셜에서는 RTX Spark나 에이전틱 AI 인프라 같은 신규 플랫폼에 대한 기대감이 여전하지만, 조정으로 인해 밸류에이션 부담을 느끼는 목소리도 있다. 최근 고점을 다시 돌파하면 상승 여력이 더 커 보인다.",
+      "analysis_en": "NVDA has pulled back 5.8% from highs but remains above all key moving averages with a still-rising 200-day line. The setup looks like a healthy consolidation rather than a top, and social chatter around new AI platforms like RTX Spark and agentic infrastructure keeps the tone optimistic despite the dip.",
+      "analysis_ko": "NVDA는 고점에서 5.8% 조정받았지만 모든 주요 이동평균선 위에 있고 200일선도 여전히 상승 중입니다. 단순한 하락이라기보다는 숨 고르기 국면으로 보이고, RTX Spark나 에이전틱 AI 같은 신규 플랫폼 소식에 소셜 분위기도 낙관적이에요.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.4,
       "action": "buy"
@@ -105,8 +105,8 @@
       "symbol": "META",
       "company": "Meta Platforms",
       "tier": 1,
-      "analysis_en": "META has been underperforming significantly, sitting 24.8% below its 52-week high with a weak Stage2 score of only 2 and clear distribution structure. The stock is trading below key moving averages and the recent action shows more signs of institutional selling than accumulation. Social sentiment is neutral at best, with frustration over lagging AI peers balanced by some contrarian value arguments. Downside risk currently outweighs any upside potential.",
-      "analysis_ko": "META는 52주 고점 대비 24.8%나 빠진 상태로 스테이지2 점수가 2점에 불과하고 분산 구조가 뚜렷해. 주요 이동평균선 아래에서 거래되며 기관 매도 흔적이 더 강하게 나타나고 있어. 소셜 심리는 중립으로, AI 경쟁사 대비 부진에 대한 불만과 밸류에이션 매력을 주장하는 의견이 팽팽하다. 지금은 하락 위험이 상승 가능성보다 크다.",
+      "analysis_en": "META is in clear DISTRIBUTION with a low Stage2 score and has already dropped 24.8% from its high. Social sentiment is neutral as frustration over underperformance versus AI peers is only partly offset by value and talent arguments. The risk of further downside remains higher than upside until structure improves.",
+      "analysis_ko": "META는 DISTRIBUTION 구조에 스테이지2 점수가 낮고 고점 대비 24.8%나 빠진 상태입니다. AI 경쟁사 대비 부진하다는 불만이 밸류에이션과 인재 영입 기대감으로 일부 상쇄되면서 소셜 심리가 중립이에요. 구조가 개선되기 전까지는 상승보다 하락 위험이 더 커 보입니다.",
       "sentiment_mood": "neutral",
       "sentiment_score": -0.2,
       "action": "avoid"
@@ -115,8 +115,8 @@
       "symbol": "TSLA",
       "company": "Tesla",
       "tier": 1,
-      "analysis_en": "TSLA has pulled back 6.5% recently but remains in a confirmed uptrend above all moving averages with a Stage2 score of 6. The stock is consolidating near its 52-week high after a strong run, and volume contraction suggests potential energy buildup rather than distribution. Core holders on social media stay focused on long-term AI, robotics, FSD and Robotaxi catalysts despite the short-term pause. The setup favors watching for a breakout rather than aggressive buying here.",
-      "analysis_ko": "TSLA는 최근 6.5% 조정받았지만 모든 이동평균선 위에서 상승 추세가 유지되고 스테이지2 6점으로 양호해. 52주 고점 근처에서 횡보하며 거래량이 줄어드는 건 분산보다는 에너지 축적 신호로 보인다. 소셜 핵심 보유자들은 단기 조정에도 AI, 로보틱스, FSD, Robotaxi 같은 장기 촉매에 집중하는 모습이야. 적극 매수보다는 돌파를 기다려보는 게 좋겠다.",
+      "analysis_en": "TSLA is consolidating 15% below highs with volume shrinking near the top, suggesting energy is building rather than leaving. Core holders remain focused on long-term AI, robotics and Robotaxi stories even as near-term price action stays range-bound. The optimistic social tone supports holding through the pause.",
+      "analysis_ko": "TSLA는 고점에서 15% 정도 조정받으며 거래량이 줄어들고 있어요. 이는 에너지가 빠져나가는 게 아니라 쌓이는 신호로 보입니다. 핵심 보유자들은 단기 박스권 속에서도 AI, 로보틱스, Robotaxi 같은 장기 이야기를 계속 언급하며 낙관적입니다.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 1.1,
       "action": "watch"
@@ -125,8 +125,8 @@
       "symbol": "PLTR",
       "company": "Palantir",
       "tier": 1,
-      "analysis_en": "PLTR is showing clear distribution signals with a low Stage2 score of 1 and price 26.7% below its high. The stock is trading below moving averages and the structure has turned neutral at best. While social investors point to strong commercial revenue growth and government contracts, the technical damage suggests downside risk remains the dominant factor for now.",
-      "analysis_ko": "PLTR은 스테이지2 점수가 1점으로 낮고 52주 고점 대비 26.7% 빠진 분산 국면이 뚜렷해. 이동평균선 아래에서 거래되며 구조가 중립 이하로 약해졌다. 소셜에서는 상업 매출 급성장이나 정부 계약을 긍정적으로 언급하지만 기술적 손상이 커서 단기적으로는 하락 위험이 더 커 보인다.",
+      "analysis_en": "PLTR has already fallen 26.7% from highs and sits in DISTRIBUTION with a low Stage2 score. While commercial revenue growth and AIP platform adoption are cited positively, the weak technical structure and neutral sentiment suggest caution until it stabilizes above key moving averages.",
+      "analysis_ko": "PLTR은 고점 대비 26.7% 빠졌고 DISTRIBUTION 구조에 스테이지2 점수도 낮아요. 상업 매출 성장이나 AIP 플랫폼 채택은 긍정적으로 언급되지만 기술적 구조가 약하고 소셜 심리가 중립이라 이동평균선 위로 올라설 때까지는 관망하는 게 좋겠습니다.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.3,
       "action": "avoid"
@@ -135,8 +135,8 @@
       "symbol": "MU",
       "company": "Micron Technology",
       "tier": 1,
-      "analysis_en": "MU is one of the strongest names on the list, trading just 1.1% off its 52-week high with a perfect Stage2 score of 7 and RS of 100. All moving averages are rising, volume is contracting near the highs, and the structure remains firmly in uptrend. Social sentiment is optimistic on the back of AI memory demand and a strong earnings outlook. This looks like a classic coiled spring ready for the next leg higher.",
-      "analysis_ko": "MU는 52주 고점에서 1.1%밖에 떨어지지 않은 채 스테이지2 7점 만점에 시장상대강도 100점으로 가장 강력한 종목 중 하나야. 모든 이동평균선이 상승하고 고점 근처에서 거래량이 줄어드는 건 전형적인 에너지 축적 국면이다. AI 메모리 수요와 실적 전망에 소셜 심리도 낙관적이라 다음 상승을 위한 스프링처럼 보인다.",
+      "analysis_en": "MU sits at the top of the list with perfect Stage2 and RS 100 scores, trading just 1.1% off highs with volume contracting. AI memory demand remains the dominant narrative and social sentiment is firmly optimistic. This is one of the cleanest setups for continuation on any volume pickup.",
+      "analysis_ko": "MU는 스테이지2와 상대강도 모두 만점으로 고점에서 1.1%밖에 떨어지지 않았고 거래량도 줄어들고 있어요. AI 메모리 수요가 가장 강하게 부각되면서 소셜 심리도 낙관적입니다. 거래량이 살아나면 추가 상승이 가장 기대되는 종목 중 하나예요.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.8,
       "action": "buy"
@@ -145,8 +145,8 @@
       "symbol": "CRWD",
       "company": "CrowdStrike",
       "tier": 1,
-      "analysis_en": "CRWD remains in a strong uptrend with Stage2 score 6 and RS 100, sitting only 2.1% below its high. The stock has been consolidating near highs with all moving averages rising, and upcoming Q1 earnings are adding to the bullish social narrative around AI cybersecurity momentum. Optimistic sentiment at 1.1 reflects growing excitement ahead of results. The setup favors continued upside if it can clear the recent high.",
-      "analysis_ko": "CRWD는 스테이지2 6점에 시장상대강도 100점으로 상승 추세가 탄탄하고 52주 고점에서 2.1%밖에 떨어지지 않았어. 모든 이동평균선이 상승하는 가운데 Q1 실적 발표를 앞두고 AI 사이버보안 모멘텀에 대한 기대감이 소셜에서 높아지고 있다. 1.1의 낙관적 점수가 실적 전 기대감을 잘 보여주는데, 최근 고점을 돌파하면 추가 상승 여력이 있다.",
+      "analysis_en": "CRWD remains in a strong UPTREND with perfect relative strength and is consolidating just 2.1% off highs ahead of earnings. AI cybersecurity momentum and solid EPS expectations keep social sentiment optimistic. The setup favors holding into results rather than selling the news.",
+      "analysis_ko": "CRWD는 상승 추세를 유지하며 상대강도도 최상위권이고, 실적 발표를 앞두고 고점에서 2.1% 조정받은 상태입니다. AI 기반 사이버보안 모멘텀과 실적 기대감으로 소셜 분위기가 낙관적이라 실적 발표까지 보유하는 편이 유리해 보입니다.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 1.1,
       "action": "buy"
@@ -155,8 +155,8 @@
       "symbol": "AMZN",
       "company": "Amazon",
       "tier": 1,
-      "analysis_en": "AMZN has pulled back 7.9% and is currently trading below some moving averages despite remaining in an uptrend structure with Stage2 score 5. The stock is digesting gains near the 52-week high, and social investors are using the dip to accumulate on the back of AWS AI infrastructure growth and attractive valuation. Sentiment stays mildly optimistic. It is worth watching for a reclaim of the 200-day line before adding aggressively.",
-      "analysis_ko": "AMZN은 7.9% 조정받아 일부 이동평균선 아래 있지만 여전히 상승 추세 구조에 스테이지2 5점이다. 52주 고점 근처에서 숨고르기 중인데, 소셜 투자자들은 AWS AI 인프라 성장과 매력적인 밸류에이션을 보고 조정 시 매수 기회로 보고 있다. 심리는 약간 낙관적이라 200일선을 다시 회복하는지 지켜보는 게 좋겠다.",
+      "analysis_en": "AMZN is pulling back 7.9% from highs but still sits above its rising 200-day average with optimistic social chatter around AWS AI infrastructure growth. The dip is attracting accumulation talk, though it needs to reclaim moving averages to confirm the next leg higher.",
+      "analysis_ko": "AMZN은 고점에서 7.9% 조정받았지만 200일 이동평균선 위에서 지지받고 있어요. AWS AI 인프라 성장 기대감으로 소셜 심리가 낙관적이고, 조정 시 매수세가 들어오는 모습입니다. 다만 이동평균선을 다시 회복해야 다음 상승이 확인될 것 같아요.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.3,
       "action": "watch"
@@ -165,18 +165,18 @@
       "symbol": "MSFT",
       "company": "Microsoft",
       "tier": 1,
-      "analysis_en": "MSFT has corrected 5.4% recently and sits below key moving averages with a low Stage2 score of 2. While the long-term structure is still uptrend, near-term action shows distribution characteristics and the stock is struggling to regain momentum. Social excitement around Microsoft Build announcements on agentic AI exists, but the technical setup does not support aggressive buying right now.",
-      "analysis_ko": "MSFT는 최근 5.4% 조정받아 주요 이동평균선 아래 있으며 스테이지2 점수가 2점으로 낮아. 장기 상승 추세는 유지되지만 단기적으로는 분산 성격이 강하고 모멘텀 회복이 더디다. Microsoft Build에서 발표된 에이전틱 AI 관련 기대감은 있지만 기술적 구조가 적극 매수를 뒷받침하지는 않아.",
+      "analysis_en": "MSFT is 19.9% off highs in a neutral monthly trend but still above key averages. Excitement around Microsoft Build announcements on agentic AI and NVIDIA-powered hardware keeps sentiment optimistic, though the stock needs fresh volume to break out of its current range.",
+      "analysis_ko": "MSFT는 고점 대비 19.9% 떨어졌고 월봉 추세도 중립이지만 주요 이동평균선 위에는 있습니다. Microsoft Build에서 발표된 에이전틱 AI와 NVIDIA 기반 하드웨어 소식으로 소셜 심리가 낙관적이에요. 다만 거래량이 살아나야 박스권을 벗어날 수 있을 것 같습니다.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.3,
-      "action": "avoid"
+      "action": "watch"
     },
     {
       "symbol": "AAPL",
       "company": "Apple",
       "tier": 1,
-      "analysis_en": "AAPL is trading right at its 52-week high with a strong Stage2 score of 6 and all moving averages rising, though the structure has shifted into distribution territory. The stock has been remarkably stable with almost no pullback, and social investors are positive on ecosystem strength and services growth. The setup is solid but the distribution signal suggests being cautious on new aggressive positions.",
-      "analysis_ko": "AAPL은 52주 고점에서 거의 움직이지 않으며 스테이지2 6점으로 기술적으로는 양호하지만 구조가 분산 국면으로 바뀌었어. 생태계 강점과 서비스 성장에 소셜 심리는 낙관적이지만 분산 신호가 나타나고 있어 신규 공격적 매수는 조심하는 게 좋겠다.",
+      "analysis_en": "AAPL is essentially at all-time highs with strong ecosystem and services growth supporting the price. Social tone remains optimistic even as the structure shows early DISTRIBUTION signs. It remains a steady compounder rather than a momentum leader right now.",
+      "analysis_ko": "AAPL은 사상 최고가 부근에서 생태계와 서비스 성장으로 지지받고 있어요. 구조적으로 DISTRIBUTION 초기 신호가 보이지만 소셜 심리는 여전히 낙관적입니다. 지금은 강한 모멘텀주라기보다는 꾸준히 우상향하는 종목으로 보는 게 맞아요.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.8,
       "action": "hold"
@@ -185,8 +185,8 @@
       "symbol": "GOOGL",
       "company": "Alphabet",
       "tier": 1,
-      "analysis_en": "GOOGL dropped sharply after the $80B equity raise announcement and now sits 11.4% below its high with a Stage2 score of 5. The stock is below moving averages and social sentiment has turned fearful on dilution concerns despite the long-term AI investment rationale. Downside risk is the more immediate factor until it stabilizes.",
-      "analysis_ko": "GOOGL은 800억 달러 주식 발행 발표 후 11.4% 급락하며 스테이지2 5점으로 주요 이동평균선 아래 있어. 장기 AI 투자라는 명분에도 불구하고 희석 우려로 소셜 심리가 fearful로 바뀌었어. 안정화되기 전까지는 하락 위험이 더 큰 상황이다.",
+      "analysis_en": "GOOGL dropped sharply after announcing an $80B equity raise for AI spending, pushing sentiment into fearful territory. The stock is now cheaper on valuation but dilution risk is real and the near-term setup remains vulnerable until it stabilizes.",
+      "analysis_ko": "GOOGL은 AI 투자 자금 조달을 위해 800억 달러 주식 발행을 발표한 뒤 4% 급락하면서 소셜 심리가 fearful로 바뀌었어요. 밸류에이션은 매력적이지만 희석 리스크가 현실이고, 안정될 때까지는 단기적으로 약한 모습입니다.",
       "sentiment_mood": "fearful",
       "sentiment_score": -0.7,
       "action": "watch"
@@ -195,8 +195,8 @@
       "symbol": "RKLB",
       "company": "Rocket Lab",
       "tier": 2,
-      "analysis_en": "RKLB remains in a confirmed uptrend with Stage2 score 6 and perfect RS 100, but it has pulled back 18.3% from highs and carries a momentum slowdown warning. Social sentiment is neutral with short-term concerns about SpaceX IPO potentially drawing liquidity away from smaller space names. The setup is interesting but requires confirmation before adding.",
-      "analysis_ko": "RKLB는 스테이지2 6점에 시장상대강도 100점으로 상승 추세는 유지되지만 52주 고점 대비 18.3% 조정받았고 모멘텀 둔화 신호가 나타나. SpaceX IPO가 유동성을 가져갈 수 있다는 단기 우려로 소셜 심리는 중립이다. 추가 진입 전 확인이 필요해 보인다.",
+      "analysis_en": "RKLB has pulled back 18.3% from highs with a momentum slowdown warning even as it holds a perfect Stage2 score. Short-term concerns about SpaceX IPO draining liquidity from smaller space names are weighing on sentiment, which is now neutral.",
+      "analysis_ko": "RKLB는 고점에서 18.3% 조정받았고 모멘텀 둔화 신호까지 보이지만 스테이지2는 만점입니다. SpaceX IPO가 소형 우주주에서 유동성을 빼갈 수 있다는 우려로 소셜 심리가 중립으로 내려앉았어요.",
       "sentiment_mood": "neutral",
       "sentiment_score": -0.3,
       "action": "watch"
@@ -205,8 +205,8 @@
       "symbol": "CEG",
       "company": "Constellation Energy",
       "tier": 2,
-      "analysis_en": "CEG is in a clear downtrend with Stage2 score 0 and price 33.7% below its high, yet social sentiment remains extremely optimistic at 1.5 on AI data center power demand and Microsoft deals. This mismatch between weak technicals and bullish narrative makes it a high-risk name where downside risk currently dominates.",
-      "analysis_ko": "CEG는 스테이지2 0점에 하락 추세가 뚜렷하고 52주 고점 대비 33.7% 빠졌지만, AI 데이터센터 전력 수요와 Microsoft 계약 기대로 소셜 점수가 1.5로 매우 높아. 기술적 약세와 낙관적 서사가 괴리되어 있어 하락 위험이 더 큰 고위험 종목이다.",
+      "analysis_en": "CEG holds the highest social sentiment score in the list thanks to Microsoft and hyperscaler nuclear deals for AI power, yet the technical structure is in a clear DOWNTREND with a zero Stage2 score. The disconnect between narrative and price action makes it risky until the chart improves.",
+      "analysis_ko": "CEG는 Microsoft 등 하이퍼스케일러와의 원전 계약으로 소셜 점수가 1.5로 가장 높지만, 기술 구조는 DOWNTREND에 스테이지2 점수가 0점입니다. 이야기와 실제 주가 움직임이 괴리돼 있어 차트가 개선될 때까지는 위험해 보입니다.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 1.5,
       "action": "avoid"
@@ -215,8 +215,8 @@
       "symbol": "VST",
       "company": "Vistra Energy",
       "tier": 2,
-      "analysis_en": "VST is in a downtrend with Stage2 score 2 and has corrected 27.9% from highs. While social investors remain optimistic about long-term AI power generation contracts, the technical structure shows clear distribution and downside risk is the dominant factor right now.",
-      "analysis_ko": "VST는 스테이지2 2점으로 하락 추세이며 52주 고점 대비 27.9% 조정받았어. AI 전력 계약에 대한 소셜 기대감은 높지만 기술적 구조가 분산을 보이고 있어 단기 하락 위험이 더 크다.",
+      "analysis_en": "VST is also in DOWNTREND with weak relative strength despite strong social optimism around AI power generation deals with Meta and others. The price action has not confirmed the bullish narrative yet, so the risk of further downside is elevated.",
+      "analysis_ko": "VST 역시 Meta 등과의 AI 전력 계약으로 소셜 심리는 낙관적이지만 기술 구조는 DOWNTREND에 상대강도도 약합니다. 이야기와 주가 움직임이 아직 일치하지 않아 추가 하락 위험이 커요.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 1.5,
       "action": "avoid"
@@ -225,8 +225,8 @@
       "symbol": "ALAB",
       "company": "Astera Labs",
       "tier": 2,
-      "analysis_en": "ALAB sits at an exceptionally strong technical position with Stage2 score 7, RS 100, and price just 0.2% off its high. Volume contraction near highs with all moving averages rising suggests energy accumulation before the next move. Social sentiment is very optimistic at 1.3 on Scorpio switch traction and NVIDIA alignment. Upside potential is clearly the dominant factor.",
-      "analysis_ko": "ALAB는 스테이지2 7점 만점에 시장상대강도 100점으로 52주 고점에서 0.2%밖에 떨어지지 않은 최상위 기술적 위치에 있어. 고점 근처에서 거래량이 줄고 이동평균선이 모두 상승하는 건 다음 상승을 위한 에너지 축적 신호다. Scorpio 스위치와 NVIDIA 연계에 소셜 심리도 1.3으로 매우 낙관적이라 상승 여력이 두드러진다.",
+      "analysis_en": "ALAB is trading at all-time highs with perfect Stage2 and RS 100 scores and volume contracting near the top. The Scorpio switch traction at Computex adds fresh catalyst on top of NVIDIA ecosystem alignment, keeping social sentiment strongly optimistic.",
+      "analysis_ko": "ALAB은 사상 최고가에서 스테이지2와 상대강도 모두 만점이고 거래량도 줄어들고 있어요. Computex에서 Scorpio 스위치가 주목받으며 NVIDIA 생태계와의 연계가 더 강조되면서 소셜 심리가 매우 낙관적입니다.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 1.3,
       "action": "buy"
@@ -235,8 +235,8 @@
       "symbol": "OKLO",
       "company": "Oklo",
       "tier": 2,
-      "analysis_en": "OKLO is in a downtrend with Stage2 score 3 and has fallen 62.1% from its high. Despite optimistic social chatter around nuclear/SMR demand for AI energy and recent DOE talks, the technical damage is severe and downside risk remains the primary concern.",
-      "analysis_ko": "OKLO는 스테이지2 3점으로 하락 추세이며 52주 고점 대비 62.1%나 빠졌어. AI 에너지 수요와 DOE 논의로 소셜 심리는 낙관적이지만 기술적 손상이 너무 커서 하락 위험이 주된 우려 요인이다.",
+      "analysis_en": "OKLO has already dropped 62% from highs and remains in DOWNTREND despite optimistic nuclear and SMR narrative tied to AI energy demand. Recent DOE talks provide some hope, but the weak technical structure suggests avoiding until it shows stabilization.",
+      "analysis_ko": "OKLO는 고점 대비 62%나 빠졌고 AI 에너지 수요와 연계된 핵·SMR 낙관론에도 불구하고 DOWNTREND에 있습니다. 최근 DOE 논의가 있지만 기술 구조가 약해 안정될 때까지는 피하는 게 좋겠습니다.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 1.3,
       "action": "avoid"
@@ -245,18 +245,18 @@
       "symbol": "APP",
       "company": "AppLovin",
       "tier": 2,
-      "analysis_en": "APP maintains a strong Stage2 score of 7 and RS 78.5 in an uptrend but carries a momentum slowdown warning after a powerful run. The stock has pulled back 2.6% and social views are polarized between exceptional growth and elevated valuation concerns. It is worth watching for stabilization rather than chasing here.",
-      "analysis_ko": "APP는 스테이지2 7점에 시장상대강도 78.5점으로 상승 추세를 유지하지만 강한 상승 후 모멘텀 둔화 신호가 나타났어. 2.6% 조정받은 가운데 탁월한 성장과 높은 밸류에이션 우려로 소셜 의견이 양분되고 있다. 추격 매수보다는 안정화를 지켜보는 편이 낫겠다.",
+      "analysis_en": "APP holds a perfect Stage2 score and strong relative strength but has already pulled back 18.8% from highs with a momentum slowdown warning. Social views are polarized between exceptional growth and elevated valuation concerns after the strong run.",
+      "analysis_ko": "APP는 스테이지2 만점에 상대강도도 높지만 고점에서 18.8% 조정받았고 모멘텀 둔화 신호까지 보입니다. 탁월한 성장과 마진에도 불구하고 높은 밸류에이션 우려로 소셜 의견이 양분돼 있어요.",
       "sentiment_mood": "neutral",
       "sentiment_score": 0.0,
-      "action": "hold"
+      "action": "buy"
     },
     {
       "symbol": "ANET",
       "company": "Arista Networks",
       "tier": 2,
-      "analysis_en": "ANET holds a perfect Stage2 score of 7 and strong RS 87.7, trading just 2.5% below its high even though the monthly structure has turned down. Volume is contracting near highs and social sentiment remains optimistic on AI networking demand from hyperscalers. The setup is still constructive but the distribution signal on the monthly chart warrants caution.",
-      "analysis_ko": "ANET은 스테이지2 7점 만점에 시장상대강도 87.7점으로 52주 고점에서 2.5%밖에 떨어지지 않았지만 월봉 구조가 하락으로 전환됐어. 고점 근처 거래량 감소와 하이퍼스케일러 AI 네트워킹 수요에 소셜 심리는 낙관적이지만 월봉 분산 신호는 주의가 필요하다.",
+      "analysis_en": "ANET maintains a strong Stage2 score and optimistic social tone around AI networking solutions, but the structure has slipped into DOWNTREND. The pullback has improved valuation, yet price needs to reclaim the 200-day line to confirm the next move higher.",
+      "analysis_ko": "ANET은 AI 네트워킹 솔루션으로 소셜 심리가 낙관적이고 스테이지2 점수도 높지만 구조가 DOWNTREND로 내려앉았어요. 조정 후 밸류에이션은 좋아졌지만 200일선을 회복해야 다음 상승이 확인될 것 같습니다.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 1.0,
       "action": "hold"
@@ -265,8 +265,8 @@
       "symbol": "NVO",
       "company": "Novo Nordisk",
       "tier": 2,
-      "analysis_en": "NVO is in a confirmed downtrend with Stage2 score 3 and has corrected 44.8% from its high. Social sentiment has turned fearful as the stock continues to lag Lilly and AI names despite oral Wegovy progress. Downside risk remains the dominant factor until a clear reversal appears.",
-      "analysis_ko": "NVO는 스테이지2 3점으로 하락 추세가 확인됐고 52주 고점 대비 44.8% 조정받았어. 경구 Wegovy 진전에도 Lilly나 AI 종목 대비 부진하면서 소셜 심리가 fearful로 바뀌었다. 명확한 반전 신호가 나오기 전까지는 하락 위험이 더 크다.",
+      "analysis_en": "NVO has fallen 44.8% from highs and sits in a weakening monthly trend with fearful social sentiment. Even with oral Wegovy progress, the stock continues to lag Lilly and AI names, making further downside the more immediate risk.",
+      "analysis_ko": "NVO는 고점 대비 44.8% 빠졌고 월봉 추세도 약화되고 있어요. 경구 Wegovy 진전에도 Lilly나 AI 종목 대비 부진하면서 소셜 심리가 fearful로 바뀌었습니다. 단기적으로는 추가 하락 위험이 더 커 보입니다.",
       "sentiment_mood": "fearful",
       "sentiment_score": -1.1,
       "action": "avoid"
@@ -275,8 +275,8 @@
       "symbol": "QBTS",
       "company": "D-Wave Quantum",
       "tier": 2,
-      "analysis_en": "QBTS remains in an uptrend with Stage2 score 5 and perfect RS 100 after a sharp 36% correction from highs. Social sentiment is optimistic at 1.2 following major US government funding and a new roadmap announced at Investor Day. The setup is interesting but the large prior drop suggests watching for confirmation before committing capital.",
-      "analysis_ko": "QBTS는 스테이지2 5점에 시장상대강도 100점으로 상승 추세를 유지하지만 52주 고점 대비 36% 급락 후 반등 중이야. Investor Day에서 발표된 대규모 미국 정부 자금 지원과 신규 로드맵으로 소셜 심리가 1.2로 낙관적이다. 이전 하락 폭이 커서 자본 투입 전 확인이 필요해 보인다.",
+      "analysis_en": "QBTS has already dropped 36% from highs but maintains a confirmed uptrend on the monthly chart with strong relative strength. Major US government funding and new gate-model roadmap at Investor Day keep social sentiment optimistic, though volatility remains high.",
+      "analysis_ko": "QBTS는 고점에서 36% 빠졌지만 월봉 추세는 상승 확인 상태고 상대강도도 최상위권입니다. Investor Day에서 발표된 대규모 미국 정부 자금 지원과 새로운 게이트 모델 로드맵으로 소셜 심리가 낙관적이에요. 다만 변동성은 여전히 높습니다.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 1.2,
       "action": "watch"
@@ -285,27 +285,77 @@
       "symbol": "SOFI",
       "company": "SoFi Technologies",
       "tier": 2,
-      "analysis_en": "SOFI is in a downtrend with Stage2 score 2 and has fallen 45.8% from its high. While social investors are excited about the new SoFiUSD stablecoin launch and revenue growth positioning it as undervalued, the technical structure remains weak and downside risk is the primary concern.",
-      "analysis_ko": "SOFI는 스테이지2 2점으로 하락 추세이며 52주 고점 대비 45.8% 빠졌어. 새로운 SoFiUSD 스테이블코인 출시와 매출 성장으로 저평가된 핀테크로 소셜 기대감은 있지만 기술적 구조가 약해 하락 위험이 더 큰 상황이다.",
+      "analysis_en": "SOFI remains in DOWNTREND with weak relative strength despite optimistic retail chatter around the new SoFiUSD stablecoin launch. Revenue growth is cited positively, but the technical structure has not yet turned supportive.",
+      "analysis_ko": "SOFI는 새로운 SoFiUSD 스테이블코인 출시로 소매 투자자들의 기대감은 높지만 기술 구조는 DOWNTREND에 상대강도도 약합니다. 매출 성장은 긍정적으로 언급되지만 아직 차트가 따라주지 못하고 있어요.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.8,
       "action": "avoid"
     }
   ],
   "today_checkpoints_en": [
-    "CRWD and MU earnings reactions in the coming days",
-    "Whether Bitcoin stabilizes or extends losses into broader risk assets",
-    "GOOGL price action around the $355 level after dilution news"
+    "Monitor SPY distribution days — 4 days already triggers WARNING level",
+    "Watch GOOGL stabilization after $80B equity raise announcement",
+    "MU and CRWD earnings reactions in coming days could set tone for AI names"
   ],
   "today_checkpoints_ko": [
-    "CRWD와 MU 실적 발표 후 반응 주시",
-    "비트코인이 안정되는지 아니면 추가 하락하며 위험자산 전반으로 번지는지",
-    "GOOGL이 희석 뉴스 후 $355 부근에서 어떻게 반응하는지"
+    "SPY 분배일 4일째 — WARNING 수준 도달했는지 계속 확인",
+    "GOOGL 800억 달러 주식 발행 후 안정되는지 주시",
+    "MU와 CRWD 실적 반응이 AI 종목 전반 분위기를 좌우할 수 있음"
   ],
-  "earnings_alert_en": "CRWD and MU are both scheduled to report earnings soon, with expected EPS of 1.07 and 19.28 respectively — both are high-conviction names in the watchlist.",
-  "earnings_alert_ko": "CRWD와 MU가 곧 실적을 발표할 예정이며 예상 EPS는 각각 1.07과 19.28이야. 둘 다 감시 목록에서 신뢰도가 높은 종목들이다.",
+  "earnings_alert_en": "CRWD and MU are both scheduled to report within the next week with strong EPS expectations that could move multiple AI-related names.",
+  "earnings_alert_ko": "CRWD와 MU가 다음 주 안에 실적을 발표할 예정으로, 강한 EPS 기대감이 AI 관련 종목 전반에 영향을 줄 수 있습니다.",
   "global_context": {
-    "issues": [],
-    "fallback": true
+    "fetched_at": "2026-06-02T23:11:45Z",
+    "search_window": "48h",
+    "issues": [
+      {
+        "rank": 1,
+        "tier": "ongoing",
+        "category": "trade_tariff",
+        "title_en": "US-China semiconductor export controls remain active",
+        "title_ko": "미중 반도체 수출 통제 유지",
+        "summary_en": "No new policy announcements or enforcement actions reported in the last 48 hours. Existing US export restrictions on advanced chips to China continue to apply. NVDA, TSM and MU remain directly exposed to any future tightening or easing.",
+        "summary_ko": "지난 48시간 내 새로운 정책 발표나 집행 조치 없음. 기존 미국의 대중 첨단 칩 수출 제한이 계속 적용 중. NVDA, TSM, MU는 향후 변화에 직접 노출.",
+        "source_hint": "Policy status as of latest public records",
+        "confidence": "confirmed",
+        "us_stock_impact_en": "NVDA, TSM, MU - impact direction unclear pending any new announcement",
+        "us_stock_impact_ko": "NVDA, TSM, MU - 새로운 발표 전까지 영향 방향 불확실",
+        "impact_direction": "watch"
+      },
+      {
+        "rank": 2,
+        "tier": "ongoing",
+        "category": "geopolitical",
+        "title_en": "Middle East conflict and Strait of Hormuz under watch",
+        "title_ko": "중동 분쟁과 호르무즈 해협 감시 지속",
+        "summary_en": "No fresh incidents or escalations confirmed within the last 48 hours. The persistent regional situation keeps oil transit routes in focus. CEG and VST remain sensitive to any supply disruption signals.",
+        "summary_ko": "지난 48시간 내 새로운 사건이나 긴장 고조 확인되지 않음. 지역 상황 지속으로 원유 수송로 주시 중. CEG, VST는 공급 차질 신호에 민감.",
+        "source_hint": "No recent Reuters or official statements",
+        "confidence": "confirmed",
+        "us_stock_impact_en": "CEG, VST - watch for energy price volatility; impact unclear without new events",
+        "us_stock_impact_ko": "CEG, VST - 에너지 가격 변동성 주시; 새로운 이벤트 없어 영향 불확실",
+        "impact_direction": "watch"
+      },
+      {
+        "rank": 3,
+        "tier": "ongoing",
+        "category": "ai_regulation",
+        "title_en": "US AI and antitrust oversight of big tech continues",
+        "title_ko": "미국 AI·빅테크 반독점 감독 지속",
+        "summary_en": "No new filings, hearings or enforcement moves reported in the past 48 hours. Existing scrutiny on GOOGL, META, MSFT and AAPL remains in place as a structural risk factor.",
+        "summary_ko": "지난 48시간 내 새로운 소송, 청문회 또는 집행 조치 보고 없음. GOOGL, META, MSFT, AAPL에 대한 기존 조사가 구조적 리스크로 남아 있음.",
+        "source_hint": "Ongoing regulatory proceedings",
+        "confidence": "confirmed",
+        "us_stock_impact_en": "GOOGL, META, MSFT, AAPL - regulatory overhang persists; direction unclear without fresh developments",
+        "us_stock_impact_ko": "GOOGL, META, MSFT, AAPL - 규제 부담 지속; 새로운 전개 없어 방향 불확실",
+        "impact_direction": "watch"
+      }
+    ],
+    "ongoing_no_update": [
+      "Taiwan Strait military tension",
+      "Russia-Ukraine war",
+      "ECB / BOJ / BOE policy stance",
+      "US tariff / trade deal negotiations"
+    ]
   }
 }
