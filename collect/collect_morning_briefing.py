@@ -205,7 +205,7 @@ def _format_symbol_block(data: dict) -> str:
 def _format_macro_block(macro_data: dict) -> str:
     """매크로 주요 지표를 프롬프트용 요약 텍스트로 변환."""
     items = macro_data.get("macro", [])
-    key_syms = {"^VIX", "^TNX", "DX-Y.NYB", "CL=F", "GLD", "TLT", "HYG"}
+    key_syms = {"^VIX", "^TNX", "DX-Y.NYB", "CL=F", "GLD", "TLT", "HYG", "BTC-USD"}
     lines = []
     for item in items:
         sym = item.get("symbol", "")
@@ -312,7 +312,9 @@ MARKET DATA ({now_kst}):
     "rates_note_en": "1-2 sentences: 10Y yield level and whether it's helping or hurting stocks today",
     "rates_note_ko": "미국 10년물 국채 금리(기준금리의 바로미터)가 오늘 주식 시장에 어떤 영향을 주는지.",
     "dollar_note_en": "1-2 sentences: DXY direction and impact — especially for tech/global earnings",
-    "dollar_note_ko": "달러 강세/약세가 미국 기술주와 해외 투자자에게 어떤 의미인지."
+    "dollar_note_ko": "달러 강세/약세가 미국 기술주와 해외 투자자에게 어떤 의미인지.",
+    "btc_note_en": "1-2 sentences: Bitcoin price level and what it signals about risk appetite today (is crypto leading risk-on or risk-off?)",
+    "btc_note_ko": "비트코인 현재 가격과 그것이 오늘 투자자들의 위험 선호도에 대해 무엇을 말하는지 — 가상화폐를 잘 모르는 사람도 이해하게."
   }},
   "sector_analysis": {{
     "leaders_en": "Which sectors/themes are leading and why — 1-2 sentences with simple explanation",
