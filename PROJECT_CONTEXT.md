@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-06-01 (TIER1/TIER2 재편) -->
+<!-- AUTO-GENERATED: 2026-06-02 (Morning Briefing Collector 추가) -->
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 
@@ -17,12 +17,13 @@ Social sentiment data is separated into **3 layers**. This separation is the cor
 │  Layer 1: Collect        │     │  Layer 2: Storage         │     │  Layer 3: Consume    │
 │  (server cron)           │     │  (this GitHub repo)       │     │  (SniperBoard etc.)  │
 │                          │     │                           │     │                      │
-│  4 collectors:           │ git │  sentiment/latest.json    │ raw │  FastAPI services    │
-│  · collect_sentiment.py  │push │  sentiment/history/       │fetch│  /api/sentiment      │
-│  · collect_brief.py      │────▶│  brief/                   │────▶│  /api/brief          │
-│  · collect_earnings.py   │     │  earnings/                │     │  /api/earnings       │
-│  · collect_macro_insight │     │  macro/                   │     │  /api/macro-insight  │
-│                          │     │  schema.json              │     │                      │
+│  5 collectors:                  │ git │  sentiment/latest.json    │ raw │  FastAPI services    │
+│  · collect_sentiment.py         │push │  sentiment/history/       │fetch│  /api/sentiment      │
+│  · collect_brief.py             │────▶│  brief/                   │────▶│  /api/brief          │
+│  · collect_earnings.py          │     │  earnings/                │     │  /api/earnings       │
+│  · collect_macro_insight.py     │     │  macro/                   │     │  /api/macro-insight  │
+│  · collect_morning_briefing.py  │     │  briefing/                │     │  /api/morning-brief… │
+│                                 │     │  schema.json              │     │                      │
 └─────────────────────────┘     └──────────────────────────┘     └──────────────────────┘
 ```
 
@@ -40,13 +41,14 @@ Social sentiment data is separated into **3 layers**. This separation is the cor
 market-sentiment-data/
 ├── collect/
 │   ├── __init__.py
-│   ├── collect_sentiment.py      # Collector 1 — python -m collect.collect_sentiment
-│   ├── collect_brief.py          # Collector 2 — python -m collect.collect_brief
-│   ├── collect_earnings.py       # Collector 3 — python -m collect.collect_earnings
-│   ├── collect_macro_insight.py  # Collector 4 — python -m collect.collect_macro_insight
-│   ├── probe_mention_volume.py   # One-shot symbol selection probe — mention volume scanner (169 candidates)
-│   ├── price_context.py          # Neutral price-context fetcher (used by Collector 1)
-│   ├── git_utils.py              # commit_and_push() shared helper
+│   ├── collect_sentiment.py           # Collector 1 — python -m collect.collect_sentiment
+│   ├── collect_brief.py               # Collector 2 — python -m collect.collect_brief (트레이딩 신호 중심)
+│   ├── collect_earnings.py            # Collector 3 — python -m collect.collect_earnings
+│   ├── collect_macro_insight.py       # Collector 4 — python -m collect.collect_macro_insight
+│   ├── collect_morning_briefing.py    # Collector 5 — python -m collect.collect_morning_briefing (아침 브리핑, 매일 KST 07:30)
+│   ├── probe_mention_volume.py        # One-shot symbol selection probe — mention volume scanner (169 candidates)
+│   ├── price_context.py               # Neutral price-context fetcher (used by Collector 1)
+│   ├── git_utils.py                   # commit_and_push() shared helper
 │   ├── test_collect_sentiment.py
 │   ├── test_collect_brief.py
 │   ├── test_collect_brief_context.py
@@ -59,9 +61,13 @@ market-sentiment-data/
 │       ├── latest.json           # Latest probe result (always overwritten)
 │       └── YYYY-MM-DD_HHmm.json  # Per-run archive
 ├── brief/
-│   ├── latest.json               # AI Daily Brief: always-current
+│   ├── latest.json               # AI Daily Brief: always-current (트레이딩 신호 중심)
 │   ├── brief.log                 # Cron log for collect_brief
 │   └── history/YYYY-MM-DD_<slot>.json
+├── briefing/                     # 아침 종합 브리핑 (일반인 친화적, 큰그림+종목별 스퀴즈/조정 분석)
+│   ├── latest.json               # Morning Briefing: always-current (하루 1회, KST 07:30)
+│   ├── briefing.log              # Cron log for collect_morning_briefing
+│   └── history/YYYY-MM-DD.json
 ├── earnings/
 │   ├── latest.json               # Earnings Intelligence: always-current
 │   ├── earnings.log              # Cron log for collect_earnings
@@ -476,8 +482,13 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 30 6,22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 python3 -m collect.collect_brief >> brief/brief.log 2>&1
 45 6,22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 python3 -m collect.collect_macro_insight >> macro/macro.log 2>&1
 
-# ─── earnings (once daily, 07:00) ────────────────────────────────────────────
+# ─── earnings (once daily, 07:00 UTC) ────────────────────────────────────────
 00 7 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data python3 -m collect.collect_earnings >> earnings/earnings.log 2>&1
+
+# ─── morning briefing (once daily, 22:30 UTC = KST 07:30) ────────────────────
+# 의존성: collect_sentiment + collect_macro_insight 완료 후 실행 (충분한 지연 확보)
+# collect_brief.py의 brief/latest.json + sentiment/latest.json 기반으로 종합 브리핑 생성
+30 22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 python3 -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
 ```
 
 > **PATH note:** cron environments have minimal PATH. Use absolute paths to `python3` and `hermes`, or set `PATH` explicitly. All log files live inside their data directory (e.g. `sentiment/sentiment.log`).
