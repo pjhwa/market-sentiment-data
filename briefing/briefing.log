@@ -1,0 +1,7 @@
+[INFO] 아침 브리핑 시작: 2026-06-03 07:15 KST
+[INFO] 시장 데이터 수집 중...
+[INFO] Grok 호출 중 (최대 3분 소요)...
+[INFO] 저장: /Users/jerry/dev/market-sentiment-data/briefing/latest.json, /Users/jerry/dev/market-sentiment-data/briefing/history/2026-06-02.json
+[INFO] 커밋 완료: briefing: 2026-06-02 morning update
+[OK] GitHub push 성공
+[OK] 아침 브리핑 완료 + GitHub push 성공

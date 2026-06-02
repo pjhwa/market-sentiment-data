@@ -19,3 +19,31 @@
 [INFO] 커밋 완료: macro: 2026-05-31 21:45 insight update
 [OK] GitHub push 성공
 [OK] Macro Insight 수집 + push 완료
+[INFO] 슬롯: pre_open, 시각: 2026-06-01T13:45:01Z
+[INFO] /api/macro 데이터 수집 중...
+[INFO] Grok 호출 중...
+[INFO] 저장 완료: /Users/jerry/dev/market-sentiment-data/macro/latest.json
+[INFO] 커밋 완료: macro: 2026-06-01 13:45 insight update
+[OK] GitHub push 성공
+[OK] Macro Insight 수집 + push 완료
+[INFO] 슬롯: post_close, 시각: 2026-06-01T21:45:00Z
+[INFO] /api/macro 데이터 수집 중...
+[INFO] Grok 호출 중...
+[INFO] 저장 완료: /Users/jerry/dev/market-sentiment-data/macro/latest.json
+[INFO] 커밋 완료: macro: 2026-06-01 21:45 insight update
+[OK] GitHub push 성공
+[OK] Macro Insight 수집 + push 완료
+[INFO] 슬롯: pre_open, 시각: 2026-06-02T13:45:00Z
+[INFO] /api/macro 데이터 수집 중...
+[INFO] Grok 호출 중...
+[INFO] 저장 완료: /Users/jerry/dev/market-sentiment-data/macro/latest.json
+[INFO] 커밋 완료: macro: 2026-06-02 13:45 insight update
+[OK] GitHub push 성공
+[OK] Macro Insight 수집 + push 완료
+[INFO] 슬롯: post_close, 시각: 2026-06-02T21:45:00Z
+[INFO] /api/macro 데이터 수집 중...
+[INFO] Grok 호출 중...
+[INFO] 저장 완료: /Users/jerry/dev/market-sentiment-data/macro/latest.json
+[INFO] 커밋 완료: macro: 2026-06-02 21:45 insight update
+[OK] GitHub push 성공
+[OK] Macro Insight 수집 + push 완료
