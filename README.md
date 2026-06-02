@@ -24,6 +24,7 @@ market-sentiment-data/
 │   ├── collect_brief.py             # Collector 2: AI Daily Brief
 │   ├── collect_earnings.py          # Collector 3: Earnings Intelligence
 │   ├── collect_macro_insight.py     # Collector 4: Macro Insight
+│   ├── collect_morning_briefing.py  # Collector 5: Morning Briefing (2-stage Grok pipeline, global_context)
 │   ├── probe_mention_volume.py      # Symbol selection probe — mention volume scanner (169 candidates)
 │   ├── price_context.py             # Neutral price-context fetcher (for sentiment)
 │   ├── git_utils.py                 # Shared git commit/push helper
@@ -48,6 +49,12 @@ market-sentiment-data/
 │   ├── brief.log                    # Cron log
 │   └── history/
 │       └── YYYY-MM-DD_<slot>.json
+│
+├── briefing/
+│   ├── latest.json                  # Morning Briefing (schema_version 1.1) — always current
+│   ├── briefing.log                 # Cron log
+│   └── history/
+│       └── YYYY-MM-DD.json
 │
 ├── earnings/
 │   ├── latest.json                  # Earnings Intelligence — always current
@@ -119,6 +126,17 @@ Fetches 21 macro asset data points from SniperBoard's `/api/macro` (VIX, SPY, QQ
 Returns structured insight with overall summary, key bullets (signal → market meaning format), and per-group text (volatility, breadth, credit, rates, commodities, sectors).
 
 **Output: `macro/latest.json` and `macro/history/YYYY-MM-DD_<slot>.json`**
+
+### 5. Morning Briefing (`collect/collect_morning_briefing.py`)
+
+Runs once daily (KST 07:30). Uses a **2-stage Grok pipeline:**
+
+1. **Stage 1:** Fetches top-3 global macro/geopolitical issues (trade/tariff, geopolitical, central bank, AI regulation) via Grok live web search within 48-hour window
+2. **Stage 2:** Generates comprehensive morning briefing combining global context with watchlist sentiment
+
+Returns `global_context` section with issue descriptions and market impacts, plus bilingual briefing text and key themes.
+
+**Output: `briefing/latest.json` and `briefing/history/YYYY-MM-DD.json`** (schema_version 1.1)
 
 ---
 
@@ -220,6 +238,9 @@ python -m collect.collect_earnings
 # 4. Macro Insight (runs after sentiment)
 python -m collect.collect_macro_insight
 
+# 5. Morning Briefing (runs once daily, KST 07:30)
+python -m collect.collect_morning_briefing
+
 # Dry-run (earnings only, no git push)
 python -m collect.collect_earnings --dry-run
 
@@ -235,6 +256,7 @@ PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 | `HERMES_CMD` | `/Users/jerry/.local/bin/hermes` | Absolute path to hermes binary |
 | `HERMES_PROVIDER` | `""` | Hermes provider (e.g. `grok-oauth`) |
 | `HERMES_TIMEOUT` | `120` | Per-call timeout in seconds |
+| `HERMES_TIMEOUT_GLOBAL` | `90` | Timeout for global context fetch (Collector 5, stage 1) |
 | `HERMES_RETRY` | `1` | Retry count on timeout |
 | `SNIPERBOARD_API_BASE` | `http://localhost:5001` | SniperBoard backend URL |
 | `SENTIMENT_SLOT` | auto-detect | Override slot: `pre_open` or `post_close` |
@@ -253,6 +275,9 @@ PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 
 # earnings: once daily at 14:00 UTC
 0 14 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_earnings >> earnings/earnings.log 2>&1
+
+# morning briefing: once daily at 22:30 UTC (07:30 KST)
+30 22 * * *  cd ~/dev/market-sentiment-data && HERMES_TIMEOUT=300 HERMES_TIMEOUT_GLOBAL=90 python -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
 ```
 
 ---

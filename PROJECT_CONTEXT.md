@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-06-02 (Morning Briefing Collector 추가) -->
+<!-- AUTO-GENERATED: 2026-06-03 (Global Context Morning Briefing, 2-stage Grok pipeline) -->
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 
@@ -22,7 +22,7 @@ Social sentiment data is separated into **3 layers**. This separation is the cor
 │  · collect_brief.py             │────▶│  brief/                   │────▶│  /api/brief          │
 │  · collect_earnings.py          │     │  earnings/                │     │  /api/earnings       │
 │  · collect_macro_insight.py     │     │  macro/                   │     │  /api/macro-insight  │
-│  · collect_morning_briefing.py  │     │  briefing/                │     │  /api/morning-brief… │
+│  · collect_morning_briefing.py  │     │  briefing/ (v1.1 2-stage) │     │  /api/morning-brief… │
 │                                 │     │  schema.json              │     │                      │
 └─────────────────────────┘     └──────────────────────────┘     └──────────────────────┘
 ```
@@ -64,8 +64,8 @@ market-sentiment-data/
 │   ├── latest.json               # AI Daily Brief: always-current (트레이딩 신호 중심)
 │   ├── brief.log                 # Cron log for collect_brief
 │   └── history/YYYY-MM-DD_<slot>.json
-├── briefing/                     # 아침 종합 브리핑 (일반인 친화적, 큰그림+종목별 스퀴즈/조정 분석)
-│   ├── latest.json               # Morning Briefing: always-current (하루 1회, KST 07:30)
+├── briefing/                     # 아침 종합 브리핑 (schema_version 1.1, global_context 포함)
+│   ├── latest.json               # Morning Briefing: always-current (2-stage Grok pipeline)
 │   ├── briefing.log              # Cron log for collect_morning_briefing
 │   └── history/YYYY-MM-DD.json
 ├── earnings/
@@ -93,6 +93,7 @@ All config is injected via environment variables. Never hardcode paths or tokens
 | `HERMES_CMD` | 자동탐색 (`shutil.which` → `~/.local/bin` → `/opt/homebrew/bin` → `/usr/local/bin`) | all collectors |
 | `HERMES_PROVIDER` | `""` (empty = no `--provider` flag) | all collectors |
 | `HERMES_TIMEOUT` | `120` | all collectors |
+| `HERMES_TIMEOUT_GLOBAL` | `90` | collector 5 (morning briefing, stage 1 global context fetch) |
 | `HERMES_RETRY` | `1` | all collectors |
 | `SNIPERBOARD_API_BASE` | `http://localhost:5001` | collectors 1, 2, 4 |
 | `SENTIMENT_SLOT` | auto-detect by UTC hour | collectors 1, 2, 4 |
@@ -367,7 +368,54 @@ Bullet format rule: "핵심 신호 → 시장 의미" (signal → market meaning
 
 ---
 
-## 9. Data Schema Reference (v2.0)
+## 9. Collector 5 — Morning Briefing (`collect/collect_morning_briefing.py`)
+
+### Overview
+
+Runs once daily (22:30 UTC = KST 07:30). Generates a global context briefing using a **2-stage Grok pipeline:**
+
+**Stage 1 (Global Context):** Fetch top-3 global macro/geopolitical issues within 48-hour window via Grok live web search.
+- Timeout: `HERMES_TIMEOUT_GLOBAL` (default 90s)
+- Scope: trade/tariff, geopolitical, central bank, AI regulation
+- Output: `global_context` array with 3 issue objects
+
+**Stage 2 (Full Briefing):** Generate comprehensive morning briefing combining global context + sentiment/technical data.
+- Timeout: `HERMES_TIMEOUT` (default 120s)
+- Output: `briefing_en` / `briefing_ko`, `key_themes_en` / `key_themes_ko`
+
+### Data sources
+
+- `sentiment/latest.json` → composite sentiment + mood across watchlist
+- `brief/latest.json` → technical regime + key themes (if available)
+- Grok live web search (stage 1 only)
+
+### Output schema (schema_version 1.1)
+
+```json
+{
+  "generated_at": "2026-06-03T22:30:00Z",
+  "schema_version": "1.1",
+  "global_context": [
+    {
+      "issue_en": "US-China tariff escalation threatens tech supply chains",
+      "issue_ko": "미중 관세 전쟁이 기술 공급망 위협",
+      "market_impact_en": "Chipmakers and EVs at risk",
+      "market_impact_ko": "반도체·EV 업체 위험 노출"
+    },
+    { ... },
+    { ... }
+  ],
+  "briefing_en": "Morning outlook combining global macro context with watchlist sentiment...",
+  "briefing_ko": "전세계 거시 배경을 고려한 오늘 오전 전망...",
+  "key_themes_en": ["trade_tension", "rate_relief", "earnings_season"],
+  "key_themes_ko": ["무역긴장", "금리_완화", "실적시즌"],
+  "confidence": "high|med|low"
+}
+```
+
+---
+
+## 10. Data Schema Reference (v2.0)
 
 ### `sentiment/latest.json` top-level structure
 
@@ -433,7 +481,7 @@ Bullet format rule: "핵심 신호 → 시장 의미" (signal → market meaning
 
 ---
 
-## 10. Layer 3 — SniperBoard Consumer
+## 11. Layer 3 — SniperBoard Consumer
 
 SniperBoard consumes this repository via its backend services. The consumer must treat all v1.x-added fields as optional to maintain backward compatibility with history files.
 
@@ -446,6 +494,7 @@ SniperBoard consumes this repository via its backend services. The consumer must
 | `GET /api/brief` | `brief/latest.json` | 5–10 min |
 | `GET /api/earnings` | `earnings/latest.json` | 60 min |
 | `GET /api/macro-insight` | `macro/latest.json` | 5–10 min |
+| `GET /api/morning-briefing` | `briefing/latest.json` | 5–10 min |
 
 **Fetch pattern (private repo):**
 ```python
@@ -473,7 +522,7 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 
 ---
 
-## 11. Cron Schedule
+## 12. Cron Schedule
 
 ```bash
 # ─── pre_open (06:00 KST / 22:00 KST) ──────────────────────────────────────
@@ -486,16 +535,16 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 00 7 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data python3 -m collect.collect_earnings >> earnings/earnings.log 2>&1
 
 # ─── morning briefing (once daily, 22:30 UTC = KST 07:30) ────────────────────
-# 의존성: collect_sentiment + collect_macro_insight 완료 후 실행 (충분한 지연 확보)
-# collect_brief.py의 brief/latest.json + sentiment/latest.json 기반으로 종합 브리핑 생성
-30 22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 python3 -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
+# 2-stage pipeline: stage 1 fetches global context (90s), stage 2 generates briefing (300s)
+# 의존성: collect_sentiment 완료 후 실행 (충분한 지연 확보)
+30 22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 HERMES_TIMEOUT_GLOBAL=90 python3 -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
 ```
 
 > **PATH note:** cron environments have minimal PATH. Use absolute paths to `python3` and `hermes`, or set `PATH` explicitly. All log files live inside their data directory (e.g. `sentiment/sentiment.log`).
 
 ---
 
-## 12. Safety Guardrails (Non-Negotiable)
+## 13. Safety Guardrails (Non-Negotiable)
 
 | Principle | Code implementation |
 |-----------|---------------------|
@@ -509,7 +558,7 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 
 ---
 
-## 13. Testing
+## 14. Testing
 
 ```bash
 PYTHONPATH=/path/to/market-sentiment-data python -m pytest collect/ -v
@@ -525,7 +574,7 @@ Tests are co-located in `collect/` and run with pytest. No external services req
 
 ---
 
-## 14. Cross-Repo Linkage (SniperBoard)
+## 15. Cross-Repo Linkage (SniperBoard)
 
 - `sniperboard/backend/services/sentiment_service.py` — fetches `sentiment/latest.json` + `sentiment/history/`
 - `sniperboard/backend/services/brief_service.py` — fetches `brief/latest.json`
