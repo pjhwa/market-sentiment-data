@@ -31,15 +31,21 @@ CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))
 HERMES_RETRY = int(os.environ.get("HERMES_RETRY", "1"))
 SNIPERBOARD_API = os.environ.get("SNIPERBOARD_API_BASE", "http://localhost:5001")
 
+# TIER1: 빅테크/대형주 — 개별 심층 분석 대상 (collect_sentiment.py의 TIER1_WATCHLIST와 동기화)
 WATCHLIST = [
-    ("TSLA", "Tesla"),
-    ("AAPL", "Apple"),
-    ("NVDA", "Nvidia"),
-    ("META", "Meta Platforms"),
-    ("AMZN", "Amazon"),
+    ("TSM",   "TSMC"),
+    ("NVDA",  "Nvidia"),
+    ("META",  "Meta Platforms"),
+    ("TSLA",  "Tesla"),
+    ("PLTR",  "Palantir"),
+    ("MU",    "Micron Technology"),
+    ("CRWD",  "CrowdStrike"),
+    ("AMZN",  "Amazon"),
+    ("MSFT",  "Microsoft"),
+    ("AAPL",  "Apple"),
     ("GOOGL", "Alphabet / Google"),
-    ("PLTR", "Palantir"),
 ]
+# TIER2(모멘텀/테마주)는 collect_sentiment.py의 배치 분석으로 커버하며 Brief에서 제외.
 
 
 def detect_slot(now: datetime) -> str:
@@ -246,7 +252,7 @@ setup_quality 기준:
 - C: Stage2 3점 이하, 소셜 공포 또는 bear_flag
 - D: Stage2 2점 이하 또는 downtrend 심화
 
-symbol_briefs에 WATCHLIST 7종목 전부 포함 순서: TSLA, AAPL, NVDA, META, AMZN, GOOGL, PLTR
+symbol_briefs에 TIER1 전 종목(11개) 포함 순서: TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL
 Output raw JSON only."""
 
 
