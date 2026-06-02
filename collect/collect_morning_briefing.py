@@ -37,6 +37,12 @@ HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
 CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "180"))
 HERMES_RETRY = int(os.environ.get("HERMES_RETRY", "1"))
 SNIPERBOARD_API = os.environ.get("SNIPERBOARD_API_BASE", "http://localhost:5001")
+CALL_TIMEOUT_GLOBAL = int(os.environ.get("HERMES_TIMEOUT_GLOBAL", "90"))
+
+_VALID_GC_CATEGORIES = {"trade_tariff", "geopolitical", "central_bank", "ai_regulation"}
+_VALID_GC_TIERS = {"breaking", "ongoing"}
+_VALID_GC_CONFIDENCE = {"confirmed", "developing", "unverified"}
+_VALID_GC_IMPACT = {"positive", "negative", "neutral", "watch"}
 
 ALL_SYMBOLS = [
     ("TSM",   "TSMC",                  1),
@@ -231,6 +237,40 @@ def _format_earnings_block(earnings_data: dict) -> str:
         date = e.get("report_date", "?")
         lines.append(f"  {sym} {date} (EPS예상: {e.get('eps_estimate','?')})")
     return "\n".join(lines)
+
+
+def validate_global_context(data: dict) -> bool:
+    """1차 Grok 응답 글로벌 컨텍스트 검증. 0개 이슈는 fallback으로 유효."""
+    if not isinstance(data, dict):
+        return False
+    issues = data.get("issues")
+    if not isinstance(issues, list):
+        return False
+    if len(issues) == 0:
+        return True
+    if len(issues) > 3:
+        print(f"[WARN] global_context: 이슈 {len(issues)}개 — 3개 초과", file=sys.stderr)
+        return False
+    for iss in issues:
+        if not isinstance(iss, dict):
+            return False
+        if iss.get("category") not in _VALID_GC_CATEGORIES:
+            print(f"[WARN] global_context: category={iss.get('category')!r}", file=sys.stderr)
+            return False
+        if iss.get("tier") not in _VALID_GC_TIERS:
+            print(f"[WARN] global_context: tier={iss.get('tier')!r}", file=sys.stderr)
+            return False
+        if iss.get("confidence") not in _VALID_GC_CONFIDENCE:
+            print(f"[WARN] global_context: confidence={iss.get('confidence')!r}", file=sys.stderr)
+            return False
+        if iss.get("impact_direction") not in _VALID_GC_IMPACT:
+            print(f"[WARN] global_context: impact_direction={iss.get('impact_direction')!r}", file=sys.stderr)
+            return False
+        for field in ("title_en", "title_ko", "summary_en", "summary_ko"):
+            if not isinstance(iss.get(field), str) or not iss[field]:
+                print(f"[WARN] global_context: {field} 누락", file=sys.stderr)
+                return False
+    return True
 
 
 def build_prompt(data: dict, now_kst: str) -> str:
