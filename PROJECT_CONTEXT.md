@@ -378,15 +378,27 @@ Runs once daily (22:30 UTC = KST 07:30). Generates a global context briefing usi
 - Timeout: `HERMES_TIMEOUT_GLOBAL` (default 90s)
 - Scope: trade/tariff, geopolitical, central bank, AI regulation
 - Output: `global_context` array with 3 issue objects
+- Anti-hallucination: named military exercises only if source-cited; no unverified corporate actions
 
 **Stage 2 (Full Briefing):** Generate comprehensive morning briefing combining global context + sentiment/technical data.
-- Timeout: `HERMES_TIMEOUT` (default 120s)
-- Output: `briefing_en` / `briefing_ko`, `key_themes_en` / `key_themes_ko`
+- Timeout: `HERMES_TIMEOUT` (default 300s)
+- Output: full JSON with headline, executive_bullets, big_picture, sector_analysis, spotlight, watchlist
+
+### Key design improvements (2026-06-04)
+
+- **`already_reported_possible` flag**: `_build_earnings_lookup` recalculates `days_until` from current KST date (not from file creation time). Stocks with `earnings_date == today_kst` are flagged as already reported (US after-hours ~06:00 KST, before briefing at 06:45 KST).
+- **BTC large move alert**: `_format_macro_block` injects a mandatory `⚠⚠⚠ BTC CRASH ALERT` block when BTC 5D ≤ -10% or 1D ≤ -5%, forcing Grok to include it in executive_bullets.
+- **Price staleness detection**: SniperBoard API now returns `stage2.price_date` (date of last bar). Authoritative table flags stocks with `price_date < prev_trading_day`.
+- **52-week high fix**: `high_52w = price / (1 + pct_from_52w_high/100)` using correct sign convention for negative pct_from_52w_high values.
+- **1일등락 fix**: Calculated from last 2 candles directly (was always 0.00% due to missing API field).
+- **EARNINGS_DATE_OVERRIDES in collect_earnings.py**: Manual override dict for yfinance date errors (e.g., MU: "2026-06-24").
 
 ### Data sources
 
 - `sentiment/latest.json` → composite sentiment + mood across watchlist
-- `brief/latest.json` → technical regime + key themes (if available)
+- SniperBoard `/daily` API → price, stage2 score, RS, technical signals + `price_date`
+- SniperBoard `/macro` API → BTC, VIX, 10Y, DXY, Oil
+- `earnings/latest.json` → upcoming earnings with `EARNINGS_DATE_OVERRIDES` applied
 - Grok live web search (stage 1 only)
 
 ### Output schema (schema_version 1.1)

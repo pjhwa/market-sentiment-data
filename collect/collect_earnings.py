@@ -39,6 +39,13 @@ TIER_IMMINENT_DAYS = 7    # 이벤트 위험 관리 구간
 TIER_APPROACHING_DAYS = 21  # 포지션 계획 시작 구간
 # 22-30일: watching 구간 (EPS estimate 없으면 제외)
 
+# yfinance가 잘못된 날짜를 반환하는 종목에 대한 수동 오버라이드.
+# yfinance의 Earnings Date는 종종 실제 컨퍼런스콜 날짜보다 1일 늦게 보고함.
+# 형식: "YYYY-MM-DD" (KST 기준 실제 발표일)
+EARNINGS_DATE_OVERRIDES: dict[str, str] = {
+    "MU": "2026-06-24",  # yfinance가 6/25로 반환하나 실제 FQ3 콜은 6/24 (Micron IR 확인)
+}
+
 
 def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict], list[dict], list[str]]:
     """워치리스트 전체 어닝 데이터 수집 (강화된 폴백/검증/로깅).
@@ -224,6 +231,15 @@ def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict]
             beat_rate = round(beat_count / total_count, 2) if total_count >= 4 else None
 
             if earnings_date is not None:
+                # 수동 오버라이드 적용 (yfinance 날짜 오류 보정)
+                if sym in EARNINGS_DATE_OVERRIDES:
+                    override_str = EARNINGS_DATE_OVERRIDES[sym]
+                    try:
+                        overridden = datetime.strptime(override_str, "%Y-%m-%d").date()
+                        print(f"[OVERRIDE] {sym}: earnings_date {earnings_date} → {overridden} (manual)")
+                        earnings_date = overridden
+                    except ValueError:
+                        print(f"[WARN] {sym}: EARNINGS_DATE_OVERRIDES 날짜 형식 오류: {override_str!r}")
                 days_until = (earnings_date - today.date()).days
                 if 0 <= days_until <= UPCOMING_WINDOW_DAYS:
                     # watching 구간(22-30일)에서 EPS 추정치 미형성 시 노이즈 — 제외

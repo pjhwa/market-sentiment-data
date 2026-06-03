@@ -92,16 +92,33 @@ def _load_json(rel_path: str) -> dict:
         return {}
 
 
-def _build_earnings_lookup(earnings_data: dict) -> dict:
-    """종목별 실적 발표일·EPS 예상치 조회 dict. upcoming_earnings 기준."""
+def _build_earnings_lookup(earnings_data: dict, now_kst_date=None) -> dict:
+    """종목별 실적 발표일·EPS 예상치 조회 dict. upcoming_earnings 기준.
+
+    days_until은 파일 저장 시점이 아닌 브리핑 실행 시점 KST 날짜로 재계산한다.
+    earnings_date == today KST 이면 미국 장 마감 후 이미 발표됐을 가능성이 높으므로
+    already_reported_possible=True 플래그를 세운다.
+    (US after-hours ~9PM ET = KST 익일 06:00, 브리핑은 06:45 KST 실행)
+    """
+    import datetime as _dt
+    if now_kst_date is None:
+        now_kst_date = (datetime.now(timezone.utc) + _dt.timedelta(hours=9)).date()
+
     lookup: dict = {}
     for e in earnings_data.get("upcoming_earnings", []):
         sym = e.get("symbol")
         if sym and sym not in lookup:
+            earn_date_str = e.get("earnings_date") or e.get("report_date")
+            try:
+                earn_date = _dt.date.fromisoformat(earn_date_str) if earn_date_str else None
+            except ValueError:
+                earn_date = None
+            days_until = (earn_date - now_kst_date).days if earn_date else None
             lookup[sym] = {
-                "earnings_date": e.get("earnings_date") or e.get("report_date"),
-                "days_until":    e.get("days_until"),
-                "eps_estimate":  e.get("eps_estimate"),
+                "earnings_date":           earn_date_str,
+                "days_until":              days_until,
+                "eps_estimate":            e.get("eps_estimate"),
+                "already_reported_possible": (days_until is not None and days_until <= 0),
             }
     return lookup
 
@@ -117,7 +134,7 @@ def fetch_all_data() -> dict:
 
     sentiment = _load_json("sentiment/latest.json")
     earnings = _load_json("earnings/latest.json")
-    earnings_lookup = _build_earnings_lookup(earnings)
+    earnings_lookup = _build_earnings_lookup(earnings)  # KST 날짜 자동 적용
 
     # 21종목 전체 일봉 상세 (스퀴즈/조정 분석용)
     symbol_detail: dict = {}
@@ -129,20 +146,35 @@ def fetch_all_data() -> dict:
             price = s2.get("latest_close", 0)
             entry = s2.get("entry", 0)
             pct_high = round(s2.get("pct_from_52w_high", 0), 1)
-            # 52주 고점 절대가: 현재가 / (1 - 고점대비%) — Grok 레벨 계산용
+            # 52주 고점 절대가 계산 (음수 pct_high 대응 수정)
+            # pct_from_52w_high = (latest_close - high52) / high52 * 100
+            # → high52 = latest_close / (1 + pct_from_52w_high/100)
+            # 예: pct_high=-9.21 → high52 = 214.75/(1-0.0921) ≈ 236.5
             try:
-                high_52w = round(price / (1 - pct_high / 100), 2) if 0 <= pct_high < 100 else round(price, 2)
+                denominator = 1 + pct_high / 100
+                high_52w = round(price / denominator, 2) if 0 < denominator < 10 else round(price, 2)
             except ZeroDivisionError:
                 high_52w = round(price, 2)
+
+            # 1일 등락률: candles 마지막 2봉에서 직접 계산 (API top-level에 없음)
+            candles = daily.get("candles", [])
+            if len(candles) >= 2:
+                prev_close = candles[-2].get("close", 0)
+                curr_close = candles[-1].get("close", price)
+                chg_1d = round((curr_close - prev_close) / prev_close * 100, 2) if prev_close else 0.0
+            else:
+                chg_1d = 0.0
 
             earn = earnings_lookup.get(sym, {})
             symbol_detail[sym] = {
                 "price":                  round(price, 2),
-                "change_pct_1d":          round(daily.get("change_pct_1d") or s2.get("change_pct_1d") or 0.0, 2),
+                "change_pct_1d":          chg_1d,
                 "high_52w_price":         high_52w,
+                "price_date":             s2.get("price_date"),  # 마지막 봉 날짜
                 "earnings_date":          earn.get("earnings_date"),
                 "days_until_earnings":    earn.get("days_until"),
                 "eps_estimate":           earn.get("eps_estimate"),
+                "already_reported_possible": earn.get("already_reported_possible", False),
                 "stage2_score":           s2.get("score", 0),
                 "rs_score":               round(s2.get("rs_score", 50), 1),
                 "market_structure":       s2.get("market_structure", "NEUTRAL"),
@@ -184,9 +216,19 @@ def _format_authoritative_table(data: dict) -> str:
     Grok 참조용 수치 바인딩 테이블.
     Grok이 분석 텍스트에 쓰는 모든 가격·등락률·실적일은 반드시 이 테이블에서 가져와야 한다.
     """
+    import datetime as _dt
     detail = data["symbol_detail"]
-    hdr = f"{'심볼':<6} {'현재가':>10} {'1일등락':>8} {'52주고점':>11} {'고점%':>7}  {'실적발표일':<12} {'EPS예상':>9}"
-    sep = "-" * 72
+    # 브리핑 실행 시점의 전 거래일(KST 기준 어제) 계산
+    today_kst = (datetime.now(timezone.utc) + _dt.timedelta(hours=9)).date()
+    prev_trading_day = today_kst - _dt.timedelta(days=1)
+    # 주말 감안: 월요일이면 전 거래일은 금요일(3일 전)
+    if today_kst.weekday() == 0:  # 월요일
+        prev_trading_day = today_kst - _dt.timedelta(days=3)
+
+    stale_syms: list[str] = []
+
+    hdr = f"{'심볼':<6} {'현재가':>10} {'1일등락':>8} {'52주고점':>11} {'고점%':>7}  {'실적발표일':<12} {'EPS예상':>9} {'상태'}"
+    sep = "-" * 90
     rows = [hdr, sep]
     for sym, _, _ in ALL_SYMBOLS:
         d = detail.get(sym)
@@ -199,10 +241,31 @@ def _format_authoritative_table(data: dict) -> str:
         highp_s  = f"{d['pct_from_52w_high']:.1f}%"
         earn_s   = d.get("earnings_date") or "N/A"
         eps_s    = f"${d['eps_estimate']}" if d.get("eps_estimate") is not None else "N/A"
-        rows.append(f"{sym:<6} {price_s:>10} {chg_s:>8} {high_s:>11} {highp_s:>7}  {earn_s:<12} {eps_s:>9}")
+
+        flags = []
+        # 실적 발표 타이밍 플래그
+        if d.get("already_reported_possible"):
+            flags.append("⚠이미발표됨")
+        # 가격 데이터 스테일니스 감지
+        price_date_str = d.get("price_date")
+        if price_date_str:
+            try:
+                price_date = _dt.date.fromisoformat(price_date_str)
+                if price_date < prev_trading_day:
+                    flags.append(f"⚠가격={price_date_str}(구)")
+                    stale_syms.append(sym)
+            except ValueError:
+                pass
+
+        flag_s = " ".join(flags)
+        rows.append(f"{sym:<6} {price_s:>10} {chg_s:>8} {high_s:>11} {highp_s:>7}  {earn_s:<12} {eps_s:>9} {flag_s}")
     rows.append(sep)
     rows.append("⚠ BINDING: 위 표의 값과 다른 가격·등락률·실적일을 브리핑에 쓰는 것은 금지.")
     rows.append("  값이 N/A이면 해당 수치를 추측하지 말 것. 실적일이 N/A면 '30일 이내 없음'으로 처리.")
+    rows.append("  실적상태=⚠이미발표됨: KST 오늘 날짜 실적 = 미국 장 마감 후 이미 발표됨. '오늘/내일 실적 예정' 금지.")
+    if stale_syms:
+        rows.append(f"  ⚠가격=(날짜)(구) 표시 종목: {', '.join(stale_syms)} — 이 종목들의 가격은 최신 종가보다 낮을 수 있음.")
+        rows.append("    분석 시 '데이터 기준 $X (최신 종가 상이 가능)' 형태로 유보 표현을 쓸 것.")
     return "\n".join(rows)
 
 
@@ -251,7 +314,10 @@ def _format_symbol_block(data: dict) -> str:
         earn_date = d.get("earnings_date")
         days_earn = d.get("days_until_earnings")
         eps_est = d.get("eps_estimate")
-        if earn_date:
+        already_reported = d.get("already_reported_possible", False)
+        if earn_date and already_reported:
+            earn_str = f"【실적발표=⚠이미발표됨({earn_date}, KST기준오늘=미국장마감후발표) / EPS예상=${eps_est}】"
+        elif earn_date:
             earn_str = f"【실적발표={earn_date} ({days_earn}일후) / EPS예상=${eps_est}】"
         else:
             earn_str = "【실적발표=해당없음(30일이내없음)】"
@@ -276,21 +342,49 @@ def _format_symbol_block(data: dict) -> str:
 
 
 def _format_macro_block(macro_data: dict) -> str:
-    """매크로 주요 지표를 프롬프트용 요약 텍스트로 변환."""
+    """매크로 주요 지표를 프롬프트용 요약 텍스트로 변환.
+
+    BTC 대폭락 등 임계값 초과 시 ⚠ MANDATORY 경고를 주입한다.
+    """
     items = macro_data.get("macro", [])
     key_syms = {"^VIX", "^TNX", "DX-Y.NYB", "CL=F", "GLD", "TLT", "HYG", "BTC-USD"}
     lines = []
+    alerts = []
+
     for item in items:
         sym = item.get("symbol", "")
         if sym not in key_syms:
             continue
-        lines.append(
-            f"{sym}: ${item.get('price','?')}  "
-            f"1D={item.get('change_pct_1d','?')}%  "
-            f"5D={item.get('change_pct_5d','?')}%  "
+        chg_1d = item.get("change_pct_1d") or 0
+        chg_5d = item.get("change_pct_5d") or 0
+        price   = item.get("price", "?")
+        line = (
+            f"{sym}: ${price}  "
+            f"1D={chg_1d}%  "
+            f"5D={chg_5d}%  "
             f"구조={item.get('market_structure','?')}"
         )
-    return "\n".join(lines) if lines else "매크로 데이터 없음"
+        # BTC 대폭락 감지: 5D≤-10% 또는 1D≤-5%
+        if sym == "BTC-USD":
+            try:
+                d1, d5 = float(chg_1d), float(chg_5d)
+                if d5 <= -10 or d1 <= -5:
+                    line += f"  ⚠ BTC LARGE DROP DETECTED"
+                    alerts.append(
+                        f"⚠⚠⚠ BTC CRASH ALERT — MANDATORY in executive_bullets ⚠⚠⚠\n"
+                        f"  BTC-USD: 1D={d1:.1f}%, 5D={d5:.1f}% — 임계값 초과 (기준: 1D≤-5% 또는 5D≤-10%)\n"
+                        f"  이 정보는 반드시 executive_bullets_ko 중 한 항목에 포함되어야 함.\n"
+                        f"  예시: '비트코인이 5일간 {d5:.1f}% 급락 — 위험자산 이탈 신호, 주식 변동성 선행 지표로 주시 요망'\n"
+                        f"  BTC 급락 시 '증시 차분' '안정적' 등 낙관 표현은 executive_bullets에 단독으로 쓸 수 없음."
+                    )
+            except (TypeError, ValueError):
+                pass
+        lines.append(line)
+
+    result = "\n".join(lines) if lines else "매크로 데이터 없음"
+    if alerts:
+        result = "\n\n".join(alerts) + "\n\n" + result
+    return result
 
 
 def _format_earnings_block(earnings_data: dict) -> str:
@@ -431,10 +525,27 @@ MANDATORY CHECK LIST — search and assess each even if quiet:
   ongoing_no_update is ONLY for truly dormant background items with negligible near-term market impact.
 ✗ DO NOT fabricate figures, names, or dates you cannot verify.
 ✗ DO NOT include historical context as if it were a new development.
+✗ DO NOT use specific military exercise or operation names (e.g., "Joint Sword-2026A", "Thunder-XXXX",
+  "Operation X") unless you can cite a verifiable source with an exact date. Use general descriptions:
+  "PLA conducted live-fire drills in the Taiwan Strait" is safe; inventing an exercise name is not.
+✗ DO NOT mention corporate actions (stock splits, buybacks, M&A, IPO dates) for individual companies
+  without a verifiable source. If uncertain, omit entirely rather than risk fabrication.
+✗ CONFIDENCE SELF-CHECK: Before including any specific named event, ask yourself:
+  "Can I cite a specific news outlet and date for this?" If no → mark as "unconfirmed:" or omit.
 
 ━━━ WATCHLIST TICKERS FOR IMPACT MAPPING ━━━
 TSM NVDA META TSLA PLTR MU CRWD AMZN MSFT AAPL GOOGL
 RKLB CEG VST ALAB OKLO APP ANET NVO QBTS SOFI
+
+━━━ KNOWN AMBIGUOUS SITUATIONS — PICK ONE DIRECTION AND COMMIT ━━━
+These topics have genuine two-sided debate. Do NOT flip between runs. Pick the dominant current view,
+state the opposing risk, and commit. Do not write both sides as equal without resolving the direction.
+· SpaceX IPO impact on RKLB: The DOMINANT current view is NEGATIVE for RKLB (liquidity absorption —
+  large IPO historically draws capital away from similar-theme smaller names). The alternative view
+  (halo effect / space theme lifting) is secondary. If you address SpaceX IPO, default to:
+  "RKLB: negative near-term (liquidity competition from SpaceX IPO) / conditional positive if
+  space sector re-rating follows post-IPO."
+  DO NOT say SpaceX IPO is simply positive for RKLB without acknowledging the liquidity risk.
 
 Output raw JSON only (no markdown, no prose before or after).
 CRITICAL: The "issues" array must contain EXACTLY 3 items.
@@ -620,8 +731,8 @@ MARKET DATA ({now_kst}):
   "today_checkpoints_ko": [
     "오늘 주시할 포인트 — 가격은 테이블 기준, 실적일은 테이블 기준 정확한 날짜 명시"
   ],
-  "earnings_alert_en": "Use EXACT dates from the authoritative table. e.g. 'CRWD reports on 2026-06-04 (EPS est. $1.07); MU reports on 2026-06-25 (EPS est. $19.28)'. Never approximate with 'next week' or 'soon'.",
-  "earnings_alert_ko": "테이블의 정확한 실적 날짜 사용. 'CRWD 6월 4일(EPS 예상 $1.07), MU 6월 25일(EPS 예상 $19.28)' 형태. '다음 주', '곧' 등 근사치 금지."
+  "earnings_alert_en": "For stocks marked ⚠이미발표됨 in the table: write '[SYM] already reported after US market close today (est. EPS $X — verify actual results)'. For upcoming stocks: use EXACT dates from the table (e.g. 'MU reports on 2026-06-25 (EPS est. $19.28)'). Never approximate with 'next week' or 'soon'.",
+  "earnings_alert_ko": "⚠이미발표됨 종목: '[심볼]은 오늘 미국 장 마감 후 실적 발표됨 (EPS 추정 $X — 실제 결과 확인 필요)'. 향후 종목: 테이블의 정확한 날짜 사용 (예: 'MU 6월 25일, EPS 예상 $19.28'). '다음 주', '곧' 등 근사치 금지."
 }}
 
 REQUIREMENTS:
@@ -645,14 +756,31 @@ ANTI-HALLUCINATION RULES — CRITICAL:
    If 오늘1일등락 shows 0.00%(데이터없음), you do NOT know today's % change — write "dropped" or "sold off"
    without inventing a specific percentage. NEVER state a % price change you cannot verify from the data.
 
-3. EARNINGS DATES: ALL earnings dates and timing MUST come from the "향후 실적 발표" section.
-   NEVER write "next week", "soon", or "imminent" for any stock unless its exact date appears within 7 days
-   in the earnings data. If a stock's earnings date is more than 7 days out, write the EXACT date
-   (e.g. "earnings on June 24") not a vague approximation.
+3. EARNINGS DATES: ALL earnings dates and timing MUST come from the authoritative table above.
+   NEVER write "next week", "soon", or "imminent" for any stock unless its exact date appears within 7 days.
+   If a stock's earnings date is more than 7 days out, write the EXACT date (e.g. "earnings on June 24").
+   ▶ EARNINGS TIMING — CRITICAL:
+     If a stock shows "⚠이미발표됨" in the authoritative table, the earnings have ALREADY BEEN RELEASED
+     in US after-hours (which occurs ~06:00 KST, BEFORE this briefing runs at 06:45 KST).
+     You MUST write: "[심볼]은 오늘 미국 장 마감 후 실적을 발표했습니다 — EPS 추정치 $X였으나 실제 결과는 직접 확인 요망"
+     NEVER write "오늘 발표 예정", "내일 발표", or "분수령" for stocks flagged ⚠이미발표됨.
+     NEVER write "실적 상회", "실적 하회", "beat", or "miss" for ⚠이미발표됨 stocks —
+     actual results are NOT in this data. Only write EPS estimate and "실제 결과 확인 필요".
 
 4. SECTOR LEADERS: sector_analysis.leaders must reflect TECHNICAL leadership (market_structure=UPTREND/STAGE2).
    A stock in DOWNTREND structure has social buzz but is NOT a technical leader — if you mention it,
    explicitly note "narrative interest but in DOWNTREND" to distinguish from technical leaders.
+
+5. BTC LARGE MOVE ALERT: Check the BTC-USD entry in the macro data.
+   If BTC-USD 1D change ≤ -5% OR 5D change ≤ -10%: MANDATORY include BTC crash as one of executive_bullets_ko
+   (e.g., "비트코인이 X% 급락 — 위험자산 이탈 신호, 주식 변동성 선행 지표").
+   BTC is a leading indicator for risk appetite. A major BTC drop is NOT a crypto story — it is a macro risk signal.
+   Do NOT frame "증시 차분" or "안정적" if BTC is crashing simultaneously.
+
+6. NAMED EVENTS / CORPORATE ACTIONS: DO NOT mention specific military exercise names (e.g., "Joint Sword-XXXX",
+   "Thunder-XXXX", "Justice Mission XXXX") unless the global context section explicitly lists them with a
+   confirmed source_hint. Use general descriptions: "PLA conducted drills near Taiwan strait" not invented names.
+   DO NOT mention stock splits, buybacks, or M&A for any company unless explicitly stated in the global context.
 
 - Raw JSON only. No prose before or after."""
 
