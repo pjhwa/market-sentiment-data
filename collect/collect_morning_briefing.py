@@ -43,6 +43,7 @@ _VALID_GC_CATEGORIES = {"trade_tariff", "geopolitical", "central_bank", "ai_regu
 _VALID_GC_TIERS = {"breaking", "ongoing"}
 _VALID_GC_CONFIDENCE = {"confirmed", "developing", "unverified"}
 _VALID_GC_IMPACT = {"positive", "negative", "neutral", "watch"}
+_VALID_GC_DIRECTION = {"escalating", "de-escalating", "stable_elevated", "stable_fading"}
 
 ALL_SYMBOLS = [
     ("TSM",   "TSMC",                  1),
@@ -91,6 +92,20 @@ def _load_json(rel_path: str) -> dict:
         return {}
 
 
+def _build_earnings_lookup(earnings_data: dict) -> dict:
+    """종목별 실적 발표일·EPS 예상치 조회 dict. upcoming_earnings 기준."""
+    lookup: dict = {}
+    for e in earnings_data.get("upcoming_earnings", []):
+        sym = e.get("symbol")
+        if sym and sym not in lookup:
+            lookup[sym] = {
+                "earnings_date": e.get("earnings_date") or e.get("report_date"),
+                "days_until":    e.get("days_until"),
+                "eps_estimate":  e.get("eps_estimate"),
+            }
+    return lookup
+
+
 def fetch_all_data() -> dict:
     """SniperBoard API + 저장된 JSON 파일에서 전체 시장 데이터 수집."""
     print("[INFO] 시장 데이터 수집 중...")
@@ -99,6 +114,10 @@ def fetch_all_data() -> dict:
     dd = _api_get("/distribution-days") or {}
     macro = _api_get("/macro") or {}
     watchlist = _api_get("/watchlist") or {}
+
+    sentiment = _load_json("sentiment/latest.json")
+    earnings = _load_json("earnings/latest.json")
+    earnings_lookup = _build_earnings_lookup(earnings)
 
     # 21종목 전체 일봉 상세 (스퀴즈/조정 분석용)
     symbol_detail: dict = {}
@@ -109,14 +128,27 @@ def fetch_all_data() -> dict:
             checks = s2.get("checks", {})
             price = s2.get("latest_close", 0)
             entry = s2.get("entry", 0)
+            pct_high = round(s2.get("pct_from_52w_high", 0), 1)
+            # 52주 고점 절대가: 현재가 / (1 - 고점대비%) — Grok 레벨 계산용
+            try:
+                high_52w = round(price / (1 - pct_high / 100), 2) if 0 <= pct_high < 100 else round(price, 2)
+            except ZeroDivisionError:
+                high_52w = round(price, 2)
+
+            earn = earnings_lookup.get(sym, {})
             symbol_detail[sym] = {
                 "price":                  round(price, 2),
+                "change_pct_1d":          round(daily.get("change_pct_1d") or s2.get("change_pct_1d") or 0.0, 2),
+                "high_52w_price":         high_52w,
+                "earnings_date":          earn.get("earnings_date"),
+                "days_until_earnings":    earn.get("days_until"),
+                "eps_estimate":           earn.get("eps_estimate"),
                 "stage2_score":           s2.get("score", 0),
                 "rs_score":               round(s2.get("rs_score", 50), 1),
                 "market_structure":       s2.get("market_structure", "NEUTRAL"),
                 "monthly_phase":          s2.get("monthly_phase", "UNKNOWN"),
                 "ema200_slope":           round(s2.get("ema200_slope", 0), 4),
-                "pct_from_52w_high":      round(s2.get("pct_from_52w_high", 0), 1),
+                "pct_from_52w_high":      pct_high,
                 "pullback_pct":           round(s2.get("pullback_pct", 0), 1),
                 "pct_vs_entry":           round((price - entry) / entry * 100, 1) if entry else None,
                 "entry":                  round(entry, 2),
@@ -136,9 +168,6 @@ def fetch_all_data() -> dict:
                 "rsi_divergence_bullish": s2.get("rsi_divergence_bullish", False),
             }
 
-    sentiment = _load_json("sentiment/latest.json")
-    earnings = _load_json("earnings/latest.json")
-
     return {
         "regime":        regime,
         "distribution":  dd,
@@ -148,6 +177,33 @@ def fetch_all_data() -> dict:
         "sentiment":     sentiment,
         "earnings":      earnings,
     }
+
+
+def _format_authoritative_table(data: dict) -> str:
+    """
+    Grok 참조용 수치 바인딩 테이블.
+    Grok이 분석 텍스트에 쓰는 모든 가격·등락률·실적일은 반드시 이 테이블에서 가져와야 한다.
+    """
+    detail = data["symbol_detail"]
+    hdr = f"{'심볼':<6} {'현재가':>10} {'1일등락':>8} {'52주고점':>11} {'고점%':>7}  {'실적발표일':<12} {'EPS예상':>9}"
+    sep = "-" * 72
+    rows = [hdr, sep]
+    for sym, _, _ in ALL_SYMBOLS:
+        d = detail.get(sym)
+        if not d:
+            rows.append(f"{sym:<6} {'데이터없음':>10}")
+            continue
+        price_s  = f"${d['price']:,.2f}"
+        chg_s    = f"{d.get('change_pct_1d', 0):+.2f}%"
+        high_s   = f"${d['high_52w_price']:,.2f}" if d.get("high_52w_price") else "N/A"
+        highp_s  = f"{d['pct_from_52w_high']:.1f}%"
+        earn_s   = d.get("earnings_date") or "N/A"
+        eps_s    = f"${d['eps_estimate']}" if d.get("eps_estimate") is not None else "N/A"
+        rows.append(f"{sym:<6} {price_s:>10} {chg_s:>8} {high_s:>11} {highp_s:>7}  {earn_s:<12} {eps_s:>9}")
+    rows.append(sep)
+    rows.append("⚠ BINDING: 위 표의 값과 다른 가격·등락률·실적일을 브리핑에 쓰는 것은 금지.")
+    rows.append("  값이 N/A이면 해당 수치를 추측하지 말 것. 실적일이 N/A면 '30일 이내 없음'으로 처리.")
+    return "\n".join(rows)
 
 
 def _format_symbol_block(data: dict) -> str:
@@ -190,6 +246,15 @@ def _format_symbol_block(data: dict) -> str:
             signals.append("✓모멘텀강화신호")
 
         vs_entry = f"{d['pct_vs_entry']:+.1f}%" if d["pct_vs_entry"] is not None else "N/A"
+        chg_1d = d.get("change_pct_1d", 0.0)
+        chg_1d_str = f"{chg_1d:+.2f}%" if chg_1d != 0.0 else "0.00%(데이터없음)"
+        earn_date = d.get("earnings_date")
+        days_earn = d.get("days_until_earnings")
+        eps_est = d.get("eps_estimate")
+        if earn_date:
+            earn_str = f"【실적발표={earn_date} ({days_earn}일후) / EPS예상=${eps_est}】"
+        else:
+            earn_str = "【실적발표=해당없음(30일이내없음)】"
         sent_reason = sent.get('key_reason_en') or sent.get('key_reason', '')
         sent_ko = sent.get('key_reason_ko', '')
 
@@ -197,8 +262,10 @@ def _format_symbol_block(data: dict) -> str:
             f"{sym} ({company}) [T{tier}]\n"
             f"  Stage2점수={d['stage2_score']}/7  시장상대강도RS={d['rs_score']}  "
             f"구조={d['market_structure']}  월봉추세={d['monthly_phase']}\n"
-            f"  현재가=${d['price']}  52주고점대비={d['pct_from_52w_high']}%  "
+            f"  현재가=${d['price']}  【오늘1일등락={chg_1d_str}】  "
+            f"52주고점=${d['high_52w_price']}(대비{d['pct_from_52w_high']}%)  "
             f"돌파목표대비={vs_entry}  최근눌림={d['pullback_pct']}%\n"
+            f"  {earn_str}\n"
             f"  기술신호: {', '.join(signals)}\n"
             f"  소셜심리: {sent.get('sentiment','N/A')} (점수={sent.get('composite_score','N/A')})\n"
             f"  투자자반응: {sent_reason}\n"
@@ -248,28 +315,37 @@ def _format_global_context_block(global_ctx: dict) -> str:
     lines = [
         "━━━ GLOBAL MACRO & GEOPOLITICAL CONTEXT ━━━",
         f"(Verified within 48h as of {global_ctx.get('fetched_at', 'unknown')})",
-        "Use this context to enrich your briefing. Items marked [DEVELOPING] or [UNVERIFIED] should be noted with caution.\n",
+        "Use this context to enrich your briefing. Each issue includes current state, direction, and per-ticker impact.\n",
     ]
     for iss in issues:
         conf = iss.get("confidence", "confirmed")
         conf_tag = "" if conf == "confirmed" else f" [{conf.upper()}]"
+        direction = iss.get("direction", "unknown")
         lines.append(
-            f"[{iss.get('rank')}][{iss.get('tier', '').upper()}][{iss.get('category', '')}]{conf_tag} {iss.get('title_en', '')}"
+            f"[{iss.get('rank')}][{iss.get('tier', '').upper()}][{iss.get('category', '')}]"
+            f"[{direction.upper()}]{conf_tag} {iss.get('title_en', '')}"
             f"\n  Source: {iss.get('source_hint', 'unknown')}"
-            f"\n  {iss.get('summary_en', '')}"
-            f"\n  US Impact: {iss.get('us_stock_impact_en', '')}"
+            f"\n  Current State: {iss.get('current_state_en', '')}"
+            f"\n  Summary: {iss.get('summary_en', '')}"
+            f"\n  Asymmetric Impact: {iss.get('asymmetric_impact_en', '')}"
+            f"\n  Investor Insight: {iss.get('market_insight_en', '')}"
         )
+
+    paradox = global_ctx.get("market_paradox_en", "")
+    if paradox:
+        lines.append(f"\n⚠ MARKET PARADOX: {paradox}")
 
     no_update = global_ctx.get("ongoing_no_update", [])
     if no_update:
-        lines.append(f"\nOngoing situations with NO new 48h development: {', '.join(no_update)}")
+        lines.append(f"\nDormant background (no near-term market impact): {', '.join(no_update)}")
 
     lines.append("""
-INSTRUCTIONS for using this context:
-- big_picture.summary: incorporate the most impactful issue naturally (1 sentence max)
-- sector_analysis: reflect geopolitical/regulatory tailwinds or headwinds where relevant
-- spotlight/watchlist: if an issue directly names a watchlist ticker, mention it in that stock's analysis
-- For items marked [DEVELOPING] or [UNVERIFIED]: mention with appropriate caution language
+INSTRUCTIONS for using this context in your briefing:
+- big_picture.summary: incorporate the highest-ranked issue naturally (1 sentence); flag the market_paradox if present
+- sector_analysis: reflect the direction and asymmetric impact on sectors — use the direction field, not vague "remains a risk"
+- spotlight/watchlist: for any ticker named in asymmetric_impact, reference the specific directional implication
+- For [DEVELOPING] or [UNVERIFIED] items: mention with appropriate caution language
+- Do NOT write "monitoring continues" or "situation ongoing" — state the direction and implication
 """)
     return "\n".join(lines)
 
@@ -301,7 +377,12 @@ def validate_global_context(data: dict) -> bool:
         if iss.get("impact_direction") not in _VALID_GC_IMPACT:
             print(f"[WARN] global_context: impact_direction={iss.get('impact_direction')!r}", file=sys.stderr)
             return False
-        for field in ("title_en", "title_ko", "summary_en", "summary_ko"):
+        if iss.get("direction") not in _VALID_GC_DIRECTION:
+            print(f"[WARN] global_context: direction={iss.get('direction')!r}", file=sys.stderr)
+            return False
+        for field in ("title_en", "title_ko", "current_state_en", "current_state_ko",
+                      "summary_en", "summary_ko", "asymmetric_impact_en", "asymmetric_impact_ko",
+                      "market_insight_en", "market_insight_ko"):
             if not isinstance(iss.get(field), str) or not iss[field]:
                 print(f"[WARN] global_context: {field} 누락", file=sys.stderr)
                 return False
@@ -313,59 +394,77 @@ def build_global_context_prompt(now_kst: str, now_iso: str) -> str:
 Today is {now_kst} (KST) / {now_iso} (UTC).
 
 ━━━ TASK ━━━
-Search the web for global macro and geopolitical developments from the LAST 48 HOURS
-that could move US stock prices TODAY. Structure output into TWO tiers:
+Search the web for the top 3 global macro and geopolitical issues that carry the HIGHEST market-moving
+potential for US stocks TODAY. These can be new (last 48h) or ongoing situations with active risk.
 
-TIER 1 — BREAKING (last 48h): New developments that just happened.
-TIER 2 — ONGOING WATCH: Persistent situations with NO new development today
-  but still carrying active market risk. Check ALL of the following even if not trending:
-  · US-China trade / semiconductor export controls (NVDA, TSM, MU impact)
-  · Taiwan Strait military tension (TSM, NVDA supply chain)
-  · Middle East conflict / Strait of Hormuz (oil, defense: CEG, VST)
-  · Russia-Ukraine war (energy prices, European demand)
-  · ECB / BOJ / BOE policy stance (USD direction, rate-sensitive tech)
-  · US AI/antitrust regulation (GOOGL, META, MSFT, AAPL)
+For each issue you MUST provide:
+(a) Current state — where things stand RIGHT NOW, not historical background
+(b) Direction — is the situation escalating, de-escalating, or stable?
+(c) Asymmetric ticker impact — which watchlist stocks benefit vs. which are hurt, and WHY
+(d) Market insight — the actionable implication for an investor today
+
+MANDATORY CHECK LIST — search and assess each even if quiet:
+  · US-China semiconductor export controls / tariffs (NVDA, TSM, MU)
+  · Taiwan Strait tension (TSM, NVDA supply chain)
+  · Middle East / Iran / Strait of Hormuz (oil price, energy, macro VIX)
+  · Russia-Ukraine war (energy, European equities)
+  · ECB / BOJ / BOE policy (USD direction, rate-sensitive tech)
+  · US AI / antitrust regulation (GOOGL, META, MSFT, AAPL)
   · US tariff / trade deal negotiations
-  If a category has NO meaningful update in 48h, add its name to ongoing_no_update.
 
-━━━ RULES — READ CAREFULLY ━━━
-✓ ONLY report events attributable to a real, verifiable source.
-  Include source_hint: e.g. "Reuters 2026-06-03", "White House statement", "BOJ press release"
-✓ Time-box strictly: if you cannot confirm an event occurred within 48 hours, DO NOT include it as new.
-✓ If uncertain about a fact, write "unconfirmed:" at the start of that sentence.
-✗ DO NOT fabricate specific figures (percentages, dates, names) you cannot verify.
-✗ DO NOT present a viral social media claim as confirmed fact.
-✗ DO NOT include background/historical context as if it were a new development.
-✗ DO NOT speculate on price targets or predict market direction.
-✗ DO NOT smooth over uncertainty — if developing and unclear, say so explicitly.
+━━━ ANALYSIS STANDARDS — READ CAREFULLY ━━━
+✓ State the CURRENT STATUS and DIRECTION for every issue, not just that it exists.
+  BAD: "US-China export controls remain in place — impact unclear"
+  GOOD: "US-China export controls shifted Jan 2026 to case-by-case licensing + 25% tariff —
+         direction: transactional (not pure blockade); NVDA: asymmetric upside on approval news"
+✓ For geopolitical situations: distinguish between BACKGROUND NOISE and ACTIVE RISK.
+  An ongoing war with a closed strait IS active risk regardless of 48h news silence.
+✓ Flag market paradoxes: if VIX or rates seem inconsistent with actual risk level, call it out.
+✓ ONLY use verifiable sources. Include source_hint: "Reuters 2026-06-03", "White House statement", etc.
+✓ Prefix unconfirmed facts with "unconfirmed:"
+
+✗ FORBIDDEN PHRASES — these are analysis avoidance, not analysis:
+  "impact unclear", "direction uncertain", "no new developments — impact unclear",
+  "monitoring continues", "situation ongoing". Every issue must have a direction and ticker mapping.
+✗ DO NOT list a stock as impacted without stating the direction (positive / negative / conditional).
+✗ DO NOT use ongoing_no_update for any situation with active market risk (e.g. hot wars, open policy uncertainty).
+  ongoing_no_update is ONLY for truly dormant background items with negligible near-term market impact.
+✗ DO NOT fabricate figures, names, or dates you cannot verify.
+✗ DO NOT include historical context as if it were a new development.
 
 ━━━ WATCHLIST TICKERS FOR IMPACT MAPPING ━━━
 TSM NVDA META TSLA PLTR MU CRWD AMZN MSFT AAPL GOOGL
 RKLB CEG VST ALAB OKLO APP ANET NVO QBTS SOFI
 
 Output raw JSON only (no markdown, no prose before or after).
-CRITICAL: The "issues" array must contain EXACTLY 3 items — no more, no fewer.
-If fewer than 3 breaking events exist, fill remaining slots with the most important ONGOING situations.
+CRITICAL: The "issues" array must contain EXACTLY 3 items.
 {{
   "fetched_at": "{now_iso}",
   "search_window": "48h",
   "issues": [
     {{
       "rank": 1,
-      "tier": "breaking",
+      "tier": "breaking|ongoing",
       "category": "trade_tariff|geopolitical|central_bank|ai_regulation",
-      "title_en": "factual headline ≤80 chars",
-      "title_ko": "사실 위주 30자 이내",
-      "summary_en": "2-3 sentences: WHAT happened, WHERE reported, WHY markets care. Prefix unconfirmed details with 'unconfirmed:'",
+      "title_en": "factual headline stating current status ≤80 chars",
+      "title_ko": "현재 상태 중심 30자 이내",
+      "current_state_en": "1-2 sentences: WHERE DOES THIS STAND RIGHT NOW? Not history — the live state as of today.",
+      "current_state_ko": "지금 이 이슈의 현재 상태 1-2문장. 배경 설명 아님.",
+      "direction": "escalating|de-escalating|stable_elevated|stable_fading",
+      "summary_en": "2-3 sentences: what changed recently, source, why it moves markets. Prefix unconfirmed with 'unconfirmed:'",
       "summary_ko": "같은 내용 한국어 2-3문장.",
-      "source_hint": "e.g. Reuters 2026-06-03",
+      "source_hint": "e.g. Reuters 2026-06-03 / White House statement / BIS rule update",
       "confidence": "confirmed|developing|unverified",
-      "us_stock_impact_en": "Name specific tickers and direction. Write 'impact unclear pending confirmation' if unknown.",
-      "us_stock_impact_ko": "감시 종목 티커 명시 + 방향",
-      "impact_direction": "positive|negative|neutral|watch"
+      "asymmetric_impact_en": "Per-ticker directional mapping. Format: 'NVDA: positive if X / negative if Y; TSM: neutral (demand-driven); MU: unaffected'. No 'unclear' without conditional direction.",
+      "asymmetric_impact_ko": "종목별 방향 분석. 'NVDA: X 시 상방 / Y 시 하방; TSM: 중립(수요 주도)' 형태.",
+      "impact_direction": "positive|negative|neutral|watch",
+      "market_insight_en": "1 sentence: what should an investor watch or how to position given this issue RIGHT NOW.",
+      "market_insight_ko": "지금 이 이슈를 보고 투자자가 취해야 할 행동 또는 주시할 트리거 한 문장."
     }}
   ],
-  "ongoing_no_update": ["category names with no 48h development"]
+  "market_paradox_en": "If VIX, rates, or market pricing appears inconsistent with the actual risk environment described above, flag it in 1-2 sentences. Empty string if no paradox.",
+  "market_paradox_ko": "위에서 기술한 실제 리스크 수준과 VIX·금리·시장 가격 간 명백한 괴리가 있으면 1-2문장으로 기술. 없으면 빈 문자열.",
+  "ongoing_no_update": ["ONLY truly dormant categories with negligible near-term market impact"]
 }}"""
 
 
@@ -399,6 +498,7 @@ def build_prompt(data: dict, now_kst: str, global_ctx: dict | None = None) -> st
     regime_score = regime.get("total", "N/A")
     comps = regime.get("components", {})
 
+    auth_table = _format_authoritative_table(data)
     symbol_block = _format_symbol_block(data)
     macro_block = _format_macro_block(data["macro"])
     earnings_block = _format_earnings_block(data["earnings"])
@@ -407,6 +507,13 @@ def build_prompt(data: dict, now_kst: str, global_ctx: dict | None = None) -> st
 Today is {now_kst} (KST).
 
 {global_block}
+
+━━━ SNIPERBOARD AUTHORITATIVE DATA TABLE ━━━
+All values below come directly from real-time data feeds (prices, earnings calendars).
+These are the ONLY numbers you are allowed to use in your briefing for prices, % changes, and earnings dates.
+Do NOT substitute, approximate, invent, or recall from training data — use this table exclusively.
+
+{auth_table}
 
 WRITING RULES — follow strictly:
 1. Write as if explaining to a smart friend who doesn't know stock jargon. Use everyday language.
@@ -420,6 +527,9 @@ WRITING RULES — follow strictly:
    "투자자들 사이에서 기대감이 높아지고 있다" etc.
 5. Be honest about risks — don't sugarcoat weak stocks.
 6. Korean must read naturally — avoid literal translation feel.
+7. DATA BINDING: Every price ($X), % change, and earnings date you write MUST match the table above.
+   If the table shows 1일등락=0.00%(데이터없음), write directional movement without a specific % figure.
+   If earnings date is N/A, write "30일 이내 실적 발표 없음" — never write "곧", "다음 주", "이번 주" without data.
 
 MARKET DATA ({now_kst}):
 - 리스크 레짐: {regime_label} ({regime_score}/100)
@@ -486,10 +596,10 @@ MARKET DATA ({now_kst}):
       "symbol": "TICKER",
       "company": "Company Name",
       "tier": 1,
-      "why_en": "2-3 sentences: what makes this stock worth watching TODAY specifically. Catalyst, setup, or risk. Reference price levels.",
-      "why_ko": "오늘 이 종목이 특별히 주목받는 이유 2-3문장. 구체적 가격대나 사건 포함.",
-      "watch_level_en": "Specific price to watch — e.g. 'Break above $X triggers momentum; drop below $Y is a warning'",
-      "watch_level_ko": "주시할 가격 레벨 — '$X 돌파 시 / $Y 하회 시' 형태로 구체적으로."
+      "why_en": "2-3 sentences. Any price level mentioned MUST match the 현재가/52주고점 from the AUTHORITATIVE DATA TABLE.",
+      "why_ko": "오늘 이 종목이 특별히 주목받는 이유 2-3문장. 가격대는 반드시 위 테이블의 현재가 기준.",
+      "watch_level_en": "Use current price from the table as anchor. e.g. 'Break above $X (current $Y, table-verified); support near $Z (entry level from data)'",
+      "watch_level_ko": "테이블의 현재가·52주고점·entry 값 기반. '$X 돌파(현재 $Y) / $Z 이탈 시 경고' 형태."
     }}
   ],
   "watchlist": [
@@ -497,21 +607,21 @@ MARKET DATA ({now_kst}):
       "symbol": "TICKER",
       "company": "Company Name",
       "tier": 1,
-      "analysis_en": "3-5 sentences as a flowing paragraph. Cover: (1) how price has been moving recently, (2) whether it looks strong or vulnerable right now — explained in non-jargon terms, (3) the main upside potential OR downside risk (whichever is more relevant), (4) what social media investors are saying about this stock. Write naturally — no sub-headers, no bullet points inside this field.",
-      "analysis_ko": "같은 내용을 한국어로 3-5문장 자연스럽게 작성. 기술 용어가 나오면 바로 괄호로 설명. 소셜 투자자들의 반응도 자연스럽게 녹여낼 것. 읽는 사람이 '아 이 종목은 지금 이런 상황이구나'를 바로 알 수 있게.",
+      "analysis_en": "3-5 sentences flowing paragraph. (1) recent price movement using EXACT price/change from the table, (2) strength or vulnerability in plain language, (3) upside or downside, (4) social sentiment. All $ values and % changes must match the AUTHORITATIVE DATA TABLE. For earnings: use exact date from table or write 'no earnings within 30 days'.",
+      "analysis_ko": "같은 내용 한국어 3-5문장. 가격·등락률은 위 테이블 값 그대로. 실적일도 테이블 기준. 소셜 반응 자연스럽게 포함.",
       "sentiment_mood": "optimistic|cautious|neutral|fearful|euphoric — from the social data above",
       "sentiment_score": 0.0,
       "action": "buy|hold|watch|avoid"
     }}
   ],
   "today_checkpoints_en": [
-    "Specific thing to watch today — event, price level, or catalyst"
+    "Specific thing to watch — use exact price levels from the table, exact earnings dates from the table"
   ],
   "today_checkpoints_ko": [
-    "오늘 눈여겨볼 구체적 포인트 — 이벤트, 가격대, 또는 촉매"
+    "오늘 주시할 포인트 — 가격은 테이블 기준, 실적일은 테이블 기준 정확한 날짜 명시"
   ],
-  "earnings_alert_en": "One sentence about earnings releases in next 7 days that could move watchlist stocks.",
-  "earnings_alert_ko": "향후 7일 내 감시종목 실적 발표 알림 한 문장."
+  "earnings_alert_en": "Use EXACT dates from the authoritative table. e.g. 'CRWD reports on 2026-06-04 (EPS est. $1.07); MU reports on 2026-06-25 (EPS est. $19.28)'. Never approximate with 'next week' or 'soon'.",
+  "earnings_alert_ko": "테이블의 정확한 실적 날짜 사용. 'CRWD 6월 4일(EPS 예상 $1.07), MU 6월 25일(EPS 예상 $19.28)' 형태. '다음 주', '곧' 등 근사치 금지."
 }}
 
 REQUIREMENTS:
@@ -523,6 +633,27 @@ REQUIREMENTS:
 - action=avoid: DOWNTREND structure OR Stage2≤2 OR high distribution signals
 - sentiment_score: copy from the social data (composite_score field)
 - analysis_ko must integrate sentiment naturally — not as a separate item at the end
+
+ANTI-HALLUCINATION RULES — CRITICAL:
+1. PRICE LEVELS (watch_level_en/ko): All price levels MUST be derived from the 현재가=$X field.
+   Levels must fall within ±25% of the current price shown in the data.
+   NEVER invent a support/resistance level that is more than 25% away from current price.
+   If you do not have sufficient data to determine a specific level, write a range relative to current price
+   (e.g. "5% above current price of $X" or "below the $Y entry level from the data").
+
+2. PRICE CHANGES (% drops, gains): ONLY state percentage changes that appear in 【오늘1일등락=X%】 fields.
+   If 오늘1일등락 shows 0.00%(데이터없음), you do NOT know today's % change — write "dropped" or "sold off"
+   without inventing a specific percentage. NEVER state a % price change you cannot verify from the data.
+
+3. EARNINGS DATES: ALL earnings dates and timing MUST come from the "향후 실적 발표" section.
+   NEVER write "next week", "soon", or "imminent" for any stock unless its exact date appears within 7 days
+   in the earnings data. If a stock's earnings date is more than 7 days out, write the EXACT date
+   (e.g. "earnings on June 24") not a vague approximation.
+
+4. SECTOR LEADERS: sector_analysis.leaders must reflect TECHNICAL leadership (market_structure=UPTREND/STAGE2).
+   A stock in DOWNTREND structure has social buzz but is NOT a technical leader — if you mention it,
+   explicitly note "narrative interest but in DOWNTREND" to distinguish from technical leaders.
+
 - Raw JSON only. No prose before or after."""
 
 

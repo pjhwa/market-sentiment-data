@@ -17,13 +17,18 @@ def _valid_issue(rank=1):
         "category": "trade_tariff",
         "title_en": "US expands chip export controls",
         "title_ko": "미국 반도체 수출통제 확대",
+        "current_state_en": "BIS shifted to case-by-case licensing plus 25% tariff as of Jan 2026.",
+        "current_state_ko": "BIS가 2026년 1월부로 케이스바이케이스 라이선스 + 25% 관세로 전환.",
+        "direction": "stable_elevated",
         "summary_en": "The US Commerce Department added 5 countries. Markets concerned about NVDA.",
         "summary_ko": "미 상무부가 5개국을 추가했다. NVDA 영향 우려.",
         "source_hint": "Reuters 2026-06-03",
         "confidence": "confirmed",
-        "us_stock_impact_en": "NVDA and MU face direct export headwind.",
-        "us_stock_impact_ko": "NVDA·MU 직접 영향.",
+        "asymmetric_impact_en": "NVDA: negative on denial / positive on approval; MU: neutral (demand-driven).",
+        "asymmetric_impact_ko": "NVDA: 거부 시 하방 / 승인 시 상방; MU: 중립(수요 주도).",
         "impact_direction": "negative",
+        "market_insight_en": "Watch for BIS rule updates; NVDA approval headlines are short-term triggers.",
+        "market_insight_ko": "BIS 룰 업데이트 주시. NVDA 승인 헤드라인이 단기 트리거.",
     }
 
 
@@ -66,6 +71,21 @@ class TestValidateGlobalContext(unittest.TestCase):
         issue["impact_direction"] = "bad"
         self.assertFalse(validate_global_context({"issues": [issue]}))
 
+    def test_invalid_direction_fails(self):
+        issue = _valid_issue()
+        issue["direction"] = "unclear"
+        self.assertFalse(validate_global_context({"issues": [issue]}))
+
+    def test_missing_current_state_en_fails(self):
+        issue = _valid_issue()
+        del issue["current_state_en"]
+        self.assertFalse(validate_global_context({"issues": [issue]}))
+
+    def test_missing_asymmetric_impact_fails(self):
+        issue = _valid_issue()
+        del issue["asymmetric_impact_en"]
+        self.assertFalse(validate_global_context({"issues": [issue]}))
+
     def test_missing_title_en_fails(self):
         issue = _valid_issue()
         del issue["title_en"]
@@ -104,13 +124,18 @@ class TestParseGlobalContext(unittest.TestCase):
               "category": "trade_tariff",
               "title_en": "US chip controls expanded",
               "title_ko": "미국 칩 수출 확대",
+              "current_state_en": "BIS shifted to case-by-case licensing plus 25% tariff.",
+              "current_state_ko": "BIS가 케이스바이케이스 라이선스 + 25% 관세로 전환.",
+              "direction": "stable_elevated",
               "summary_en": "Commerce Dept added 5 countries. Verified by Reuters.",
               "summary_ko": "상무부가 5개국을 추가했다.",
               "source_hint": "Reuters 2026-06-03",
               "confidence": "confirmed",
-              "us_stock_impact_en": "NVDA negative.",
-              "us_stock_impact_ko": "NVDA 부정적.",
-              "impact_direction": "negative"
+              "asymmetric_impact_en": "NVDA: negative on denial / positive on approval; MU: neutral.",
+              "asymmetric_impact_ko": "NVDA: 거부 시 하방 / 승인 시 상방; MU: 중립.",
+              "impact_direction": "negative",
+              "market_insight_en": "Watch BIS rule updates as short-term NVDA triggers.",
+              "market_insight_ko": "BIS 룰 업데이트가 NVDA 단기 트리거."
             }
           ],
           "ongoing_no_update": ["central_bank"]
