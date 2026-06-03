@@ -1,83 +1,83 @@
 {
-  "generated_at": "2026-06-03T21:45:00Z",
+  "generated_at": "2026-06-03T22:27:10Z",
   "schema_version": "1.1",
   "slot": "morning",
-  "headline_en": "Hormuz closure spikes oil while VIX stays calm at 16 amid chip curbs",
-  "headline_ko": "호르무즈 봉쇄에 유가 치솟지만 증시는 의외로 차분",
+  "headline_en": "Iran drone strike on Kuwait spikes oil on Hormuz risk while semis face US export ban pressure",
+  "headline_ko": "이란 드론 공격에 유가 급등, 반도체株 압박",
   "executive_bullets_en": [
-    "Iran's Strait of Hormuz closure is the biggest oil shock in decades yet equity fear gauges remain contained, creating a market paradox",
-    "MU and ALAB show the strongest technical setups with perfect Stage 2 scores and 100 relative strength",
-    "Sustained high oil risks raising energy costs for data centers and pressuring NVDA, TSM, MU margins"
+    "Market regime is constructive at 72.7 but oil is spiking on active Hormuz threat and US tightened chip export bans to Chinese entities",
+    "MU stands out with perfect Stage2 score and RS 100 near all-time high, supported by AI HBM demand",
+    "NVDA and TSM face direct negative impact from expanded US export bans and Taiwan supply chain risks"
   ],
   "executive_bullets_ko": [
-    "이란 호르무즈 해협 봉쇄가 수십 년 만의 최대 원유 충격이지만 주식 변동성은 낮게 유지되는 역설",
-    "MU와 ALAB가 스테이지2 만점과 상대강도 100으로 가장 탄탄한 기술적 기반",
-    "유가 고공행진이 데이터센터 전력비를 끌어올려 NVDA·TSM·MU 마진에 부담"
+    "시장 점수 72.7로 긍정적이지만 유가 급등과 미국의 중국 반도체 수출 규제 강화가 변수",
+    "MU가 Stage2 만점과 RS 100점으로 AI 수요 수혜를 가장 잘 받고 있음",
+    "NVDA와 TSM은 미국 수출 규제와 대만 리스크로 직접 타격을 받을 가능성"
   ],
   "market_mood": {
     "traffic_light": "yellow",
     "label_en": "Cautiously Positive",
     "label_ko": "조심스럽게 긍정적",
     "score": 72.7,
-    "explanation_en": "The market feels like a boat moving forward with decent wind but eyes on dark clouds ahead. At 72.7 the regime supports selective buying yet warns against broad aggression until geopolitical clarity improves.",
-    "explanation_ko": "시장 분위기는 바람은 있지만 앞에 먹구름이 끼어 있는 배를 타고 있는 느낌이다. 72.7점은 선별적 매수는 괜찮지만 지정학적 불확실성이 해소되기 전까지는 공격적으로 사기엔 아직 이르다."
+    "explanation_en": "The 72.7 regime score feels like a river moving forward at a steady pace but with visible rocks in the water. It means conditions support selective buying today, yet geopolitical shocks can quickly turn the current.",
+    "explanation_ko": "72.7점은 강물이 꾸준히 흐르지만 바위가 보이는 상황과 비슷합니다. 오늘 주식을 사도 되지만 지정학적 충격에 대비해 선별적으로 접근하는 게 안전합니다."
   },
   "big_picture": {
-    "summary_en": "Iran has closed the Strait of Hormuz after US-Israel strikes, slashing tanker traffic and triggering the largest oil supply disruption in history while war-risk insurance costs explode. Equity markets however remain surprisingly calm, pricing the event as containable rather than systemic.",
-    "summary_ko": "이란은 미국-이스라엘 공습 이후 호르무즈 해협을 사실상 봉쇄해 유조선 통행이 거의 끊겼고 전쟁 위험 보험료가 10배 이상 뛰었다. 다만 주식 시장은 이 사태를 일시적 충격으로 보고 변동성을 낮게 유지하고 있다.",
-    "vix_note_en": "VIX at 16.06 shows investors are not panicking; the gauge sits in a calm zone even with oil spiking, suggesting the geopolitical risk is viewed as serious but not market-breaking yet.",
-    "vix_note_ko": "VIX가 16.06에 머물러 있다는 건 투자자들이 아직 공포에 빠지지 않았다는 의미다. 유가가 급등했는데도 변동성이 낮다는 것은 시장이 이번 사태를 시스템 리스크가 아닌 국지적 충격으로 보고 있음을 보여준다.",
-    "rates_note_en": "The 10-year yield at 4.491% is rising, which typically pressures growth stocks by increasing discount rates and making future earnings less attractive in today's valuation environment.",
-    "rates_note_ko": "미국 10년물 금리가 4.491%까지 오르면서 성장주에 부담을 주고 있다. 미래 수익을 현재 가치로 할인할 때 금리가 높아지면 주가가 상대적으로 낮게 평가받기 때문이다.",
-    "dollar_note_en": "DXY at 99.522 and rising puts pressure on multinational tech earnings when translated back to dollars, though it can help US exporters; for NVDA and TSM the stronger dollar adds a mild headwind.",
-    "dollar_note_ko": "달러 지수가 99.522까지 오르면서 해외 매출이 많은 기술주 실적에 약간의 압력이 되고 있다. NVDA나 TSM처럼 글로벌 매출 비중이 높은 기업에는 환율 역풍이 될 수 있다.",
-    "btc_note_en": "Bitcoin at $65,417 is down sharply and signaling reduced risk appetite; when crypto leads lower it often foreshadows caution spreading into high-beta tech names.",
-    "btc_note_ko": "비트코인이 6만 5천 달러대까지 밀리며 위험 선호도가 줄어들고 있다. 가상자산이 먼저 빠지면 고변동성 기술주로 불안 심리가 번지는 경우가 많다."
+    "summary_en": "Iranian drone strikes on Kuwait airport have sent oil prices sharply higher on direct Hormuz threat, while fresh US semiconductor export bans to Chinese overseas entities add immediate pressure on tech supply chains. The market paradox is that VIX stays contained, treating the Middle East tension as a short-term energy shock rather than a systemic crisis.",
+    "summary_ko": "이란의 쿠웨이트 공항 드론 공격으로 호르무즈 해협 리스크가 부각되며 유가가 급등했고, 미국이 중국 해외 법인까지 반도체 수출 규제를 확대하면서 기술주 공급망에 압력이 가해지고 있습니다. 다만 VIX가 안정적으로 유지되며 시장은 중동 긴장을 일시적 에너지 충격으로 보고 있습니다.",
+    "vix_note_en": "VIX sits at 16.06, a relatively calm level that suggests investors are not pricing in widespread panic despite the oil spike and geopolitical headlines.",
+    "vix_note_ko": "VIX가 16.06에 머물러 있어 유가 급등과 지정학 리스크에도 투자자들이 큰 공포를 느끼지는 않는 상태입니다.",
+    "rates_note_en": "The 10-year yield at 4.491% is in an uptrend and acting as a mild headwind for growth stocks by increasing discount rates.",
+    "rates_note_ko": "10년물 국채 금리가 4.491%로 상승 추세라 성장주에는 부담으로 작용하고 있습니다.",
+    "dollar_note_en": "DXY at 99.55 in a mild uptrend adds slight pressure on multinational tech earnings through currency translation.",
+    "dollar_note_ko": "달러 지수가 99.55로 소폭 강세를 보이면서 해외 매출 비중이 큰 기술주의 실적 환산에 약간의 압력이 되고 있습니다.",
+    "btc_note_en": "Bitcoin at $65,106 is down 2.4% today and 11.27% over five days, signaling reduced risk appetite that often leads equity volatility.",
+    "btc_note_ko": "비트코인이 6만 5천 달러 부근에서 하루 2.4%, 5일간 11% 넘게 하락하며 위험자산 선호도가 줄고 있음을 보여주고 있습니다."
   },
   "sector_analysis": {
-    "leaders_en": "Semiconductor and AI infrastructure names lead on pure technical strength with MU, ALAB, TSM and ANET all in confirmed uptrends and high relative strength, driven by AI capacity demand.",
-    "leaders_ko": "반도체와 AI 인프라 종목들이 기술적으로 가장 앞서고 있다. MU, ALAB, TSM, ANET 모두 스테이지2 고점과 높은 상대강도를 보이며 AI 수요가 뒷받침되고 있다.",
-    "laggards_en": "Energy plays CEG and VST plus biotech NVO lag despite narrative interest; all sit in downtrends with weak relative strength, showing technical damage outweighs the AI power or pipeline stories for now.",
-    "laggards_ko": "에너지 섹터 CEG와 VST, 바이오 NVO가 가장 뒤처지고 있다. AI 전력 수요나 파이프라인 스토리가 나오지만 기술적 구조가 하락 추세이고 상대강도도 낮아 모멘텀이 살아나지 못하고 있다.",
-    "rotation_signal_en": "Money is rotating toward AI chip manufacturing and connectivity leaders with strong Stage 2 scores while exiting energy and biotech names in distribution; this signals preference for proven capacity winners over pure thematic plays.",
-    "rotation_signal_ko": "자금이 AI 칩 제조와 연결성 리더로 이동하고 에너지와 바이오에서는 빠져나가는 모습이다. 단순한 테마보다는 실제 생산 능력을 가진 종목을 선호하는 신호로 읽힌다."
+    "leaders_en": "Energy names VST and CEG are leading on the back of oil price strength from the Hormuz risk, while MU and ALAB show technical leadership in AI-related hardware with perfect Stage2 scores and RS 100.",
+    "leaders_ko": "에너지 섹터인 VST와 CEG가 유가 상승 수혜로 앞서가고 있으며, MU와 ALAB는 AI 하드웨어 수요로 기술적 강세를 보이고 있습니다.",
+    "laggards_en": "Semiconductor names NVDA and TSM are lagging due to escalated US export bans to Chinese entities and Taiwan supply chain concerns, while PLTR and SOFI remain in DOWNTREND structure despite some social discussion.",
+    "laggards_ko": "반도체 종목 NVDA와 TSM은 미국의 중국 수출 규제 확대와 대만 공급망 리스크로 약세를 보이고 있으며, PLTR과 SOFI는 기술적 하락 추세에 머물러 있습니다.",
+    "rotation_signal_en": "Money appears to be rotating toward energy and select AI hardware plays with strong technicals while exiting rate-sensitive and geopolitically exposed semis.",
+    "rotation_signal_ko": "자금이 에너지와 기술적으로 강한 AI 하드웨어로 이동하는 반면, 금리 민감주와 지정학 리스크가 큰 반도체에서는 빠져나가는 흐름입니다."
   },
   "spotlight": [
     {
       "symbol": "MU",
       "company": "Micron Technology",
       "tier": 1,
-      "why_en": "MU sits at its 52-week high of $1,079.57 with perfect Stage 2 score and 100 relative strength, making it the cleanest technical leader right now. Earnings arrive June 25 with $19.28 EPS expected, and AI HBM demand is fueling optimistic chatter.",
-      "why_ko": "MU는 52주 고점 $1,079.57에서 스테이지2 만점과 상대강도 100을 기록하며 현재 가장 탄탄한 기술적 기반을 보여주고 있다. 6월 25일 실적 발표를 앞두고 있으며 AI HBM 수요에 대한 기대가 높다.",
-      "watch_level_en": "Break above $1,079.57 (current $1,079.57); support near $1,050 (5% below current price from table data)",
-      "watch_level_ko": "$1,079.57 돌파(현재 $1,079.57) / $1,050 이탈 시 경고 (현재가 대비 5% 하락 구간)"
-    },
-    {
-      "symbol": "CRWD",
-      "company": "CrowdStrike",
-      "tier": 1,
-      "why_en": "CRWD reports earnings tomorrow with $1.07 EPS expected after a strong beat last quarter and 4-for-1 split announcement, yet the stock sits 4.8% below its $747.61 high amid post-announcement selling on valuation concerns.",
-      "why_ko": "CRWD는 내일 실적 발표(EPS 예상 $1.07)를 앞두고 있으며 지난 분기 강력한 실적 상회와 4대1 분할 소식이 있었지만 밸류에이션 우려로 $747.61 고점에서 4.8% 밀려 있다.",
-      "watch_level_en": "Break above $747.61 (current $747.61); support near $720 (current price minus recent pullback zone)",
-      "watch_level_ko": "$747.61 돌파(현재 $747.61) / $720 이탈 시 경고 (최근 조정 구간)"
-    },
-    {
-      "symbol": "ALAB",
-      "company": "Astera Labs",
-      "tier": 2,
-      "why_en": "ALAB trades near its $363.54 high with perfect Stage 2 and 100 relative strength, benefiting from AI connectivity leadership and new Taiwan lab expansion that reinforces its mission-critical role.",
-      "why_ko": "ALAB는 $363.54 고점 근처에서 스테이지2 만점과 상대강도 100을 유지하며 AI 연결성 리더십과 대만 신규 랩 확장 소식으로 주목받고 있다.",
-      "watch_level_en": "Break above $363.54 (current $363.54); support near $355 (current price minus small recent pullback)",
-      "watch_level_ko": "$363.54 돌파(현재 $363.54) / $355 이탈 시 경고 (소폭 조정 구간)"
+      "why_en": "MU trades at $1,079.57 near its 52-week high of $1,079.57, only 0.9% off the peak, with perfect Stage2 score of 7/7 and RS of 100 in confirmed uptrend. AI HBM demand and strong earnings growth expectations are driving bullish sentiment ahead of its June 25 report.",
+      "why_ko": "MU는 1,079.57달러로 52주 고점 대비 0.9% 하락한 수준에서 거래되며 Stage2 7점과 RS 100점을 기록하고 있습니다. AI HBM 수요와 실적 성장 기대가 6월 25일 실적 발표를 앞두고 낙관적 분위기를 만들고 있습니다.",
+      "watch_level_en": "Break above current price of $1,079.57 (52-week high) would confirm continuation; support near recent pullback levels from the data.",
+      "watch_level_ko": "$1,079.57 돌파 시 상승 추세 확인 / 최근 조정 구간에서 지지 확인 필요"
     },
     {
       "symbol": "VST",
       "company": "Vistra Energy",
       "tier": 2,
-      "why_en": "VST sits 29.8% below its $153.80 high in a downtrend despite the positive power-demand narrative from Hormuz-driven energy spike; technical damage outweighs the story for now.",
-      "why_ko": "VST는 호르무즈 사태로 인한 전력 수요 기대에도 $153.80 고점에서 29.8% 하락한 하락 추세에 머물러 있다. 기술적 손상이 스토리를 앞지르는 상황이다.",
-      "watch_level_en": "Break above $153.80 (current $153.80); support near $145 (current price minus recent pullback zone)",
-      "watch_level_ko": "$153.80 돌파(현재 $153.80) / $145 이탈 시 경고 (최근 조정 구간)"
+      "why_en": "VST at $153.80 benefits directly from the oil spike and Hormuz risk as the cleanest large-cap pure play on AI power demand, though it sits in DOWNTREND structure 29.8% below its high.",
+      "why_ko": "VST는 153.80달러에서 유가 급등과 호르무즈 리스크의 직접 수혜주로 AI 전력 수요의 대표 종목으로 꼽히지만, 52주 고점 대비 29.8% 낮은 수준에 머물러 있습니다.",
+      "watch_level_en": "Current price $153.80 with potential support from volume contraction noted in the data.",
+      "watch_level_ko": "현재가 153.80달러, 거래량 감소로 에너지 축적 신호 관찰"
+    },
+    {
+      "symbol": "CRWD",
+      "company": "CrowdStrike",
+      "tier": 1,
+      "why_en": "CRWD at $747.61 reported earnings after US market close today with EPS estimate of $1.07 and announced a 4-for-1 split, yet social sentiment turned fearful on valuation concerns despite the beat.",
+      "why_ko": "CRWD는 747.61달러에서 오늘 미국 장 마감 후 실적을 발표했으며 EPS 예상치는 1.07달러, 4대1 분할 소식도 있었으나 밸류에이션 우려로 소셜 심리가 fearful로 전환됐습니다.",
+      "watch_level_en": "Current price $747.61 after post-earnings reaction; monitor for stabilization above recent levels.",
+      "watch_level_ko": "현재가 747.61달러, 실적 후 반응 관찰 필요"
+    },
+    {
+      "symbol": "NVDA",
+      "company": "Nvidia",
+      "tier": 1,
+      "why_en": "NVDA at $214.75 sits 9.2% below its 52-week high with Stage2 score of 5/7 and faces direct negative impact from expanded US semiconductor export bans to Chinese overseas entities.",
+      "why_ko": "NVDA는 214.75달러로 52주 고점 대비 9.2% 낮은 수준이며 Stage2 5점에 머물러 있고, 미국의 중국 해외 법인 대상 반도체 수출 규제 확대의 직접 타격을 받고 있습니다.",
+      "watch_level_en": "Current price $214.75; any case-by-case license news could trigger sharp moves.",
+      "watch_level_ko": "현재가 214.75달러, 라이선스 승인 뉴스에 민감하게 반응할 가능성"
     }
   ],
   "watchlist": [
@@ -85,8 +85,8 @@
       "symbol": "TSM",
       "company": "TSMC",
       "tier": 1,
-      "analysis_en": "TSM holds steady near its all-time high of $436.69, just 3% off the peak, with a perfect Stage 2 score of 7/7 and relative strength of 75.5 confirming strong upward momentum. The stock benefits from irreplaceable AI foundry positioning and tight 3nm/CoWoS capacity that hyperscalers desperately need. Social sentiment stays optimistic at 0.8 as investors view TSMC as the backbone of the entire AI supply chain. No earnings within 30 days.",
-      "analysis_ko": "TSM은 사상 최고가 $436.69에서 불과 3% 떨어진 수준을 유지하며 스테이지2 만점과 상대강도 75.5로 상승 추세를 확인하고 있다. AI 칩 제조에서 대체 불가능한 위치와 3nm/CoWoS 용량 부족이 하이퍼스케일러 수요를 뒷받침한다. 소셜 심리는 0.8로 낙관적이며 투자자들은 TSMC를 AI 공급망의 핵심으로 보고 있다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "TSM trades at $436.69, just 3.0% below its 52-week high of $436.69, showing all moving averages above with volume contraction suggesting potential energy accumulation near the peak. The structure remains UPTREND with Stage2 score of 7/7 and RS of 75.5, supported by its irreplaceable position in AI chip manufacturing and tight 3nm/CoWoS capacity. Social sentiment is optimistic as investors view hyperscaler demand as structurally strong. No earnings within 30 days.",
+      "analysis_ko": "TSM은 436.69달러로 52주 고점 대비 3.0% 낮은 수준에서 거래되며 모든 이동평균선 위에 있고 거래량 감소로 에너지가 축적되는 모습입니다. Stage2 7점과 RS 75.5점으로 상승 추세가 확인되며 AI 칩 제조에서 대체 불가능한 위치와 3nm/CoWoS 용량 부족이 강점으로 꼽힙니다. 소셜 심리는 optimistic으로 하이퍼스케일러 수요가 구조적으로 탄탄하다는 평가가 지배적입니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.8,
       "action": "buy"
@@ -95,8 +95,8 @@
       "symbol": "NVDA",
       "company": "Nvidia",
       "tier": 1,
-      "analysis_en": "NVDA sits at $214.75, 9.2% below its recent high, with Stage 2 score of 5/7 and relative strength 62.3 showing decent but not dominant momentum. Vera CPU excitement and positive Broadcom read-through keep social sentiment mildly optimistic at 0.3, yet the stock remains vulnerable to any sustained oil price spike raising data center power costs. No earnings within 30 days.",
-      "analysis_ko": "NVDA는 $214.75에서 52주 고점 대비 9.2% 밀려 있으며 스테이지2 5점과 상대강도 62.3으로 상승 동력이 살아 있으나 압도적이지는 않다. Vera CPU 기대감과 Broadcom 실적 호재로 소셜 심리는 0.3의 약한 낙관을 유지하고 있지만 유가 상승이 데이터센터 전력비를 끌어올리면 타격을 받을 수 있다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "NVDA is at $214.75, 9.2% below its 52-week high of $214.75, with the stock below moving averages and Stage2 score of 5/7 despite remaining in UPTREND structure. The expanded US semiconductor export bans to Chinese overseas entities create direct license delay and tariff cost risks for the company. Social sentiment stays optimistic on Vera CPU and RTX Spark developments with positive read-through from Broadcom results, but the regulatory overhang is the dominant near-term factor. No earnings within 30 days.",
+      "analysis_ko": "NVDA는 214.75달러로 52주 고점 대비 9.2% 낮은 수준이며 이동평균선 아래에 있고 Stage2 5점에 머물러 있습니다. 미국의 중국 해외 법인 대상 반도체 수출 규제 확대가 라이선스 지연과 관세 비용 리스크로 직접 작용하고 있습니다. Vera CPU와 RTX Spark에 대한 기대감으로 소셜 심리는 optimistic을 유지하고 있지만 규제 리스크가 단기적으로 가장 큰 변수입니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.3,
       "action": "watch"
@@ -105,18 +105,18 @@
       "symbol": "META",
       "company": "Meta Platforms",
       "tier": 1,
-      "analysis_en": "META trades at $622.98, 21.6% below its high, in a clear distribution structure with Stage 2 score of only 2/7 and relative strength 16.8. Despite optimistic social buzz at 1.5 around the new AI Business Agent launch, the technical damage is significant and money is clearly leaving the name. No earnings within 30 days.",
-      "analysis_ko": "META는 $622.98에서 52주 고점 대비 21.6% 하락한 분배 구간에 있으며 스테이지2 2점, 상대강도 16.8로 기술적 구조가 취약하다. AI 비즈니스 에이전트 출시 소식에 소셜 심리는 1.5로 낙관적이지만 실제 자금은 빠져나가고 있다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "META sits at $622.98, 21.6% below its 52-week high of $622.98, with the stock below moving averages and in DISTRIBUTION structure with Stage2 score of only 2/7. Despite the weak technical picture, social sentiment is optimistic on the launch of its AI-powered Business Agent for enterprise use cases. The gap between narrative interest and actual price structure suggests caution. No earnings within 30 days.",
+      "analysis_ko": "META는 622.98달러로 52주 고점 대비 21.6% 낮은 수준이며 이동평균선 아래에 있고 DISTRIBUTION 구조에 Stage2 2점에 불과합니다. 기술적 약세에도 불구하고 기업용 AI 비즈니스 에이전트 출시에 대한 소셜 심리는 optimistic입니다. 스토리와 실제 주가 구조 사이의 괴리가 있어 주의가 필요합니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 1.5,
-      "action": "avoid"
+      "action": "watch"
     },
     {
       "symbol": "TSLA",
       "company": "Tesla",
       "tier": 1,
-      "analysis_en": "TSLA holds at $423.70, 15.1% off its high, with Stage 2 score 6/7 but relative strength only 36.9 and distribution structure. Robotaxi and Cybercab discussion keeps sentiment optimistic at 0.7, yet the weak relative strength shows the stock is lagging the broader market. No earnings within 30 days.",
-      "analysis_ko": "TSLA는 $423.70에서 52주 고점 대비 15.1% 조정 중이며 스테이지2 6점이지만 상대강도 36.9로 시장을 따라가지 못하는 분배 구조다. 로보택시와 사이버캡 논의로 소셜 심리는 0.7의 낙관을 유지하고 있으나 상대강도가 낮아 모멘텀이 약하다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "TSLA trades at $423.70, 15.1% below its 52-week high of $423.70, with all moving averages above and volume contraction indicating potential energy accumulation in a DISTRIBUTION structure and Stage2 score of 6/7. Social sentiment remains optimistic around Robotaxi, FSD progress, and Cybercab production speculation. The technical setup shows resilience but distribution signals warrant watching for confirmation. No earnings within 30 days.",
+      "analysis_ko": "TSLA는 423.70달러로 52주 고점 대비 15.1% 낮은 수준이며 모든 이동평균선 위에 있고 거래량 감소로 에너지 축적 신호가 나타나고 있습니다. DISTRIBUTION 구조에 Stage2 6점이지만 로보택시와 FSD 진전, 사이버캡 생산에 대한 소셜 심리는 optimistic입니다. 기술적 회복력이 있지만 분배 신호를 확인할 필요가 있습니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.7,
       "action": "watch"
@@ -125,8 +125,8 @@
       "symbol": "PLTR",
       "company": "Palantir",
       "tier": 1,
-      "analysis_en": "PLTR sits at $142.20, 31.5% below its high, in a deep distribution structure with Stage 2 score of just 1/7 and relative strength 14.3. Polarized discussion around AI platform growth versus high valuation keeps sentiment neutral at -0.2. No earnings within 30 days.",
-      "analysis_ko": "PLTR은 $142.20에서 52주 고점 대비 31.5% 하락한 분배 구간이며 스테이지2 1점, 상대강도 14.3로 기술적 손상이 크다. AI 플랫폼 성장 기대와 고평가 우려가 엇갈리며 소셜 심리는 -0.2의 중립 상태다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "PLTR is at $142.20, 31.5% below its 52-week high of $142.20, with the stock below moving averages and in DISTRIBUTION structure with Stage2 score of only 1/7. Social sentiment is neutral as discussion balances AI platform growth against high valuation concerns. The weak technical structure dominates the outlook. No earnings within 30 days.",
+      "analysis_ko": "PLTR은 142.20달러로 52주 고점 대비 31.5% 낮은 수준이며 이동평균선 아래에 있고 DISTRIBUTION 구조에 Stage2 1점에 불과합니다. AI 플랫폼 성장 기대와 고평가 우려가 혼재되며 소셜 심리는 neutral입니다. 기술적 약세가 전망을 지배하고 있습니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "neutral",
       "sentiment_score": -0.2,
       "action": "avoid"
@@ -135,8 +135,8 @@
       "symbol": "MU",
       "company": "Micron Technology",
       "tier": 1,
-      "analysis_en": "MU trades right at its 52-week high of $1,079.57 with perfect Stage 2 score 7/7 and relative strength 100, the strongest technical setup in the entire list. AI HBM demand expectations keep sentiment optimistic at 1.0 ahead of the June 25 earnings with $19.28 EPS forecast. The stock is in full breakout mode.",
-      "analysis_ko": "MU는 52주 고점 $1,079.57에서 스테이지2 만점과 상대강도 100을 기록하며 리스트 전체에서 가장 강력한 기술적 기반을 보여주고 있다. AI HBM 수요 기대감으로 소셜 심리는 1.0의 낙관이며 6월 25일 실적(EPS 예상 $19.28)을 앞두고 돌파 국면에 있다.",
+      "analysis_en": "MU trades at $1,079.57, only 0.9% below its 52-week high of $1,079.57, with all moving averages above, volume contraction, and confirmed UPTREND structure with perfect Stage2 score of 7/7 and RS of 100. AI HBM demand and strong earnings growth expectations are fueling bullish posts ahead of the June 25 report with EPS estimate of $19.28. Social sentiment is optimistic. Earnings on 2026-06-25.",
+      "analysis_ko": "MU는 1,079.57달러로 52주 고점 대비 0.9% 낮은 수준에서 모든 이동평균선 위에 있고 거래량 감소와 함께 상승 추세가 확인되며 Stage2 7점과 RS 100점을 기록하고 있습니다. AI HBM 수요와 실적 성장 기대가 6월 25일 EPS 예상 19.28달러 발표를 앞두고 낙관적 게시물을 유발하고 있습니다. 소셜 심리는 optimistic입니다. 실적 발표일 2026-06-25.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 1.0,
       "action": "buy"
@@ -145,8 +145,8 @@
       "symbol": "CRWD",
       "company": "CrowdStrike",
       "tier": 1,
-      "analysis_en": "CRWD holds at $747.61, 4.8% below its high, with strong Stage 2 score 6/7 and relative strength 100, yet fearful sentiment at -1.2 after post-earnings-announcement selling on valuation concerns. Tomorrow's June 4 report with $1.07 EPS estimate will be the key catalyst.",
-      "analysis_ko": "CRWD는 $747.61에서 52주 고점 대비 4.8% 조정 중이며 스테이지2 6점과 상대강도 100으로 기술은 탄탄하지만 밸류에이션 우려로 시간외 매도세가 나오며 소셜 심리는 -1.2의 공포 상태다. 내일 6월 4일 실적(EPS 예상 $1.07)이 분수령이다.",
+      "analysis_en": "CRWD is at $747.61, 4.8% below its 52-week high of $747.61, with all moving averages above and confirmed UPTREND structure with Stage2 score of 6/7 and RS of 100, yet social sentiment turned fearful after strong Q1 earnings beat and 4-for-1 split announcement on valuation and growth concerns. The stock sold off sharply after hours following the report. Earnings already released after US market close today with EPS estimate of $1.07.",
+      "analysis_ko": "CRWD는 747.61달러로 52주 고점 대비 4.8% 낮은 수준이며 모든 이동평균선 위에 있고 Stage2 6점과 RS 100점으로 상승 추세가 확인되지만, 강력한 1분기 실적 상회와 4대1 분할 발표 후 밸류에이션 우려로 소셜 심리가 fearful로 바뀌었습니다. 시간외에서 주가가 급락했습니다. 오늘 미국 장 마감 후 실적 발표됨, EPS 예상 1.07달러.",
       "sentiment_mood": "fearful",
       "sentiment_score": -1.2,
       "action": "watch"
@@ -155,8 +155,8 @@
       "symbol": "AMZN",
       "company": "Amazon",
       "tier": 1,
-      "analysis_en": "AMZN sits at $250.02, 10.2% below its high, with Stage 2 score 4/7 and relative strength 56.4 showing mild uptrend but not full conviction. Traders see the dip as a buying opportunity citing cup-and-handle pattern, keeping sentiment optimistic at 0.5. No earnings within 30 days.",
-      "analysis_ko": "AMZN은 $250.02에서 52주 고점 대비 10.2% 조정 중이며 스테이지2 4점, 상대강도 56.4로 상승 추세는 유지되지만 확신은 부족하다. 컵앤핸들 패턴을 근거로 하락을 매수 기회로 보는 의견이 많아 소셜 심리는 0.5의 낙관을 유지하고 있다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "AMZN trades at $250.02, 10.2% below its 52-week high of $250.02, with the stock below moving averages but in UPTREND structure and Stage2 score of 4/7. Traders are viewing the dip as a buying opportunity citing cup and handle pattern and solid crowd sentiment. Social sentiment is optimistic. No earnings within 30 days.",
+      "analysis_ko": "AMZN은 250.02달러로 52주 고점 대비 10.2% 낮은 수준이며 이동평균선 아래에 있지만 UPTREND 구조에 Stage2 4점입니다. 트레이더들은 컵앤핸들 패턴과 센티먼트 점수를 근거로 하락을 매수 기회로 보고 있습니다. 소셜 심리는 optimistic입니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.5,
       "action": "watch"
@@ -165,28 +165,28 @@
       "symbol": "MSFT",
       "company": "Microsoft",
       "tier": 1,
-      "analysis_en": "MSFT trades at $427.34, 22.4% below its high, with Stage 2 score 2/7 and relative strength 36.6 in an uptrend structure but weak momentum. Positive reaction to AI agent and quantum chip announcements at Build 2026 keeps sentiment optimistic at 0.6. No earnings within 30 days.",
-      "analysis_ko": "MSFT는 $427.34에서 52주 고점 대비 22.4% 하락한 상태이며 스테이지2 2점, 상대강도 36.6으로 상승 구조이지만 모멘텀은 약하다. Build 2026에서 AI 에이전트와 양자 칩 발표에 대한 긍정적 반응으로 소셜 심리는 0.6의 낙관을 유지하고 있다. 30일 이내 실적 발표 없음.",
-      "sentiment_mood": "optimistic",
-      "sentiment_score": 0.6,
-      "action": "avoid"
-    },
-    {
-      "symbol": "AAPL",
-      "company": "Apple",
-      "tier": 1,
-      "analysis_en": "AAPL holds near its $310.26 high, only 2.1% off the peak, with Stage 2 score 6/7 and relative strength 66.6 in a distribution structure. Strong fundamentals and options flow keep sentiment optimistic at 0.6 despite WWDC caution. No earnings within 30 days.",
-      "analysis_ko": "AAPL은 $310.26 고점에서 2.1% 떨어진 수준을 유지하며 스테이지2 6점, 상대강도 66.6으로 분배 구조에 있다. 강력한 펀더멘털과 옵션 플로우로 소셜 심리는 0.6의 낙관을 유지하고 있으며 WWDC 경계감에도 매수 기회를 보는 시각이 많다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "MSFT is at $427.34, 22.4% below its 52-week high of $427.34, with the stock below moving averages in UPTREND structure but Stage2 score of only 2/7. Bullish reaction to Microsoft Build 2026 AI agent and quantum chip announcements with analyst upgrades is supporting sentiment. Social sentiment is optimistic despite the price weakness. No earnings within 30 days.",
+      "analysis_ko": "MSFT는 427.34달러로 52주 고점 대비 22.4% 낮은 수준이며 이동평균선 아래에 있지만 UPTREND 구조에 Stage2 2점입니다. Microsoft Build 2026의 AI 에이전트와 양자 칩 발표, 애널리스트 상향 조정에 긍정적 반응이 나타나고 있습니다. 소셜 심리는 optimistic입니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.6,
       "action": "watch"
     },
     {
+      "symbol": "AAPL",
+      "company": "Apple",
+      "tier": 1,
+      "analysis_en": "AAPL trades at $310.26, 2.1% below its 52-week high of $310.26, with all moving averages above and confirmed UPTREND structure with Stage2 score of 6/7 and RS of 66.6. Traders highlight strong fundamentals and options flow as buy-the-dip setups despite WWDC caution. Social sentiment is optimistic. No earnings within 30 days.",
+      "analysis_ko": "AAPL은 310.26달러로 52주 고점 대비 2.1% 낮은 수준이며 모든 이동평균선 위에 있고 Stage2 6점과 RS 66.6점으로 상승 추세가 확인됩니다. WWDC 경계에도 불구하고 강력한 펀더멘털과 옵션 플로우를 매수 기회로 보는 의견이 많습니다. 소셜 심리는 optimistic입니다. 30일 이내 실적 발표 없음.",
+      "sentiment_mood": "optimistic",
+      "sentiment_score": 0.6,
+      "action": "hold"
+    },
+    {
       "symbol": "GOOGL",
       "company": "Alphabet",
       "tier": 1,
-      "analysis_en": "GOOGL sits at $358.99, 12.1% below its high, with Stage 2 score 5/7 and relative strength 66.8 in an uptrend. Long-term AI growth narrative dominates despite the large equity raise for capex, keeping sentiment optimistic at 0.5. No earnings within 30 days.",
-      "analysis_ko": "GOOGL은 $358.99에서 52주 고점 대비 12.1% 조정 중이며 스테이지2 5점, 상대강도 66.8로 상승 추세를 유지하고 있다. 대규모 자본 지출을 위한 증자에도 AI 장기 성장 스토리가 지배적이며 소셜 심리는 0.5의 낙관 상태다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "GOOGL is at $358.99, 12.1% below its 52-week high of $358.99, with the stock below moving averages in UPTREND structure and Stage2 score of 5/7. Long-term AI growth narrative dominates discussion despite the $84.75B equity raise for capex and short-term dilution concerns. Social sentiment is optimistic. No earnings within 30 days.",
+      "analysis_ko": "GOOGL은 358.99달러로 52주 고점 대비 12.1% 낮은 수준이며 이동평균선 아래에 있지만 UPTREND 구조에 Stage2 5점입니다. 84.75B 달러 규모 자본 지출을 위한 주식 발행과 단기 희석 우려에도 AI 장기 성장 스토리가 지배적입니다. 소셜 심리는 optimistic입니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.5,
       "action": "watch"
@@ -195,8 +195,8 @@
       "symbol": "RKLB",
       "company": "Rocket Lab",
       "tier": 2,
-      "analysis_en": "RKLB trades at $114.70, 24% below its high, with Stage 2 score 5/7 and relative strength 100 in an uptrend but showing momentum slowdown signals. Neutron progress and SpaceX IPO beneficiary positioning keep sentiment optimistic at 1.0. No earnings within 30 days.",
-      "analysis_ko": "RKLB는 $114.70에서 52주 고점 대비 24% 하락했으나 스테이지2 5점과 상대강도 100으로 상승 추세를 유지하고 있으며 모멘텀 둔화 신호가 나타나고 있다. 뉴트론 엔진 진전과 SpaceX IPO 수혜 기대로 소셜 심리는 1.0의 낙관을 유지하고 있다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "RKLB trades at $114.70, 24.0% below its 52-week high of $114.70, with the stock below moving averages but in UPTREND structure and Stage2 score of 5/7 with RS of 100. Neutron engine fit check progress and positioning as SpaceX IPO beneficiary are driving accumulation on dips. Social sentiment is optimistic, though momentum slowdown signal is noted. No earnings within 30 days.",
+      "analysis_ko": "RKLB는 114.70달러로 52주 고점 대비 24.0% 낮은 수준이며 이동평균선 아래에 있지만 UPTREND 구조에 Stage2 5점과 RS 100점입니다. 뉴트론 엔진 장착 확인 진전과 SpaceX IPO 수혜 기대가 조정 시 매수세를 유입시키고 있습니다. 소셜 심리는 optimistic이지만 모멘텀 둔화 신호가 관찰됩니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 1.0,
       "action": "watch"
@@ -205,8 +205,8 @@
       "symbol": "CEG",
       "company": "Constellation Energy",
       "tier": 2,
-      "analysis_en": "CEG sits at $267.24, 35% below its high, in a full downtrend with Stage 2 score 0/7 and relative strength 0. Despite ongoing AI data center power demand narrative, the technical structure is broken and sentiment is only mildly optimistic at 0.5. No earnings within 30 days.",
-      "analysis_ko": "CEG는 $267.24에서 52주 고점 대비 35% 하락한 하락 추세에 있으며 스테이지2 0점, 상대강도 0으로 기술적 구조가 완전히 무너져 있다. AI 데이터센터 전력 수요 스토리는 계속 나오지만 소셜 심리는 0.5의 약한 낙관에 그치고 있다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "CEG is at $267.24, 35.0% below its 52-week high of $267.24, with the stock below moving averages in DOWNTREND structure and Stage2 score of 0/7. AI data center power demand narrative remains strong despite secondary offering and valuation debate. Social sentiment is optimistic but technical structure is weak. No earnings within 30 days.",
+      "analysis_ko": "CEG는 267.24달러로 52주 고점 대비 35.0% 낮은 수준이며 이동평균선 아래에 있고 DOWNTREND 구조에 Stage2 0점입니다. 2차 공모와 밸류에이션 논란에도 AI 데이터센터 전력 수요 스토리가 여전히 강하지만 기술적 구조는 약합니다. 소셜 심리는 optimistic입니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.5,
       "action": "avoid"
@@ -215,8 +215,8 @@
       "symbol": "VST",
       "company": "Vistra Energy",
       "tier": 2,
-      "analysis_en": "VST trades at $153.80, 29.8% below its high, in a downtrend with Stage 2 score 2/7 and relative strength 12. The cleanest large-cap AI power play narrative remains but technical damage is severe and sentiment is only mildly optimistic at 0.7. No earnings within 30 days.",
-      "analysis_ko": "VST는 $153.80에서 52주 고점 대비 29.8% 하락한 하락 추세이며 스테이지2 2점, 상대강도 12로 기술적 손상이 크다. AI 전력 수요의 가장 깨끗한 대형주라는 평가가 나오지만 소셜 심리는 0.7의 약한 낙관에 머물러 있다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "VST trades at $153.80, 29.8% below its 52-week high of $153.80, with the stock below moving averages in DOWNTREND structure and Stage2 score of 2/7. The company is the cleanest large-cap pure play on AI power demand with major hyperscaler PPAs still highlighted amid the oil spike. Social sentiment is optimistic but technicals show weakness. No earnings within 30 days.",
+      "analysis_ko": "VST는 153.80달러로 52주 고점 대비 29.8% 낮은 수준이며 이동평균선 아래에 있고 DOWNTREND 구조에 Stage2 2점입니다. 주요 하이퍼스케일러 PPA와 함께 AI 전력 수요의 가장 깨끗한 대형주로 주목받고 있지만 기술적 약세가 두드러집니다. 소셜 심리는 optimistic입니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.7,
       "action": "avoid"
@@ -225,9 +225,9 @@
       "symbol": "ALAB",
       "company": "Astera Labs",
       "tier": 2,
-      "analysis_en": "ALAB holds near its $363.54 high, only 2.4% off the peak, with perfect Stage 2 score 7/7 and relative strength 100 confirming full breakout momentum. Computex presence and new Taiwan lab expansion reinforce AI connectivity leadership, keeping sentiment euphoric at 1.0. No earnings within 30 days.",
-      "analysis_ko": "ALAB는 $363.54 고점에서 2.4% 떨어진 수준을 유지하며 스테이지2 만점과 상대강도 100으로 완전한 돌파 국면에 있다. 컴퓨텍스 참가와 대만 신규 랩 확장으로 AI 연결성 리더십이 강화되며 소셜 심리는 1.0의 도취 상태다. 30일 이내 실적 발표 없음.",
-      "sentiment_mood": "euphoric",
+      "analysis_en": "ALAB is at $363.54, 2.4% below its 52-week high of $363.54, with all moving averages above, volume contraction, and confirmed UPTREND structure with perfect Stage2 score of 7/7 and RS of 100. Computex presence and new Taiwan Cloud-Scale Interop Lab expansion reinforce its AI connectivity leadership. Social sentiment is optimistic. No earnings within 30 days.",
+      "analysis_ko": "ALAB은 363.54달러로 52주 고점 대비 2.4% 낮은 수준이며 모든 이동평균선 위에 있고 거래량 감소와 함께 Stage2 7점과 RS 100점으로 상승 추세가 확인됩니다. 컴퓨텍스 참가와 대만 클라우드 스케일 인터롭 랩 확장이 AI 연결성 리더십을 강화하고 있습니다. 소셜 심리는 optimistic입니다. 30일 이내 실적 발표 없음.",
+      "sentiment_mood": "optimistic",
       "sentiment_score": 1.0,
       "action": "buy"
     },
@@ -235,8 +235,8 @@
       "symbol": "OKLO",
       "company": "Oklo",
       "tier": 2,
-      "analysis_en": "OKLO sits at $65.21, 66.4% below its high, in a downtrend with Stage 2 score 1/7 and relative strength 38.2. Investor Day and DOE fuel program participation keep sentiment optimistic at 0.8 but the technical damage is too severe for meaningful upside until structure repairs. No earnings within 30 days.",
-      "analysis_ko": "OKLO는 $65.21에서 52주 고점 대비 66.4% 하락한 하락 추세이며 스테이지2 1점, 상대강도 38.2로 기술적 구조가 취약하다. 인베스터 데이와 DOE 핵연료 프로그램 참여로 소셜 심리는 0.8의 낙관을 유지하고 있지만 구조 회복 전까지는 큰 반등이 어렵다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "OKLO trades at $65.21, 66.4% below its 52-week high of $65.21, with the stock below moving averages in DOWNTREND structure and Stage2 score of 1/7. Investor Day and DOE nuclear fuel program participation are fueling policy and data center demand optimism. Social sentiment is optimistic but the steep drawdown and weak structure dominate. No earnings within 30 days.",
+      "analysis_ko": "OKLO는 65.21달러로 52주 고점 대비 66.4% 낮은 수준이며 이동평균선 아래에 있고 DOWNTREND 구조에 Stage2 1점입니다. 인베스터 데이와 DOE 핵연료 공급 프로그램 참여로 정책 및 데이터센터 수요 낙관론이 고조되고 있지만 가파른 하락과 약한 구조가 전망을 지배합니다. 소셜 심리는 optimistic입니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.8,
       "action": "avoid"
@@ -245,8 +245,8 @@
       "symbol": "APP",
       "company": "AppLovin",
       "tier": 2,
-      "analysis_en": "APP trades at $570.83, 23.4% below its high, with perfect Stage 2 score 7/7 and relative strength 52.5 in an uptrend but showing momentum slowdown signals. High-quality AI advertising compounder narrative and upcoming e-commerce platform keep sentiment optimistic at 0.5. No earnings within 30 days.",
-      "analysis_ko": "APP는 $570.83에서 52주 고점 대비 23.4% 조정 중이며 스테이지2 만점과 상대강도 52.5로 상승 추세를 유지하고 있으나 모멘텀 둔화 신호가 나타나고 있다. 고품질 AI 광고 복리주라는 평가와 전자상거래 플랫폼 출시 기대감으로 소셜 심리는 0.5의 낙관 상태다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "APP is at $570.83, 23.4% below its 52-week high of $570.83, with all moving averages above, volume contraction, and confirmed UPTREND structure with Stage2 score of 7/7 though RS is only 52.5 and momentum slowdown signal is noted. High-quality AI advertising compounder profile with Rule of 40 score around 150 and upcoming e-commerce platform catalyst support the setup. Social sentiment is optimistic. No earnings within 30 days.",
+      "analysis_ko": "APP는 570.83달러로 52주 고점 대비 23.4% 낮은 수준이며 모든 이동평균선 위에 있고 거래량 감소와 함께 Stage2 7점으로 상승 추세가 확인되지만 RS는 52.5점이며 모멘텀 둔화 신호가 있습니다. Rule of 40 점수 약 150의 고품질 AI 광고 복리주로서 전자상거래 플랫폼 출시 촉매를 앞두고 있습니다. 소셜 심리는 optimistic입니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.5,
       "action": "watch"
@@ -255,18 +255,18 @@
       "symbol": "ANET",
       "company": "Arista Networks",
       "tier": 2,
-      "analysis_en": "ANET holds near its $174.37 high, only 3% off the peak, with Stage 2 score 7/7 and relative strength 78.2 but in a downtrend structure. Raised 2026 guidance and 1.6T switch ramp keep sentiment euphoric at 2.0, yet the distribution structure warrants caution. No earnings within 30 days.",
-      "analysis_ko": "ANET은 $174.37 고점에서 3% 떨어진 수준을 유지하며 스테이지2 7점과 상대강도 78.2로 기술 지표는 강하지만 하락 추세 구조에 있다. 2026 가이던스 상향과 1.6T 스위치 램프 소식으로 소셜 심리는 2.0의 도취 상태지만 분배 구조는 주의가 필요하다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "ANET trades at $174.37, 3.0% below its 52-week high of $174.37, with all moving averages above, volume contraction, and confirmed UPTREND structure with Stage2 score of 7/7 and RS of 78.2. Raised 2026 guidance and 1.6T+ switch ramp position it as mission-critical AI networking infrastructure. Social sentiment is euphoric. No earnings within 30 days.",
+      "analysis_ko": "ANET은 174.37달러로 52주 고점 대비 3.0% 낮은 수준이며 모든 이동평균선 위에 있고 거래량 감소와 함께 Stage2 7점과 RS 78.2점으로 상승 추세가 확인됩니다. 2026 가이던스 상향과 1.6T+ 스위치 램프가 AI 네트워킹의 미션 크리티컬 인프라로 평가받고 있습니다. 소셜 심리는 euphoric입니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "euphoric",
       "sentiment_score": 2.0,
-      "action": "watch"
+      "action": "buy"
     },
     {
       "symbol": "NVO",
       "company": "Novo Nordisk",
       "tier": 2,
-      "analysis_en": "NVO trades at $42.00, 45.9% below its high, with Stage 2 score 3/7 and relative strength 50.9 in a mild uptrend. Pipeline disappointment with CagriSema and Lilly competition have triggered sharp de-rating, keeping sentiment fearful at -1.3. No earnings within 30 days.",
-      "analysis_ko": "NVO는 $42.00에서 52주 고점 대비 45.9% 하락한 상태이며 스테이지2 3점, 상대강도 50.9로 약한 상승 추세다. CagriSema 파이프라인 실망과 릴리 경쟁으로 급격한 디레이팅이 진행되며 소셜 심리는 -1.3의 공포 상태에 있다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "NVO is at $42.00, 45.9% below its 52-week high of $42.00, with the stock below moving averages in UPTREND structure but Stage2 score of only 3/7. Pipeline disappointment with CagriSema and competition from Lilly tirzepatide are driving sharp de-rating. Social sentiment is fearful. No earnings within 30 days.",
+      "analysis_ko": "NVO는 42.00달러로 52주 고점 대비 45.9% 낮은 수준이며 이동평균선 아래에 있지만 UPTREND 구조에 Stage2 3점입니다. CagriSema 파이프라인 실망과 릴리 티르제파타이드 경쟁으로 급격한 디레이팅이 진행 중이며 소셜 심리는 fearful입니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "fearful",
       "sentiment_score": -1.3,
       "action": "avoid"
@@ -275,8 +275,8 @@
       "symbol": "QBTS",
       "company": "D-Wave Quantum",
       "tier": 2,
-      "analysis_en": "QBTS sits at $27.55, 41.1% below its high, with Stage 2 score 5/7 and relative strength 100 in an uptrend but showing momentum slowdown signals. Investor Day, CHIPS Act potential and analyst upgrades to $40 keep sentiment optimistic at 0.7. No earnings within 30 days.",
-      "analysis_ko": "QBTS는 $27.55에서 52주 고점 대비 41.1% 하락했으나 스테이지2 5점과 상대강도 100으로 상승 추세를 유지하고 있으며 모멘텀 둔화 신호가 나타나고 있다. 인베스터 데이, CHIPS Act 가능성과 40달러 목표가 상향으로 소셜 심리는 0.7의 낙관을 유지하고 있다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "QBTS trades at $27.55, 41.1% below its 52-week high of $27.55, with all moving averages above and confirmed UPTREND structure with Stage2 score of 5/7 and RS of 100, though momentum slowdown signal is noted. Investor Day, $100M CHIPS Act potential, and dual analyst upgrades to $40 PT are fueling quantum momentum. Social sentiment is optimistic. No earnings within 30 days.",
+      "analysis_ko": "QBTS는 27.55달러로 52주 고점 대비 41.1% 낮은 수준이며 모든 이동평균선 위에 있고 Stage2 5점과 RS 100점으로 상승 추세가 확인되지만 모멘텀 둔화 신호가 있습니다. 인베스터 데이, 1억 달러 CHIPS Act 가능성과 두 애널리스트의 40달러 목표가 상향이 양자 모멘텀을 고조시키고 있습니다. 소셜 심리는 optimistic입니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.7,
       "action": "watch"
@@ -285,89 +285,89 @@
       "symbol": "SOFI",
       "company": "SoFi Technologies",
       "tier": 2,
-      "analysis_en": "SOFI trades at $16.68, 49% below its high, in a downtrend with Stage 2 score 1/7 and relative strength 1.3. Strong technical support at $16.47-16.88 and CEO buying provide some cushion but the structure remains broken, keeping sentiment only mildly optimistic at 0.3. No earnings within 30 days.",
-      "analysis_ko": "SOFI는 $16.68에서 52주 고점 대비 49% 하락한 하락 추세이며 스테이지2 1점, 상대강도 1.3으로 기술적 구조가 취약하다. 16.47-16.88달러 구간의 강한 지지와 CEO 지분 매수 소식이 있으나 전체 구조는 무너져 있으며 소셜 심리는 0.3의 약한 낙관 상태다. 30일 이내 실적 발표 없음.",
+      "analysis_en": "SOFI is at $16.68, 49.0% below its 52-week high of $16.68, with the stock below moving averages in DOWNTREND structure and Stage2 score of only 1/7. Strong technical support at $16.47-16.88 and CEO buying shares are noted positively, but the overall structure remains weak. Social sentiment is optimistic. No earnings within 30 days.",
+      "analysis_ko": "SOFI는 16.68달러로 52주 고점 대비 49.0% 낮은 수준이며 이동평균선 아래에 있고 DOWNTREND 구조에 Stage2 1점입니다. 16.47-16.88달러 구간의 강한 기술적 지지와 CEO 지분 매수 소식이 긍정적으로 언급되지만 전체 구조는 약합니다. 소셜 심리는 optimistic입니다. 30일 이내 실적 발표 없음.",
       "sentiment_mood": "optimistic",
       "sentiment_score": 0.3,
       "action": "avoid"
     }
   ],
   "today_checkpoints_en": [
-    "CRWD reports earnings tomorrow (2026-06-04) with $1.07 EPS estimate — watch reaction closely",
-    "Monitor daily UKMTO/Lloyds tanker transit counts through Strait of Hormuz for any reopening signals",
-    "MU earnings on 2026-06-25 with $19.28 EPS estimate remains the highest-conviction technical setup"
+    "Watch crude above $85.66 for continued Hormuz risk signals",
+    "MU reports earnings on 2026-06-25 with EPS estimate $19.28",
+    "Monitor any case-by-case license approvals for NVDA and TSM from Commerce Department"
   ],
   "today_checkpoints_ko": [
-    "CRWD 내일(2026-06-04) 실적 발표, EPS 예상 $1.07 — 반응 주시 필요",
-    "호르무즈 해협 통과 유조선 수 UKMTO/Lloyds 데이터 매일 확인하며 재개 신호 포착",
-    "MU 6월 25일 실적(EPS 예상 $19.28)이 현재 가장 확신 높은 기술적 기반"
+    "유가 85.66달러 상회 여부로 호르무즈 리스크 지속 확인",
+    "MU 2026-06-25 실적 발표, EPS 예상 19.28달러",
+    "상무부의 NVDA와 TSM 대상 사례별 라이선스 승인 여부 주시"
   ],
-  "earnings_alert_en": "CRWD reports on 2026-06-04 (EPS est. $1.07); MU reports on 2026-06-25 (EPS est. $19.28)",
-  "earnings_alert_ko": "CRWD 6월 4일(EPS 예상 $1.07), MU 6월 25일(EPS 예상 $19.28)",
+  "earnings_alert_en": "CRWD already reported after US market close today (est. EPS $1.07 — verify actual results). MU reports on 2026-06-25 (EPS est. $19.28).",
+  "earnings_alert_ko": "CRWD는 오늘 미국 장 마감 후 실적을 발표했습니다 (EPS 추정 $1.07 — 실제 결과 확인 필요). MU는 2026-06-25에 발표 예정 (EPS 예상 $19.28).",
   "global_context": {
-    "fetched_at": "2026-06-03T21:45:00Z",
+    "fetched_at": "2026-06-03T22:27:10Z",
     "search_window": "48h",
     "issues": [
       {
         "rank": 1,
         "tier": "breaking",
         "category": "geopolitical",
-        "title_en": "Iran closes Strait of Hormuz after US-Israel strikes; traffic near zero",
-        "title_ko": "이란, 미-이스라엘 공격 후 호르무즈 해협 폐쇄",
-        "current_state_en": "As of June 3 2026 the Strait remains effectively closed with only handfuls of vessels transiting daily; Iranian mines persist and war-risk insurance is cancelled or 10x+ cost.",
-        "current_state_ko": "2026년 6월 3일 기준 호르무즈 해협은 실질 폐쇄 상태로 일일 통과 선박이 극소수이며 기뢰가 잔존하고 전쟁위험 보험이 취소되거나 10배 이상 비용이 발생 중이다.",
+        "title_en": "Iranian drone strike hits Kuwait airport, oil spikes on Hormuz risk",
+        "title_ko": "이란 드론, 쿠웨이트 공항 타격…호르무즈 리스크에 유가 급등",
+        "current_state_en": "Iran launched drone strikes on Kuwait airport killing one and injuring dozens; fresh US-Iran clashes now threaten Hormuz reopening talks with oil already rising sharply.",
+        "current_state_ko": "이란군이 쿠웨이트 공항을 드론 공격해 1명 사망·수십 명 부상; 미-이란 충돌로 호르무즈 재개 협상이 위협받으며 유가가 급등하고 있다.",
         "direction": "escalating",
-        "summary_en": "Late May–early June 2026 saw renewed Iranian strikes on US-allied targets and US naval actions; talks stalled over nuclear program and sanctions relief. Goldman Sachs flagged potential US diesel crisis; IEA called it largest oil disruption in history.",
-        "summary_ko": "2026년 5월 말~6월 초 이란의 미 동맹국 대상 보복 공격과 미 해군 대응이 재개됐으며 핵 프로그램·제재 완화 협상이 교착됐다. Goldman Sachs는 미국 디젤 위기를 경고했고 IEA는 역사상 최대 석유 공급 차질로 평가했다.",
-        "source_hint": "X posts citing UKMTO/Lloyds data and Iranian state media June 2026",
-        "confidence": "developing",
-        "asymmetric_impact_en": "VST: positive (power demand spike); CEG: positive (gas/LNG substitution); NVDA/TSM: negative (higher energy costs + recession risk); MU: negative (data center power inflation); RKLB: neutral (defense spending offset).",
-        "asymmetric_impact_ko": "VST: 긍정 (전력 수요 급증); CEG: 긍정 (가스/LNG 대체); NVDA/TSM: 부정 (에너지 비용 상승+경기침체 리스크); MU: 부정 (데이터센터 전력 비용 증가); RKLB: 중립 (국방 지출 상쇄).",
+        "summary_en": "Hostilities flared in last 24h with Iranian drone strikes on Kuwait airport and US-Iran naval clashes in Gulf; Reuters and BBC report oil prices jumping on direct Hormuz threat. Source: Reuters 2026-06-03, BBC 2026-06-03.",
+        "summary_ko": "지난 24시간 내 이란의 쿠웨이트 공항 드론 공격과 걸프 해상 미-이란 충돌이 발생; 호르무즈 봉쇄 우려로 유가가 급등했다. 출처: Reuters 2026-06-03, BBC 2026-06-03.",
+        "source_hint": "Reuters 2026-06-03, BBC 2026-06-03, NYT 2026-06-03",
+        "confidence": "confirmed",
+        "asymmetric_impact_en": "VST: positive (power demand + oil price); CEG: positive (energy volatility); NVDA/TSM: negative (higher input costs + risk-off); PLTR: neutral to positive (defense contracts); SOFI: negative (higher rates pressure).",
+        "asymmetric_impact_ko": "VST: 긍정(전력 수요+유가 상승); CEG: 긍정(에너지 변동성 수혜); NVDA/TSM: 부정(원가 상승+리스크오프); PLTR: 중립~긍정(방산 수주); SOFI: 부정(금리 상승 압력).",
         "impact_direction": "negative",
-        "market_insight_en": "Watch daily UKMTO/Lloyds transit counts and any mine-clearance progress; oil >$120+ sustained forces defensive positioning in energy and tech until strait reopens.",
-        "market_insight_ko": "UKMTO/Lloyds 일일 통과량과 기뢰 제거 진척을 주시; 유가 $120 이상 지속 시 에너지 방어적 포지션과 기술주 축소를 고려."
+        "market_insight_en": "Watch crude above $85 and any Hormuz closure signals; rotate into energy and defense while hedging semis and rate-sensitive tech.",
+        "market_insight_ko": "WTI $85 상회와 호르무즈 봉쇄 신호를 주시; 에너지·방산 비중 확대하고 반도체·금리민감주는 헤지."
       },
       {
         "rank": 2,
         "tier": "ongoing",
         "category": "trade_tariff",
-        "title_en": "US tightens chip export controls to entity-based licensing on NVDA/AMD",
-        "title_ko": "미국, NVDA·AMD 대상 실체 기반 칩 수출 통제 강화",
-        "current_state_en": "BIS rules now require licenses for any China-headquartered entity even outside mainland; H20/Blackwell sales to China effectively gated with $5.5B+ NVDA inventory charges already booked.",
-        "current_state_ko": "BIS 규정이 중국 본사 실체에 대해 본토 외 지역까지 라이선스를 요구하며 H20/Blackwell 대중 판매가 사실상 차단됐고 NVDA는 이미 55억 달러 이상 재고 손실을 계상했다.",
+        "title_en": "US expands semiconductor export bans to Chinese overseas entities",
+        "title_ko": "미국, 중국 해외 법인 대상 반도체 수출 금지 확대",
+        "current_state_en": "US tightened rules targeting Chinese parent firms and expanded bans to overseas entities; new tariffs on China, EU, Mexico under labor probes also signaled.",
+        "current_state_ko": "미국이 중국 모기업을 겨냥한 규제를 강화하고 해외 법인까지 수출 금지를 확대; 노동 조사 후 중국·EU·멕시코 관세도 예고됐다.",
         "direction": "escalating",
-        "summary_en": "2026 extension to Blackwell/Rubin plus transshipment loophole closures; China’s buyer approval regime further restricts compliant sales. NVDA China revenue projected to single-digit share in some models while TSMC AI revenue from non-China customers doubles.",
-        "summary_ko": "2026년 Blackwell/Rubin까지 통제 확대와 환적 loophole 폐쇄; 중국 구매자 승인 제도가 합법 판매를 추가 제한. NVDA 중국 매출은 일부 모델에서 한자릿수 점유율로 전망되는 반면 TSMC 비중국 AI 매출은 2배 증가.",
-        "source_hint": "X analyst commentary on BIS updates and company filings June 2026",
+        "summary_en": "New Commerce rules 2 days ago explicitly target Chinese overseas subsidiaries; WSJ and Chosun Ilbo confirm expanded licensing requirements. Source: Chosun Ilbo 2026-06-02, WSJ 2026-06-02.",
+        "summary_ko": "이틀 전 상무부 규정이 중국 해외 자회사까지 명시적으로 겨냥; 수출 허가 요건이 확대됐다. 출처: 조선일보 2026-06-02, WSJ 2026-06-02.",
+        "source_hint": "Chosun Ilbo 2026-06-02, WSJ 2026-06-02, Supply Chain Dive 2026-06-03",
         "confidence": "confirmed",
-        "asymmetric_impact_en": "NVDA: negative on China revenue but positive on US hyperscaler demand; TSM: positive (AI node capacity sold out globally); MU: negative (China DRAM/HBM exposure); ALAB: positive (US packaging alternative).",
-        "asymmetric_impact_ko": "NVDA: 중국 매출 부정적이지만 미국 하이퍼스케일러 수요는 긍정; TSM: 긍정 (글로벌 AI 노드 풀가동); MU: 부정 (중국 DRAM/HBM 노출); ALAB: 긍정 (미국 패키징 대안).",
-        "impact_direction": "watch",
-        "market_insight_en": "Monitor BIS license approval announcements and NVDA China booking trends; any relaxation triggers short-covering in NVDA while sustained tightening favors TSMC capacity allocation.",
-        "market_insight_ko": "BIS 라이선스 승인 발표와 NVDA 중국 수주 동향을 주시; 완화 시 NVDA 숏커버링, 지속 강화 시 TSMC 캐파 배정 수혜."
+        "asymmetric_impact_en": "NVDA: negative (license delays + tariff cost); TSM: negative (China revenue exposure); MU: negative (memory demand hit); ALAB/ANET: negative (supply chain friction); APP: neutral (consumer focus).",
+        "asymmetric_impact_ko": "NVDA: 부정(라이선스 지연+관세 비용); TSM: 부정(중국 매출 노출); MU: 부정(메모리 수요 타격); ALAB/ANET: 부정(공급망 마찰); APP: 중립(소비재 중심).",
+        "impact_direction": "negative",
+        "market_insight_en": "Any case-by-case license approvals will trigger sharp NVDA/TSM swings; position for continued volatility until Commerce clarifies implementation timeline.",
+        "market_insight_ko": "개별 허가 승인 여부에 따라 NVDA·TSM이 크게 움직일 전망; 상무부 세부 시행 시한을 확인하며 변동성 대비."
       },
       {
         "rank": 3,
         "tier": "ongoing",
         "category": "geopolitical",
-        "title_en": "PLA conducts daily median-line crossings; Joint Sword-2026A blockade drills",
-        "title_ko": "PLA 일일 중앙선 월경; Joint Sword-2026A 봉쇄 훈련",
-        "current_state_en": "June 3 2026 saw 21 PLA aircraft with 14 median-line crossings plus PLAN vessels; large-scale Joint Sword-2026A exercises rehearsed encirclement and precision strikes without imminent invasion signals.",
-        "current_state_ko": "2026년 6월 3일 PLA 항공기 21대 중 14대가 중앙선을 월경하고 PLAN 함정과 합동훈련; Joint Sword-2026A 대규모 훈련이 포위·정밀타격을 연습했으나 즉각 침공 신호는 없음.",
+        "title_en": "PLA carrier drills intensify near Japan and Philippines, Taiwan condemns",
+        "title_ko": "중국 항모, 일본·필리핀 근해 고강도 훈련…대만 규탄",
+        "current_state_en": "Chinese carrier fleet conducting high-intensity drills in Pacific closer to Japan/Philippines; Taiwan officially condemned the activity around the island.",
+        "current_state_ko": "중국 항모 전단이 일본·필리핀 인근 태평양에서 고강도 훈련 중; 대만은 대만 주변 활동을 공식 규탄했다.",
         "direction": "stable_elevated",
-        "summary_en": "Taiwan MND reports near-daily ADIZ incursions and gray-zone pressure continuing into June 2026; Taiwan accelerating sea-drone swarm procurement. No new amphibious buildup but blockade rehearsal tempo remains high.",
-        "summary_ko": "대만 국방부는 2026년 6월까지 거의 매일 ADIZ 침범과 그레이존 압박 보고; 대만은 해상 드론 swarm 조달을 가속. 상륙 증강은 없으나 봉쇄 훈련 템포는 높은 상태 유지.",
-        "source_hint": "Taiwan Ministry of National Defense reports June 2026",
+        "summary_en": "Marine Insight and News On AIR report drills ongoing as of yesterday with Taiwan issuing formal condemnation; no new invasion-level rhetoric but persistent pressure on supply routes. Source: Marine Insight 2026-06-02, News On AIR 2026-06-03.",
+        "summary_ko": "어제 기준 항모 훈련이 지속 중이며 대만이 공식 규탄; 침공 수준 수사는 없으나 공급망 압박은 지속. 출처: Marine Insight 2026-06-02, News On AIR 2026-06-03.",
+        "source_hint": "Marine Insight 2026-06-02, News On AIR 2026-06-03, SCMP 2026-06-03",
         "confidence": "confirmed",
-        "asymmetric_impact_en": "TSM: negative (supply-chain disruption premium); NVDA: negative (TSM capacity risk); APP: positive (defense tech spend); RKLB: positive (space/intel assets).",
-        "asymmetric_impact_ko": "TSM: 부정 (공급망 차질 프리미엄); NVDA: 부정 (TSM 캐파 리스크); APP: 긍정 (방산 기술 지출); RKLB: 긍정 (우주/정보 자산).",
+        "asymmetric_impact_en": "TSM: negative (supply chain disruption risk); NVDA: negative (TSM exposure); RKLB: positive (space/defense demand); PLTR: positive (surveillance contracts); MSFT/AAPL: neutral (broad exposure).",
+        "asymmetric_impact_ko": "TSM: 부정(공급망 교란 리스크); NVDA: 부정(TSM 노출); RKLB: 긍정(우주·방산 수요); PLTR: 긍정(감시 계약); MSFT/AAPL: 중립(광범위 노출).",
         "impact_direction": "negative",
-        "market_insight_en": "Track Taiwan MND daily reports and any US arms-delivery delays; sustained gray-zone activity keeps TSM volatility elevated without immediate invasion pricing.",
-        "market_insight_ko": "대만 국방부 일일 보고와 미 무기 인도 지연 여부를 추적; 지속 그레이존 활동은 즉각 침공 가격 없이 TSM 변동성을 높임."
+        "market_insight_en": "Monitor Taiwan Strait shipping lane delays and any carrier movement toward median line; TSM and NVDA remain most sensitive to escalation headlines.",
+        "market_insight_ko": "대만해협 선박 지연과 항모의 중간선 접근 여부를 주시; TSM과 NVDA가 가장 민감하게 반응."
       }
     ],
-    "market_paradox_en": "Oil prices and shipping insurance have repriced aggressively for Hormuz closure while equity VIX remains relatively contained, suggesting markets still price geopolitical risk as containable rather than systemic.",
-    "market_paradox_ko": "유가와 해운 보험은 호르무즈 폐쇄에 적극적으로 반영됐으나 주식 VIX는 상대적으로 억제된 상태로 시장이 지정학 리스크를 전면적 위기보다는 봉쇄 가능한 수준으로 가격 매긴 것으로 보인다.",
+    "market_paradox_en": "Oil spiking on active Hormuz risk while VIX remains relatively contained; market appears to price ME tension as short-term energy shock rather than systemic crisis.",
+    "market_paradox_ko": "호르무즈 리스크로 유가가 급등했으나 VIX는 상대적으로 억제된 상태; 시장이 중동 긴장을 단기 에너지 충격으로만 보고 있다.",
     "ongoing_no_update": []
   }
 }
