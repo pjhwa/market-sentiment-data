@@ -379,7 +379,12 @@ def _format_symbol_block(data: dict) -> str:
         eps_est = d.get("eps_estimate")
         already_reported = d.get("already_reported_possible", False)
         if earn_date and already_reported:
-            earn_str = f"【실적발표=⚠이미발표됨({earn_date}, KST기준오늘=미국장마감후발표) / EPS예상=${eps_est}】"
+            earn_str = (
+                f"【실적발표=⚠이미발표됨({earn_date}) / EPS예상=${eps_est}】\n"
+                f"  ⛔ HARD RULE: analysis에 'beat','miss','상회','하회','exceeded','missed',"
+                f"'split','분할','exceeded estimates' 절대 금지. 실제 결과는 데이터에 없음.\n"
+                f"  ✅ 허용 표현: '오늘 장 마감 후 실적 발표됨 — EPS 추정 ${eps_est}, 실제 결과 확인 필요'"
+            )
         elif earn_date:
             earn_str = f"【실적발표={earn_date} ({days_earn}일후) / EPS예상=${eps_est}】"
         else:
@@ -424,6 +429,40 @@ def _format_symbol_block(data: dict) -> str:
         )
 
     return "\n\n".join(lines)
+
+
+def _format_macro_binding_header(macro_data: dict) -> str:
+    """big_picture 섹션에서 사용할 핵심 매크로 수치 바인딩 헤더.
+    이 값들은 big_picture의 vix_note / rates_note / dollar_note / btc_note에서
+    반드시 그대로 사용해야 한다.
+    """
+    items = {item['symbol']: item for item in macro_data.get('macro', [])}
+    def val(sym, field):
+        v = items.get(sym, {}).get(field)
+        return f"{v:.2f}" if isinstance(v, (int,float)) else str(v or 'N/A')
+    def chg(sym, field):
+        v = items.get(sym, {}).get(field)
+        return f"{v:+.2f}%" if isinstance(v, (int,float)) else str(v or 'N/A')
+
+    vix = val('^VIX', 'price')
+    tnx = val('^TNX', 'price')
+    dxy = val('DX-Y.NYB', 'price')
+    btc_p  = val('BTC-USD', 'price')
+    btc_1d = chg('BTC-USD', 'change_pct_1d')
+    btc_5d = chg('BTC-USD', 'change_pct_5d')
+    spy_p  = val('SPY', 'price')
+    spy_1d = chg('SPY', 'change_pct_1d')
+    qqq_p  = val('QQQ', 'price')
+    qqq_1d = chg('QQQ', 'change_pct_1d')
+
+    return (
+        f"━━━ MACRO BINDING TABLE — big_picture 수치는 이 값만 사용 ━━━\n"
+        f"VIX={vix}  |  10Y금리={tnx}%  |  DXY={dxy}  |  "
+        f"BTC=${btc_p} (1D={btc_1d}, 5D={btc_5d})\n"
+        f"SPY=${spy_p}({spy_1d})  |  QQQ=${qqq_p}({qqq_1d})\n"
+        f"⚠ BINDING: VIX/TNX/DXY/BTC 수치는 위 표 기준. 학습 데이터·추측 금지.\n"
+        f"   특히 BTC 1D%={btc_1d} — 다른 수치 사용 금지."
+    )
 
 
 def _format_macro_block(macro_data: dict) -> str:
@@ -744,9 +783,33 @@ def build_prompt(data: dict, now_kst: str, global_ctx: dict | None = None) -> st
 
     auth_table = _format_authoritative_table(data)
     symbol_block = _format_symbol_block(data)
+    macro_binding = _format_macro_binding_header(data["macro"])
     macro_block = _format_macro_block(data["macro"])
     macro_insight_block = _format_macro_insight_block(data.get("macro_insight", {}))
     earnings_block = _format_earnings_block(data["earnings"])
+
+    # BTC 앵커 문장: Grok이 수치를 임의로 변경하지 못하도록 사전 생성
+    _macro_items = {item['symbol']: item for item in data["macro"].get('macro', [])}
+    _btc = _macro_items.get('BTC-USD', {})
+    _btc_price = _btc.get('price')
+    _btc_1d    = _btc.get('change_pct_1d')
+    _btc_5d    = _btc.get('change_pct_5d')
+    if _btc_price and _btc_1d is not None and _btc_5d is not None:
+        _btc_1d_abs = abs(float(_btc_1d))
+        _btc_5d_abs = abs(float(_btc_5d))
+        _btc_direction = "down" if float(_btc_1d) < 0 else "up"
+        btc_anchor_en = (
+            f"Bitcoin is at ${float(_btc_price):,.2f}, {_btc_direction} {_btc_1d_abs:.2f}% "
+            f"today and {_btc_5d_abs:.2f}% over five days."
+        )
+        _btc_kor_dir = "하락" if float(_btc_1d) < 0 else "상승"
+        btc_anchor_ko = (
+            f"비트코인이 ${float(_btc_price):,.2f}로 오늘 {_btc_1d_abs:.2f}%, "
+            f"5일간 {_btc_5d_abs:.2f}% {_btc_kor_dir}했습니다."
+        )
+    else:
+        btc_anchor_en = "Bitcoin price data unavailable."
+        btc_anchor_ko = "비트코인 데이터 없음."
 
     return f"""You are a friendly stock market expert writing a morning briefing for Korean retail investors who are NOT finance professionals.
 Today is {now_kst} (KST).
@@ -797,6 +860,8 @@ MARKET DATA ({now_kst}):
 - QQQ 분배일: {qqq_dd.get('count','?')}일 ({qqq_dd.get('level','?')})
 - 전체시장 소셜심리: {market_sent.get('sentiment','N/A')} (종합점수={market_sent.get('composite_score','N/A')})
 
+{macro_binding}
+
 주요 매크로 지표 (yfinance 전일 종가 기준):
 {macro_block}
 
@@ -838,8 +903,8 @@ MARKET DATA ({now_kst}):
     "rates_note_ko": "미국 10년물 국채 금리(기준금리의 바로미터)가 오늘 주식 시장에 어떤 영향을 주는지.",
     "dollar_note_en": "1-2 sentences: DXY direction and impact — especially for tech/global earnings",
     "dollar_note_ko": "달러 강세/약세가 미국 기술주와 해외 투자자에게 어떤 의미인지.",
-    "btc_note_en": "1-2 sentences: Bitcoin price level and what it signals about risk appetite today (is crypto leading risk-on or risk-off?)",
-    "btc_note_ko": "비트코인 현재 가격과 그것이 오늘 투자자들의 위험 선호도에 대해 무엇을 말하는지 — 가상화폐를 잘 모르는 사람도 이해하게."
+    "btc_note_en": "{btc_anchor_en} [Append 1 sentence only: what does this signal about risk appetite today? No numbers — only interpretation.]",
+    "btc_note_ko": "{btc_anchor_ko} [뒤에 1문장만 추가: 위험 선호도에 무엇을 의미하는지. 추가 수치 금지.]"
   }},
   "sector_analysis": {{
     "leaders_en": "Which sectors/themes are leading and why — 1-2 sentences with simple explanation",
@@ -885,10 +950,33 @@ MARKET DATA ({now_kst}):
 REQUIREMENTS:
 - spotlight: 2-4 most interesting from the 21 (mix of opportunities and risks)
 - watchlist: ALL 21 in order TSM,NVDA,META,TSLA,PLTR,MU,CRWD,AMZN,MSFT,AAPL,GOOGL,RKLB,CEG,VST,ALAB,OKLO,APP,ANET,NVO,QBTS,SOFI
-- action=buy: Stage2≥6 AND RS≥70 AND strong upward momentum AND positive sentiment
-- action=hold: solid setup, currently in position, no strong buy signal but not selling
-- action=watch: interesting setup, wait for better entry or confirmation
-- action=avoid: DOWNTREND structure OR Stage2≤2 OR high distribution signals
+ACTION RULES — apply in this EXACT priority order (first rule that applies wins):
+  RULE 1 (HARD): action=avoid  IF: market_structure=DOWNTREND AND Stage2≤6
+                               OR  Stage2≤2 (regardless of structure)
+                               OR  (⚠이미발표됨 AND post-market drop>10%)
+  RULE 1 EXCEPTION: Stage2=7 AND RS≥70 even with DOWNTREND → 'watch' not 'avoid'
+
+  RULE 2: action=buy   IF: Stage2≥6 AND RS≥70 AND market_structure≠DOWNTREND AND (mood=optimistic OR euphoric)
+  RULE 3: action=hold  IF: Stage2≥5 AND in solid technical position (near entry, recent breakout, EMA support)
+  RULE 4: action=watch IF: any other case — interesting setup but mixed signals
+
+  ⚠ DISTRIBUTION ≠ DOWNTREND (important distinction):
+    DISTRIBUTION = high area with institutional selling pressure → use 'watch' not 'avoid' (if Stage2≥4)
+    DOWNTREND = confirmed lower highs + lower lows pattern → use 'avoid' (per RULE 1)
+    A stock with DISTRIBUTION structure and Stage2≥5 should be 'watch', not 'avoid'.
+
+  RS adjustment (does NOT override the rules above, only shifts borderline cases):
+    RS<30: downgrade one level (buy→hold, hold→watch, but NEVER watch→avoid by RS alone)
+    RS≥70: supports 'buy' if other criteria met
+
+  ⚠이미발표됨 with post-market drop >5% but <10%: max action='watch'
+  ⚠이미발표됨 with post-market drop >10%: action='avoid'
+
+TICKER-SPECIFIC DIRECTION RULES (override training-data defaults):
+  RKLB + SpaceX IPO: SpaceX IPO is NEGATIVE for RKLB near-term (liquidity competition draws capital away).
+    ✅ ALLOWED: "SpaceX IPO creates liquidity competition for RKLB"
+    ❌ FORBIDDEN: "SpaceX IPO beneficiary", "halo effect", "space theme lift" for RKLB without explicit caveat
+
 - sentiment_score: copy from the social data (composite_score field)
 - analysis_ko must integrate sentiment naturally — not as a separate item at the end
 
@@ -905,12 +993,17 @@ ANTI-HALLUCINATION RULES — CRITICAL:
    - To describe TODAY's direction, use 프리마켓 value from the table. If 프리마켓=N/A, do NOT claim a direction.
    - If 전일등락=0.00%(데이터없음): you do NOT know that day's change — write direction only without a %.
 
-3. EARNINGS DATES: ALL earnings dates and timing MUST come from the authoritative table.
-   NEVER write "next week", "soon", or "imminent" unless exact date is within 7 days in the table.
-   ▶ EARNINGS TIMING — CRITICAL:
-     If a stock shows "⚠이미발표됨": earnings ALREADY RELEASED in US after-hours before this briefing.
-     Write: "[심볼]은 오늘 미국 장 마감 후 실적을 발표했습니다 — EPS 추정치 $X였으나 실제 결과는 직접 확인 요망"
-     NEVER write "오늘 발표 예정", "내일 발표". NEVER write "실적 상회/하회/beat/miss" — results not in data.
+3. EARNINGS HALLUCINATION — HIGHEST PRIORITY RULE:
+   ▶ For ⚠이미발표됨 stocks — BANNED WORDS (automatic fail):
+     beat, miss, exceeded, disappointed, strong beat, strong miss, EPS beat, EPS miss,
+     상회, 하회, 어닝 서프라이즈, 실적 상회, 실적 하회, 어닝 쇼크,
+     split, reverse split, 분할, 주식분할, 배당, buyback, 자사주매입
+   ▶ REASON: We only have estimated EPS and the post-market price reaction.
+     We do NOT know: actual EPS, revenue, guidance, split announcements, or any forward statement.
+   ▶ The price reaction (post-market up/down) does NOT tell you if it was a beat or miss —
+     stocks fall on beats and rise on misses. Do NOT infer result from price direction.
+   ▶ ALLOWED template: "[SYM] reported after close today (est. EPS $X — verify actual at broker)"
+   ▶ EARNINGS DATES: Use ONLY table dates. NEVER write "next week"/"soon" without exact date.
 
 4. SECTOR LEADERS: Use the MACRO SIGNAL GROUPS section as the primary basis for sector_analysis.
    A "🟢 green" signal = technical strength. A "🔴 red" signal = technical weakness.
@@ -924,6 +1017,18 @@ ANTI-HALLUCINATION RULES — CRITICAL:
 6. NAMED EVENTS / CORPORATE ACTIONS: DO NOT mention specific military exercise names unless explicitly
    in the global context with a confirmed source_hint. Use general descriptions only.
    DO NOT mention stock splits, buybacks, M&A unless explicitly in the global context.
+
+SELF-CHECK before outputting JSON (fix any violation before output):
+  □ All prices in analysis/watchlist/spotlight match 전일종가 column in authoritative table?
+  □ All pre-market prices match 프리마켓 column (or N/A if not available)?
+  □ Any ⚠이미발표됨 stock: does analysis contain 'beat','miss','상회','하회','split','분할'? → REMOVE
+  □ Any DOWNTREND stock with action=buy? → change to 'watch' or 'avoid' per rule
+  □ Any Stage2≤2 stock with action='watch' or 'hold'? → change to 'avoid'
+  □ RKLB + SpaceX: is direction framed as negative (liquidity competition)?
+  □ EMA levels in watch_level: do they match EMA21/50/200 from 가격앵커 section?
+  □ All % changes: do they come from 전일등락(D-2→D-1) column, not invented?
+  □ btc_note VIX/TNX/DXY/BTC values match MACRO BINDING TABLE exactly?
+     BTC price, 1D%, 5D% must be the EXACT values from the binding table — no approximation.
 
 - Raw JSON only. No prose before or after."""
 
