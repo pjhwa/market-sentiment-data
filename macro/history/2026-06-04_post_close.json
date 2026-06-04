@@ -1,55 +1,55 @@
 {
-  "generated_at": "2026-06-04T01:58:58Z",
+  "generated_at": "2026-06-04T21:15:01Z",
   "schema_version": "2.0",
   "slot": "post_close",
   "overall": {
-    "summary_en": "Risk-on regime intact with stable volatility and breadth",
-    "summary_ko": "변동성·폭 안정 속 리스크온 유지",
+    "summary_en": "Risk-on: VIX 15.4 downtrend favors equities",
+    "summary_ko": "VIX 15.4 하락으로 리스크온",
     "bullets_en": [
-      "VIX 16.06 downtrend → low fear, risk-on friendly",
-      "RSP/IWM uptrend → broad participation healthy",
-      "BTC -7% in commodities → primary yellow signal"
+      "VIX 15.4 downtrend → low fear, risk-on friendly",
+      "RSP RSI71 uptrend → breadth supports risk assets",
+      "Oil 92.91 -3.24% → commodities mixed, watchful"
     ],
     "bullets_ko": [
-      "VIX 16 하락 → 공포 낮아 리스크온 우호",
-      "RSP/IWM 상승 → 시장 참여 확대 긍정",
-      "BTC -7% 상품군 → 주요 모니터링 대상"
+      "VIX 15.4 하락 → 공포 낮아 리스크온",
+      "RSP RSI71 → 폭 개선 리스크 자산 지지",
+      "원유 92.91 하락 → 원자재 혼조 주시"
     ]
   },
   "groups": {
     "volatility": {
-      "text_en": "VIX 16.06 downtrend RSI 41 supports calm stability",
-      "text_ko": "VIX 16 하락 RSI 41, 안정성 지지"
+      "text_en": "VIX 15.4 down 4.11% → easing supports risk assets",
+      "text_ko": "VIX 급락 → 변동성 완화로 긍정적"
     },
     "breadth": {
-      "text_en": "SPY/QQQ/RSP above EMA21 signals healthy breadth",
-      "text_ko": "SPY/QQQ/RSP EMA 상회, 폭 건전"
+      "text_en": "RSP 210.83 RSI71 uptrend → breadth constructive",
+      "text_ko": "RSP 상승 RSI71 → 폭 개선 우호적"
     },
     "credit": {
-      "text_en": "HYG/JNK RSI 53-55 reflects solid credit conditions",
-      "text_ko": "HYG/JNK RSI 53-55, 크레딧 안정"
+      "text_en": "HYG 79.83 stable → credit supportive for risk",
+      "text_ko": "HYG 안정 → 크레딧 리스크온 지지"
     },
     "rates": {
-      "text_en": "TNX 4.491% orderly with TLT stable, constructive",
-      "text_ko": "TNX 4.491% 질서 상승, TLT 안정"
+      "text_en": "TNX 4.477% down → rates improving, equities friendly",
+      "text_ko": "TNX 4.477% 하락 → 금리 개선 긍정"
     },
     "commodities": {
-      "text_en": "Oil +1.3% but BTC -7% GLD down, deteriorating",
-      "text_ko": "오일 +1.3%이나 BTC -7% GLD 하락"
+      "text_en": "Oil -3.24% BTC -0.44% → mixed, monitor closely",
+      "text_ko": "원유 하락 BTC 약세 → 혼조 신호 주의"
     },
     "sectors": {
-      "text_en": "SMH/XLE gain while XLY/ITA lag, mixed improving",
-      "text_ko": "SMH/XLE 강세 vs XLY/ITA 약세 혼조"
+      "text_en": "SMH ITA uptrends → sector momentum constructive",
+      "text_ko": "SMH ITA ↑ → 섹터 모멘텀 지지"
     }
   },
   "computed_signals": {
     "volatility": {
       "signal": "green",
-      "direction": "stable"
+      "direction": "improving"
     },
     "breadth": {
       "signal": "green",
-      "direction": "stable"
+      "direction": "improving"
     },
     "credit": {
       "signal": "green",
@@ -57,15 +57,15 @@
     },
     "rates": {
       "signal": "green",
-      "direction": "stable"
+      "direction": "improving"
     },
     "commodities": {
       "signal": "yellow",
-      "direction": "deteriorating"
+      "direction": "stable"
     },
     "sectors": {
-      "signal": "yellow",
-      "direction": "improving"
+      "signal": "green",
+      "direction": "stable"
     }
   },
   "overall_judgment": "RISK_ON"
