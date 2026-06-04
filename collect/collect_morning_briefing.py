@@ -322,7 +322,7 @@ def _format_authoritative_table(data: dict) -> str:
     rows.append("  [1] 가격·등락률·실적일은 반드시 이 테이블 값만 사용. 추측·근사·학습 데이터 사용 금지.")
     rows.append("  [2] '전일종가'는 직전 미국 거래일 종가. '전일등락'은 그 전날 대비 등락 (D-2→D-1).")
     rows.append("  [3] '프리마켓' 값이 있으면 오늘 장 방향성 언급 시 이 값만 사용. N/A면 방향 언급 금지.")
-    rows.append("  [4] 값이 N/A이면 해당 수치를 추측하지 말 것. 실적일이 N/A면 '30일 이내 없음'으로 처리.")
+    rows.append("  [4] 값이 N/A이면 해당 수치를 추측하지 말 것. 실적일 N/A이거나 14일 초과 → analysis에서 실적 언급 금지(완전 생략).")
     rows.append("  [5] ⚠이미발표됨: KST 오늘 날짜 실적 = 미국 장 마감 후 이미 발표됨. '오늘/내일 실적 예정' 금지.")
     rows.append("  [6] 지지/저항 가격은 전일종가 ±25% 범위 내에서만 언급. 범위 밖 수치 생성 금지.")
     if stale_syms:
@@ -385,10 +385,10 @@ def _format_symbol_block(data: dict) -> str:
                 f"'split','분할','exceeded estimates' 절대 금지. 실제 결과는 데이터에 없음.\n"
                 f"  ✅ 허용 표현: '오늘 장 마감 후 실적 발표됨 — EPS 추정 ${eps_est}, 실제 결과 확인 필요'"
             )
-        elif earn_date:
+        elif earn_date and days_earn is not None and days_earn <= 14:
             earn_str = f"【실적발표={earn_date} ({days_earn}일후) / EPS예상=${eps_est}】"
         else:
-            earn_str = "【실적발표=해당없음(30일이내없음)】"
+            earn_str = ""
         sent_reason = sent.get('key_reason_en') or sent.get('key_reason', '')
         sent_ko = sent.get('key_reason_ko', '')
 
@@ -412,6 +412,7 @@ def _format_symbol_block(data: dict) -> str:
         else:
             prepost_str = "프리/포스트마켓=N/A (사용 금지)"
 
+        earn_line = f"  {earn_str}\n" if earn_str else ""
         lines.append(
             f"{sym} ({company}) [T{tier}]\n"
             f"  Stage2점수={d['stage2_score']}/7  시장상대강도RS={d['rs_score']}  "
@@ -421,7 +422,7 @@ def _format_symbol_block(data: dict) -> str:
             f"돌파목표대비={vs_entry}  최근눌림={d['pullback_pct']}%\n"
             f"  [{prepost_str}]\n"
             f"  가격앵커: RSI14={rsi_str}  EMA21={ema21_str}  EMA50={ema50_str}  EMA200={ema200_str}  ATR14={atr14_str}\n"
-            f"  {earn_str}\n"
+            f"{earn_line}"
             f"  기술신호: {', '.join(signals)}\n"
             f"  소셜심리: {sent.get('sentiment','N/A')} (점수={sent.get('composite_score','N/A')})\n"
             f"  투자자반응: {sent_reason}\n"
@@ -848,7 +849,7 @@ WRITING RULES — follow strictly:
 7. DATA BINDING (CRITICAL):
    - Prices: use ONLY 전일종가 from the table. Pre-market price if discussing today's direction.
    - % changes: use ONLY the table values. "0.00%(데이터없음)" means you do NOT know — write direction only.
-   - Earnings: use ONLY exact dates from the table. "N/A" = write "30일 이내 실적 발표 없음".
+   - Earnings: mention ONLY if within 14 days. If N/A or >14 days, omit earnings entirely — do NOT write "30일 이내 실적 발표 없음" or any equivalent phrase.
    - Support/resistance levels: must be within ±25% of 전일종가. EMA21/50/200 from 가격앵커 section.
    - If 프리마켓=N/A: do NOT write "오늘 상승 중" or any today direction claim.
 
@@ -930,8 +931,8 @@ MARKET DATA ({now_kst}):
       "symbol": "TICKER",
       "company": "Company Name",
       "tier": 1,
-      "analysis_en": "3-5 sentences flowing paragraph. (1) recent price level using EXACT 전일종가 from table; if 프리마켓 is available, mention today's pre-market direction with that exact value, (2) strength or vulnerability in plain language using market_structure and stage2 data, (3) upside or downside using EMA/ATR anchors from 가격앵커, (4) social sentiment. All $ values must match table. For earnings: exact date from table or 'no earnings within 30 days'.",
-      "analysis_ko": "같은 내용 한국어 3-5문장. 전일종가는 테이블 값 그대로. 프리마켓 값이 있으면 '오늘 개장 전 $X(+Y%)' 형태로 사용. 없으면 오늘 방향 언급 금지. 실적일도 테이블 기준. 소셜 반응 자연스럽게 포함.",
+      "analysis_en": "3-5 sentences flowing paragraph. (1) recent price level using EXACT 전일종가 from table; if 프리마켓 is available, mention today's pre-market direction with that exact value, (2) strength or vulnerability in plain language using market_structure and stage2 data, (3) upside or downside using EMA/ATR anchors from 가격앵커, (4) social sentiment. All $ values must match table. Mention earnings ONLY if ≤14 days away with exact date; otherwise omit earnings entirely.",
+      "analysis_ko": "같은 내용 한국어 3-5문장. 전일종가는 테이블 값 그대로. 프리마켓 값이 있으면 '오늘 개장 전 $X(+Y%)' 형태로 사용. 없으면 오늘 방향 언급 금지. 실적은 14일 이내일 때만 정확한 날짜와 함께 언급, 그 외 완전 생략. 소셜 반응 자연스럽게 포함.",
       "sentiment_mood": "optimistic|cautious|neutral|fearful|euphoric — from the social data above",
       "sentiment_score": 0.0,
       "action": "buy|hold|watch|avoid"
@@ -943,8 +944,8 @@ MARKET DATA ({now_kst}):
   "today_checkpoints_ko": [
     "오늘 주시할 포인트 — 가격은 테이블 기준, 실적일은 테이블 기준 정확한 날짜 명시"
   ],
-  "earnings_alert_en": "For ⚠이미발표됨 stocks: '[SYM] already reported after US close today (est. EPS $X — verify actual results at broker/financial site)'. For upcoming: EXACT date from table (e.g. 'MU on 2026-06-25, EPS est. $19.28'). Never 'next week'/'soon'.",
-  "earnings_alert_ko": "⚠이미발표됨 종목: '[심볼]은 오늘 미국 장 마감 후 실적 발표됨 (EPS 추정 $X — 실제 결과는 증권사·뉴스 확인 필요)'. 향후 종목: 테이블 정확한 날짜 (예: 'MU 6월 25일, EPS 예상 $19.28'). '다음 주'/'곧' 금지."
+  "earnings_alert_en": "List ONLY: (1) ⚠이미발표됨 stocks: '[SYM] already reported after US close (est. EPS $X — verify actual at broker)'; (2) stocks with earnings ≤14 days away: exact date and EPS from table. If no such stocks exist, write empty string. Never 'next week'/'soon'/'no earnings'.",
+  "earnings_alert_ko": "다음 종목만 나열: (1) ⚠이미발표됨: '[심볼] 오늘 미국 장 마감 후 실적 발표됨 (EPS 추정 $X — 실제 결과는 증권사 확인)'; (2) 14일 이내 실적 예정 종목: 테이블의 정확한 날짜와 EPS. 해당 종목이 없으면 빈 문자열. '다음 주'/'곧'/'실적 없음' 금지."
 }}
 
 REQUIREMENTS:

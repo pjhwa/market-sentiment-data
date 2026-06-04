@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from collect.collect_morning_briefing import validate_global_context, _format_global_context_block
+from collect.collect_morning_briefing import validate_global_context, _format_global_context_block, _format_symbol_block as _mb_format_symbol_block
 
 
 def _valid_issue(rank=1):
@@ -218,6 +218,78 @@ class TestFormatGlobalContextBlock(unittest.TestCase):
     def test_instructions_included(self):
         result = _format_global_context_block(self._ctx_with_one_issue())
         self.assertIn("big_picture.summary", result)
+
+
+class TestMorningBriefingEarningsFilter(unittest.TestCase):
+    def _make_data(self, sym, days_until, earn_date="2026-06-10", already=False):
+        d = {
+            "price": 200.0,
+            "change_pct_prev_day": -0.3,
+            "high_52w_price": 250.0,
+            "price_date": "2026-06-04",
+            "stage2_score": 4,
+            "rs_score": 55.0,
+            "market_structure": "NEUTRAL",
+            "monthly_phase": "ADVANCING",
+            "ema200_slope": 0.0,
+            "pct_from_52w_high": -10.0,
+            "pullback_pct": 5.0,
+            "pct_vs_entry": None,
+            "entry": 0.0,
+            "rsi14": 50.0,
+            "ema200": 180.0,
+            "ema50": 190.0,
+            "ema21": 195.0,
+            "atr14": 3.0,
+            "price_above_emas": True,
+            "ema200_rising": False,
+            "volume_contracting": False,
+            "near_52w_high": False,
+            "bear_flag": False,
+            "rsi_divergence_bullish": False,
+            "rsi_divergence_bearish": False,
+            "gc_above": False,
+            "gc_breakout": False,
+            "gc_retest": False,
+            "earnings_date": earn_date if days_until is not None else None,
+            "days_until_earnings": days_until,
+            "eps_estimate": 2.50,
+            "already_reported_possible": already,
+        }
+        return {
+            "symbol_detail": {sym: d},
+            "prepost": {},
+            "sentiment": {"symbols": []},
+        }
+
+    def test_earnings_within_14_days_included(self):
+        data = self._make_data("NVDA", days_until=5)
+        result = _mb_format_symbol_block(data)
+        self.assertIn("실적발표=", result)
+        self.assertIn("2026-06-10", result)
+
+    def test_earnings_exactly_14_days_included(self):
+        data = self._make_data("NVDA", days_until=14)
+        result = _mb_format_symbol_block(data)
+        self.assertIn("실적발표=", result)
+
+    def test_earnings_15_days_omitted(self):
+        data = self._make_data("NVDA", days_until=15)
+        result = _mb_format_symbol_block(data)
+        self.assertNotIn("실적발표=", result)
+        self.assertNotIn("30일이내없음", result)
+        self.assertNotIn("해당없음", result)
+
+    def test_no_earnings_date_omitted(self):
+        data = self._make_data("NVDA", days_until=None, earn_date=None)
+        result = _mb_format_symbol_block(data)
+        self.assertNotIn("실적발표=", result)
+        self.assertNotIn("해당없음", result)
+
+    def test_already_reported_always_shown(self):
+        data = self._make_data("NVDA", days_until=0, earn_date="2026-06-05", already=True)
+        result = _mb_format_symbol_block(data)
+        self.assertIn("이미발표됨", result)
 
 
 if __name__ == "__main__":
