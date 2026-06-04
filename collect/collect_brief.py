@@ -296,7 +296,7 @@ def _format_authoritative_table(tech: dict) -> str:
     rows.append("  [1] 가격·등락률·실적일은 이 테이블 값만 사용. 추측·근사·학습 데이터 금지.")
     rows.append("  [2] '전일종가'는 마지막 미국 거래일 종가. '전일등락'은 그 전날 대비 (D-2→D-1).")
     rows.append("  [3] 프리/포스트 값이 있으면 오늘/어제 방향 언급 시 이 값만 사용. N/A면 방향 언급 금지.")
-    rows.append("  [4] N/A이면 추측 금지. 실적일 N/A → '30일 이내 없음'. 절대 '곧'/'다음 주' 금지.")
+    rows.append("  [4] N/A이면 추측 금지. 실적일 N/A이거나 14일 초과 → brief_en/ko에서 실적 언급 금지(완전 생략). 절대 '곧'/'다음 주' 금지.")
     rows.append("  [5] ⚠이미발표됨: 이미 발표됨. 'beat/miss/상회/하회/split/분할' 절대 금지.")
     rows.append("  [6] 지지/저항 레벨: 전일종가 ±25% 내, EMA21/50/200 기반만 허용.")
     if stale_syms:
@@ -402,7 +402,7 @@ def _format_symbol_block(tech: dict, sentiment_by_sym: dict) -> str:
         else:
             pp_str = "프리/포스트=N/A"
 
-        # 실적 정보
+        # 실적 정보 (14일 이내만 표시)
         earn_date = d.get("earnings_date")
         days_earn = d.get("days_until_earnings")
         eps_est   = d.get("eps_estimate")
@@ -414,10 +414,10 @@ def _format_symbol_block(tech: dict, sentiment_by_sym: dict) -> str:
                 f"'split','분할' 절대 금지. 실제 결과는 이 데이터에 없음.\n"
                 f"  ✅ 허용: '오늘 장 마감 후 발표됨 — EPS 추정 ${eps_est}, 실제 결과 확인 필요'"
             )
-        elif earn_date:
+        elif earn_date and days_earn is not None and days_earn <= 14:
             earn_str = f"【실적={earn_date} ({days_earn}일후) / EPS추정=${eps_est}】"
         else:
-            earn_str = "【실적=30일 이내 없음】"
+            earn_str = ""
 
         # 가격 앵커
         rsi_str   = f"{d['rsi14']:.1f}" if d.get("rsi14") is not None else "N/A"
@@ -427,6 +427,7 @@ def _format_symbol_block(tech: dict, sentiment_by_sym: dict) -> str:
         atr_str   = f"${d['atr14']:,.2f}" if d.get("atr14") else "N/A"
         vs_entry  = f"{d['pct_vs_entry']:+.1f}%" if d.get("pct_vs_entry") is not None else "N/A"
 
+        earn_line = f"  {earn_str}\n" if earn_str else ""
         lines.append(
             f"{sym} ({company})\n"
             f"  Stage2={d['stage2_score']}/7  RS={d['rs_score']}  "
@@ -436,7 +437,7 @@ def _format_symbol_block(tech: dict, sentiment_by_sym: dict) -> str:
             f"진입목표대비={vs_entry}  눌림={d['pullback_pct']:.1f}%\n"
             f"  [{pp_str}]\n"
             f"  가격앵커: RSI14={rsi_str}  EMA21={ema21_str}  EMA50={ema50_str}  EMA200={ema200_str}  ATR14={atr_str}\n"
-            f"  {earn_str}\n"
+            f"{earn_line}"
             f"  기술신호: {', '.join(signals)}\n"
             f"  소셜심리: {sent.get('sentiment','N/A')} (점수={sent.get('composite_score','N/A')})\n"
             f"  소셜근거: {sent.get('key_reason_en') or sent.get('key_reason','N/A')}"
@@ -537,7 +538,7 @@ SELF-CHECK before JSON output:
   □ DOWNTREND stocks: action_bias ≠ 'buy' (unless Stage2=7 AND RS≥70)?
   □ Stage2≤1 stocks: action_bias = 'avoid'?
   □ EMA levels in brief: match 가격앵커 values?
-  □ Earnings dates: exact from table, not approximated?
+  □ Earnings: mentioned ONLY if ≤14 days away? If absent or >14 days, completely omitted from brief_en/ko?
 
 Generate ONE JSON object (raw JSON only, no markdown):
 {{
@@ -554,8 +555,8 @@ Generate ONE JSON object (raw JSON only, no markdown):
     {{
       "symbol": "TICKER",
       "setup_quality": "A+|A|B|C|D",
-      "brief_en": "2-3 sentences: (1) exact price from table + key technical signal, (2) setup strength or vulnerability, (3) social catalyst or risk. NO invented prices.",
-      "brief_ko": "2-3문장: (1) 테이블 정확한 가격 + 핵심 기술 신호, (2) 셋업 강도 또는 취약점, (3) 소셜 촉매 또는 리스크.",
+      "brief_en": "2-3 sentences: (1) exact price from table + key technical signal, (2) setup strength or vulnerability, (3) social catalyst or risk. Mention earnings ONLY if ≤14 days away. NO invented prices.",
+      "brief_ko": "2-3문장: (1) 테이블 정확한 가격 + 핵심 기술 신호, (2) 셋업 강도 또는 취약점, (3) 소셜 촉매 또는 리스크. 실적은 14일 이내일 때만 언급, 그 외 완전 생략.",
       "key_risk_en": "Specific risk — cite EMA level or % from table if applicable",
       "key_risk_ko": "핵심 리스크 — 가능하면 테이블의 EMA 수치·% 인용",
       "key_opportunity_en": "Specific opportunity — cite exact entry or breakout level from data",

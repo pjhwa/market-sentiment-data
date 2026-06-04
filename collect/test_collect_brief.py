@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from collect.collect_brief import validate_brief
+from collect.collect_brief import validate_brief, _format_symbol_block, WATCHLIST
 
 
 class TestValidateBriefBilingual(unittest.TestCase):
@@ -71,6 +71,77 @@ class TestValidateBriefBilingual(unittest.TestCase):
         brief = self._valid_brief()
         brief["market_brief"]["tone"] = "invalid_tone"
         self.assertFalse(validate_brief(brief))
+
+
+class TestFormatSymbolBlockEarningsFilter(unittest.TestCase):
+    def _make_tech(self, sym, days_until, earn_date="2026-06-10", already=False):
+        """Minimal tech dict for _format_symbol_block."""
+        d = {
+            "price": 100.0,
+            "change_pct_prev_day": 0.5,
+            "high_52w_price": 120.0,
+            "price_date": "2026-06-04",
+            "stage2_score": 5,
+            "rs_score": 60.0,
+            "market_structure": "UPTREND",
+            "monthly_phase": "ADVANCING",
+            "ema200_slope": 0.001,
+            "pct_from_52w_high": -5.0,
+            "pullback_pct": 3.0,
+            "pct_vs_entry": 2.0,
+            "entry": 98.0,
+            "rsi14": 55.0,
+            "ema200": 90.0,
+            "ema50": 95.0,
+            "ema21": 98.0,
+            "atr14": 2.5,
+            "price_above_emas": True,
+            "ema200_rising": True,
+            "volume_contracting": False,
+            "near_52w_high": False,
+            "bear_flag": False,
+            "rsi_divergence_bullish": False,
+            "rsi_divergence_bearish": False,
+            "gc_above": False,
+            "gc_breakout": False,
+            "gc_retest": False,
+            "earnings_date": earn_date if days_until is not None else None,
+            "days_until_earnings": days_until,
+            "eps_estimate": 1.23,
+            "already_reported_possible": already,
+        }
+        return {
+            "symbol_detail": {sym: d},
+            "prepost": {},
+        }
+
+    def test_earnings_within_14_days_included(self):
+        tech = self._make_tech("NVDA", days_until=7)
+        result = _format_symbol_block(tech, {})
+        self.assertIn("실적=", result)
+        self.assertIn("2026-06-10", result)
+
+    def test_earnings_exactly_14_days_included(self):
+        tech = self._make_tech("NVDA", days_until=14)
+        result = _format_symbol_block(tech, {})
+        self.assertIn("실적=", result)
+
+    def test_earnings_15_days_omitted(self):
+        tech = self._make_tech("NVDA", days_until=15)
+        result = _format_symbol_block(tech, {})
+        self.assertNotIn("실적=", result)
+        self.assertNotIn("30일 이내 없음", result)
+
+    def test_no_earnings_date_omitted(self):
+        tech = self._make_tech("NVDA", days_until=None, earn_date=None)
+        result = _format_symbol_block(tech, {})
+        self.assertNotIn("실적=", result)
+        self.assertNotIn("30일 이내 없음", result)
+
+    def test_already_reported_always_shown(self):
+        tech = self._make_tech("NVDA", days_until=0, earn_date="2026-06-05", already=True)
+        result = _format_symbol_block(tech, {})
+        self.assertIn("이미발표됨", result)
 
 
 if __name__ == "__main__":
