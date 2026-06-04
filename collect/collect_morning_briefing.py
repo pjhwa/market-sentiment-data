@@ -130,14 +130,16 @@ def fetch_all_data() -> dict:
     regime = _api_get("/regime") or {}
     dd = _api_get("/distribution-days") or {}
     macro = _api_get("/macro") or {}
+    macro_insight = _api_get("/macro/insight") or {}
     watchlist = _api_get("/watchlist") or {}
 
     sentiment = _load_json("sentiment/latest.json")
     earnings = _load_json("earnings/latest.json")
     earnings_lookup = _build_earnings_lookup(earnings)  # KST 날짜 자동 적용
 
-    # 21종목 전체 일봉 상세 (스퀴즈/조정 분석용)
+    # 21종목 전체 일봉 상세 (스퀴즈/조정 분석용) + 프리마켓 데이터
     symbol_detail: dict = {}
+    prepost_data: dict = {}
     for sym, _, _ in ALL_SYMBOLS:
         daily = _api_get("/daily", {"symbol": sym})
         if daily and daily.get("stage2"):
@@ -156,19 +158,33 @@ def fetch_all_data() -> dict:
             except ZeroDivisionError:
                 high_52w = round(price, 2)
 
-            # 1일 등락률: candles 마지막 2봉에서 직접 계산 (API top-level에 없음)
+            # 전일 등락률: candles 마지막 2봉 (D-2 종가 → D-1 종가 변화)
+            # 아침 브리핑 시점 기준으로 이것이 "전 거래일" 변동률임
             candles = daily.get("candles", [])
             if len(candles) >= 2:
                 prev_close = candles[-2].get("close", 0)
                 curr_close = candles[-1].get("close", price)
-                chg_1d = round((curr_close - prev_close) / prev_close * 100, 2) if prev_close else 0.0
+                chg_prev_day = round((curr_close - prev_close) / prev_close * 100, 2) if prev_close else 0.0
             else:
-                chg_1d = 0.0
+                chg_prev_day = 0.0
+
+            # RSI14: 마지막 캔들에서 추출 (지표가 직렬화된 경우)
+            rsi14 = None
+            if candles:
+                rsi14 = candles[-1].get("rsi14")
+                if rsi14 is not None:
+                    rsi14 = round(float(rsi14), 1)
+
+            # EMA 수치: price-level 앵커용 (가격 수준 검증에 사용)
+            ema200 = round(s2.get("latest_ema200", 0), 2)
+            ema50  = round(s2.get("latest_ema50", 0), 2)
+            ema21  = round(s2.get("latest_ema21", 0), 2)
+            atr14  = round(s2.get("latest_atr", 0), 2)
 
             earn = earnings_lookup.get(sym, {})
             symbol_detail[sym] = {
                 "price":                  round(price, 2),
-                "change_pct_1d":          chg_1d,
+                "change_pct_prev_day":    chg_prev_day,   # 전 거래일 등락 (D-2→D-1)
                 "high_52w_price":         high_52w,
                 "price_date":             s2.get("price_date"),  # 마지막 봉 날짜
                 "earnings_date":          earn.get("earnings_date"),
@@ -184,6 +200,12 @@ def fetch_all_data() -> dict:
                 "pullback_pct":           round(s2.get("pullback_pct", 0), 1),
                 "pct_vs_entry":           round((price - entry) / entry * 100, 1) if entry else None,
                 "entry":                  round(entry, 2),
+                # 가격 앵커 지표 (hallucination 방지용)
+                "rsi14":                  rsi14,
+                "ema200":                 ema200,
+                "ema50":                  ema50,
+                "ema21":                  ema21,
+                "atr14":                  atr14,
                 # Stage2 체크 (스퀴즈 핵심 지표)
                 "volume_contracting":     checks.get("volume_contracting", False),
                 "near_52w_high":          checks.get("near_52w_high", False),
@@ -200,12 +222,26 @@ def fetch_all_data() -> dict:
                 "rsi_divergence_bullish": s2.get("rsi_divergence_bullish", False),
             }
 
+        # 프리마켓 데이터 수집 (아침 브리핑 핵심: 전날 장 마감 후 ~ 개장 전 움직임)
+        prepost = _api_get("/prepost", {"symbol": sym})
+        if prepost:
+            prepost_data[sym] = {
+                "market_state":          prepost.get("market_state"),
+                "pre_market_price":      prepost.get("pre_market_price"),
+                "pre_market_change_pct": prepost.get("pre_market_change_pct"),
+                "post_market_price":     prepost.get("post_market_price"),
+                "post_market_change_pct": prepost.get("post_market_change_pct"),
+                "regular_close":         prepost.get("regular_close"),
+            }
+
     return {
         "regime":        regime,
         "distribution":  dd,
         "macro":         macro,
+        "macro_insight": macro_insight,
         "watchlist":     watchlist.get("watchlist", []),
         "symbol_detail": symbol_detail,
+        "prepost":       prepost_data,
         "sentiment":     sentiment,
         "earnings":      earnings,
     }
@@ -215,9 +251,17 @@ def _format_authoritative_table(data: dict) -> str:
     """
     Grok 참조용 수치 바인딩 테이블.
     Grok이 분석 텍스트에 쓰는 모든 가격·등락률·실적일은 반드시 이 테이블에서 가져와야 한다.
+
+    컬럼 설명:
+    - 전일종가: 마지막 미국 장 종가 (D-1 종가, yfinance 일봉 기준)
+    - 전일등락: D-2 → D-1 종가 변화율 (전 거래일 등락)
+    - 프리마켓: 현재 프리마켓 가격 및 등락 (미국 장 개장 전 호가, 없으면 N/A)
+    - 52주고점, 고점%: 52주 최고가 및 현재 대비 거리
+    - 실적일, EPS: yfinance/earnings 데이터 기준 (추정치)
     """
     import datetime as _dt
     detail = data["symbol_detail"]
+    prepost = data.get("prepost", {})
     # 브리핑 실행 시점의 전 거래일(KST 기준 어제) 계산
     today_kst = (datetime.now(timezone.utc) + _dt.timedelta(hours=9)).date()
     prev_trading_day = today_kst - _dt.timedelta(days=1)
@@ -227,8 +271,8 @@ def _format_authoritative_table(data: dict) -> str:
 
     stale_syms: list[str] = []
 
-    hdr = f"{'심볼':<6} {'현재가':>10} {'1일등락':>8} {'52주고점':>11} {'고점%':>7}  {'실적발표일':<12} {'EPS예상':>9} {'상태'}"
-    sep = "-" * 90
+    hdr = f"{'심볼':<6} {'전일종가':>10} {'전일등락':>8} {'프리마켓':>12} {'52주고점':>11} {'고점%':>7}  {'실적발표일':<12} {'EPS예상':>9} {'상태'}"
+    sep = "-" * 105
     rows = [hdr, sep]
     for sym, _, _ in ALL_SYMBOLS:
         d = detail.get(sym)
@@ -236,11 +280,25 @@ def _format_authoritative_table(data: dict) -> str:
             rows.append(f"{sym:<6} {'데이터없음':>10}")
             continue
         price_s  = f"${d['price']:,.2f}"
-        chg_s    = f"{d.get('change_pct_1d', 0):+.2f}%"
+        chg_s    = f"{d.get('change_pct_prev_day', 0):+.2f}%"
         high_s   = f"${d['high_52w_price']:,.2f}" if d.get("high_52w_price") else "N/A"
         highp_s  = f"{d['pct_from_52w_high']:.1f}%"
         earn_s   = d.get("earnings_date") or "N/A"
         eps_s    = f"${d['eps_estimate']}" if d.get("eps_estimate") is not None else "N/A"
+
+        # 프리마켓 가격 (아침 브리핑의 핵심 — 당일 장 방향성)
+        pp = prepost.get(sym, {})
+        pre_price = pp.get("pre_market_price")
+        pre_chg   = pp.get("pre_market_change_pct")
+        post_price = pp.get("post_market_price")
+        post_chg   = pp.get("post_market_change_pct")
+        market_state = pp.get("market_state", "")
+        if pre_price and pre_chg is not None:
+            pre_s = f"${pre_price:,.2f}({pre_chg:+.2f}%)"
+        elif post_price and post_chg is not None:
+            pre_s = f"POST:${post_price:,.2f}({post_chg:+.2f}%)"
+        else:
+            pre_s = "N/A"
 
         flags = []
         # 실적 발표 타이밍 플래그
@@ -258,11 +316,15 @@ def _format_authoritative_table(data: dict) -> str:
                 pass
 
         flag_s = " ".join(flags)
-        rows.append(f"{sym:<6} {price_s:>10} {chg_s:>8} {high_s:>11} {highp_s:>7}  {earn_s:<12} {eps_s:>9} {flag_s}")
+        rows.append(f"{sym:<6} {price_s:>10} {chg_s:>8} {pre_s:>12} {high_s:>11} {highp_s:>7}  {earn_s:<12} {eps_s:>9} {flag_s}")
     rows.append(sep)
-    rows.append("⚠ BINDING: 위 표의 값과 다른 가격·등락률·실적일을 브리핑에 쓰는 것은 금지.")
-    rows.append("  값이 N/A이면 해당 수치를 추측하지 말 것. 실적일이 N/A면 '30일 이내 없음'으로 처리.")
-    rows.append("  실적상태=⚠이미발표됨: KST 오늘 날짜 실적 = 미국 장 마감 후 이미 발표됨. '오늘/내일 실적 예정' 금지.")
+    rows.append("⚠ BINDING RULES (위반 시 브리핑 무효):")
+    rows.append("  [1] 가격·등락률·실적일은 반드시 이 테이블 값만 사용. 추측·근사·학습 데이터 사용 금지.")
+    rows.append("  [2] '전일종가'는 직전 미국 거래일 종가. '전일등락'은 그 전날 대비 등락 (D-2→D-1).")
+    rows.append("  [3] '프리마켓' 값이 있으면 오늘 장 방향성 언급 시 이 값만 사용. N/A면 방향 언급 금지.")
+    rows.append("  [4] 값이 N/A이면 해당 수치를 추측하지 말 것. 실적일이 N/A면 '30일 이내 없음'으로 처리.")
+    rows.append("  [5] ⚠이미발표됨: KST 오늘 날짜 실적 = 미국 장 마감 후 이미 발표됨. '오늘/내일 실적 예정' 금지.")
+    rows.append("  [6] 지지/저항 가격은 전일종가 ±25% 범위 내에서만 언급. 범위 밖 수치 생성 금지.")
     if stale_syms:
         rows.append(f"  ⚠가격=(날짜)(구) 표시 종목: {', '.join(stale_syms)} — 이 종목들의 가격은 최신 종가보다 낮을 수 있음.")
         rows.append("    분석 시 '데이터 기준 $X (최신 종가 상이 가능)' 형태로 유보 표현을 쓸 것.")
@@ -272,6 +334,7 @@ def _format_authoritative_table(data: dict) -> str:
 def _format_symbol_block(data: dict) -> str:
     """21종목 데이터를 Grok 프롬프트용 텍스트로 변환."""
     detail = data["symbol_detail"]
+    prepost = data.get("prepost", {})
     sent_by_sym = {s.get("symbol"): s for s in data["sentiment"].get("symbols", [])}
     lines = []
 
@@ -309,8 +372,8 @@ def _format_symbol_block(data: dict) -> str:
             signals.append("✓모멘텀강화신호")
 
         vs_entry = f"{d['pct_vs_entry']:+.1f}%" if d["pct_vs_entry"] is not None else "N/A"
-        chg_1d = d.get("change_pct_1d", 0.0)
-        chg_1d_str = f"{chg_1d:+.2f}%" if chg_1d != 0.0 else "0.00%(데이터없음)"
+        chg_prev = d.get("change_pct_prev_day", 0.0)
+        chg_prev_str = f"{chg_prev:+.2f}%" if chg_prev != 0.0 else "0.00%(데이터없음)"
         earn_date = d.get("earnings_date")
         days_earn = d.get("days_until_earnings")
         eps_est = d.get("eps_estimate")
@@ -324,13 +387,35 @@ def _format_symbol_block(data: dict) -> str:
         sent_reason = sent.get('key_reason_en') or sent.get('key_reason', '')
         sent_ko = sent.get('key_reason_ko', '')
 
+        # RSI/EMA 가격 앵커 (지지·저항 수준 검증용)
+        rsi_str = f"{d['rsi14']:.1f}" if d.get("rsi14") is not None else "N/A"
+        ema200_str = f"${d['ema200']:,.2f}" if d.get("ema200") else "N/A"
+        ema50_str  = f"${d['ema50']:,.2f}" if d.get("ema50") else "N/A"
+        ema21_str  = f"${d['ema21']:,.2f}" if d.get("ema21") else "N/A"
+        atr14_str  = f"${d['atr14']:,.2f}" if d.get("atr14") else "N/A"
+
+        # 프리마켓 / 포스트마켓 데이터 (아침 장 전 방향성)
+        pp = prepost.get(sym, {})
+        pre_price = pp.get("pre_market_price")
+        pre_chg   = pp.get("pre_market_change_pct")
+        post_price = pp.get("post_market_price")
+        post_chg   = pp.get("post_market_change_pct")
+        if pre_price and pre_chg is not None:
+            prepost_str = f"프리마켓=${pre_price:,.2f}({pre_chg:+.2f}%) — 오늘 개장 전 방향"
+        elif post_price and post_chg is not None:
+            prepost_str = f"포스트마켓=${post_price:,.2f}({post_chg:+.2f}%) — 전날 장 마감 후"
+        else:
+            prepost_str = "프리/포스트마켓=N/A (사용 금지)"
+
         lines.append(
             f"{sym} ({company}) [T{tier}]\n"
             f"  Stage2점수={d['stage2_score']}/7  시장상대강도RS={d['rs_score']}  "
             f"구조={d['market_structure']}  월봉추세={d['monthly_phase']}\n"
-            f"  현재가=${d['price']}  【오늘1일등락={chg_1d_str}】  "
+            f"  [전일종가(D-1)=${d['price']}]  【전일등락(D-2→D-1)={chg_prev_str}】  "
             f"52주고점=${d['high_52w_price']}(대비{d['pct_from_52w_high']}%)  "
             f"돌파목표대비={vs_entry}  최근눌림={d['pullback_pct']}%\n"
+            f"  [{prepost_str}]\n"
+            f"  가격앵커: RSI14={rsi_str}  EMA21={ema21_str}  EMA50={ema50_str}  EMA200={ema200_str}  ATR14={atr14_str}\n"
             f"  {earn_str}\n"
             f"  기술신호: {', '.join(signals)}\n"
             f"  소셜심리: {sent.get('sentiment','N/A')} (점수={sent.get('composite_score','N/A')})\n"
@@ -345,31 +430,47 @@ def _format_macro_block(macro_data: dict) -> str:
     """매크로 주요 지표를 프롬프트용 요약 텍스트로 변환.
 
     BTC 대폭락 등 임계값 초과 시 ⚠ MANDATORY 경고를 주입한다.
+    SPY/QQQ/RSP/IWM 등 주요 지수도 포함.
     """
     items = macro_data.get("macro", [])
-    key_syms = {"^VIX", "^TNX", "DX-Y.NYB", "CL=F", "GLD", "TLT", "HYG", "BTC-USD"}
+    # 확장된 키 심볼 (지수·변동성·금리·원자재·섹터 모두 포함)
+    key_syms = {
+        "^VIX", "^TNX", "DX-Y.NYB", "CL=F", "GLD", "TLT", "HYG",
+        "BTC-USD", "SPY", "QQQ", "RSP", "IWM", "SMH",
+    }
+    # 그룹별 정렬을 위한 순서
+    sym_order = ["SPY", "QQQ", "RSP", "IWM", "^VIX", "^TNX", "TLT",
+                 "DX-Y.NYB", "HYG", "GLD", "CL=F", "BTC-USD", "SMH"]
+    items_by_sym = {item.get("symbol", ""): item for item in items}
+
     lines = []
     alerts = []
 
-    for item in items:
-        sym = item.get("symbol", "")
+    for sym in sym_order:
         if sym not in key_syms:
+            continue
+        item = items_by_sym.get(sym)
+        if not item:
             continue
         chg_1d = item.get("change_pct_1d") or 0
         chg_5d = item.get("change_pct_5d") or 0
-        price   = item.get("price", "?")
+        price  = item.get("price", "?")
+        rsi14  = item.get("rsi14", "?")
+        above_ema21 = item.get("above_ema21", None)
+        ema21_flag = "EMA21위" if above_ema21 else ("EMA21아래" if above_ema21 is not None else "")
         line = (
             f"{sym}: ${price}  "
-            f"1D={chg_1d}%  "
-            f"5D={chg_5d}%  "
-            f"구조={item.get('market_structure','?')}"
+            f"1D={chg_1d:+.2f}%  "
+            f"5D={chg_5d:+.2f}%  "
+            f"RSI={rsi14}  "
+            f"구조={item.get('market_structure','?')}  {ema21_flag}"
         )
         # BTC 대폭락 감지: 5D≤-10% 또는 1D≤-5%
         if sym == "BTC-USD":
             try:
                 d1, d5 = float(chg_1d), float(chg_5d)
                 if d5 <= -10 or d1 <= -5:
-                    line += f"  ⚠ BTC LARGE DROP DETECTED"
+                    line += "  ⚠ BTC LARGE DROP DETECTED"
                     alerts.append(
                         f"⚠⚠⚠ BTC CRASH ALERT — MANDATORY in executive_bullets ⚠⚠⚠\n"
                         f"  BTC-USD: 1D={d1:.1f}%, 5D={d5:.1f}% — 임계값 초과 (기준: 1D≤-5% 또는 5D≤-10%)\n"
@@ -385,6 +486,39 @@ def _format_macro_block(macro_data: dict) -> str:
     if alerts:
         result = "\n\n".join(alerts) + "\n\n" + result
     return result
+
+
+def _format_macro_insight_block(macro_insight: dict) -> str:
+    """매크로 인사이트 시그널 그룹 (yfinance 계산 결과) 를 프롬프트용 텍스트로 변환.
+
+    각 그룹의 green/yellow/red 신호와 방향을 제공해 Grok의 섹터 분석 근거로 활용.
+    AI 텍스트(bilingual) 는 사용하지 않고 신호 판단만 사용.
+    """
+    groups = macro_insight.get("groups", {})
+    overall = macro_insight.get("overall_judgment", "N/A")
+    if not groups:
+        return "매크로 인사이트: 데이터 없음"
+
+    signal_emoji = {"green": "🟢", "yellow": "🟡", "red": "🔴"}
+    group_names = {
+        "volatility":   "변동성(VIX)",
+        "breadth":      "브레드스(SPY/RSP)",
+        "credit":       "크레딧(HYG/JNK)",
+        "rates":        "금리(TLT/TNX)",
+        "commodities":  "원자재(GLD/OIL/BTC)",
+        "sectors":      "섹터(SMH/XLE/XLY/XHB/ITA)",
+    }
+
+    lines = [f"시장 신호 종합: {overall}"]
+    for key, label in group_names.items():
+        g = groups.get(key, {})
+        signal = g.get("signal", "?")
+        direction = g.get("direction", "?")
+        emoji = signal_emoji.get(signal, "❓")
+        lines.append(f"  {emoji} {label}: {signal.upper()} | {direction}")
+
+    lines.append("(위 신호는 yfinance 실시간 계산값. sector_analysis 작성 시 이 신호 기반으로 작성할 것.)")
+    return "\n".join(lines)
 
 
 def _format_earnings_block(earnings_data: dict) -> str:
@@ -604,7 +738,6 @@ def build_prompt(data: dict, now_kst: str, global_ctx: dict | None = None) -> st
     spy_dd = dd.get("spy", {})
     qqq_dd = dd.get("qqq", {})
     market_sent = data["sentiment"].get("market", {})
-    slot = data["sentiment"].get("slot", "unknown")
     regime_label = regime.get("regime", "UNKNOWN")
     regime_score = regime.get("total", "N/A")
     comps = regime.get("components", {})
@@ -612,19 +745,30 @@ def build_prompt(data: dict, now_kst: str, global_ctx: dict | None = None) -> st
     auth_table = _format_authoritative_table(data)
     symbol_block = _format_symbol_block(data)
     macro_block = _format_macro_block(data["macro"])
+    macro_insight_block = _format_macro_insight_block(data.get("macro_insight", {}))
     earnings_block = _format_earnings_block(data["earnings"])
 
     return f"""You are a friendly stock market expert writing a morning briefing for Korean retail investors who are NOT finance professionals.
 Today is {now_kst} (KST).
 
+━━━ DATA TIMING — READ FIRST ━━━
+This briefing runs at ~06:45 KST (21:45 UTC previous day), BEFORE the US market opens.
+- "전일종가" = last US session closing price (the most recent confirmed close)
+- "전일등락" = that session's change vs the session before (D-2 → D-1)
+- "프리마켓" = current pre-market price RIGHT NOW (if available) — use this for today's direction
+- DO NOT write "오늘 X% 상승/하락" using 전일등락 — that is YESTERDAY's move, not today's.
+- If 프리마켓 is N/A, you do NOT know today's direction — do not invent it.
+
 {global_block}
 
 ━━━ SNIPERBOARD AUTHORITATIVE DATA TABLE ━━━
-All values below come directly from real-time data feeds (prices, earnings calendars).
-These are the ONLY numbers you are allowed to use in your briefing for prices, % changes, and earnings dates.
-Do NOT substitute, approximate, invent, or recall from training data — use this table exclusively.
+Source: yfinance real-time feeds + earnings calendar. These are the ONLY numbers allowed in your briefing.
+Do NOT substitute, approximate, invent, or use training-data recollection for any price, %, or date.
 
 {auth_table}
+
+━━━ MACRO SIGNAL GROUPS (yfinance-computed, use for sector_analysis) ━━━
+{macro_insight_block}
 
 WRITING RULES — follow strictly:
 1. Write as if explaining to a smart friend who doesn't know stock jargon. Use everyday language.
@@ -638,9 +782,12 @@ WRITING RULES — follow strictly:
    "투자자들 사이에서 기대감이 높아지고 있다" etc.
 5. Be honest about risks — don't sugarcoat weak stocks.
 6. Korean must read naturally — avoid literal translation feel.
-7. DATA BINDING: Every price ($X), % change, and earnings date you write MUST match the table above.
-   If the table shows 1일등락=0.00%(데이터없음), write directional movement without a specific % figure.
-   If earnings date is N/A, write "30일 이내 실적 발표 없음" — never write "곧", "다음 주", "이번 주" without data.
+7. DATA BINDING (CRITICAL):
+   - Prices: use ONLY 전일종가 from the table. Pre-market price if discussing today's direction.
+   - % changes: use ONLY the table values. "0.00%(데이터없음)" means you do NOT know — write direction only.
+   - Earnings: use ONLY exact dates from the table. "N/A" = write "30일 이내 실적 발표 없음".
+   - Support/resistance levels: must be within ±25% of 전일종가. EMA21/50/200 from 가격앵커 section.
+   - If 프리마켓=N/A: do NOT write "오늘 상승 중" or any today direction claim.
 
 MARKET DATA ({now_kst}):
 - 리스크 레짐: {regime_label} ({regime_score}/100)
@@ -650,7 +797,7 @@ MARKET DATA ({now_kst}):
 - QQQ 분배일: {qqq_dd.get('count','?')}일 ({qqq_dd.get('level','?')})
 - 전체시장 소셜심리: {market_sent.get('sentiment','N/A')} (종합점수={market_sent.get('composite_score','N/A')})
 
-주요 매크로 지표:
+주요 매크로 지표 (yfinance 전일 종가 기준):
 {macro_block}
 
 감시 종목 21개 (기술적 데이터 + 소셜심리):
@@ -707,10 +854,10 @@ MARKET DATA ({now_kst}):
       "symbol": "TICKER",
       "company": "Company Name",
       "tier": 1,
-      "why_en": "2-3 sentences. Any price level mentioned MUST match the 현재가/52주고점 from the AUTHORITATIVE DATA TABLE.",
-      "why_ko": "오늘 이 종목이 특별히 주목받는 이유 2-3문장. 가격대는 반드시 위 테이블의 현재가 기준.",
-      "watch_level_en": "Use current price from the table as anchor. e.g. 'Break above $X (current $Y, table-verified); support near $Z (entry level from data)'",
-      "watch_level_ko": "테이블의 현재가·52주고점·entry 값 기반. '$X 돌파(현재 $Y) / $Z 이탈 시 경고' 형태."
+      "why_en": "2-3 sentences. Price levels MUST match 전일종가/52주고점 from the AUTHORITATIVE DATA TABLE. If 프리마켓 is available, mention it as 'pre-market at $X (+Y%)'.",
+      "why_ko": "오늘 이 종목이 특별히 주목받는 이유 2-3문장. 가격대는 반드시 테이블의 전일종가 기준. 프리마켓 값이 있으면 '개장 전 $X(+Y%)' 형태로 추가.",
+      "watch_level_en": "Use 전일종가 as anchor. Support/resistance from EMA21/EMA50/EMA200 or entry in 가격앵커. e.g. 'Break above $X (prev close $Y); EMA21 support at $Z (from data)'",
+      "watch_level_ko": "테이블의 전일종가·EMA21/50/200·entry 값 기반. '$X 돌파(전일종가 $Y) / EMA21=$Z 이탈 시 주의' 형태. ±25% 범위 초과 수치 사용 금지."
     }}
   ],
   "watchlist": [
@@ -718,8 +865,8 @@ MARKET DATA ({now_kst}):
       "symbol": "TICKER",
       "company": "Company Name",
       "tier": 1,
-      "analysis_en": "3-5 sentences flowing paragraph. (1) recent price movement using EXACT price/change from the table, (2) strength or vulnerability in plain language, (3) upside or downside, (4) social sentiment. All $ values and % changes must match the AUTHORITATIVE DATA TABLE. For earnings: use exact date from table or write 'no earnings within 30 days'.",
-      "analysis_ko": "같은 내용 한국어 3-5문장. 가격·등락률은 위 테이블 값 그대로. 실적일도 테이블 기준. 소셜 반응 자연스럽게 포함.",
+      "analysis_en": "3-5 sentences flowing paragraph. (1) recent price level using EXACT 전일종가 from table; if 프리마켓 is available, mention today's pre-market direction with that exact value, (2) strength or vulnerability in plain language using market_structure and stage2 data, (3) upside or downside using EMA/ATR anchors from 가격앵커, (4) social sentiment. All $ values must match table. For earnings: exact date from table or 'no earnings within 30 days'.",
+      "analysis_ko": "같은 내용 한국어 3-5문장. 전일종가는 테이블 값 그대로. 프리마켓 값이 있으면 '오늘 개장 전 $X(+Y%)' 형태로 사용. 없으면 오늘 방향 언급 금지. 실적일도 테이블 기준. 소셜 반응 자연스럽게 포함.",
       "sentiment_mood": "optimistic|cautious|neutral|fearful|euphoric — from the social data above",
       "sentiment_score": 0.0,
       "action": "buy|hold|watch|avoid"
@@ -731,8 +878,8 @@ MARKET DATA ({now_kst}):
   "today_checkpoints_ko": [
     "오늘 주시할 포인트 — 가격은 테이블 기준, 실적일은 테이블 기준 정확한 날짜 명시"
   ],
-  "earnings_alert_en": "For stocks marked ⚠이미발표됨 in the table: write '[SYM] already reported after US market close today (est. EPS $X — verify actual results)'. For upcoming stocks: use EXACT dates from the table (e.g. 'MU reports on 2026-06-25 (EPS est. $19.28)'). Never approximate with 'next week' or 'soon'.",
-  "earnings_alert_ko": "⚠이미발표됨 종목: '[심볼]은 오늘 미국 장 마감 후 실적 발표됨 (EPS 추정 $X — 실제 결과 확인 필요)'. 향후 종목: 테이블의 정확한 날짜 사용 (예: 'MU 6월 25일, EPS 예상 $19.28'). '다음 주', '곧' 등 근사치 금지."
+  "earnings_alert_en": "For ⚠이미발표됨 stocks: '[SYM] already reported after US close today (est. EPS $X — verify actual results at broker/financial site)'. For upcoming: EXACT date from table (e.g. 'MU on 2026-06-25, EPS est. $19.28'). Never 'next week'/'soon'.",
+  "earnings_alert_ko": "⚠이미발표됨 종목: '[심볼]은 오늘 미국 장 마감 후 실적 발표됨 (EPS 추정 $X — 실제 결과는 증권사·뉴스 확인 필요)'. 향후 종목: 테이블 정확한 날짜 (예: 'MU 6월 25일, EPS 예상 $19.28'). '다음 주'/'곧' 금지."
 }}
 
 REQUIREMENTS:
@@ -746,41 +893,37 @@ REQUIREMENTS:
 - analysis_ko must integrate sentiment naturally — not as a separate item at the end
 
 ANTI-HALLUCINATION RULES — CRITICAL:
-1. PRICE LEVELS (watch_level_en/ko): All price levels MUST be derived from the 현재가=$X field.
-   Levels must fall within ±25% of the current price shown in the data.
-   NEVER invent a support/resistance level that is more than 25% away from current price.
-   If you do not have sufficient data to determine a specific level, write a range relative to current price
-   (e.g. "5% above current price of $X" or "below the $Y entry level from the data").
+1. PRICE LEVELS (watch_level_en/ko):
+   - Use ONLY 전일종가 from the authoritative table as the price anchor.
+   - Support/resistance levels MUST be within ±25% of 전일종가.
+   - Prefer EMA21/EMA50/EMA200 values from the 가격앵커 section for specific levels.
+   - ATR14 from 가격앵커 defines the natural daily price range — do not suggest moves beyond 3×ATR14.
+   - NEVER invent a price level not derivable from the provided data.
 
-2. PRICE CHANGES (% drops, gains): ONLY state percentage changes that appear in 【오늘1일등락=X%】 fields.
-   If 오늘1일등락 shows 0.00%(데이터없음), you do NOT know today's % change — write "dropped" or "sold off"
-   without inventing a specific percentage. NEVER state a % price change you cannot verify from the data.
+2. TODAY'S DIRECTION vs YESTERDAY'S CHANGE:
+   - "전일등락(D-2→D-1)" is YESTERDAY's change, not today's. Do NOT write it as "오늘 X% 상승".
+   - To describe TODAY's direction, use 프리마켓 value from the table. If 프리마켓=N/A, do NOT claim a direction.
+   - If 전일등락=0.00%(데이터없음): you do NOT know that day's change — write direction only without a %.
 
-3. EARNINGS DATES: ALL earnings dates and timing MUST come from the authoritative table above.
-   NEVER write "next week", "soon", or "imminent" for any stock unless its exact date appears within 7 days.
-   If a stock's earnings date is more than 7 days out, write the EXACT date (e.g. "earnings on June 24").
+3. EARNINGS DATES: ALL earnings dates and timing MUST come from the authoritative table.
+   NEVER write "next week", "soon", or "imminent" unless exact date is within 7 days in the table.
    ▶ EARNINGS TIMING — CRITICAL:
-     If a stock shows "⚠이미발표됨" in the authoritative table, the earnings have ALREADY BEEN RELEASED
-     in US after-hours (which occurs ~06:00 KST, BEFORE this briefing runs at 06:45 KST).
-     You MUST write: "[심볼]은 오늘 미국 장 마감 후 실적을 발표했습니다 — EPS 추정치 $X였으나 실제 결과는 직접 확인 요망"
-     NEVER write "오늘 발표 예정", "내일 발표", or "분수령" for stocks flagged ⚠이미발표됨.
-     NEVER write "실적 상회", "실적 하회", "beat", or "miss" for ⚠이미발표됨 stocks —
-     actual results are NOT in this data. Only write EPS estimate and "실제 결과 확인 필요".
+     If a stock shows "⚠이미발표됨": earnings ALREADY RELEASED in US after-hours before this briefing.
+     Write: "[심볼]은 오늘 미국 장 마감 후 실적을 발표했습니다 — EPS 추정치 $X였으나 실제 결과는 직접 확인 요망"
+     NEVER write "오늘 발표 예정", "내일 발표". NEVER write "실적 상회/하회/beat/miss" — results not in data.
 
-4. SECTOR LEADERS: sector_analysis.leaders must reflect TECHNICAL leadership (market_structure=UPTREND/STAGE2).
-   A stock in DOWNTREND structure has social buzz but is NOT a technical leader — if you mention it,
-   explicitly note "narrative interest but in DOWNTREND" to distinguish from technical leaders.
+4. SECTOR LEADERS: Use the MACRO SIGNAL GROUPS section as the primary basis for sector_analysis.
+   A "🟢 green" signal = technical strength. A "🔴 red" signal = technical weakness.
+   A stock in DOWNTREND market_structure is NOT a technical leader — label it "narrative interest, DOWNTREND".
+   Do NOT contradict the macro signal group judgments without explicit reasoning.
 
-5. BTC LARGE MOVE ALERT: Check the BTC-USD entry in the macro data.
-   If BTC-USD 1D change ≤ -5% OR 5D change ≤ -10%: MANDATORY include BTC crash as one of executive_bullets_ko
-   (e.g., "비트코인이 X% 급락 — 위험자산 이탈 신호, 주식 변동성 선행 지표").
-   BTC is a leading indicator for risk appetite. A major BTC drop is NOT a crypto story — it is a macro risk signal.
-   Do NOT frame "증시 차분" or "안정적" if BTC is crashing simultaneously.
+5. BTC LARGE MOVE ALERT: Check BTC-USD in macro data.
+   If BTC-USD 1D ≤ -5% OR 5D ≤ -10%: MANDATORY include in executive_bullets_ko.
+   BTC crash = macro risk signal, NOT just a crypto story. Do NOT write "증시 차분/안정적" alongside BTC crash.
 
-6. NAMED EVENTS / CORPORATE ACTIONS: DO NOT mention specific military exercise names (e.g., "Joint Sword-XXXX",
-   "Thunder-XXXX", "Justice Mission XXXX") unless the global context section explicitly lists them with a
-   confirmed source_hint. Use general descriptions: "PLA conducted drills near Taiwan strait" not invented names.
-   DO NOT mention stock splits, buybacks, or M&A for any company unless explicitly stated in the global context.
+6. NAMED EVENTS / CORPORATE ACTIONS: DO NOT mention specific military exercise names unless explicitly
+   in the global context with a confirmed source_hint. Use general descriptions only.
+   DO NOT mention stock splits, buybacks, M&A unless explicitly in the global context.
 
 - Raw JSON only. No prose before or after."""
 
