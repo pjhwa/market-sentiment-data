@@ -849,9 +849,11 @@ WRITING RULES — follow strictly:
 7. DATA BINDING (CRITICAL):
    - Prices: use ONLY 전일종가 from the table. Pre-market price if discussing today's direction.
    - % changes: use ONLY the table values. "0.00%(데이터없음)" means you do NOT know — write direction only.
-   - Earnings: mention ONLY if within 14 days. If N/A or >14 days, omit earnings entirely — do NOT write "30일 이내 실적 발표 없음" or any equivalent phrase.
+   - Earnings: mention ONLY if within 14 days AND the date appears in the provided data. If N/A or >14 days, omit earnings entirely — do NOT write "30일 이내 실적 발표 없음" or any equivalent phrase. This applies to ALL sections including spotlight.
    - Support/resistance levels: must be within ±25% of 전일종가. EMA21/50/200 from 가격앵커 section.
    - If 프리마켓=N/A: do NOT write "오늘 상승 중" or any today direction claim.
+   - market_structure: use the EXACT value from '구조=' field — 'UPTREND', 'DOWNTREND', or 'DISTRIBUTION'. Never write DOWNTREND for a stock whose data shows DISTRIBUTION. They are fundamentally different conditions.
+   - Sentiment context (key_reason): use ONLY the 투자자반응/투자자반응(KO) field values from the provided data. Do NOT inject specific financial metrics (ARR%, EPS numbers, revenue figures, product names) from training memory.
 
 MARKET DATA ({now_kst}):
 - 리스크 레짐: {regime_label} ({regime_score}/100)
@@ -908,8 +910,8 @@ MARKET DATA ({now_kst}):
     "btc_note_ko": "{btc_anchor_ko} [뒤에 1문장만 추가: 위험 선호도에 무엇을 의미하는지. 추가 수치 금지.]"
   }},
   "sector_analysis": {{
-    "leaders_en": "Which sectors/themes are leading and why — 1-2 sentences with simple explanation",
-    "leaders_ko": "어떤 업종이 돈을 끌어모으고 있는지, 이유는 무엇인지 — 업종 이름과 이유를 자연스럽게.",
+    "leaders_en": "Based on MACRO SIGNAL GROUPS (🟢 green = technically strong). HARD RULE: Stocks with DOWNTREND market_structure are NEVER technical leaders. If a DOWNTREND stock benefits from a news theme (e.g. oil spike), write: '[sector]: narrative interest from [theme], but technically in DOWNTREND — not a structural leader.' Only stocks with UPTREND or neutral structure can be called leaders.",
+    "leaders_ko": "MACRO SIGNAL GROUPS의 🟢 녹색 신호 기반. 핵심 규칙: DOWNTREND 종목은 절대 기술적 리더가 아님. 뉴스 테마 수혜라도 '해당 섹터: [테마] 수혜 내러티브, 단 기술적 구조는 DOWNTREND — 진정한 섹터 리더 아님'으로 작성할 것.",
     "laggards_en": "Which are lagging and the simple reason why",
     "laggards_ko": "어떤 업종이 힘을 못 쓰고 있는지, 왜 그런지.",
     "rotation_signal_en": "Is money rotating between sectors? Where is it going and what does that signal?",
@@ -920,8 +922,8 @@ MARKET DATA ({now_kst}):
       "symbol": "TICKER",
       "company": "Company Name",
       "tier": 1,
-      "why_en": "2-3 sentences. Price levels MUST match 전일종가/52주고점 from the AUTHORITATIVE DATA TABLE. If 프리마켓 is available, mention it as 'pre-market at $X (+Y%)'.",
-      "why_ko": "오늘 이 종목이 특별히 주목받는 이유 2-3문장. 가격대는 반드시 테이블의 전일종가 기준. 프리마켓 값이 있으면 '개장 전 $X(+Y%)' 형태로 추가.",
+      "why_en": "2-3 sentences. Price levels MUST match 전일종가/52주고점 from the AUTHORITATIVE DATA TABLE. If 프리마켓 is available, mention it as 'pre-market at $X (+Y%)'. Mention earnings ONLY if the data shows ≤14 days away — if >14 days, omit earnings entirely even in spotlight. Do NOT add financial metrics (ARR%, EPS results, guidance) from training memory — only use 투자자반응 field for catalyst context.",
+      "why_ko": "오늘 이 종목이 특별히 주목받는 이유 2-3문장. 가격대는 반드시 테이블의 전일종가 기준. 프리마켓 값이 있으면 '개장 전 $X(+Y%)' 형태로 추가. 실적일은 14일 이내일 때만 언급(테이블 기준), 초과 시 완전 생략. ARR%·EPS 실적·가이던스 등 훈련 데이터 기반 수치 추가 금지.",
       "watch_level_en": "Use 전일종가 as anchor. Support/resistance from EMA21/EMA50/EMA200 or entry in 가격앵커. e.g. 'Break above $X (prev close $Y); EMA21 support at $Z (from data)'",
       "watch_level_ko": "테이블의 전일종가·EMA21/50/200·entry 값 기반. '$X 돌파(전일종가 $Y) / EMA21=$Z 이탈 시 주의' 형태. ±25% 범위 초과 수치 사용 금지."
     }}
@@ -1019,6 +1021,22 @@ ANTI-HALLUCINATION RULES — CRITICAL:
    in the global context with a confirmed source_hint. Use general descriptions only.
    DO NOT mention stock splits, buybacks, M&A unless explicitly in the global context.
 
+7. MARKET_STRUCTURE EXACT NAMING — CRITICAL:
+   You MUST use the exact market_structure value from the '구조=' field in analysis text.
+   The three valid values are: UPTREND, DOWNTREND, DISTRIBUTION.
+   DISTRIBUTION and DOWNTREND are DIFFERENT conditions — never substitute one for the other.
+   ✅ CORRECT: "sits in DISTRIBUTION (institutional selling pressure near highs)"
+   ❌ FORBIDDEN: writing 'DOWNTREND' when 구조=DISTRIBUTION (even if Stage2 is low)
+   In Korean, use: UPTREND→"상승 추세", DOWNTREND→"하락 추세", DISTRIBUTION→"분배 구간"
+
+8. EXTERNAL FINANCIAL METRICS — STRICTLY FORBIDDEN:
+   Do NOT add specific numbers or events from your training memory (e.g. "250% ARR growth",
+   "Broadcom's AI guidance", "UK firearms contract", "MAI-Thinking-1", "Q1 beat/miss").
+   ONLY use: (a) numbers explicitly in the provided data tables, OR (b) facts from global_context
+   issues with a verified source_hint.
+   For catalyst/sentiment context: use ONLY the 투자자반응/투자자반응(KO) field as provided.
+   Violating this rule = hallucination, even if the fact happens to be true in training data.
+
 SELF-CHECK before outputting JSON (fix any violation before output):
   □ All prices in analysis/watchlist/spotlight match 전일종가 column in authoritative table?
   □ All pre-market prices match 프리마켓 column (or N/A if not available)?
@@ -1030,6 +1048,11 @@ SELF-CHECK before outputting JSON (fix any violation before output):
   □ All % changes: do they come from 전일등락(D-2→D-1) column, not invented?
   □ btc_note VIX/TNX/DXY/BTC values match MACRO BINDING TABLE exactly?
      BTC price, 1D%, 5D% must be the EXACT values from the binding table — no approximation.
+  □ For each stock in watchlist/spotlight: does the written market_structure match 구조= field?
+     DISTRIBUTION ≠ DOWNTREND — mixing them is a factual error. Fix before output.
+  □ Any spotlight/watchlist analysis mention earnings for a stock with >14 days until earnings? → REMOVE
+  □ Any analysis contain specific financial metrics (ARR%, guidance figures, product names) not
+     in the provided tables or global_context with source_hint? → REMOVE those external facts.
 
 - Raw JSON only. No prose before or after."""
 
