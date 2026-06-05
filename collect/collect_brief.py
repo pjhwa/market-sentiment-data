@@ -655,7 +655,7 @@ def validate_brief(data: dict) -> bool:
 # ── Domain keyword sets (for cross-domain causal detection) ──────────────────
 _DOMAIN_KEYWORDS: dict[str, list[str]] = {
     "crypto":   ["btc", "비트코인", "bitcoin", "crypto", "암호화폐"],
-    "policy":   ["관세", "tariff", "허가제", "제재", "sanctions", "칩 규제", "chip"],
+    "policy":   ["관세", "tariff", "허가제", "제재", "sanctions", "칩 규제", "chip ban", "chip export"],
     "rates":    ["금리", "10y", "tnx", "treasury", "yield", "연준", "fed"],
     "equities": ["tsla", "aapl", "nvda", "msft", "amzn", "goog", "meta", "spy", "qqq", "주식"],
 }
