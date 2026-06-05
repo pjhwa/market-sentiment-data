@@ -652,6 +652,11 @@ def validate_brief(data: dict) -> bool:
     return True
 
 
+def validate_output_quality(data: dict) -> list[str]:
+    """Detect causal cross-domain language and Japanese chars in _ko fields."""
+    return []
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Context Attribution 스냅샷
 # ─────────────────────────────────────────────────────────────────────────────

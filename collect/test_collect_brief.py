@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from collect.collect_brief import validate_brief, _format_symbol_block, WATCHLIST
+from collect.collect_brief import validate_brief, _format_symbol_block, WATCHLIST, validate_output_quality
 
 
 class TestValidateBriefBilingual(unittest.TestCase):
@@ -142,6 +142,99 @@ class TestFormatSymbolBlockEarningsFilter(unittest.TestCase):
         tech = self._make_tech("NVDA", days_until=0, earn_date="2026-06-05", already=True)
         result = _format_symbol_block(tech, {})
         self.assertIn("이미발표됨", result)
+
+
+class TestValidateOutputQuality(unittest.TestCase):
+    def _brief(self, summary_ko="정상 요약.", brief_ko="정상 설명."):
+        return {
+            "market_brief": {
+                "summary_en": "Normal summary.",
+                "summary_ko": summary_ko,
+                "tone": "neutral",
+                "key_themes_en": ["theme"],
+                "key_themes_ko": ["테마"],
+                "watch_points_en": "Watch SPY.",
+                "watch_points_ko": "SPY 주시.",
+            },
+            "symbol_briefs": [
+                {
+                    "symbol": "TSLA",
+                    "setup_quality": "B",
+                    "brief_en": "Normal brief.",
+                    "brief_ko": brief_ko,
+                    "key_risk_en": "Risk.",
+                    "key_risk_ko": "리스크.",
+                    "key_opportunity_en": "Opportunity.",
+                    "key_opportunity_ko": "기회.",
+                    "action_bias": "watch",
+                }
+            ],
+        }
+
+    # ── Causal language tests ──────────────────────────────────────────────
+
+    def test_clean_brief_has_no_violations(self):
+        violations = validate_output_quality(self._brief())
+        self.assertEqual(violations, [])
+
+    def test_cross_domain_korean_connective_detected(self):
+        bad = self._brief(
+            summary_ko="미중 칩 관세가 개별 허가제로 바뀌는데 비트코인이 14% 급락했다."
+        )
+        violations = validate_output_quality(bad)
+        self.assertTrue(any("인과" in v or "causal" in v.lower() for v in violations),
+                        f"Expected causal violation, got: {violations}")
+
+    def test_cross_domain_english_connective_detected(self):
+        bad = self._brief()
+        bad["market_brief"]["summary_en"] = (
+            "US chip tariffs shifted to licensing while Bitcoin dropped 14%."
+        )
+        violations = validate_output_quality(bad)
+        self.assertTrue(any("causal" in v.lower() or "인과" in v for v in violations),
+                        f"Expected causal violation, got: {violations}")
+
+    def test_same_domain_connective_allowed(self):
+        ok = self._brief()
+        ok["market_brief"]["summary_en"] = "SPY held gains but QQQ lagged slightly."
+        violations = validate_output_quality(ok)
+        self.assertEqual(violations, [])
+
+    def test_causal_in_symbol_brief_ko_detected(self):
+        bad = self._brief(
+            brief_ko="관세 정책이 강화되는데 TSLA는 오히려 급등했다."
+        )
+        violations = validate_output_quality(bad)
+        self.assertTrue(len(violations) > 0, f"Expected violation, got: {violations}")
+
+    # ── Japanese character tests ───────────────────────────────────────────
+
+    def test_hiragana_in_ko_field_detected(self):
+        bad = self._brief(summary_ko="시장은 あいう 조정 중.")
+        violations = validate_output_quality(bad)
+        self.assertTrue(any("일본어" in v or "japanese" in v.lower() for v in violations),
+                        f"Expected Japanese violation, got: {violations}")
+
+    def test_katakana_in_ko_field_detected(self):
+        bad = self._brief(brief_ko="TSLA アイウ 전략 지속.")
+        violations = validate_output_quality(bad)
+        self.assertTrue(any("일본어" in v or "japanese" in v.lower() for v in violations),
+                        f"Expected Japanese violation, got: {violations}")
+
+    def test_hangul_only_text_passes(self):
+        ok = self._brief(
+            summary_ko="건설적 레짐 속 SPY 분배 경고.",
+            brief_ko="TSLA Stage2 5/7 UPTREND 유지.",
+        )
+        violations = validate_output_quality(ok)
+        self.assertEqual(violations, [])
+
+    def test_japanese_in_en_field_not_flagged(self):
+        ok = self._brief()
+        ok["market_brief"]["summary_en"] = "Market rises (see: アイウ reference)."
+        violations = validate_output_quality(ok)
+        jp_violations = [v for v in violations if "일본어" in v or "japanese" in v.lower()]
+        self.assertEqual(jp_violations, [])
 
 
 if __name__ == "__main__":
