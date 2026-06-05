@@ -749,6 +749,28 @@ def validate_output_quality(data: dict) -> list[str]:
     return violations
 
 
+def build_correction_prompt(original_prompt: str, violations: list[str]) -> str:
+    """Build a correction prompt appending violation details to the original instructions."""
+    violation_block = "\n".join(f"  - {v}" for v in violations)
+    return (
+        original_prompt
+        + f"""
+
+━━━ CORRECTION REQUIRED ━━━
+이전 출력에서 다음 위반 사항이 감지되었습니다. 해당 필드를 수정하여 전체 JSON을 다시 출력하세요.
+
+위반 목록:
+{violation_block}
+
+수정 규칙:
+1. [인과/causal] 표시 항목: 두 이벤트를 별개 문장으로 분리. 한국어는 "한편," 영어는 "Separately," 로 시작.
+2. [일본어/japanese] 표시 항목: 해당 필드에서 히라가나·카타카나를 완전히 제거하고 한글로 재작성.
+3. 수치·가격·날짜는 원본 데이터 테이블 값을 그대로 유지.
+
+Raw JSON only."""
+    )
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Context Attribution 스냅샷
 # ─────────────────────────────────────────────────────────────────────────────
@@ -832,6 +854,28 @@ def main():
     if parsed is None or not validate_brief(parsed):
         print("[ERROR] Brief 검증 실패 — 종료", file=sys.stderr)
         sys.exit(1)
+
+    # Quality check: causal language + Japanese characters
+    violations = validate_output_quality(parsed)
+    if violations:
+        print(f"[WARN] 품질 위반 {len(violations)}건 감지 — 교정 재시도", file=sys.stderr)
+        for v in violations:
+            print(f"  {v}", file=sys.stderr)
+        correction_prompt = build_correction_prompt(prompt, violations)
+        raw_text2 = call_hermes(correction_prompt)
+        if raw_text2:
+            parsed2 = extract_json(raw_text2)
+            if parsed2 and validate_brief(parsed2):
+                remaining = validate_output_quality(parsed2)
+                if remaining:
+                    print(f"[WARN] 교정 후에도 위반 {len(remaining)}건 잔존 — 원본 사용", file=sys.stderr)
+                else:
+                    print("[INFO] 교정 성공 — 수정본 사용", file=sys.stderr)
+                    parsed = parsed2
+            else:
+                print("[WARN] 교정본 검증 실패 — 원본 사용", file=sys.stderr)
+        else:
+            print("[WARN] 교정 Grok 호출 실패 — 원본 사용", file=sys.stderr)
 
     context_snapshot = build_brief_context_snapshot(tech, sentiment, now_iso)
 
