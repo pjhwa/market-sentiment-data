@@ -689,7 +689,7 @@ _DOMAIN_KEYWORDS: dict[str, list[str]] = {
     "equities": ["tsla", "aapl", "nvda", "msft", "amzn", "goog", "meta", "spy", "qqq", "주식"],
 }
 _CAUSAL_KO = ["는데", "지만", "하지만", "인데", "임에도", "불구하고"]
-_CAUSAL_EN = [" while ", " but ", " however ", " although ", " yet ", " despite "]
+_CAUSAL_EN = [" while ", " but ", " however ", " although ", " yet ", " despite ", " and "]
 _JP_RE = re.compile(r"[぀-ゟ゠-ヿ]")
 
 

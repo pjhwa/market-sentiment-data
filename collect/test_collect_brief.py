@@ -194,6 +194,21 @@ class TestValidateOutputQuality(unittest.TestCase):
         self.assertTrue(any("causal" in v.lower() or "인과" in v for v in violations),
                         f"Expected causal violation, got: {violations}")
 
+    def test_cross_domain_and_connective_detected(self):
+        bad = self._brief()
+        bad["market_brief"]["summary_en"] = (
+            "US chip tariffs shifted to individual licensing and Bitcoin dropped 14.98%."
+        )
+        violations = validate_output_quality(bad)
+        self.assertTrue(any("causal" in v.lower() or "인과" in v for v in violations),
+                        f"Expected causal violation, got: {violations}")
+
+    def test_same_domain_and_allowed(self):
+        ok = self._brief()
+        ok["market_brief"]["summary_en"] = "TSM and MU both show Stage2 7/7 with strong RS."
+        violations = validate_output_quality(ok)
+        self.assertEqual(violations, [])
+
     def test_same_domain_connective_allowed(self):
         ok = self._brief()
         ok["market_brief"]["summary_en"] = "SPY held gains but QQQ lagged slightly."
