@@ -652,9 +652,101 @@ def validate_brief(data: dict) -> bool:
     return True
 
 
+# ── Domain keyword sets (for cross-domain causal detection) ──────────────────
+_DOMAIN_KEYWORDS: dict[str, list[str]] = {
+    "crypto":   ["btc", "비트코인", "bitcoin", "crypto", "암호화폐"],
+    "policy":   ["관세", "tariff", "허가제", "제재", "sanctions", "칩 규제", "chip"],
+    "rates":    ["금리", "10y", "tnx", "treasury", "yield", "연준", "fed"],
+    "equities": ["tsla", "aapl", "nvda", "msft", "amzn", "goog", "meta", "spy", "qqq", "주식"],
+}
+_CAUSAL_KO = ["는데", "지만", "하지만", "인데", "임에도", "불구하고"]
+_CAUSAL_EN = [" while ", " but ", " however ", " although ", " yet ", " despite "]
+_JP_RE = re.compile(r"[぀-ゟ゠-ヿ]")
+
+
+def _domains_in_text(text: str) -> set[str]:
+    lower = text.lower()
+    return {domain for domain, kws in _DOMAIN_KEYWORDS.items()
+            if any(kw in lower for kw in kws)}
+
+
+def _has_causal_connector(text: str) -> bool:
+    lower = text.lower()
+    return any(c in lower for c in _CAUSAL_KO + _CAUSAL_EN)
+
+
+def _collect_ko_fields(data: dict) -> list[tuple[str, str]]:
+    """Return (field_path, text) for every _ko field in the brief."""
+    results: list[tuple[str, str]] = []
+    mb = data.get("market_brief", {})
+    for key in ("summary_ko", "watch_points_ko"):
+        val = mb.get(key, "")
+        if val:
+            results.append((f"market_brief.{key}", val))
+    for theme in mb.get("key_themes_ko", []):
+        if theme:
+            results.append(("market_brief.key_themes_ko[]", theme))
+    for sb in data.get("symbol_briefs", []):
+        sym = sb.get("symbol", "?")
+        for key in ("brief_ko", "key_risk_ko", "key_opportunity_ko"):
+            val = sb.get(key, "")
+            if val:
+                results.append((f"symbol_briefs.{sym}.{key}", val))
+    return results
+
+
+def _collect_all_fields(data: dict) -> list[tuple[str, str]]:
+    """Return (field_path, text) for ALL text fields (en + ko)."""
+    results: list[tuple[str, str]] = []
+    mb = data.get("market_brief", {})
+    for key in ("summary_en", "summary_ko", "watch_points_en", "watch_points_ko"):
+        val = mb.get(key, "")
+        if val:
+            results.append((f"market_brief.{key}", val))
+    for lang in ("en", "ko"):
+        for theme in mb.get(f"key_themes_{lang}", []):
+            if theme:
+                results.append((f"market_brief.key_themes_{lang}[]", theme))
+    for sb in data.get("symbol_briefs", []):
+        sym = sb.get("symbol", "?")
+        for key in ("brief_en", "brief_ko", "key_risk_en", "key_risk_ko",
+                    "key_opportunity_en", "key_opportunity_ko"):
+            val = sb.get(key, "")
+            if val:
+                results.append((f"symbol_briefs.{sym}.{key}", val))
+    return results
+
+
 def validate_output_quality(data: dict) -> list[str]:
-    """Detect causal cross-domain language and Japanese chars in _ko fields."""
-    return []
+    """Detect causal cross-domain language and Japanese chars in _ko fields.
+
+    Returns a list of human-readable violation strings (empty = clean).
+    """
+    violations: list[str] = []
+
+    # Check A: cross-domain causal connectives (all text fields)
+    for field_path, text in _collect_all_fields(data):
+        if not _has_causal_connector(text):
+            continue
+        domains = _domains_in_text(text)
+        if len(domains) >= 2:
+            snippet = text[:80].replace("\n", " ")
+            violations.append(
+                f"[인과/causal] {field_path}: 무관한 도메인({', '.join(domains)}) "
+                f"연결 감지 — '{snippet}'"
+            )
+
+    # Check B: Japanese hiragana/katakana in _ko fields only
+    for field_path, text in _collect_ko_fields(data):
+        match = _JP_RE.search(text)
+        if match:
+            snippet = text[:80].replace("\n", " ")
+            violations.append(
+                f"[일본어/japanese] {field_path}: 히라가나/카타카나 감지 "
+                f"('{match.group()}') — '{snippet}'"
+            )
+
+    return violations
 
 
 # ─────────────────────────────────────────────────────────────────────────────
