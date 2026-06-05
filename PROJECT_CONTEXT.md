@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-06-03 (Global Context Morning Briefing, 2-stage Grok pipeline) -->
+<!-- AUTO-GENERATED: 2026-06-05 (Brief prompt quality: causal language + Japanese prevention) -->
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 
@@ -270,6 +270,40 @@ Runs after the sentiment collector. Combines technical and social data → Grok 
 - `D`: Stage2 ≤2 or deepening downtrend
 
 **Context snapshot (Phase 1):** `build_brief_context_snapshot()` captures the technical/regime/sentiment state at generation time. Embedded as `context` in the output JSON. Surfaced in SniperBoard's Brief panel for transparency.
+
+### Output Quality Guardrails (2026-06-05)
+
+Two-layer defense against common Grok output errors:
+
+**Layer 1 — Prompt rules (`WRITING STYLE RULES` in `build_brief_prompt()`):**
+- **Rule 6**: Cross-domain causal/contrastive connectives forbidden. Three domains: `crypto` (BTC/비트코인), `policy` (관세/tariff/제재), `rates` (금리/TNX/연준). Korean connectives (`~는데`, `~지만` etc.) and English connectives (`while`, `but`, `and`, `however` etc.) between different domains are banned unless a direct causal link exists. Unrelated events must be split into separate sentences starting with "한편," / "Separately,".
+- **Rule 7**: One domain per sentence; `summary_ko` (30-char limit) must be single-domain.
+- **Rule 8**: All `_ko` fields must use Hangul only. Hiragana (あ…) and katakana (ア…) are strictly forbidden.
+
+**Layer 2 — Post-processing validation + retry:**
+
+| Function | Purpose |
+|----------|---------|
+| `validate_output_quality(data)` | Scans all text fields for violations; returns list of violation strings |
+| `build_correction_prompt(prompt, violations)` | Appends violation list + fix instructions to original prompt for retry |
+
+`validate_output_quality()` runs two checks:
+- **Check A** (`_collect_all_fields`): detects causal connective + ≥2 domain keywords in same text
+- **Check B** (`_collect_ko_fields`): detects hiragana/katakana (`[぀-ゟ゠-ヿ]`) in `_ko` fields only
+
+**Retry logic in `main()`:** If violations found → one corrective Grok call via `build_correction_prompt()`. If corrected output is clean, it replaces the original. If correction fails or still has violations, the original is saved (data completeness over quality blocking).
+
+**Domain keyword constants:**
+```python
+_DOMAIN_KEYWORDS = {
+    "crypto":   ["btc", "비트코인", "bitcoin", "crypto", "암호화폐"],
+    "policy":   ["관세", "tariff", "허가제", "제재", "sanctions", "칩 규제", "chip ban", "chip export"],
+    "rates":    ["금리", "10y", "tnx", "treasury", "yield", "연준", "fed"],
+    "equities": ["tsla", "aapl", "nvda", "msft", "amzn", "goog", "meta", "spy", "qqq", "주식"],
+}
+_CAUSAL_KO = ["는데", "지만", "하지만", "인데", "임에도", "불구하고"]
+_CAUSAL_EN = [" while ", " but ", " however ", " although ", " yet ", " despite ", " and "]
+```
 
 ---
 
@@ -578,7 +612,7 @@ PYTHONPATH=/path/to/market-sentiment-data python -m pytest collect/ -v
 # Key test files:
 # collect/test_collect_sentiment.py   — prompt guard, divergence, composite_score, validation
 # collect/test_price_context.py       — direction-word absence assertion, fallback behavior
-# collect/test_collect_brief.py       — brief validation, context snapshot
+# collect/test_collect_brief.py       — brief validation, context snapshot, validate_output_quality (23 tests)
 # collect/test_collect_brief_context.py — context attribution structure
 ```
 
