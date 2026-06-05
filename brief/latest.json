@@ -1,163 +1,164 @@
 {
-  "generated_at": "2026-06-05T13:00:00Z",
+  "generated_at": "2026-06-05T21:00:00Z",
   "schema_version": "2.0",
-  "slot": "pre_open",
+  "slot": "post_close",
   "market_brief": {
-    "summary_en": "Constructive risk regime at 76.0/100 with VIX 15.73 supporting AI semiconductor names.",
-    "summary_ko": "건설적 레짐(76) AI 반도체 주목",
+    "summary_en": "CONSTRUCTIVE regime (62.6/100) amid broad tech selloff with QQQ at $705.06 and fearful market sentiment at -1.3.",
+    "summary_ko": "CONSTRUCTIVE 레짐 속 QQQ 4.8% 하락",
     "tone": "cautious",
     "key_themes_en": [
-      "VIX 15.73 SPY $757.09(+0.38%) QQQ $740.61(-0.48%)",
-      "Bitcoin $61,910.90 down 2.96% today and 15.86% over five days"
+      "SPY -2.58% and QQQ -4.80% post-close",
+      "VIX at 21.51 with DXY 100.07"
     ],
     "key_themes_ko": [
-      "VIX 15.73 SPY $757.09(+0.38%)",
-      "비트코인 $61,910.90 일일 -2.96%"
+      "SPY -2.58%, QQQ -4.80% 기술 매도",
+      "VIX 21.51 변동성"
     ],
-    "watch_points_en": "MU earnings on 2026-06-24 and TSM pre-market level at $430.16",
-    "watch_points_ko": "MU 실적 2026-06-24 TSM 프리 $430.16 주시"
+    "watch_points_en": "Watch QQQ at $705.06 and SPY at $737.55 for next session direction.",
+    "watch_points_ko": "QQQ $705.06, SPY $737.55 방향 주시"
   },
   "symbol_briefs": [
     {
       "symbol": "TSM",
-      "setup_quality": "A+",
-      "brief_en": "TSM closed at $444.92 up 1.88% with pre-market at $430.16 down 3.32%. All EMAs above with EMA200 at $330.80 rising and volume contraction near 52-week high of $450.32. Social sentiment remains optimistic on persistent AI supply constraints.",
-      "brief_ko": "TSM 전일종가 $444.92 상승 1.88% 프리 $430.16 하락 3.32%. 모든 이평선 위 EMA200 $330.80 상승 중 거래량 수축. AI 공급 제약 지속에 소셜 낙관.",
-      "key_risk_en": "Pre-market weakness below EMA21 $416.24",
-      "key_risk_ko": "프리마켓 EMA21 $416.24 하회 위험",
-      "key_opportunity_en": "Break above $444.92 targets 52-week high $450.32",
-      "key_opportunity_ko": "$444.92 상회 시 52주 고점 $450.32 목표",
-      "action_bias": "buy"
+      "setup_quality": "B",
+      "brief_en": "TSM closed at $415.17 with post-market at $409.84. Price sits below EMA21 $416.14 but above EMA200 $331.63 in UPTREND structure with Stage2 5/7 and RS 70.7. Fearful social sentiment at -1.4 reflects semiconductor selloff.",
+      "brief_ko": "TSM은 $415.17에 마감하고 포스트마켓 $409.84. EMA21 $416.14 아래 EMA200 $331.63 위 UPTREND 구조 Stage2 5/7 RS 70.7. 소셜 fearful -1.4 반도체 매도 영향.",
+      "key_risk_en": "Post close below EMA21 $416.14 risks further pullback to EMA50 $395.58.",
+      "key_risk_ko": "포스트마켓 EMA21 $416.14 하회 시 EMA50 $395.58까지 조정 위험",
+      "key_opportunity_en": "Reclaim above EMA21 $416.14 targets 52-week high $450.29.",
+      "key_opportunity_ko": "EMA21 $416.14 돌파 시 52주 고점 $450.29 목표",
+      "action_bias": "watch"
     },
     {
       "symbol": "NVDA",
-      "setup_quality": "A+",
-      "brief_en": "NVDA closed at $218.66 up 1.94% with pre-market at $214.65 down 1.83%. All EMAs above EMA200 at $186.24 rising near 52-week high $236.39. Social focus remains on agentic AI and enterprise adoption viewing dip as opportunity.",
-      "brief_ko": "NVDA 전일종가 $218.66 상승 1.94% 프리 $214.65 하락 1.83%. 모든 이평선 위 EMA200 $186.24 상승 52주 고점 근처. 에이전틱 AI 수요에 소셜 낙관.",
-      "key_risk_en": "Pre-market pullback below EMA21 $215.49",
-      "key_risk_ko": "프리마켓 EMA21 $215.49 하회 위험",
-      "key_opportunity_en": "Reclaim above $218.66 opens path to $236.39 high",
-      "key_opportunity_ko": "$218.66 회복 시 $236.39 고점 경로",
-      "action_bias": "buy"
+      "setup_quality": "B",
+      "brief_en": "NVDA closed at $205.10 with post-market at $204.99. Price holds near EMA50 $206.64 in UPTREND with Stage2 5/7 and RS 56.8. Optimistic social score 0.7 cites sustained AI demand from GPU deals.",
+      "brief_ko": "NVDA는 $205.10에 마감하고 포스트마켓 $204.99. EMA50 $206.64 근처 UPTREND Stage2 5/7 RS 56.8. 소셜 optimistic 0.7 AI 수요 지속 언급.",
+      "key_risk_en": "Below EMA21 $214.54 increases downside to EMA200 $186.42.",
+      "key_risk_ko": "EMA21 $214.54 하회 시 EMA200 $186.42까지 하락 위험",
+      "key_opportunity_en": "Break above EMA21 $214.54 opens path toward 52-week high $236.29.",
+      "key_opportunity_ko": "EMA21 $214.54 상향 돌파 시 52주 고점 $236.29 접근 가능",
+      "action_bias": "watch"
     },
     {
       "symbol": "META",
-      "setup_quality": "C",
-      "brief_en": "데이터 기준 META closed at $622.98 up 4.24% with pre-market at $622.19 down 0.86%. Trading below EMAs near 52-week high $794.62. Social highlights AI ad efficiency and long-term big tech holding appeal.",
-      "brief_ko": "데이터 기준 META 전일종가 $622.98 상승 4.24% 프리 $622.19 하락 0.86%. 이평선 아래 52주 고점 근처. AI 광고 효율에 소셜 낙관.",
-      "key_risk_en": "Below EMA21 $617.89 and distribution structure",
-      "key_risk_ko": "EMA21 $617.89 하회 분배 구조 위험",
-      "key_opportunity_en": "Stabilize above $622.98 for potential EMA50 $623.52 retest",
-      "key_opportunity_ko": "$622.98 안착 시 EMA50 $623.52 재시험",
+      "setup_quality": "D",
+      "brief_en": "META closed at $593.00 with post-market at $590.99. Price trades below all EMAs including EMA200 $642.90 in monthly DOWNTREND with Stage2 1/7 and RS 15.3. Fearful social at -1.8 stems from dilution concerns on AI capex raise.",
+      "brief_ko": "META는 $593.00에 마감하고 포스트마켓 $590.99. 모든 이평선 아래 월봉 DOWNTREND Stage2 1/7 RS 15.3. 소셜 fearful -1.8 AI 자본 확충 희석 우려.",
+      "key_risk_en": "Sustained trading below EMA200 $642.90 confirms deeper correction toward $500 zone.",
+      "key_risk_ko": "EMA200 $642.90 아래 지속 시 $500대까지 추가 조정",
+      "key_opportunity_en": "Stabilization above EMA21 $616.43 needed before any recovery attempt.",
+      "key_opportunity_ko": "EMA21 $616.43 안착 후 회복 시도 가능",
       "action_bias": "avoid"
     },
     {
       "symbol": "TSLA",
       "setup_quality": "B",
-      "brief_en": "TSLA closed at $418.45 down 1.24% with pre-market at $419.97 up 0.36%. Trading below EMAs with EMA200 at $396.43 rising and volume contraction. Social cites strong European sales data and Robotaxi certification.",
-      "brief_ko": "TSLA 전일종가 $418.45 하락 1.24% 프리 $419.97 상승 0.36%. 이평선 아래 EMA200 $396.43 상승 거래량 수축. 유럽 판매 데이터와 로보택시 인증에 소셜 낙관.",
-      "key_risk_en": "Below EMA21 $419.64 in distribution structure",
-      "key_risk_ko": "EMA21 $419.64 하회 분배 구조 위험",
-      "key_opportunity_en": " reclaim above $418.45 targets EMA50 $408.76 retest",
-      "key_opportunity_ko": "$418.45 회복 시 EMA50 $408.76 재시험",
+      "brief_en": "TSLA closed at $391.00 with post-market at $390.55. Price below EMA21 $417.04 in DISTRIBUTION structure with Stage2 5/7 and low RS 28.1. Optimistic social at 0.5 focuses on robotaxi and Optimus long-term narrative.",
+      "brief_ko": "TSLA는 $391.00에 마감하고 포스트마켓 $390.55. EMA21 $417.04 아래 DISTRIBUTION Stage2 5/7 RS 28.1. 소셜 optimistic 0.5 로보택시 옵티머스 장기 기대.",
+      "key_risk_en": "RS below 30 and distribution structure raise risk of test at EMA200 $396.39.",
+      "key_risk_ko": "RS 30 미만 DISTRIBUTION 구조 EMA200 $396.39 테스트 위험",
+      "key_opportunity_en": "Volume contraction suggests energy accumulation above EMA50 $408.06.",
+      "key_opportunity_ko": "거래량 수축으로 EMA50 $408.06 위 에너지 축적 신호",
       "action_bias": "watch"
     },
     {
       "symbol": "PLTR",
       "setup_quality": "D",
-      "brief_en": "데이터 기준 PLTR closed at $142.20 down 6.55% with pre-market at $140.81 down 0.63%. Trading below all EMAs near 52-week high $207.59. Social notes AIPCon event and new commercial deals generating ontology traction buzz.",
-      "brief_ko": "데이터 기준 PLTR 전일종가 $142.20 하락 6.55% 프리 $140.81 하락 0.63%. 모든 이평선 아래 52주 고점 근처. AIPCon과 신규 계약에 소셜 낙관.",
-      "key_risk_en": "Below EMA21 $142.29 with Stage2 at 1",
-      "key_risk_ko": "EMA21 $142.29 하회 Stage2 1 위험",
-      "key_opportunity_en": " reclaim above $142.20 for EMA50 $142.88 retest",
-      "key_opportunity_ko": "$142.20 회복 시 EMA50 $142.88 재시험",
+      "brief_en": "PLTR closed at $135.53 with post-market at $134.37. Price below all EMAs in monthly DOWNTREND with Stage2 0/7 and RS 5.2. Fearful social at -0.9 triggered by UK data contract backlash.",
+      "brief_ko": "PLTR은 $135.53에 마감하고 포스트마켓 $134.37. 모든 이평선 아래 월봉 DOWNTREND Stage2 0/7 RS 5.2. 소셜 fearful -0.9 UK 데이터 계약 논란.",
+      "key_risk_en": "Stage2 at 0 and RS 5.2 indicate high probability of further breakdown below EMA200 $147.49.",
+      "key_risk_ko": "Stage2 0 RS 5.2로 EMA200 $147.49 아래 추가 하락 가능성 높음",
+      "key_opportunity_en": "Any recovery requires reclaim of EMA21 $141.63 with volume.",
+      "key_opportunity_ko": "회복하려면 EMA21 $141.63 거래량 동반 돌파 필요",
       "action_bias": "avoid"
     },
     {
       "symbol": "MU",
-      "setup_quality": "A+",
-      "brief_en": "MU closed at $996.00 down 7.74% with pre-market at $949.22 down 4.70%. All EMAs above EMA200 at $413.98 rising with volume contraction near 52-week high $1,089.72. Social highlights AI memory demand pushing toward $1T market cap.",
-      "brief_ko": "MU 전일종가 $996.00 하락 7.74% 프리 $949.22 하락 4.70%. 모든 이평선 위 EMA200 $413.98 상승 거래량 수축. AI 메모리 수요로 $1T 클럽 진입 소셜 낙관.",
-      "key_risk_en": "Pre-market weakness below EMA21 $843.44",
-      "key_risk_ko": "프리마켓 EMA21 $843.44 하회 위험",
-      "key_opportunity_en": "Reclaim above $996.00 targets 52-week high $1,089.72",
-      "key_opportunity_ko": "$996.00 회복 시 52주 고점 $1,089.72 목표",
-      "action_bias": "buy"
+      "setup_quality": "C",
+      "brief_en": "MU closed at $864.01 with post-market unchanged at $864.00. Price holds above all EMAs including EMA200 $418.43 in strong UPTREND with Stage2 6/7 and RS 100.0. Fearful social at -0.9 follows Broadcom AI outlook and rate concerns.",
+      "brief_ko": "MU는 $864.01에 마감하고 포스트마켓 $864.00. 모든 이평선 위 EMA200 $418.43 UPTREND Stage2 6/7 RS 100.0. 소셜 fearful -0.9 Broadcom 전망과 금리 우려.",
+      "key_risk_en": "Fearful mood despite technical strength risks sharp reversal from 52-week high $1,089.55 area.",
+      "key_risk_ko": "기술 강하지만 fearful 심리로 52주 고점 $1,089.55 근처 급반락 위험",
+      "key_opportunity_en": "Pullback to EMA21 $845.31 offers potential re-entry in confirmed uptrend.",
+      "key_opportunity_ko": "EMA21 $845.31 눌림은 CONFIRMED UPTREND 재진입 기회",
+      "action_bias": "watch"
     },
     {
       "symbol": "CRWD",
       "setup_quality": "A+",
-      "brief_en": "데이터 기준 CRWD closed at $747.61 down 2.78% with pre-market at $704.00 down 2.10%. All EMAs above EMA200 at $475.32 rising near 52-week high $785.30. Social views post-earnings dip as buying opportunity in cybersecurity growth.",
-      "brief_ko": "데이터 기준 CRWD 전일종가 $747.61 하락 2.78% 프리 $704.00 하락 2.10%. 모든 이평선 위 EMA200 $475.32 상승 52주 고점 근처. 사이버보안 성장에 소셜 낙관.",
-      "key_risk_en": "Pre-market drop below EMA21 $636.41",
-      "key_risk_ko": "프리마켓 EMA21 $636.41 하회 위험",
-      "key_opportunity_en": " reclaim above $747.61 opens $785.30 high",
-      "key_opportunity_ko": "$747.61 회복 시 $785.30 고점 경로",
+      "brief_en": "CRWD closed at $671.02 with post-market at $664.04. Price above all EMAs and GC with Stage2 6/7 and RS 100.0 in UPTREND. Optimistic social at 0.4 highlights 26% revenue growth and 250% AI ARR ramp despite post-earnings dip.",
+      "brief_ko": "CRWD는 $671.02에 마감하고 포스트마켓 $664.04. 모든 이평선 위 GC Stage2 6/7 RS 100.0 UPTREND. 소셜 optimistic 0.4 26% 매출 성장 250% AI ARR 언급.",
+      "key_risk_en": "⚠RSI decline divergence noted near 52-week high $785.74.",
+      "key_risk_ko": "⚠RSI 하락 다이버전스 52주 고점 $785.74 근처 주의",
+      "key_opportunity_en": "Hold above EMA21 $646.39 keeps bullish structure intact toward new highs.",
+      "key_opportunity_ko": "EMA21 $646.39 지지 시 신고점 도전 구조 유지",
       "action_bias": "buy"
     },
     {
       "symbol": "AMZN",
       "setup_quality": "B",
-      "brief_en": "AMZN closed at $253.79 up 1.51% with pre-market at $251.86 down 0.76%. Trading below EMAs with EMA200 at $233.20 rising and GC retest near 52-week high $278.58. Social cites AWS acceleration and AI infrastructure bets.",
-      "brief_ko": "AMZN 전일종가 $253.79 상승 1.51% 프리 $251.86 하락 0.76%. 이평선 아래 EMA200 $233.20 상승 GC 재테스트. AWS 가속과 AI 인프라에 소셜 낙관.",
-      "key_risk_en": "Below EMA21 $261.93 in distribution structure",
-      "key_risk_ko": "EMA21 $261.93 하회 분배 구조 위험",
-      "key_opportunity_en": "Reclaim above $253.79 targets EMA50 $252.93",
-      "key_opportunity_ko": "$253.79 회복 시 EMA50 $252.93 목표",
+      "brief_en": "AMZN closed at $246.03 with post-market at $245.86. Price below EMA21 $260.48 in DISTRIBUTION with Stage2 4/7 and RS 62.4. Optimistic social at 0.5 views potential debt raise as AI funding support.",
+      "brief_ko": "AMZN은 $246.03에 마감하고 포스트마켓 $245.86. EMA21 $260.48 아래 DISTRIBUTION Stage2 4/7 RS 62.4. 소셜 optimistic 0.5 AI 자금 조달로 해석.",
+      "key_risk_en": "Failure to reclaim EMA21 $260.48 keeps structure vulnerable to EMA50 $252.66 test.",
+      "key_risk_ko": "EMA21 $260.48 미회복 시 EMA50 $252.66 테스트 취약",
+      "key_opportunity_en": "Stabilization above EMA50 $252.66 supports retest of 52-week high $278.63.",
+      "key_opportunity_ko": "EMA50 $252.66 안착 시 52주 고점 $278.63 재시도 지지",
       "action_bias": "watch"
     },
     {
       "symbol": "MSFT",
       "setup_quality": "C",
-      "brief_en": "MSFT closed at $428.05 up 0.17% with pre-market at $429.24 up 0.28%. Trading below EMAs with EMA200 at $435.41 and GC above near 52-week high $550.90. Social focuses on Microsoft Build 2026 AI agents.",
-      "brief_ko": "MSFT 전일종가 $428.05 상승 0.17% 프리 $429.24 상승 0.28%. 이평선 아래 EMA200 $435.41 GC 위. Microsoft Build AI 에이전트에 소셜 낙관.",
-      "key_risk_en": "Below EMA21 $424.57 with Stage2 at 2",
-      "key_risk_ko": "EMA21 $424.57 하회 Stage2 2 위험",
-      "key_opportunity_en": "Stabilize above $428.05 for EMA50 $416.49 retest",
-      "key_opportunity_ko": "$428.05 안착 시 EMA50 $416.49 재시험",
+      "brief_en": "MSFT closed at $416.67 with post-market at $414.60. Price below EMA21 $423.85 near EMA50 $416.50 in monthly DOWNTREND with Stage2 2/7 and RS 35.9. Optimistic social at 0.7 focuses on AI Skills Fest and in-house model progress.",
+      "brief_ko": "MSFT는 $416.67에 마감하고 포스트마켓 $414.60. EMA21 $423.85 아래 EMA50 $416.50 근처 월봉 DOWNTREND Stage2 2/7 RS 35.9. 소셜 optimistic 0.7 AI 이벤트와 자체 모델 주목.",
+      "key_risk_en": "Stage2 at 2 and monthly DOWNTREND increase risk below EMA200 $435.23.",
+      "key_risk_ko": "Stage2 2와 월봉 DOWNTREND로 EMA200 $435.23 하회 위험",
+      "key_opportunity_en": "Reclaim of EMA21 $423.85 required to shift bias back to positive.",
+      "key_opportunity_ko": "EMA21 $423.85 회복이 긍정 전환의 필수 조건",
       "action_bias": "watch"
     },
     {
       "symbol": "AAPL",
       "setup_quality": "B",
-      "brief_en": "AAPL closed at $311.23 up 0.31% with pre-market at $312.55 up 0.42%. All EMAs above EMA200 at $263.44 rising near 52-week high $316.93. Social discusses Google Nvidia chips for Siri AI ahead of WWDC.",
-      "brief_ko": "AAPL 전일종가 $311.23 상승 0.31% 프리 $312.55 상승 0.42%. 모든 이평선 위 EMA200 $263.44 상승 52주 고점 근처. WWDC 앞 Siri AI 칩 협력에 소셜 낙관.",
-      "key_risk_en": "Below EMA21 $301.46 in distribution structure",
-      "key_risk_ko": "EMA21 $301.46 하회 분배 구조 위험",
-      "key_opportunity_en": "Hold above $311.23 keeps path to $316.93 high",
-      "key_opportunity_ko": "$311.23 유지 시 $316.93 고점 경로",
+      "brief_en": "AAPL closed at $307.34 with post-market at $307.21. Price holds above all EMAs including EMA200 $263.87 in DISTRIBUTION with Stage2 6/7 and RS 68.7. Optimistic social at 0.4 notes relative strength and WWDC 2026 AI anticipation.",
+      "brief_ko": "AAPL은 $307.34에 마감하고 포스트마켓 $307.21. 모든 이평선 위 EMA200 $263.87 DISTRIBUTION Stage2 6/7 RS 68.7. 소셜 optimistic 0.4 상대 강도와 WWDC 2026 AI 기대.",
+      "key_risk_en": "DISTRIBUTION structure near 52-week high $316.85 caps upside until volume expands.",
+      "key_risk_ko": "DISTRIBUTION 구조 52주 고점 $316.85 근처 거래량 확대 전 상단 제한",
+      "key_opportunity_en": "Pullback to EMA21 $301.99 offers support in otherwise strong technical setup.",
+      "key_opportunity_ko": "EMA21 $301.99 눌림은 강한 기술 구조 내 지지선",
       "action_bias": "watch"
     },
     {
       "symbol": "GOOGL",
       "setup_quality": "A",
-      "brief_en": "GOOGL closed at $372.19 up 3.68% with pre-market at $367.38 down 1.29%. Trading below EMAs with EMA200 at $305.08 rising after GC breakout near 52-week high $408.55. Social highlights AI investments and enterprise agent partnerships.",
-      "brief_ko": "GOOGL 전일종가 $372.19 상승 3.68% 프리 $367.38 하락 1.29%. 이평선 아래 EMA200 $305.08 상승 GC 돌파 후. AI 투자와 기업 에이전트 파트너십에 소셜 낙관.",
-      "key_risk_en": "Below EMA21 $377.12 after recent distribution",
-      "key_risk_ko": "EMA21 $377.12 하회 최근 분배 위험",
-      "key_opportunity_en": "Reclaim above $372.19 targets EMA50 $360.89",
-      "key_opportunity_ko": "$372.19 회복 시 EMA50 $360.89 목표",
+      "brief_en": "GOOGL closed at $368.53 with post-market at $366.81. Price above EMA50 $361.19 and EMA200 $305.72 in UPTREND with Stage2 5/7 and RS 72.5. Optimistic social at 1.3 centers on Google Cloud growth and SpaceX compute deal.",
+      "brief_ko": "GOOGL은 $368.53에 마감하고 포스트마켓 $366.81. EMA50 $361.19 EMA200 $305.72 위 UPTREND Stage2 5/7 RS 72.5. 소셜 optimistic 1.3 Google Cloud 성장과 SpaceX 계약 중심.",
+      "key_risk_en": "Below EMA21 $376.34 risks retest of EMA50 $361.19 support.",
+      "key_risk_ko": "EMA21 $376.34 하회 시 EMA50 $361.19 지지 재시험 위험",
+      "key_opportunity_en": "Break above EMA21 $376.34 targets 52-week high $408.57.",
+      "key_opportunity_ko": "EMA21 $376.34 상향 돌파 시 52주 고점 $408.57 목표",
       "action_bias": "watch"
     }
   ],
   "context": {
-    "captured_at": "2026-06-05T13:00:00Z",
+    "captured_at": "2026-06-05T21:00:00Z",
     "source": "sniperboard",
     "regime": {
-      "total": 76.0,
+      "total": 62.6,
       "label": "CONSTRUCTIVE"
     },
     "technical_summary": {
-      "avg_stage2": 4.6,
-      "avg_rs_score": 59.3,
-      "distribution_day_spy": 4
+      "avg_stage2": 4.1,
+      "avg_rs_score": 56.0,
+      "distribution_day_spy": 5
     },
     "market_sentiment": {
-      "composite_score": 1.3,
-      "label": "optimistic"
+      "composite_score": -1.3,
+      "label": "fearful"
     },
     "key_factors": [
-      "Regime CONSTRUCTIVE"
+      "Regime CONSTRUCTIVE",
+      "SPY Distribution Day 다수"
     ]
   }
 }
