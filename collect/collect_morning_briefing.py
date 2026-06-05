@@ -612,8 +612,15 @@ INSTRUCTIONS for using this context in your briefing:
 - big_picture.summary: incorporate the highest-ranked issue naturally (1 sentence); flag the market_paradox if present
 - sector_analysis: reflect the direction and asymmetric impact on sectors — use the direction field, not vague "remains a risk"
 - spotlight/watchlist: for any ticker named in asymmetric_impact, reference the specific directional implication
-- For [DEVELOPING] or [UNVERIFIED] items: mention with appropriate caution language
 - Do NOT write "monitoring continues" or "situation ongoing" — state the direction and implication
+
+CONFIDENCE → LANGUAGE MAPPING (mandatory — apply in big_picture.summary and executive_bullets):
+  [confirmed]  → State as fact. No hedge needed. e.g. "The BIS tightened chip export rules..."
+  [developing] → Use hedge: "Reports indicate...", "Early developments suggest...", "According to initial reports, ... — situation still evolving."
+                 NEVER state a [developing] issue as established fact in summary or bullets.
+  [unverified] → "Unconfirmed reports suggest..." or "Unverified: ..."
+                 NEVER present in executive_bullets as a primary market-moving driver.
+VIOLATION: Writing "[developing issue X] is driving markets" without hedge language = factual error.
 """)
     return "\n".join(lines)
 
@@ -654,6 +661,22 @@ def validate_global_context(data: dict) -> bool:
             if not isinstance(iss.get(field), str) or not iss[field]:
                 print(f"[WARN] global_context: {field} 누락", file=sys.stderr)
                 return False
+        # 소셜미디어 소스 감지: Twitter/X/@handle/Reddit 등이 source_hint에 있으면 거부
+        src = (iss.get("source_hint") or "").lower()
+        _SOCIAL_PATTERNS = ("twitter", "x post", "x discussion", " @", "reddit", "telegram",
+                            "discord", "4chan", "/@", "warhorizon", "me_observer_", "globalflash")
+        social_hit = next((p for p in _SOCIAL_PATTERNS if p in src), None)
+        if social_hit:
+            print(f"[WARN] global_context: 소셜미디어 소스 감지 ({social_hit!r} in source_hint={src!r}) — 거부",
+                  file=sys.stderr)
+            return False
+        # confirmed 신뢰도인데 소스가 없거나 날짜 없으면 경고 (soft — don't reject)
+        if iss.get("confidence") == "confirmed" and not any(
+            outlet in src for outlet in ("reuters", "bloomberg", "ap ", "bbc", "ft.", "wsj", "nyt",
+                                         "white house", "bis", "sec", "fed", "doj", "ftc", "court")
+        ):
+            print(f"[WARN] global_context: confidence=confirmed이지만 알려진 기관 소스 없음 (source={src!r})",
+                  file=sys.stderr)
     return True
 
 
@@ -688,8 +711,23 @@ MANDATORY CHECK LIST — search and assess each even if quiet:
 ✓ For geopolitical situations: distinguish between BACKGROUND NOISE and ACTIVE RISK.
   An ongoing war with a closed strait IS active risk regardless of 48h news silence.
 ✓ Flag market paradoxes: if VIX or rates seem inconsistent with actual risk level, call it out.
-✓ ONLY use verifiable sources. Include source_hint: "Reuters 2026-06-03", "White House statement", etc.
-✓ Prefix unconfirmed facts with "unconfirmed:"
+✓ SOURCE REQUIREMENTS — READ BEFORE ASSIGNING CONFIDENCE:
+  Accepted sources (may use "confirmed"): Reuters, Bloomberg, AP, BBC, Financial Times, WSJ, NYT,
+  White House / official government press releases, official agency announcements (BIS, SEC, Fed,
+  CFTC, DOJ, FTC), exchange announcements, verified court docket entries.
+  Provisional sources (use "developing", never "confirmed"): Local news outlets, trade press,
+  single-outlet reporting not yet corroborated.
+  ✗ PROHIBITED sources — NEVER cite as ANY confidence level:
+    Twitter / X posts (even from verified accounts or journalists)
+    Reddit, Telegram, Discord, 4chan, anonymous blogs, personal opinion pieces, social media of ANY kind.
+  If your only source is social media: either omit the item or source it from an accepted outlet.
+  If you cannot find an accepted source → mark as "developing" with the last accepted-source date.
+✓ Prefix genuinely unconfirmed facts with "unconfirmed:"
+✓ CONFIDENCE ASSIGNMENT RULES (strict):
+  "confirmed" = at least one accepted-source article with a specific date you can cite.
+  "developing" = credible accepted source exists but situation is still evolving, partial info.
+  "unverified" = only social media or rumor-level information — use with maximum caution.
+  NEVER assign "confirmed" to information sourced only from social media or unverified accounts.
 
 ✗ FORBIDDEN PHRASES — these are analysis avoidance, not analysis:
   "impact unclear", "direction uncertain", "no new developments — impact unclear",
@@ -898,8 +936,8 @@ MARKET DATA ({now_kst}):
     "explanation_ko": "같은 내용 한국어 2문장. 비유 포함. '지금 주식을 사도 될까?'에 답하는 느낌으로 작성."
   }},
   "big_picture": {{
-    "summary_en": "2 sentences — the macro backdrop explained like a news anchor would say it",
-    "summary_ko": "같은 내용 한국어 2문장. 뉴스 앵커가 말하듯 자연스럽게.",
+    "summary_en": "2 sentences — the macro backdrop. CONFIDENCE RULE: [confirmed] global issues → state as fact. [developing] → 'Reports indicate...' or 'Early reports suggest...'. [unverified] → 'Unverified reports...' NEVER state a [developing] or [unverified] issue as established fact.",
+    "summary_ko": "같은 내용 한국어 2문장. 신뢰도 규칙: [confirmed]는 사실로, [developing]은 '보도에 따르면...' 또는 '초기 보도 기준...', [unverified]는 '미확인 보도에 따르면...' — [developing]/[unverified]를 확정 사실처럼 서술하는 것은 오류.",
     "vix_note_en": "1-2 sentences: what is VIX at today, and what does it mean in human terms (fear/calm/overconfident?)",
     "vix_note_ko": "VIX가 얼마이고 그게 무슨 의미인지 — VIX를 모르는 사람도 이해하게.",
     "rates_note_en": "1-2 sentences: 10Y yield level and whether it's helping or hurting stocks today",
@@ -946,8 +984,8 @@ MARKET DATA ({now_kst}):
   "today_checkpoints_ko": [
     "오늘 주시할 포인트 — 가격은 테이블 기준, 실적일은 테이블 기준 정확한 날짜 명시"
   ],
-  "earnings_alert_en": "List ONLY: (1) ⚠이미발표됨 stocks: '[SYM] already reported after US close (est. EPS $X — verify actual at broker)'; (2) stocks with earnings ≤14 days away: exact date and EPS from table. If no such stocks exist, write empty string. Never 'next week'/'soon'/'no earnings'.",
-  "earnings_alert_ko": "다음 종목만 나열: (1) ⚠이미발표됨: '[심볼] 오늘 미국 장 마감 후 실적 발표됨 (EPS 추정 $X — 실제 결과는 증권사 확인)'; (2) 14일 이내 실적 예정 종목: 테이블의 정확한 날짜와 EPS. 해당 종목이 없으면 빈 문자열. '다음 주'/'곧'/'실적 없음' 금지."
+  "earnings_alert_en": "List ONLY: (1) ⚠이미발표됨 stocks: '[SYM] already reported after US close (est. EPS $X — verify actual at broker)'; (2) stocks where the authoritative table shows earnings_date within 14 CALENDAR DAYS from today. Count days_until from the table — if days_until > 14 or N/A, the stock is EXCLUDED from this field entirely. If no qualifying stocks exist, write empty string. Never 'next week'/'soon'/'no earnings'. MU earnings on June 24 = 18 days away = EXCLUDED (>14 days).",
+  "earnings_alert_ko": "다음 종목만 나열: (1) ⚠이미발표됨: '[심볼] 오늘 미국 장 마감 후 실적 발표됨 (EPS 추정 $X — 실제 결과는 증권사 확인)'; (2) 테이블상 실적일이 오늘 기준 14일 이내인 종목만 — days_until > 14이면 이 필드에서 완전 제외. 해당 종목이 없으면 빈 문자열. '다음 주'/'곧'/'실적 없음' 금지. 14일 초과 종목(예: MU 6/24 = 18일후)은 표기 금지."
 }}
 
 REQUIREMENTS:
@@ -1053,6 +1091,10 @@ SELF-CHECK before outputting JSON (fix any violation before output):
   □ Any spotlight/watchlist analysis mention earnings for a stock with >14 days until earnings? → REMOVE
   □ Any analysis contain specific financial metrics (ARR%, guidance figures, product names) not
      in the provided tables or global_context with source_hint? → REMOVE those external facts.
+  □ earnings_alert: does it contain any stock with days_until > 14? → REMOVE (write "" if none remain).
+     Count from today's date. Showing a date in the authoritative table does NOT authorize mentioning it here.
+  □ big_picture.summary: for each referenced global_context issue, does the language match the confidence level?
+     [confirmed] = fact / [developing] = "Reports indicate..." / [unverified] = "Unverified reports..."
 
 - Raw JSON only. No prose before or after."""
 
