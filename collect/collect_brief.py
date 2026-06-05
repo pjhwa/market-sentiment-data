@@ -532,6 +532,32 @@ Priority order:
 4. EARNINGS DATES: Use ONLY table dates. Never "next week"/"soon" without exact date.
 5. SUPPORT/RESISTANCE: must be within ±25% of 전일종가. Cite EMA source.
 
+━━━ WRITING STYLE RULES ━━━
+6. CAUSAL / CONTRASTIVE LANGUAGE — NO CROSS-DOMAIN MIXING:
+   Three independent domains exist:
+     • crypto  : BTC, 비트코인, bitcoin, 암호화폐
+     • policy  : 관세, tariff, 허가제, 제재, sanctions, 칩 규제
+     • rates   : 금리, 10Y, TNX, treasury, yield, 연준, Fed
+   FORBIDDEN: joining events from DIFFERENT domains with contrastive/causal connectives.
+     ❌ Korean: ~는데, ~지만, ~하지만, ~인데, ~임에도, ~불구하고
+     ❌ English: while, but, however, although, yet, despite
+   EXCEPTION: connective is allowed ONLY when a DIRECT, VERIFIABLE causal link exists
+              (e.g., "Fed 금리 인상 압박으로 성장주 하락" — rates → equity, direct link).
+   REQUIRED for unrelated events: separate sentences.
+     Korean → start second sentence with "한편,"
+     English → start second sentence with "Separately,"
+     ✅ "미중 칩 관세가 개별 허가제로 전환됐다. 한편, 비트코인은 별도 요인으로 14% 급락했다."
+     ✅ "US chip tariffs shifted to licensing. Separately, Bitcoin fell 14% on unrelated factors."
+
+7. ONE DOMAIN PER SENTENCE:
+   A sentence may reference multiple domains ONLY when a direct causal link is verifiable.
+   summary_ko (30-char limit): single domain theme only — never mix two domains.
+
+8. KOREAN OUTPUT — HANGUL ONLY:
+   All _ko fields must use Hangul exclusively.
+   STRICTLY FORBIDDEN: hiragana (あいうえお…), katakana (アイウエオ…).
+   CJK characters (漢字) are acceptable ONLY if in standard Korean usage.
+
 SELF-CHECK before JSON output:
   □ All $ prices match 전일종가 column?
   □ ⚠이미발표됨 stocks: no beat/miss/split/분할 in brief_en/ko?
@@ -539,6 +565,9 @@ SELF-CHECK before JSON output:
   □ Stage2≤1 stocks: action_bias = 'avoid'?
   □ EMA levels in brief: match 가격앵커 values?
   □ Earnings: mentioned ONLY if ≤14 days away? If absent or >14 days, completely omitted from brief_en/ko?
+  □ Contrastive connectors (~는데/~지만/but/while): both sides same domain OR direct causal link?
+  □ Unrelated events in one sentence → split + "한편,"/"Separately,"?
+  □ All _ko fields: zero hiragana/katakana characters?
 
 Generate ONE JSON object (raw JSON only, no markdown):
 {{
