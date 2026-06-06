@@ -3,9 +3,9 @@
 브리핑 검증 스크립트 (Morning Briefing Verification Script)
 
 실행:
-  python3 -m collect.verify_briefing                  # 최신 briefing/latest.json
+  python3 -m collect.verify_briefing                   # 최신 briefing/latest.json
   python3 -m collect.verify_briefing --date 2026-06-05 # 특정 날짜 히스토리
-  python3 -m collect.verify_briefing --skip-grok       # Grok 없이 데이터 검증만
+  python3 -m collect.verify_briefing --skip-claude     # Claude 없이 데이터 검증만
   python3 -m collect.verify_briefing --json            # 콘솔 + JSON 파일 저장
 
 검증 카테고리:
@@ -15,7 +15,7 @@
   D. 섹터동향 정확성 — macro_insight 신호 vs sector_analysis 텍스트
   E. 규칙 준수 — action rules / earnings_alert / global source quality / confidence 언어
   F. 완결성 — 종목 수 / 필수 필드 / 용어 설명 / 공유 본문 품질
-  G. [Grok] 글로벌 이슈 현재성 및 시장 중요 뉴스 누락 여부
+  G. [Claude] 글로벌 이슈 현재성 / 중요 뉴스 누락 / 분위기·섹터 정합성
 """
 
 import argparse
@@ -33,9 +33,8 @@ import requests
 
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
 SNIPERBOARD_API = os.environ.get("SNIPERBOARD_API_BASE", "http://localhost:5001")
-HERMES_CMD = os.environ.get("HERMES_CMD", "/Users/jerry/.local/bin/hermes")
-HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
-VERIFY_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT_VERIFY", "150"))
+CLAUDE_CMD = os.environ.get("CLAUDE_CMD", "/Users/jerry/.local/bin/claude")
+VERIFY_TIMEOUT = int(os.environ.get("CLAUDE_TIMEOUT_VERIFY", "120"))
 
 ALL_SYMBOLS = [
     ("TSM",   "TSMC",                  1),
@@ -706,15 +705,15 @@ def check_briefing_copy_quality(brief: dict, report: VerificationReport):
                                "공유 본문 형식 및 길이 정상"))
 
 
-# ─── 카테고리 E: Grok 보조 검증 ──────────────────────────────────────────────
+# ─── 카테고리 E: Claude 보조 검증 ────────────────────────────────────────────
 
-def _call_hermes(prompt: str, timeout: int) -> Optional[str]:
-    cmd = [HERMES_CMD, "-z", prompt]
-    if HERMES_PROVIDER:
-        cmd += ["--provider", HERMES_PROVIDER]
+def _call_claude(prompt: str, timeout: int) -> Optional[str]:
     env = {**os.environ, "PATH": os.environ.get("PATH", "") + ":/usr/local/bin:/opt/homebrew/bin"}
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, env=env)
+        result = subprocess.run(
+            [CLAUDE_CMD, "-p", prompt],
+            capture_output=True, text=True, timeout=timeout, env=env,
+        )
         if result.returncode != 0:
             return None
         return result.stdout
@@ -722,8 +721,12 @@ def _call_hermes(prompt: str, timeout: int) -> Optional[str]:
         return None
 
 
-def grok_verify(brief: dict, report: VerificationReport):
-    """E1-E4: Grok으로 글로벌 이슈 현재성, 중요 뉴스 누락, 종목 이슈, 시장 분위기 검증."""
+def claude_verify(brief: dict, report: VerificationReport):
+    """E1-E5: Claude로 글로벌 이슈 현재성, 중요 뉴스 누락, 분위기·섹터 정합성, 종목 오류 검증.
+
+    Grok 자기검증(circular) 대신 독립 LLM(Claude)이 검증.
+    claude -p 모드로 호출 → JSON 파싱 → CheckResult 생성.
+    """
     now = datetime.now(timezone.utc)
     now_kst = (now + timedelta(hours=9)).strftime("%Y-%m-%d %H:%M KST")
     now_iso = now.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -734,24 +737,23 @@ def grok_verify(brief: dict, report: VerificationReport):
     sa = brief.get("sector_analysis", {})
     mood = brief.get("market_mood", {})
 
-    # 검증 대상 요약
     gc_summary = "\n".join([
         f"[rank={i.get('rank')}][{i.get('confidence')}] {i.get('title_en')}"
         f"\n  State: {i.get('current_state_en','')}"
         f"\n  Source: {i.get('source_hint','')}"
         for i in gc_issues
-    ])
+    ]) or "(no global issues)"
 
     wl_summary = "\n".join([
         f"{w['symbol']}: action={w.get('action','?')} mood={w.get('sentiment_mood','?')} "
         f"— {(w.get('analysis_en','')[:80])}..."
-        for w in brief.get("watchlist", [])
+        for w in brief.get("watchlist", [])[:10]
     ])
 
-    prompt = f"""You are a financial fact-checker. Today is {now_kst}.
+    prompt = f"""You are an independent financial fact-checker reviewing an AI-generated morning briefing.
+Today is {now_kst}. The briefing was generated at {brief.get('generated_at','?')}.
 
-A morning briefing was generated at {brief.get('generated_at','?')} and contains the following content.
-Your job is to verify accuracy and completeness using your live web search.
+Use your web search capability to verify the following content against current real-world information.
 
 ━━━ GLOBAL CONTEXT IN BRIEFING ━━━
 {gc_summary}
@@ -766,24 +768,23 @@ Leaders: {sa.get('leaders_en','?')}
 Laggards: {sa.get('laggards_en','?')}
 Rotation: {sa.get('rotation_signal_en','?')}
 
-━━━ WATCHLIST ACTIONS (첫 10개) ━━━
+━━━ WATCHLIST ACTIONS (first 10) ━━━
 {wl_summary[:2000]}
 
 ━━━ VERIFICATION TASKS ━━━
-1. GLOBAL ISSUES: Search the web. For each issue in the briefing, is it still accurate and current as of {now_kst}?
-   Has anything significant changed in the last 24h that makes any issue outdated or inaccurate?
+1. GLOBAL ISSUES: Search the web. For each issue in the briefing, is it accurate and current as of {now_kst}?
+   Has anything changed in the last 24h that makes an issue outdated or inaccurate?
 
-2. MISSING NEWS: What are the top 3 market-moving events in the last 24h that are NOT in the briefing?
-   (Focus on events that would materially affect US stocks in our watchlist)
+2. MISSING NEWS: What are the top market-moving events in the last 24h NOT covered in this briefing?
+   Focus only on events materially affecting US stocks in our watchlist.
 
-3. MARKET MOOD: Does the briefing's traffic_light and headline feel accurate given what you know about
-   current market conditions?
+3. MARKET MOOD: Is the traffic_light/headline accurate given current market conditions?
 
 4. SECTOR TRENDS: Does the sector analysis match current market dynamics?
 
-5. STOCK ACCURACY: Are there any obvious factual errors in the watchlist actions or mood descriptions?
+5. STOCK ACCURACY: Are there any factual errors in the watchlist analysis or mood descriptions?
 
-Output ONLY raw JSON (no markdown):
+Output ONLY valid JSON (no markdown fences):
 {{
   "verified_at": "{now_iso}",
   "global_issues": [
@@ -791,23 +792,23 @@ Output ONLY raw JSON (no markdown):
       "rank": 1,
       "title": "...",
       "accuracy": "accurate|outdated|inaccurate|unverifiable",
-      "note": "what changed or why inaccurate — empty string if accurate"
+      "note": ""
     }}
   ],
   "missing_major_news": [
     {{
-      "title": "news item title",
+      "title": "...",
       "impact": "which watchlist stocks affected and how",
       "severity": "critical|important|minor"
     }}
   ],
   "market_mood_check": {{
     "assessment": "accurate|questionable|inaccurate",
-    "note": "brief comment"
+    "note": ""
   }},
   "sector_check": {{
     "assessment": "accurate|questionable|inaccurate",
-    "note": "brief comment"
+    "note": ""
   }},
   "stock_errors": [
     {{
@@ -815,39 +816,39 @@ Output ONLY raw JSON (no markdown):
       "error": "description of factual error"
     }}
   ],
-  "overall_score": 0-100,
+  "overall_score": 85,
   "summary": "2-3 sentence overall assessment"
 }}"""
 
-    print("[INFO] Grok 검증 호출 중 (최대 150초)...")
-    raw = _call_hermes(prompt, timeout=VERIFY_TIMEOUT)
+    print(f"[INFO] Claude 검증 호출 중 (최대 {VERIFY_TIMEOUT}초)...")
+    raw = _call_claude(prompt, timeout=VERIFY_TIMEOUT)
     if not raw:
-        report.add(CheckResult("E-Grok 검증", False,
-                               "Grok 호출 실패 또는 타임아웃", "warning"))
+        report.add(CheckResult("E-Claude 검증", False,
+                               "Claude 호출 실패 또는 타임아웃", "warning"))
         return {}
 
-    # JSON 추출
-    m = re.search(r"\{.*\}", raw, re.DOTALL)
+    # markdown 코드 펜스 제거 후 JSON 추출
+    stripped = re.sub(r"```(?:json)?\s*", "", raw)
+    stripped = re.sub(r"```\s*", "", stripped)
+    m = re.search(r"\{.*\}", stripped, re.DOTALL)
     if not m:
-        report.add(CheckResult("E-Grok 검증", False,
-                               "Grok 응답에서 JSON 추출 실패", "warning"))
+        report.add(CheckResult("E-Claude 검증", False,
+                               "Claude 응답에서 JSON 추출 실패", "warning"))
         return {}
 
     try:
-        grok_data = json.loads(m.group())
+        claude_data = json.loads(m.group())
     except json.JSONDecodeError as e:
-        report.add(CheckResult("E-Grok 검증", False,
-                               f"Grok JSON 파싱 실패: {e}", "warning"))
+        report.add(CheckResult("E-Claude 검증", False,
+                               f"Claude JSON 파싱 실패: {e}", "warning"))
         return {}
 
-    # Grok 결과 파싱 → CheckResult 생성
-    issues_found = []
-
     # E1: 글로벌 이슈 정확성
-    gi_results = grok_data.get("global_issues", [])
+    gi_results = claude_data.get("global_issues", [])
     inaccurate = [g for g in gi_results if g.get("accuracy") not in ("accurate", "unverifiable")]
     if inaccurate:
-        details = [f"rank={g['rank']}: {g.get('accuracy')} — {g.get('note','')}" for g in inaccurate]
+        details = [f"rank={g.get('rank','?')}: {g.get('accuracy')} — {g.get('note','')}"
+                   for g in inaccurate]
         report.add(CheckResult("E1-글로벌 이슈 현재성", False,
                                "\n    ".join(details), "warning"))
     else:
@@ -855,7 +856,7 @@ Output ONLY raw JSON (no markdown):
                                f"{len(gi_results)}개 이슈 모두 정확 또는 검증 불가"))
 
     # E2: 누락 뉴스
-    missing_news = grok_data.get("missing_major_news", [])
+    missing_news = claude_data.get("missing_major_news", [])
     critical_missing = [n for n in missing_news if n.get("severity") == "critical"]
     if critical_missing:
         details = [f"{n.get('title','')} (영향: {n.get('impact','')})" for n in critical_missing]
@@ -871,7 +872,7 @@ Output ONLY raw JSON (no markdown):
         report.add(CheckResult("E2-중요 뉴스 누락", True, "주요 뉴스 누락 없음"))
 
     # E3: 시장 분위기 정확성
-    mc = grok_data.get("market_mood_check", {})
+    mc = claude_data.get("market_mood_check", {})
     if mc.get("assessment") == "inaccurate":
         report.add(CheckResult("E3-시장 분위기 정확성", False,
                                mc.get("note", ""), "warning"))
@@ -880,7 +881,7 @@ Output ONLY raw JSON (no markdown):
                                f"{mc.get('assessment','?')}: {mc.get('note','')}"))
 
     # E4: 섹터 동향 정확성
-    sc = grok_data.get("sector_check", {})
+    sc = claude_data.get("sector_check", {})
     if sc.get("assessment") == "inaccurate":
         report.add(CheckResult("E4-섹터 동향 정확성", False,
                                sc.get("note", ""), "warning"))
@@ -889,7 +890,7 @@ Output ONLY raw JSON (no markdown):
                                f"{sc.get('assessment','?')}: {sc.get('note','')}"))
 
     # E5: 종목 오류
-    stock_errors = grok_data.get("stock_errors", [])
+    stock_errors = claude_data.get("stock_errors", [])
     if stock_errors:
         details = [f"{e.get('symbol')}: {e.get('error','')}" for e in stock_errors[:5]]
         report.add(CheckResult("E5-종목 설명 정확성", False,
@@ -897,7 +898,7 @@ Output ONLY raw JSON (no markdown):
     else:
         report.add(CheckResult("E5-종목 설명 정확성", True, "종목 설명 오류 없음"))
 
-    return grok_data
+    return claude_data
 
 
 # ─── 리포트 출력 ──────────────────────────────────────────────────────────────
@@ -920,7 +921,7 @@ def print_report(report: VerificationReport):
         "B": "섹터동향 정확성",
         "C": "규칙 준수 (earnings / 소스 / confidence)",
         "D": "완결성 (종목 수 / 필드 / 용어 / 공유 본문)",
-        "E": "Grok 보조 검증 (글로벌 이슈 / 뉴스 / 분위기)",
+        "E": "Claude 독립 검증 (글로벌 이슈 / 뉴스 / 분위기·섹터)",
     }
 
     for cat_prefix, cat_name in categories.items():
@@ -943,16 +944,16 @@ def print_report(report: VerificationReport):
     # 최종 결과
     n_err = len(report.errors())
     n_warn = len(report.warnings())
-    grok_score = report.grok_report.get("overall_score", "N/A")
-    grok_summary = report.grok_report.get("summary", "")
+    claude_score = report.grok_report.get("overall_score", "N/A")
+    claude_summary = report.grok_report.get("summary", "")
 
     print("─" * (width + 2))
     if report.passed():
-        print(f"✅ PASS — 오류 없음  (경고 {n_warn}건  Grok 점수: {grok_score}/100)")
+        print(f"✅ PASS — 오류 없음  (경고 {n_warn}건  Claude 점수: {claude_score}/100)")
     else:
-        print(f"❌ FAIL — 오류 {n_err}건  경고 {n_warn}건  Grok 점수: {grok_score}/100")
-    if grok_summary:
-        print(f"   Grok: {grok_summary[:120]}")
+        print(f"❌ FAIL — 오류 {n_err}건  경고 {n_warn}건  Claude 점수: {claude_score}/100")
+    if claude_summary:
+        print(f"   Claude: {claude_summary[:120]}")
     print()
 
 
@@ -961,7 +962,8 @@ def print_report(report: VerificationReport):
 def main():
     parser = argparse.ArgumentParser(description="브리핑 사실 검증 스크립트")
     parser.add_argument("--date", help="히스토리 날짜 (YYYY-MM-DD). 미지정 시 latest.json")
-    parser.add_argument("--skip-grok", action="store_true", help="Grok 호출 생략 (데이터 검증만)")
+    parser.add_argument("--skip-claude", action="store_true", help="Claude 호출 생략 (자동화 데이터 검증만)")
+    parser.add_argument("--skip-grok", action="store_true", help="(deprecated) --skip-claude와 동일")
     parser.add_argument("--json", action="store_true", help="briefing/verify_YYYY-MM-DD.json 저장")
     args = parser.parse_args()
 
@@ -1017,13 +1019,14 @@ def main():
     check_jargon_explanations(brief, report)
     check_briefing_copy_quality(brief, report)
 
-    # ── E: Grok 보조 검증 ──
-    if not args.skip_grok:
-        print("[E] Grok 보조 검증 시작...")
-        grok_data = grok_verify(brief, report)
-        report.grok_report = grok_data
+    # ── E: Claude 독립 검증 ──
+    skip = args.skip_claude or args.skip_grok
+    if not skip:
+        print("[E] Claude 독립 검증 시작...")
+        claude_data = claude_verify(brief, report)
+        report.grok_report = claude_data
     else:
-        print("[E] Grok 검증 생략 (--skip-grok)")
+        print("[E] Claude 검증 생략 (--skip-claude)")
 
     # 리포트 출력
     print_report(report)
