@@ -462,7 +462,8 @@ def _format_macro_binding_header(macro_data: dict) -> str:
         f"BTC=${btc_p} (1D={btc_1d}, 5D={btc_5d})\n"
         f"SPY=${spy_p}({spy_1d})  |  QQQ=${qqq_p}({qqq_1d})\n"
         f"⚠ BINDING: VIX/TNX/DXY/BTC 수치는 위 표 기준. 학습 데이터·추측 금지.\n"
-        f"   특히 BTC 1D%={btc_1d} — 다른 수치 사용 금지."
+        f"   DXY={dxy} → dollar_note_en/ko에 이 수치를 반드시 인용할 것 (생략 또는 대체 금지).\n"
+        f"   BTC 가격=${btc_p}, 1D%={btc_1d} — 브리핑 전 섹션에서 BTC 수치는 이 값만 사용. 학습 데이터 BTC 가격 사용 금지."
     )
 
 
@@ -942,8 +943,8 @@ MARKET DATA ({now_kst}):
     "vix_note_ko": "VIX가 얼마이고 그게 무슨 의미인지 — VIX를 모르는 사람도 이해하게.",
     "rates_note_en": "1-2 sentences: 10Y yield level and whether it's helping or hurting stocks today",
     "rates_note_ko": "미국 10년물 국채 금리(기준금리의 바로미터)가 오늘 주식 시장에 어떤 영향을 주는지.",
-    "dollar_note_en": "1-2 sentences: DXY direction and impact — especially for tech/global earnings",
-    "dollar_note_ko": "달러 강세/약세가 미국 기술주와 해외 투자자에게 어떤 의미인지.",
+    "dollar_note_en": "MUST cite exact DXY value from MACRO BINDING TABLE. Format: 'The dollar index (DXY) is at [exact value]...' then explain direction and impact for tech/global earnings. Omitting the DXY number is a binding violation.",
+    "dollar_note_ko": "반드시 MACRO BINDING TABLE의 정확한 DXY 수치 포함. 형식: '달러지수(DXY)가 [테이블의 정확한 수치]로...' 이후 달러 방향이 기술주·해외 투자자에게 미치는 영향 설명. DXY 수치 생략 금지.",
     "btc_note_en": "{btc_anchor_en} [Append 1 sentence only: what does this signal about risk appetite today? No numbers — only interpretation.]",
     "btc_note_ko": "{btc_anchor_ko} [뒤에 1문장만 추가: 위험 선호도에 무엇을 의미하는지. 추가 수치 금지.]"
   }},
@@ -1086,6 +1087,9 @@ SELF-CHECK before outputting JSON (fix any violation before output):
   □ All % changes: do they come from 전일등락(D-2→D-1) column, not invented?
   □ btc_note VIX/TNX/DXY/BTC values match MACRO BINDING TABLE exactly?
      BTC price, 1D%, 5D% must be the EXACT values from the binding table — no approximation.
+  □ dollar_note_en/ko: does it cite the exact DXY numeric value from MACRO BINDING TABLE? If missing, add it before output.
+  □ BTC price in ALL sections (executive_bullets, sector_analysis, watchlist, etc.): does every mention of BTC price match the MACRO BINDING TABLE value? Training-memory BTC price is forbidden anywhere in the briefing.
+  □ headline_ko: count the characters — must be ≤30. If >30 chars, shorten before output. No exceptions.
   □ For each stock in watchlist/spotlight: does the written market_structure match 구조= field?
      DISTRIBUTION ≠ DOWNTREND — mixing them is a factual error. Fix before output.
   □ Any spotlight/watchlist analysis mention earnings for a stock with >14 days until earnings? → REMOVE
