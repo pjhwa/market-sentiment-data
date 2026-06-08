@@ -611,12 +611,14 @@ def _format_global_context_block(global_ctx: dict) -> str:
     lines.append("""
 INSTRUCTIONS for using this context in your briefing:
 - big_picture.summary: incorporate the highest-ranked issue naturally (1 sentence); flag the market_paradox if present
-- sector_analysis: reflect the direction and asymmetric impact on sectors — use the direction field, not vague "remains a risk"
-- spotlight/watchlist: for any ticker named in asymmetric_impact, reference the specific directional implication
+- sector_analysis: reflect the direction and asymmetric impact on sectors — use the direction field, not vague "remains a risk"; also cover any single-session move ≥10% in sector-relevant stocks even if not on the watchlist, when it materially shifts the sector narrative (e.g., a major competitor surge that overshadows the day's primary watchlist story)
+- spotlight/watchlist: for any ticker named in asymmetric_impact, reference the specific directional implication; Stage2 score and trend label must be internally consistent — Stage2≤2 cannot coexist with an UPTREND designation; if input data conflicts, flag the inconsistency explicitly rather than silently contradicting it
 - Do NOT write "monitoring continues" or "situation ongoing" — state the direction and implication
+- For regulatory or policy actions: name the PRIMARY target entity accurately; do not conflate distinct legal mechanisms (e.g., government equity-stake proposal ≠ antitrust action); do not elevate peripheral companies as central targets when reporting is clear on the lead entity
 
 CONFIDENCE → LANGUAGE MAPPING (mandatory — apply in big_picture.summary and executive_bullets):
   [confirmed]  → State as fact. No hedge needed. e.g. "The BIS tightened chip export rules..."
+                 EXCEPTION: If the confirmed event is fragile, partially violated, or contested (e.g., ceasefire with active breaches, halt unacknowledged by a party), state the fragility explicitly — do NOT present a tenuous situation as fully resolved.
   [developing] → Use hedge: "Reports indicate...", "Early developments suggest...", "According to initial reports, ... — situation still evolving."
                  NEVER state a [developing] issue as established fact in summary or bullets.
   [unverified] → "Unconfirmed reports suggest..." or "Unverified: ..."
