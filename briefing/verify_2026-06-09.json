@@ -1,9 +1,9 @@
 {
   "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
-  "generated_at": "2026-06-08T21:45:00Z",
-  "verified_at": "2026-06-09T07:15",
-  "overall_passed": false,
-  "error_count": 1,
+  "generated_at": "2026-06-09T00:46:52Z",
+  "verified_at": "2026-06-09T09:49",
+  "overall_passed": true,
+  "error_count": 0,
   "warning_count": 2,
   "checks": [
     {
@@ -20,9 +20,9 @@
     },
     {
       "name": "A3-매크로 수치",
-      "passed": true,
-      "severity": "error",
-      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+      "passed": false,
+      "severity": "warning",
+      "detail": "TNX: 브리핑에 수치 없음 (API=4.552)\n    DXY: 브리핑에 수치 없음 (API=100.03)"
     },
     {
       "name": "A4-시장분위기 분류",
@@ -64,7 +64,7 @@
       "name": "C3-confidence 언어",
       "passed": true,
       "severity": "error",
-      "detail": "developing/unverified 이슈 없음 — N/A"
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
     },
     {
       "name": "D1-워치리스트 완결성",
@@ -76,7 +76,7 @@
       "name": "D2-spotlight 수",
       "passed": true,
       "severity": "error",
-      "detail": "4개 (정상 범위 2-4)"
+      "detail": "3개 (정상 범위 2-4)"
     },
     {
       "name": "D3-필수 필드",
@@ -97,103 +97,11 @@
       "detail": "공유 본문 형식 및 길이 정상"
     },
     {
-      "name": "E1-글로벌 이슈 현재성",
+      "name": "E-Claude 검증",
       "passed": false,
       "severity": "warning",
-      "detail": "rank=1: outdated — The halt is real but highly fragile and already partially broken. Israel struck an Iranian petrochemical plant after the announced halt, and both sides warned they are ready to resume full attacks. The ceasefire is not confirmed — Netanyahu stopped short of acknowledging one. Broader Iran nuclear talks remain stalled; current US-Iran negotiations reportedly do not yet cover the nuclear program itself. The briefing overstates the degree of de-escalation.\n    rank=2: inaccurate — The equity stake push is confirmed (Trump announced June 5), but the primary named target in all reporting is OpenAI, not GOOGL, META, or MSFT. Framing this as an 'antitrust push' is also misleading — it is a government ownership/sovereign-wealth-fund proposal, not antitrust action. Wedbush called the potential impact on listed AI firms 'manageable.' The briefing incorrectly implies GOOGL, META, and MSFT are the central targets of regulatory dilution."
-    },
-    {
-      "name": "E2-중요 뉴스 누락",
-      "passed": false,
-      "severity": "error",
-      "detail": "critical 누락 1건:\n    Cerebras Systems (CBRS) surges 17-18% on nine-firm analyst initiation blitz (영향: Cerebras is a direct semiconductor/AI inference competitor. Its +18% move on June 8 (the single biggest AI chip story of the day) should influence the semiconductor sector narrative and potentially overshadow MU as the day's leading chip story. No watchlist overlap, but materially relevant to the semiconductor sector analysis presented.)"
-    },
-    {
-      "name": "E3-시장 분위기 정확성",
-      "passed": true,
-      "severity": "error",
-      "detail": "questionable: Yellow/63.6 is defensible but the headline overstates de-escalation certainty on Iran/Israel (situation deteriorated intraday on June 8) and misattributes the AI equity stake regulatory pressure to GOOGL/META/MSFT specifically. The actual market on June 8 was risk-on in chips (Nasdaq +0.86%) while large-cap AI platforms sold off — the mood score reads slightly too cautious given index-level chip leadership, but not materially wrong."
-    },
-    {
-      "name": "E4-섹터 동향 정확성",
-      "passed": true,
-      "severity": "error",
-      "detail": "questionable: Semiconductor leadership is confirmed (SMH moved from ~$569 to ~$598, roughly +5%, consistent with the briefing). However, the sector narrative misses the Cerebras (CBRS) IPO surge as the dominant chip story of June 8. The claim that MU led the sector is partially accurate but contextually misleading — MU was recovering from Friday's -13% crash, and CBRS (+18%) and Cerebras analyst initiations were the more notable June 8 chip catalysts. Energy in DOWNTREND is plausible but unverifiable intraday."
-    },
-    {
-      "name": "E5-종목 설명 정확성",
-      "passed": false,
-      "severity": "warning",
-      "detail": "MU: Closing price of $949.28 is inconsistent with intraday data showing MU trading at $935-$941 as of 9:17 AM EDT on June 8. The +9.87% gain figure aligns with reported 'up close to 10%' narratives, but the absolute price appears overstated. Minor discrepancy but notable given MU is ranked as the top RS/Stage2 leader.\n    META: Briefing assigns Stage2=1/7 and RS=10.2 to META while simultaneously labeling its trend as 'UPTREND' in the watchlist entry. A Stage2=1 score is inconsistent with an UPTREND classification — Stage2=1 typically indicates early base or downtrend conditions. This is an internal logical inconsistency in the briefing data.\n    PLTR: Same internal inconsistency as META: Stage2=1/7 and RS=11.7 paired with 'UPTREND' label. Stage2=1 and RS=11.7 are bearish technical readings that contradict an UPTREND designation."
+      "detail": "Claude 호출 실패 또는 타임아웃"
     }
   ],
-  "grok_report": {
-    "verified_at": "2026-06-08T22:16:06Z",
-    "global_issues": [
-      {
-        "rank": 1,
-        "title": "Israel halts Iran strikes after Trump nuclear talks progress",
-        "accuracy": "outdated",
-        "note": "The halt is real but highly fragile and already partially broken. Israel struck an Iranian petrochemical plant after the announced halt, and both sides warned they are ready to resume full attacks. The ceasefire is not confirmed — Netanyahu stopped short of acknowledging one. Broader Iran nuclear talks remain stalled; current US-Iran negotiations reportedly do not yet cover the nuclear program itself. The briefing overstates the degree of de-escalation."
-      },
-      {
-        "rank": 2,
-        "title": "Trump targets stake in AI giants amid antitrust push",
-        "accuracy": "inaccurate",
-        "note": "The equity stake push is confirmed (Trump announced June 5), but the primary named target in all reporting is OpenAI, not GOOGL, META, or MSFT. Framing this as an 'antitrust push' is also misleading — it is a government ownership/sovereign-wealth-fund proposal, not antitrust action. Wedbush called the potential impact on listed AI firms 'manageable.' The briefing incorrectly implies GOOGL, META, and MSFT are the central targets of regulatory dilution."
-      },
-      {
-        "rank": 3,
-        "title": "SpaceX IPO draws capital away from smaller space plays",
-        "accuracy": "accurate",
-        "note": "SpaceX IPO confirmed for ~June 12, 2026 at ~$1.75T valuation with Goldman Sachs as lead-left and 21+ banks. However, market sentiment on RKLB is split: several analysts argue the SpaceX IPO is actually a re-rating catalyst that lifts RKLB as the 'most direct public SpaceX alternative.' The liquidity-drain framing in the briefing is one valid view but not the consensus — RKLB is up ~60% YTD and analyst coverage is bullish."
-      }
-    ],
-    "missing_major_news": [
-      {
-        "title": "Cerebras Systems (CBRS) surges 17-18% on nine-firm analyst initiation blitz",
-        "impact": "Cerebras is a direct semiconductor/AI inference competitor. Its +18% move on June 8 (the single biggest AI chip story of the day) should influence the semiconductor sector narrative and potentially overshadow MU as the day's leading chip story. No watchlist overlap, but materially relevant to the semiconductor sector analysis presented.",
-        "severity": "critical"
-      },
-      {
-        "title": "Micron (MU) fell ~13% on Friday June 6 — Monday bounce is a recovery, not a new leg up",
-        "impact": "MU's +9.87% on June 8 is a partial recovery from a -13% Friday rout, not independent bullish momentum. This context significantly changes the interpretation of MU's Stage2=7 / RS=100 reading and the 'hold' action recommendation. The briefing treats Monday's move as strength without disclosing the Friday selloff context.",
-        "severity": "important"
-      },
-      {
-        "title": "Oil prices spike 3%+ on Middle East ceasefire fragility",
-        "impact": "Brent crude rose to ~$96/barrel and WTI to ~$93.67 on June 8 as Iran-Israel strikes continued despite halt announcement. Energy names mentioned in the sector analysis (CEG, VST noted as laggards) are power/utility plays, not oil — but the oil spike is a materially missing macro data point for market mood assessment.",
-        "severity": "important"
-      },
-      {
-        "title": "S&P 500 closed +0.30%, Nasdaq +0.86%, Dow -0.16% on June 8",
-        "impact": "The mixed index close (Nasdaq up led by chips, Dow slightly down) is absent from the briefing's market mood section, making the yellow/63.6 score harder to anchor to actual index performance.",
-        "severity": "minor"
-      }
-    ],
-    "market_mood_check": {
-      "assessment": "questionable",
-      "note": "Yellow/63.6 is defensible but the headline overstates de-escalation certainty on Iran/Israel (situation deteriorated intraday on June 8) and misattributes the AI equity stake regulatory pressure to GOOGL/META/MSFT specifically. The actual market on June 8 was risk-on in chips (Nasdaq +0.86%) while large-cap AI platforms sold off — the mood score reads slightly too cautious given index-level chip leadership, but not materially wrong."
-    },
-    "sector_check": {
-      "assessment": "questionable",
-      "note": "Semiconductor leadership is confirmed (SMH moved from ~$569 to ~$598, roughly +5%, consistent with the briefing). However, the sector narrative misses the Cerebras (CBRS) IPO surge as the dominant chip story of June 8. The claim that MU led the sector is partially accurate but contextually misleading — MU was recovering from Friday's -13% crash, and CBRS (+18%) and Cerebras analyst initiations were the more notable June 8 chip catalysts. Energy in DOWNTREND is plausible but unverifiable intraday."
-    },
-    "stock_errors": [
-      {
-        "symbol": "MU",
-        "error": "Closing price of $949.28 is inconsistent with intraday data showing MU trading at $935-$941 as of 9:17 AM EDT on June 8. The +9.87% gain figure aligns with reported 'up close to 10%' narratives, but the absolute price appears overstated. Minor discrepancy but notable given MU is ranked as the top RS/Stage2 leader."
-      },
-      {
-        "symbol": "META",
-        "error": "Briefing assigns Stage2=1/7 and RS=10.2 to META while simultaneously labeling its trend as 'UPTREND' in the watchlist entry. A Stage2=1 score is inconsistent with an UPTREND classification — Stage2=1 typically indicates early base or downtrend conditions. This is an internal logical inconsistency in the briefing data."
-      },
-      {
-        "symbol": "PLTR",
-        "error": "Same internal inconsistency as META: Stage2=1/7 and RS=11.7 paired with 'UPTREND' label. Stage2=1 and RS=11.7 are bearish technical readings that contradict an UPTREND designation."
-      }
-    ],
-    "overall_score": 68,
-    "summary": "The briefing's core geopolitical and macro narratives are directionally correct but imprecise: the Israel-Iran halt is real yet already fragmenting, and the AI equity stake story misidentifies the primary targets as GOOGL/META/MSFT when OpenAI is the central subject. The most significant gap is the complete omission of Cerebras Systems' (CBRS) blockbuster IPO day (+18% on 9-firm initiations), which was arguably the dominant market-moving chip event on June 8. Stock-level data has minor price discrepancies for MU and notable internal logical errors in Stage2/trend label pairings for META and PLTR."
-  }
+  "grok_report": {}
 }
