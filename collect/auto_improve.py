@@ -27,7 +27,7 @@ from typing import Optional
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
 BRIEFING_COLLECTOR = REPO_PATH / "collect" / "collect_morning_briefing.py"
 CLAUDE_CMD = os.environ.get("CLAUDE_CMD", "/Users/jerry/.local/bin/claude")
-IMPROVE_TIMEOUT = int(os.environ.get("CLAUDE_TIMEOUT_IMPROVE", "180"))
+IMPROVE_TIMEOUT = int(os.environ.get("CLAUDE_TIMEOUT_IMPROVE", "300"))
 
 
 # ─── 검증 실행 ────────────────────────────────────────────────────────────────
@@ -283,7 +283,7 @@ def main():
     # ── Step 2: PASS면 종료 ──
     if overall_passed:
         print("[auto_improve] PASS — 프롬프트 변경 불필요")
-        _commit_verify_report(date_str, args.dry_run)
+        _commit_verify_report(date_str, args.dry_run, passed=True)
         sys.exit(0)
 
     # ── Step 3: 오류 있으면 Claude에게 개선 요청 ──
@@ -296,7 +296,7 @@ def main():
 
     if not improvement:
         print("[WARN] Claude 개선 제안 실패 — 수동 검토 필요", file=sys.stderr)
-        _commit_verify_report(date_str, args.dry_run)
+        _commit_verify_report(date_str, args.dry_run, passed=False)
         sys.exit(2)
 
     changes = improvement.get("changes", [])
@@ -311,7 +311,7 @@ def main():
 
     if applied == 0:
         print("[INFO] 적용 가능한 변경사항 없음 (데이터 문제이거나 수동 검토 필요)")
-        _commit_verify_report(date_str, args.dry_run)
+        _commit_verify_report(date_str, args.dry_run, passed=False)
         sys.exit(0)
 
     if not args.dry_run:
@@ -321,17 +321,18 @@ def main():
     sys.exit(0)
 
 
-def _commit_verify_report(date_str: str, dry_run: bool):
+def _commit_verify_report(date_str: str, dry_run: bool, passed: bool = True):
     """검증 결과 JSON만 커밋."""
     if dry_run:
         return
     verify_json = REPO_PATH / "briefing" / f"verify_{date_str}.json"
     if not verify_json.exists():
         return
+    status = "PASS" if passed else "FAIL"
     from collect.git_utils import commit_and_push
     commit_and_push(
         repo=REPO_PATH,
-        commit_message=f"briefing: verify {date_str} — PASS",
+        commit_message=f"briefing: verify {date_str} — {status}",
         files_to_add=[f"briefing/verify_{date_str}.json"],
         push=True,
     )

@@ -34,7 +34,7 @@ import requests
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
 SNIPERBOARD_API = os.environ.get("SNIPERBOARD_API_BASE", "http://localhost:5001")
 CLAUDE_CMD = os.environ.get("CLAUDE_CMD", "/Users/jerry/.local/bin/claude")
-VERIFY_TIMEOUT = int(os.environ.get("CLAUDE_TIMEOUT_VERIFY", "120"))
+VERIFY_TIMEOUT = int(os.environ.get("CLAUDE_TIMEOUT_VERIFY", "300"))
 
 ALL_SYMBOLS = [
     ("TSM",   "TSMC",                  1),
@@ -198,9 +198,10 @@ def check_structure_binding(brief: dict, report: VerificationReport):
 
 
 def check_action_rules(brief: dict, report: VerificationReport):
-    """A2: action 규칙 준수 확인 (Rule 1/2/3/4)."""
+    """A2: action 규칙 준수 확인 (Rule 1/2/3/4) + Stage2/구조 데이터 일관성."""
     watchlist = {w["symbol"]: w for w in brief.get("watchlist", [])}
     violations = []
+    data_inconsistencies = []
 
     for sym in EXPECTED_SYMBOLS:
         daily = _api_get("/daily", {"symbol": sym})
@@ -230,6 +231,18 @@ def check_action_rules(brief: dict, report: VerificationReport):
             violations.append(
                 f"{sym}: Rule2 조건 충족(S2={stage2},RS={rs:.0f}) 인데 action=avoid"
             )
+
+        # Stage2 ≤ 2 + UPTREND → SniperBoard 데이터 불일치 감지
+        if stage2 <= 2 and struct == "UPTREND":
+            data_inconsistencies.append(
+                f"{sym}: Stage2={stage2}≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+            )
+
+    if data_inconsistencies:
+        report.add(CheckResult(
+            "A2-데이터 일관성", False,
+            "\n    ".join(data_inconsistencies), "warning"
+        ))
 
     if violations:
         report.add(CheckResult(
@@ -270,13 +283,17 @@ def check_macro_values(brief: dict, report: VerificationReport):
           r"VIX\s+([\d.]+)",
           r"at\s+([\d.]+)\s+after"]),
         ("^TNX", "rates_note_en", "TNX", 0.15,
-         [r"yield\s+at\s+([\d.]+)%",
-          r"(?:at|sits?\s+at)\s+([\d.]+)%",
+         [r"yield\s+(?:sits?\s+at|at|is)\s+([\d.]+)\s*(?:%|percent)",
+          r"(?:at|sits?\s+at)\s+([\d.]+)\s*(?:%|percent)",
+          r"([\d]\.\d+)\s*(?:%|percent)\s+(?:is|and|yield)",
+          r"yield\s+at\s+([\d.]+)%",
           r"([\d]\.\d+)%\s+(?:is|and|yield)"]),
         ("DX-Y.NYB", "dollar_note_en", "DXY", 0.5,
-         [r"DXY\s+at\s+([\d.]+)",
+         [r"DXY[^\d]{0,20}([\d]{2,3}\.[\d]+)",
+          r"DXY\s+(?:is\s+)?at\s+([\d.]+)",
+          r"DXY\s+at\s+([\d.]+)",
           r"DXY\s+([\d.]+)",
-          r"at\s+([\d.]+)\s+(?:is|and|strengthening|weakening)"]),
+          r"at\s+([\d.]+)\s+(?:is|and|strengthening|weakening|essentially|flat)"]),
     ]
     for sym, field_key, label, tol, patterns in checks:
         api_val = items.get(sym, {}).get("price")
@@ -711,12 +728,18 @@ def _call_claude(prompt: str, timeout: int) -> Optional[str]:
     env = {**os.environ, "PATH": os.environ.get("PATH", "") + ":/usr/local/bin:/opt/homebrew/bin"}
     try:
         result = subprocess.run(
-            [CLAUDE_CMD, "-p", prompt],
+            [CLAUDE_CMD, "-p", prompt,
+             "--allowedTools", "WebSearch",
+             "--output-format", "json"],
             capture_output=True, text=True, timeout=timeout, env=env,
         )
         if result.returncode != 0:
             return None
-        return result.stdout
+        try:
+            envelope = json.loads(result.stdout)
+            return envelope.get("result", "") or ""
+        except json.JSONDecodeError:
+            return result.stdout
     except (subprocess.TimeoutExpired, FileNotFoundError):
         return None
 
@@ -832,8 +855,10 @@ Output ONLY valid JSON (no markdown fences):
     stripped = re.sub(r"```\s*", "", stripped)
     m = re.search(r"\{.*\}", stripped, re.DOTALL)
     if not m:
+        preview = raw[:300].replace("\n", " ") if raw else "(empty)"
+        print(f"[DEBUG] Claude raw response: {preview!r}")
         report.add(CheckResult("E-Claude 검증", False,
-                               "Claude 응답에서 JSON 추출 실패", "warning"))
+                               f"Claude 응답에서 JSON 추출 실패 (응답: {preview[:120]!r})", "warning"))
         return {}
 
     try:
@@ -1034,7 +1059,7 @@ def main():
     # JSON 저장
     if args.json:
         import datetime as dt
-        date_str = dt.date.today().isoformat()
+        date_str = args.date if args.date else dt.date.today().isoformat()
         out_path = REPO_PATH / "briefing" / f"verify_{date_str}.json"
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(report.as_dict(), f, ensure_ascii=False, indent=2)
