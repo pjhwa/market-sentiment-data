@@ -1,71 +1,71 @@
 {
-  "generated_at": "2026-06-09T13:15:00Z",
+  "generated_at": "2026-06-09T21:15:01Z",
   "schema_version": "2.0",
-  "slot": "pre_open",
+  "slot": "post_close",
   "overall": {
-    "summary_en": "Mixed: VIX eases but credit and commodities caution",
-    "summary_ko": "변동성 안정 속 크레딧·원자재 주의",
+    "summary_en": "Mixed: VIX up but credit/rates stable, commodities weak.",
+    "summary_ko": "VIX↑·원자재↓ 혼조 장세",
     "bullets_en": [
-      "VIX 18.06 downtrend → fear low, risk friendly",
-      "VVIX -9.45% accumulation → volatility supportive",
-      "Credit: IEF downtrend → risk-off tone persists"
+      "VIX 19.87 up 5% → fear moderate, digestion constructive",
+      "Credit: HYG accumulation → yield demand firm",
+      "Commodities: Oil -2.85% → demand pressure rising"
     ],
     "bullets_ko": [
-      "VIX 18.06 하락 → 공포 낮아 위험우호",
-      "VVIX -9.45% 축적 → 변동성 지지",
-      "크레딧 IEF 하락 → 위험회피 지속"
+      "VIX 19.87↑ → 공포 제한, 시장 소화 양호",
+      "크레딧 HYG↑ → 수요 견고",
+      "원자재 Oil -2.85% → 수요 압력"
     ]
   },
   "groups": {
     "volatility": {
-      "text_en": "VIX 18.06 downtrend eases pressure, risk supportive",
-      "text_ko": "VIX 급락으로 변동성 안정, 위험자산 지지"
+      "text_en": "VIX rise healthy, VVIX accumulation supportive",
+      "text_ko": "VIX 상승 건전, VVIX 축적 지지"
     },
     "breadth": {
-      "text_en": "SPY neutral, RSP uptrend but MAGS weak, watchful",
-      "text_ko": "SPY 중립 RSP 상승이나 MAGS 약세 주시"
+      "text_en": "SPY stable, QQQ weak; breadth mixed watchful",
+      "text_ko": "SPY 안정 QQQ 약세, 혼조 주시"
     },
     "credit": {
-      "text_en": "HYG flat, IEF downtrend signals persistent caution",
-      "text_ko": "HYG 횡보 IEF 하락, 크레딧 주의 지속"
+      "text_en": "HYG/JNK accumulation shows credit demand firm",
+      "text_ko": "HYG/JNK 축적, 크레딧 수요 견조"
     },
     "rates": {
-      "text_en": "TLT down, TNX eases; mixed rates warrant watch",
-      "text_ko": "TLT 하락 TNX 완화, 금리 혼조 신호 주시"
+      "text_en": "TNX 4.528% stable, TLT rebound rate positive",
+      "text_ko": "TNX 4.528% 안정, TLT 반등 긍정"
     },
     "commodities": {
-      "text_en": "Oil -1.96% to 89.51, GLD weak → risk-off tone",
-      "text_ko": "원유 -1.96% GLD 약세, 원자재 위험회피"
+      "text_en": "Oil -2.85%, GLD -1.63% point to demand weakness",
+      "text_ko": "Oil·GLD 급락, 수요 약화 신호"
     },
     "sectors": {
-      "text_en": "SMH +5% strong but XLY lags, mixed sector view",
-      "text_ko": "SMH 급등 XLY 부진, 섹터 혼조 관찰"
+      "text_en": "SMH -1.2%, XLE -1.61% lead sector weakness",
+      "text_ko": "SMH·XLE 약세, 섹터 주의"
     }
   },
   "computed_signals": {
     "volatility": {
       "signal": "green",
-      "direction": "stable"
+      "direction": "deteriorating"
     },
     "breadth": {
       "signal": "yellow",
-      "direction": "stable"
+      "direction": "deteriorating"
     },
     "credit": {
-      "signal": "red",
+      "signal": "green",
       "direction": "stable"
     },
     "rates": {
-      "signal": "yellow",
-      "direction": "deteriorating"
+      "signal": "green",
+      "direction": "stable"
     },
     "commodities": {
       "signal": "red",
-      "direction": "stable"
+      "direction": "deteriorating"
     },
     "sectors": {
-      "signal": "yellow",
-      "direction": "stable"
+      "signal": "red",
+      "direction": "deteriorating"
     }
   },
   "overall_judgment": "MIXED"
