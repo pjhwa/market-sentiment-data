@@ -99,6 +99,18 @@ def commit_and_push(
     if ssh_cmd:
         env["GIT_SSH_COMMAND"] = ssh_cmd
 
+    # remote에 로컬에 없는 커밋이 있을 경우 rebase로 통합
+    pull_res = subprocess.run(
+        ["git", "pull", "--rebase", "origin", "main"],
+        cwd=repo,
+        capture_output=True,
+        text=True,
+        env=env,
+    )
+    if pull_res.returncode != 0:
+        print(f"[ERROR] git pull --rebase 실패:\n{pull_res.stderr}", file=sys.stderr)
+        return False
+
     push_res = subprocess.run(
         ["git", "push", "origin", "HEAD"],
         cwd=repo,
