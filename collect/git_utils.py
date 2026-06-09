@@ -101,7 +101,7 @@ def commit_and_push(
 
     # remote에 로컬에 없는 커밋이 있을 경우 rebase로 통합
     pull_res = subprocess.run(
-        ["git", "pull", "--rebase", "origin", "main"],
+        ["git", "pull", "--rebase", "--autostash", "origin", "main"],
         cwd=repo,
         capture_output=True,
         text=True,
