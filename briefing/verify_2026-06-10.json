@@ -1,0 +1,205 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-09T21:45:00Z",
+  "verified_at": "2026-06-10T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 1건:\n    NVO: API=DISTRIBUTION vs 브리핑=DOWNTREND"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    PLTR: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=64.9 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": false,
+      "severity": "warning",
+      "detail": "developing 이슈 1건인데 big_picture에 유보 표현 없음: ['US advances reciprocal trade deals targeting China']"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — Critically outdated as of briefing generation time. CNN/CBS confirmed ceasefire was 'faltering' on June 7-8 with Israel and Iran trading 'worst strikes in months.' More importantly, on June 9 itself Trump publicly teased resuming kinetic strikes after Iran allegedly targeted a US helicopter — the primary catalyst for Nasdaq/S&P declines that day. Labeling this 'confirmed' de-escalation directly contradicts the day's actual market narrative. Additionally, search results show current negotiations 'do not involve matters related to Iran's nuclear program' per CNN, making the 'nuclear talks progress' framing misleading. Strait of Hormuz remains effectively closed under dual blockade as of June 9; Q3 resumption projection is EIA forward-looking only. The halt is real but fragile, conditional, and actively contested on the same day the briefing was published."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 2건:\n    Trump teases resumption of Iran kinetic strikes on June 9 — primary market catalyst (영향: Direct driver of Nasdaq -0.97% and S&P -0.26% on June 9. Tech-heavy watchlist names (NVDA, TSLA, AAPL, MSFT, CRWD, AMZN, META) all closed lower. The briefing's 'de-escalation confirmed' framing missed the re-escalation signal that moved markets on the exact day of publication. TSM also exposed to Taiwan strait risk premium if Iran conflict widens.)\n    May CPI report releasing June 10 at 8:30 AM ET — major overnight catalyst (영향: CPI for May 2026 publishes the morning after the briefing. US inflation running at 3.8% YoY (April, highest since May 2023) driven by Iran war oil shock. A hot print would hit rate-sensitive names: TLT, HYG (flagged as green in sector analysis), and growth/tech across the entire watchlist. This is arguably the single most actionable pre-market risk not mentioned.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The headline 'Middle East de-escalation confirmed but oil stays high' is directly contradicted by June 9's primary market driver: Trump teasing new Iran strikes, which sent Nasdaq and S&P lower. The market did not trade 'de-escalation confirmed' on June 9 — it traded re-escalation risk. WTI fell below $90/barrel on June 9 (down from $95+ earlier in the week), so 'oil stays high' is debatable relative to the week's range. A yellow/64.9 score may be directionally correct given the mixed signals (some defensive names stable, credit/rates green) but the headline narrative is backward relative to what actually moved markets that day. Score feels approximately right; framing is wrong."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Confirmed: technology and energy were the only two S&P 500 sectors finishing in the red on June 9, consistent with the briefing's description of red semiconductor signals and energy in downtrend. The characterization of QQQ breadth deterioration, distribution patterns below EMA21, and rotation toward AI infrastructure names (ALAB, MU) with UPTREND structures aligns with observable market behavior. Credit (HYG) and rates (TLT) being described as stable/green is consistent with the Dow advancing +0.17% on defensive support. Sector analysis is the strongest section of the briefing."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MSFT: No error — confirmed accurate. MSFT closed at $403.41, down $8.33 (-2.02%) on June 9, 2026 per multiple sources. Briefing is correct.\n    TSM: Minor: Briefing states TSM 'closed yesterday at $427.92, up 0.26%.' Search shows June 9 intraday price of $427.89 with prior close of $426.80. Working backwards: $426.80 × 1.0026 = $427.91, confirming the +0.26% gain figure is accurate. The $427.92 vs $427.89 discrepancy is $0.03 rounding — no material error. However, briefing EMA21 reference shows '$41...' (truncated display artifact, not a data error).\n    MU: Apparent discrepancy requires context: briefing states MU 'closed at $935.89, down 1.41%.' Search returns $949.28 as June 9 trading price, but this appears to be an intraday quote. Working the math: $935.89 / (1 - 0.0141) = $949.29 as the prior session close — exactly matching the search's $949.28. MU likely opened near $949 and closed at $935.89 amid the tech selloff triggered by Trump's Iran comments. Briefing prices appear accurate; no confirmed error."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-09T22:16:01Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Israel halts Iran strikes amid Trump nuclear talks progress",
+        "accuracy": "outdated",
+        "note": "Critically outdated as of briefing generation time. CNN/CBS confirmed ceasefire was 'faltering' on June 7-8 with Israel and Iran trading 'worst strikes in months.' More importantly, on June 9 itself Trump publicly teased resuming kinetic strikes after Iran allegedly targeted a US helicopter — the primary catalyst for Nasdaq/S&P declines that day. Labeling this 'confirmed' de-escalation directly contradicts the day's actual market narrative. Additionally, search results show current negotiations 'do not involve matters related to Iran's nuclear program' per CNN, making the 'nuclear talks progress' framing misleading. Strait of Hormuz remains effectively closed under dual blockade as of June 9; Q3 resumption projection is EIA forward-looking only. The halt is real but fragile, conditional, and actively contested on the same day the briefing was published."
+      },
+      {
+        "rank": 2,
+        "title": "Taiwan coast guard expels Chinese vessels from restricted waters",
+        "accuracy": "accurate",
+        "note": "Confirmed by Reuters, Nikkei Asia, OANN, and multiple outlets. Four Chinese ships (three coast guard vessels) expelled June 7 from restricted waters 30 nautical miles southwest of Taiwan's southern tip. Briefing states '3 days ago' from June 9 which maps to June 6 — a 1-day discrepancy (actual event was June 7), but substantively accurate. Dutch frigate detail not independently confirmed in search results but ISW May 29 sourcing is plausible. Overall the core claim is solid."
+      },
+      {
+        "rank": 3,
+        "title": "US advances reciprocal trade deals targeting China supply chains",
+        "accuracy": "accurate",
+        "note": "Confirmed. Supply Chain Dive and Gibson Dunn/Global Policy Watch confirm semiconductor tariffs on China set for June 23, 2027 implementation with 18-month ramp. US-Taiwan trade deal (signed January 2026, $250B investment commitment, reduced Section 232 tariffs for expanding US production) is well-documented. Peterson Institute and CFR sourcing is consistent with publicly available analysis. No material inaccuracies found."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Trump teases resumption of Iran kinetic strikes on June 9 — primary market catalyst",
+        "impact": "Direct driver of Nasdaq -0.97% and S&P -0.26% on June 9. Tech-heavy watchlist names (NVDA, TSLA, AAPL, MSFT, CRWD, AMZN, META) all closed lower. The briefing's 'de-escalation confirmed' framing missed the re-escalation signal that moved markets on the exact day of publication. TSM also exposed to Taiwan strait risk premium if Iran conflict widens.",
+        "severity": "critical"
+      },
+      {
+        "title": "May CPI report releasing June 10 at 8:30 AM ET — major overnight catalyst",
+        "impact": "CPI for May 2026 publishes the morning after the briefing. US inflation running at 3.8% YoY (April, highest since May 2023) driven by Iran war oil shock. A hot print would hit rate-sensitive names: TLT, HYG (flagged as green in sector analysis), and growth/tech across the entire watchlist. This is arguably the single most actionable pre-market risk not mentioned.",
+        "severity": "critical"
+      },
+      {
+        "title": "May jobs report (172K, doubled consensus) caused S&P -2.6% on Friday June 6, ending 9-week win streak",
+        "impact": "Sets the bearish context for the current week. Explains why NVDA, AAPL, TSLA, MSFT are in distribution/below EMA21. The briefing describes current structures without attributing the recent technical damage to this catalyst. Relevant for understanding AAPL -3.64% and TSLA -3.00% on June 9 as continuation of Friday's damage.",
+        "severity": "important"
+      },
+      {
+        "title": "Corning (GLW) +9% on multi-billion Amazon AI fiber optic data center agreement",
+        "impact": "AI infrastructure narrative directly relevant to sector rotation thesis in the briefing (AI power demand, ALAB/MU rotation). GLW not on watchlist but the Amazon deal signals continued hyperscaler capex — supportive of ALAB and MU long thesis, may be worth noting.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "The headline 'Middle East de-escalation confirmed but oil stays high' is directly contradicted by June 9's primary market driver: Trump teasing new Iran strikes, which sent Nasdaq and S&P lower. The market did not trade 'de-escalation confirmed' on June 9 — it traded re-escalation risk. WTI fell below $90/barrel on June 9 (down from $95+ earlier in the week), so 'oil stays high' is debatable relative to the week's range. A yellow/64.9 score may be directionally correct given the mixed signals (some defensive names stable, credit/rates green) but the headline narrative is backward relative to what actually moved markets that day. Score feels approximately right; framing is wrong."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Confirmed: technology and energy were the only two S&P 500 sectors finishing in the red on June 9, consistent with the briefing's description of red semiconductor signals and energy in downtrend. The characterization of QQQ breadth deterioration, distribution patterns below EMA21, and rotation toward AI infrastructure names (ALAB, MU) with UPTREND structures aligns with observable market behavior. Credit (HYG) and rates (TLT) being described as stable/green is consistent with the Dow advancing +0.17% on defensive support. Sector analysis is the strongest section of the briefing."
+    },
+    "stock_errors": [
+      {
+        "symbol": "MSFT",
+        "error": "No error — confirmed accurate. MSFT closed at $403.41, down $8.33 (-2.02%) on June 9, 2026 per multiple sources. Briefing is correct."
+      },
+      {
+        "symbol": "TSM",
+        "error": "Minor: Briefing states TSM 'closed yesterday at $427.92, up 0.26%.' Search shows June 9 intraday price of $427.89 with prior close of $426.80. Working backwards: $426.80 × 1.0026 = $427.91, confirming the +0.26% gain figure is accurate. The $427.92 vs $427.89 discrepancy is $0.03 rounding — no material error. However, briefing EMA21 reference shows '$41...' (truncated display artifact, not a data error)."
+      },
+      {
+        "symbol": "MU",
+        "error": "Apparent discrepancy requires context: briefing states MU 'closed at $935.89, down 1.41%.' Search returns $949.28 as June 9 trading price, but this appears to be an intraday quote. Working the math: $935.89 / (1 - 0.0141) = $949.29 as the prior session close — exactly matching the search's $949.28. MU likely opened near $949 and closed at $935.89 amid the tech selloff triggered by Trump's Iran comments. Briefing prices appear accurate; no confirmed error."
+      }
+    ],
+    "overall_score": 58,
+    "summary": "The briefing's geopolitical and sector analysis frameworks are broadly sound, but the central Iran narrative is critically inverted: on June 9, the primary market-moving event was Trump teasing NEW strikes (not confirmed de-escalation), which directly caused the Nasdaq/S&P declines the briefing otherwise correctly describes. This single framing error undermines the market mood section's credibility. The briefing also omits two critical near-term catalysts — the May CPI release on June 10 and the context of the prior Friday's jobs report shock — leaving readers without the most actionable pre-market risk information. Stock prices and sector structural analysis are largely accurate and well-constructed."
+  }
+}
