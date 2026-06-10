@@ -1,0 +1,208 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-10T21:45:00Z",
+  "verified_at": "2026-06-11T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 3,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    PLTR: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=54.0 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=False)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — The US strikes after the Apache helicopter downing are confirmed (June 9, WaPo/NPR/Time). However, the briefing omits a critical development: Iran immediately retaliated with drone and missile strikes on US military bases in Bahrain, Kuwait, and Jordan (CNBC 2026-06-09). The briefing frames this as one-directional US action and Trump's warning of future strikes, but the exchange of strikes has already happened bilaterally. Framing as a future threat ('vows very hard attacks if no deal') is partially misleading — active bilateral strikes are already underway. Oil tanker disruptions through Hormuz are confirmed. Broader context also missing: this conflict has been ongoing since Feb 2026 when the US/Israel launched an air war and Khamenei was assassinated."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 2건:\n    Iran Retaliates With Strikes on US Military Bases in Bahrain, Kuwait, and Jordan (영향: Directly upgrades the severity of the Iran/Hormuz risk already in the briefing. Energy names (XLE, refiners) and defense contractors benefit further; airlines, cruise lines, and transports face added downside. Any watchlist stock with Middle East supply-chain exposure (TSM fab inputs, NVDA datacenter components) faces compounding risk.)\n    May CPI Rises 0.5% MoM, 4.2% YoY — Inflation Re-accelerates on Energy Shock (영향: Rate-sensitive growth stocks across the watchlist are affected: MSFT, META, AMZN, NVDA, PLTR all reprice on Fed rate path uncertainty. Core CPI +0.2% MoM offered partial relief but headline beat is hawkish. The briefing's macro section is silent on this — it is a primary independent market driver on June 10 alongside the Iran story.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: VIX rising ~12% to 22.22 is confirmed (TheStreet, StreetStats). S&P 500 fell 1.62% to 7,266.99; Dow dropped ~900 points. The 'yellow / 54.0' score and defensive rotation framing are reasonable for a day where geopolitical shock is real but markets did not fully collapse. The 'paradox' framing — noting VIX is elevated but not extreme — is supported by data: VIX at 22 is meaningfully above recent lows but well below the ~29.5 seen in early March 2026 during peak Iran-war onset."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Sector breakdown confirmed by TheStreet: Industrials -3%+, Tech and Materials -2%+, all sectors red. Energy narrative interest from Iran/Hormuz oil spike is consistent with reported oil price gains. Semiconductor (SMH) weakness amid geopolitical supply-chain fears is directionally correct. Defensive rotation away from high-beta tech is supported by the price data. The caveat that energy sits in DOWNTREND technically is a reasonable internal consistency note."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Briefing states META closed at $570.98. Search data indicates META traded at approximately $593.06 on June 10, 2026 (down ~5.5% on the day). If the prior close was ~$627, then $593 represents a ~5.5% decline — consistent with reported figure. The $570.98 figure appears to be an error of roughly $22 (~3.7%), which is outside normal rounding or timestamp variance.\n    TSLA: Briefing states $381.59 close. Search data shows TSLA closed at $384.83 (range $381.31–$397.09 intraday). The $381.59 figure corresponds to the intraday low, not the closing price — minor classification error.\n    AAPL: Briefing states $291.58. Search data shows AAPL priced at ~$294.58 on June 10 (range $287.38–$294.66). The $291.58 figure appears to be an intraday mid-session price rather than the closing price — minor discrepancy of ~$3.\n    MSFT: Briefing states $397.36 close. Search data shows MSFT priced at ~$402.25 (range $396.85–$405.04). The $397.36 figure appears to be near the intraday low, not the close — moderate discrepancy of ~$5 (~1.2%).\n    MU: Briefing states MU closed at $891.88. This price was unverifiable from search results. MU at ~$892/share would be an extraordinary valuation relative to historical range; could not be confirmed or refuted. Flag for manual spot-check against authoritative price source."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-10T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US Launches Strikes on Iran; Hormuz Oil Threat Escalates",
+        "accuracy": "outdated",
+        "note": "The US strikes after the Apache helicopter downing are confirmed (June 9, WaPo/NPR/Time). However, the briefing omits a critical development: Iran immediately retaliated with drone and missile strikes on US military bases in Bahrain, Kuwait, and Jordan (CNBC 2026-06-09). The briefing frames this as one-directional US action and Trump's warning of future strikes, but the exchange of strikes has already happened bilaterally. Framing as a future threat ('vows very hard attacks if no deal') is partially misleading — active bilateral strikes are already underway. Oil tanker disruptions through Hormuz are confirmed. Broader context also missing: this conflict has been ongoing since Feb 2026 when the US/Israel launched an air war and Khamenei was assassinated."
+      },
+      {
+        "rank": 2,
+        "title": "Taiwan Conducts Live Anti-Invasion Drills With US Rockets",
+        "accuracy": "accurate",
+        "note": "Fully confirmed across NPR, ABC News, CNN, U.S. News & World Report, and Military.com. HIMARS rockets fired in shoot-and-scoot drills on June 10, 2026, on Taiwan's west coast into the Taiwan Strait — first time HIMARS rockets were fired into Strait waters. 155mm howitzers also used. Drill timing and framing in the briefing match all sources."
+      },
+      {
+        "rank": 3,
+        "title": "US-China Chip Export Policy Remains Case-by-Case With 25% Tariff",
+        "accuracy": "accurate",
+        "note": "Policy confirmed: Trump administration shifted to case-by-case review for H200/MI325X-class chips with 25% tariff (Jan 2026, Morgan Lewis, Gibson Dunn). A June 1, 2026 Commerce Dept notice (Al Jazeera) clarified restrictions apply to subsidiaries of Chinese companies outside China — a material tightening not mentioned in the briefing. No new blanket bans in the last 48h is accurate. Source dates (Gotrade May 13, Data Center Dynamics July 2025) are stale but the underlying policy description holds."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Iran Retaliates With Strikes on US Military Bases in Bahrain, Kuwait, and Jordan",
+        "impact": "Directly upgrades the severity of the Iran/Hormuz risk already in the briefing. Energy names (XLE, refiners) and defense contractors benefit further; airlines, cruise lines, and transports face added downside. Any watchlist stock with Middle East supply-chain exposure (TSM fab inputs, NVDA datacenter components) faces compounding risk.",
+        "severity": "critical"
+      },
+      {
+        "title": "May CPI Rises 0.5% MoM, 4.2% YoY — Inflation Re-accelerates on Energy Shock",
+        "impact": "Rate-sensitive growth stocks across the watchlist are affected: MSFT, META, AMZN, NVDA, PLTR all reprice on Fed rate path uncertainty. Core CPI +0.2% MoM offered partial relief but headline beat is hawkish. The briefing's macro section is silent on this — it is a primary independent market driver on June 10 alongside the Iran story.",
+        "severity": "critical"
+      },
+      {
+        "title": "Oracle (ORCL) Q4 FY2026 Earnings After Close June 10 — AI Cloud Demand Bellwether",
+        "impact": "Not a watchlist stock but ORCL results are a leading indicator for cloud/AI infrastructure demand that directly informs sentiment on NVDA, MSFT, AMZN, and CRWD. A beat would counter the geopolitical risk-off; a miss would compound sector weakness already noted in the briefing.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "VIX rising ~12% to 22.22 is confirmed (TheStreet, StreetStats). S&P 500 fell 1.62% to 7,266.99; Dow dropped ~900 points. The 'yellow / 54.0' score and defensive rotation framing are reasonable for a day where geopolitical shock is real but markets did not fully collapse. The 'paradox' framing — noting VIX is elevated but not extreme — is supported by data: VIX at 22 is meaningfully above recent lows but well below the ~29.5 seen in early March 2026 during peak Iran-war onset."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Sector breakdown confirmed by TheStreet: Industrials -3%+, Tech and Materials -2%+, all sectors red. Energy narrative interest from Iran/Hormuz oil spike is consistent with reported oil price gains. Semiconductor (SMH) weakness amid geopolitical supply-chain fears is directionally correct. Defensive rotation away from high-beta tech is supported by the price data. The caveat that energy sits in DOWNTREND technically is a reasonable internal consistency note."
+    },
+    "stock_errors": [
+      {
+        "symbol": "META",
+        "error": "Briefing states META closed at $570.98. Search data indicates META traded at approximately $593.06 on June 10, 2026 (down ~5.5% on the day). If the prior close was ~$627, then $593 represents a ~5.5% decline — consistent with reported figure. The $570.98 figure appears to be an error of roughly $22 (~3.7%), which is outside normal rounding or timestamp variance."
+      },
+      {
+        "symbol": "TSLA",
+        "error": "Briefing states $381.59 close. Search data shows TSLA closed at $384.83 (range $381.31–$397.09 intraday). The $381.59 figure corresponds to the intraday low, not the closing price — minor classification error."
+      },
+      {
+        "symbol": "AAPL",
+        "error": "Briefing states $291.58. Search data shows AAPL priced at ~$294.58 on June 10 (range $287.38–$294.66). The $291.58 figure appears to be an intraday mid-session price rather than the closing price — minor discrepancy of ~$3."
+      },
+      {
+        "symbol": "MSFT",
+        "error": "Briefing states $397.36 close. Search data shows MSFT priced at ~$402.25 (range $396.85–$405.04). The $397.36 figure appears to be near the intraday low, not the close — moderate discrepancy of ~$5 (~1.2%)."
+      },
+      {
+        "symbol": "MU",
+        "error": "Briefing states MU closed at $891.88. This price was unverifiable from search results. MU at ~$892/share would be an extraordinary valuation relative to historical range; could not be confirmed or refuted. Flag for manual spot-check against authoritative price source."
+      }
+    ],
+    "overall_score": 67,
+    "summary": "The briefing's headline geopolitical narrative on Iran is directionally accurate but materially incomplete: Iran has already retaliated with strikes on US military bases in Bahrain, Kuwait, and Jordan — a significant escalation the briefing omits by framing the situation as one-directional US action. The absence of the May CPI print (4.2% YoY, a major independent market driver on June 10) is a significant gap in the macro analysis. Market mood and sector rotation assessments are well-supported, and the Taiwan drill coverage is fully accurate; however, multiple watchlist stock closing prices show discrepancies suggesting intraday rather than closing prices were used, with META showing the largest error (~$22)."
+  }
+}
