@@ -1,0 +1,207 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-11T21:45:00Z",
+  "verified_at": "2026-06-12T07:15",
+  "overall_passed": false,
+  "error_count": 3,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    PLTR: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 1건:\n    NVO: Rule1 → avoid 필요 (struct=DISTRIBUTION,S2=2,RS=67), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=59.3 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": false,
+      "severity": "error",
+      "detail": "누락 종목: ['SPCX']"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — The Hormuz closure by IRGC is confirmed. However, a critical post-briefing development: Trump canceled planned strikes on June 11 evening and declared an Iran deal is 'approved by all parties,' pointing to imminent de-escalation. The briefing's framing of active bilateral escalation is no longer current as of 07:16 KST June 12. A ceasefire framework is being negotiated, with a signing possibly in Europe within days."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 2건:\n    Trump cancels Iran strikes, announces deal 'approved by all parties' — de-escalation pivot (영향: This triggered a broad risk-on rally that closed June 11: S&P 500 +1.8%, Nasdaq +2.5%, Dow +930 pts. Directly benefits TSM, NVDA, MU, CRWD, AMZN, META (geopolitical risk premium compression). Energy names may reverse on lower war premium. This is the single largest omission from the briefing and completely inverts the cautious tone.)\n    SpaceX (SPCX) IPO priced at $135/share on June 12 — world's largest IPO at $1.77T valuation (영향: SPCX debuts today on Nasdaq. Largest IPO in history, dwarfing Saudi Aramco. Major capital flow event for the broader market, especially mega-cap tech. SPCX was added to TIER1 watchlist and is entirely absent from the briefing despite today being its listing date.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The briefing assigns yellow/59.3 with 'futures stay calm' framing. Actual June 11 close was a strong risk-on session: S&P +1.8%, Nasdaq +2.5%, Dow +930 pts. The calm-futures narrative was accurate pre-open but is significantly wrong for end-of-day conditions. A score of 65-72 and green-leaning yellow would better reflect the actual close, driven by Iran deal optimism and tech strength."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "The briefing states tech/growth lags (DISTRIBUTION in NVDA, MSFT, AAPL) and advises rotating toward energy/defensives. The actual June 11 session was the opposite: Nasdaq led with +2.5%, semiconductors surged (MU +11%, AMD +8%, LRCX +12.7%, INTC +10%), and energy's war premium likely faded on Trump deal signals. The rotation call toward energy/defensives was exactly backward for the session."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MU: Briefing states close of $995.87 after 11.66% gain from ~$891.88. Intraday search data shows a June 11 range of $895.50–$929.57, inconsistent with a $995.87 close. Broader market reporting confirms ~11% Micron surge, but the specific $995.87 closing price appears overstated relative to available intraday data. Likely a data source discrepancy.\n    TSLA: Briefing states TSLA at $399.15 in DISTRIBUTION with RS 30.7. SpaceX IPO today at a $1.77T valuation now makes TSLA ($1.6T market cap) the smaller Musk vehicle — potential rotation dynamic not reflected in the analysis."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-11T22:16:08Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Iran closes Strait of Hormuz after US strikes",
+        "accuracy": "outdated",
+        "note": "The Hormuz closure by IRGC is confirmed. However, a critical post-briefing development: Trump canceled planned strikes on June 11 evening and declared an Iran deal is 'approved by all parties,' pointing to imminent de-escalation. The briefing's framing of active bilateral escalation is no longer current as of 07:16 KST June 12. A ceasefire framework is being negotiated, with a signing possibly in Europe within days."
+      },
+      {
+        "rank": 2,
+        "title": "ECB hikes rates first time since 2023 on Iran war inflation",
+        "accuracy": "accurate",
+        "note": "Confirmed: ECB raised its deposit rate 25bps to 2.25% on June 11, citing war-driven energy inflation. First hike since 2023. Euro-area May CPI ran 3.2%. BOJ widely expected to hike to 1.00% at its June 16 meeting (49/51 economists surveyed, ~96% market-implied probability), consistent with the 'imminent hike' characterization."
+      },
+      {
+        "rank": 3,
+        "title": "TSMC faces renewed pressure from potential Taiwan chip curbs",
+        "accuracy": "accurate",
+        "note": "Confirmed: Taiwan is actively mulling AI chip export controls to China to align with US rules, reported June 9-10 by Bloomberg and Taipei Times. The framing of 'ongoing risk of tightened curbs' is accurate. The 30% May revenue growth figure was not independently verified in this search but the broader narrative is correct."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Trump cancels Iran strikes, announces deal 'approved by all parties' — de-escalation pivot",
+        "impact": "This triggered a broad risk-on rally that closed June 11: S&P 500 +1.8%, Nasdaq +2.5%, Dow +930 pts. Directly benefits TSM, NVDA, MU, CRWD, AMZN, META (geopolitical risk premium compression). Energy names may reverse on lower war premium. This is the single largest omission from the briefing and completely inverts the cautious tone.",
+        "severity": "critical"
+      },
+      {
+        "title": "SpaceX (SPCX) IPO priced at $135/share on June 12 — world's largest IPO at $1.77T valuation",
+        "impact": "SPCX debuts today on Nasdaq. Largest IPO in history, dwarfing Saudi Aramco. Major capital flow event for the broader market, especially mega-cap tech. SPCX was added to TIER1 watchlist and is entirely absent from the briefing despite today being its listing date.",
+        "severity": "critical"
+      },
+      {
+        "title": "Semiconductor sector surge on June 11: MU +11%, AMD +8%, Lam Research +12.7%, Intel +10% after BofA upgrade",
+        "impact": "Directly contradicts the briefing's sector narrative that tech lags. MU, NVDA, TSM all benefit. Intel's BofA upgrade on soaring CPU orders is independently market-moving for the semi supply chain.",
+        "severity": "important"
+      },
+      {
+        "title": "Oracle Q4 earnings: -9% on cloud revenue miss despite EPS beat",
+        "impact": "Negative read-through for MSFT and AMZN cloud segments; reinforces caution on enterprise cloud spending. Minor signal for CRWD (enterprise security spending).",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "The briefing assigns yellow/59.3 with 'futures stay calm' framing. Actual June 11 close was a strong risk-on session: S&P +1.8%, Nasdaq +2.5%, Dow +930 pts. The calm-futures narrative was accurate pre-open but is significantly wrong for end-of-day conditions. A score of 65-72 and green-leaning yellow would better reflect the actual close, driven by Iran deal optimism and tech strength."
+    },
+    "sector_check": {
+      "assessment": "inaccurate",
+      "note": "The briefing states tech/growth lags (DISTRIBUTION in NVDA, MSFT, AAPL) and advises rotating toward energy/defensives. The actual June 11 session was the opposite: Nasdaq led with +2.5%, semiconductors surged (MU +11%, AMD +8%, LRCX +12.7%, INTC +10%), and energy's war premium likely faded on Trump deal signals. The rotation call toward energy/defensives was exactly backward for the session."
+    },
+    "stock_errors": [
+      {
+        "symbol": "MU",
+        "error": "Briefing states close of $995.87 after 11.66% gain from ~$891.88. Intraday search data shows a June 11 range of $895.50–$929.57, inconsistent with a $995.87 close. Broader market reporting confirms ~11% Micron surge, but the specific $995.87 closing price appears overstated relative to available intraday data. Likely a data source discrepancy."
+      },
+      {
+        "symbol": "TSLA",
+        "error": "Briefing states TSLA at $399.15 in DISTRIBUTION with RS 30.7. SpaceX IPO today at a $1.77T valuation now makes TSLA ($1.6T market cap) the smaller Musk vehicle — potential rotation dynamic not reflected in the analysis."
+      }
+    ],
+    "overall_score": 51,
+    "summary": "The three global macro claims were factually grounded at generation time, but the most consequential event of June 11 — Trump canceling Iran strikes and declaring a deal imminent — occurred near the briefing cutoff and is entirely absent, making the geopolitical framing stale by morning. The sector and market mood assessments are materially wrong: the actual June 11 close was a sharp tech-led rally, the direct opposite of the 'tech lags, rotate to defensives' prescription. The omission of the historic SpaceX IPO launching today is a significant watchlist gap. Recommend re-running the briefing with updated Iran deal status, June 11 close data, and SpaceX IPO context before using for trading decisions."
+  }
+}
