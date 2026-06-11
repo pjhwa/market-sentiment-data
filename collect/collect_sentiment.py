@@ -59,6 +59,7 @@ TIER1_WATCHLIST = [
     ("MSFT",  "Microsoft"),
     ("AAPL",  "Apple"),
     ("GOOGL", "Alphabet / Google"),
+    ("SPCX",  "SpaceX"),
 ]
 
 # TIER2: 모멘텀/테마주 — 배치 묶음 분석, 하루 1회 (post_close 전용)

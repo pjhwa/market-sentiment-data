@@ -48,6 +48,7 @@ ALL_SYMBOLS = [
     ("MSFT",  "Microsoft",             1),
     ("AAPL",  "Apple",                 1),
     ("GOOGL", "Alphabet / Google",     1),
+    ("SPCX",  "SpaceX",                1),
     ("RKLB",  "Rocket Lab",            2),
     ("CEG",   "Constellation Energy",  2),
     ("VST",   "Vistra Energy",         2),
@@ -152,7 +153,7 @@ def _api_get(path: str, params: dict | None = None, timeout: int = 10) -> dict |
 # ─── 카테고리 A: SniperBoard 데이터 바인딩 ────────────────────────────────────
 
 def check_structure_binding(brief: dict, report: VerificationReport):
-    """A1: 21개 종목 market_structure 일치 확인."""
+    """A1: 22개 종목 market_structure 일치 확인."""
     watchlist = {w["symbol"]: w for w in brief.get("watchlist", [])}
     mismatches, errors = [], []
 
@@ -590,7 +591,7 @@ def check_confidence_language(brief: dict, report: VerificationReport):
 # ─── 카테고리 D: 완결성 ───────────────────────────────────────────────────────
 
 def check_watchlist_completeness(brief: dict, report: VerificationReport):
-    """D1: 워치리스트에 21개 종목이 모두 있는지, 순서 확인."""
+    """D1: 워치리스트에 22개 종목이 모두 있는지, 순서 확인."""
     wl_symbols = [w.get("symbol") for w in brief.get("watchlist", [])]
     missing = [s for s in EXPECTED_SYMBOLS if s not in wl_symbols]
     extra = [s for s in wl_symbols if s not in EXPECTED_SYMBOLS]

@@ -57,6 +57,7 @@ ALL_SYMBOLS = [
     ("MSFT",  "Microsoft",             1),
     ("AAPL",  "Apple",                 1),
     ("GOOGL", "Alphabet / Google",     1),
+    ("SPCX",  "SpaceX",                1),
     ("RKLB",  "Rocket Lab",            2),
     ("CEG",   "Constellation Energy",  2),
     ("VST",   "Vistra Energy",         2),
@@ -750,7 +751,7 @@ MANDATORY CHECK LIST — search and assess each even if quiet:
   "Can I cite a specific news outlet and date for this?" If no → mark as "unconfirmed:" or omit.
 
 ━━━ WATCHLIST TICKERS FOR IMPACT MAPPING ━━━
-TSM NVDA META TSLA PLTR MU CRWD AMZN MSFT AAPL GOOGL
+TSM NVDA META TSLA PLTR MU CRWD AMZN MSFT AAPL GOOGL SPCX
 RKLB CEG VST ALAB OKLO APP ANET NVO QBTS SOFI
 
 ━━━ KNOWN AMBIGUOUS SITUATIONS — PICK ONE DIRECTION AND COMMIT ━━━
@@ -910,7 +911,7 @@ MARKET DATA ({now_kst}):
 주요 매크로 지표 (yfinance 전일 종가 기준):
 {macro_block}
 
-감시 종목 21개 (기술적 데이터 + 소셜심리):
+감시 종목 22개 (기술적 데이터 + 소셜심리):
 {symbol_block}
 
 향후 실적 발표:
@@ -993,8 +994,8 @@ MARKET DATA ({now_kst}):
 }}
 
 REQUIREMENTS:
-- spotlight: 2-4 most interesting from the 21 (mix of opportunities and risks)
-- watchlist: ALL 21 in order TSM,NVDA,META,TSLA,PLTR,MU,CRWD,AMZN,MSFT,AAPL,GOOGL,RKLB,CEG,VST,ALAB,OKLO,APP,ANET,NVO,QBTS,SOFI
+- spotlight: 2-4 most interesting from the 22 (mix of opportunities and risks)
+- watchlist: ALL 22 in order TSM,NVDA,META,TSLA,PLTR,MU,CRWD,AMZN,MSFT,AAPL,GOOGL,SPCX,RKLB,CEG,VST,ALAB,OKLO,APP,ANET,NVO,QBTS,SOFI
 ACTION RULES — apply in this EXACT priority order (first rule that applies wins):
   RULE 1 (HARD): action=avoid  IF: market_structure=DOWNTREND AND Stage2≤6
                                OR  Stage2≤2 (regardless of structure)

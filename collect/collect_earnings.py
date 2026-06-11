@@ -29,7 +29,7 @@ HERMES_RETRY = int(os.environ.get("HERMES_RETRY", "1"))
 # TIER2(모멘텀/테마주)는 어닝 AI 해석 제외 (배치 분석 한계 + AI 비용)
 WATCHLIST = [
     "TSM", "NVDA", "META", "TSLA", "PLTR",
-    "MU",  "CRWD", "AMZN", "MSFT", "AAPL", "GOOGL",
+    "MU",  "CRWD", "AMZN", "MSFT", "AAPL", "GOOGL", "SPCX",
 ]
 UPCOMING_WINDOW_DAYS = 30  # 30일 이후는 EPS 컨센서스 미형성 → 노이즈
 RECENT_QUARTERS = 8

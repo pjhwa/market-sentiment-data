@@ -45,6 +45,7 @@ WATCHLIST = [
     ("MSFT",  "Microsoft"),
     ("AAPL",  "Apple"),
     ("GOOGL", "Alphabet / Google"),
+    ("SPCX",  "SpaceX"),
 ]
 
 
@@ -558,6 +559,20 @@ Priority order:
    STRICTLY FORBIDDEN: hiragana (あいうえお…), katakana (アイウエオ…).
    CJK characters (漢字) are acceptable ONLY if in standard Korean usage.
 
+9. CATALYST ATTRIBUTION — PRECISION REQUIRED:
+   When a stock moved ≥5% (전일등락 ≥5% or ≤-5%), the catalyst in brief_en/ko MUST be specific.
+   a. PRIMARY SOURCE: Use 소셜근거 as the catalyst — do NOT override with generic macro narratives
+      (e.g., do not write "rate sensitivity" when 소셜근거 cites a specific news event).
+   b. REPORT vs OFFICIAL — mandatory language distinction:
+      • Media report / unverified / "검토 중": use "on [Source] report of..." / "[소스] 보도에 따른..."
+        ✅ "fell on FT report of potential share offering"
+        ✅ "FT 보도에 따른 주식 발행 검토 우려로 하락"
+      • Official filing / confirmed press release / SEC 공시: use "following [event]" / "[이벤트] 공시 후"
+        ✅ "fell after confirmed share buyback announcement"
+   c. FORBIDDEN: treating unverified media reports as confirmed facts.
+        ❌ "following share offering announcement" when only a rumor/report exists
+        ❌ 공식 발표 없이 "공시 후", "발표 후" 사용
+
 SELF-CHECK before JSON output:
   □ All $ prices match 전일종가 column?
   □ ⚠이미발표됨 stocks: no beat/miss/split/분할 in brief_en/ko?
@@ -568,6 +583,7 @@ SELF-CHECK before JSON output:
   □ Contrastive connectors (~는데/~지만/but/while): both sides same domain OR direct causal link?
   □ Unrelated events in one sentence → split + "한편,"/"Separately,"?
   □ All _ko fields: zero hiragana/katakana characters?
+  □ ≥5% move stocks: catalyst from 소셜근거, not generic macro? Report vs confirmed fact language correct?
 
 Generate ONE JSON object (raw JSON only, no markdown):
 {{
@@ -584,8 +600,8 @@ Generate ONE JSON object (raw JSON only, no markdown):
     {{
       "symbol": "TICKER",
       "setup_quality": "A+|A|B|C|D",
-      "brief_en": "2-3 sentences: (1) exact price from table + key technical signal, (2) setup strength or vulnerability, (3) social catalyst or risk. Mention earnings ONLY if ≤14 days away. NO invented prices.",
-      "brief_ko": "2-3문장: (1) 테이블 정확한 가격 + 핵심 기술 신호, (2) 셋업 강도 또는 취약점, (3) 소셜 촉매 또는 리스크. 실적은 14일 이내일 때만 언급, 그 외 완전 생략.",
+      "brief_en": "2-3 sentences: (1) exact price from table + key technical signal, (2) setup strength or vulnerability, (3) primary catalyst from 소셜근거 — if ≥5% move, cite specific catalyst (not generic macro); if catalyst is a media report/rumor use 'on [Source] report of...', if confirmed official use 'following [event]'. Mention earnings ONLY if ≤14 days away. NO invented prices.",
+      "brief_ko": "2-3문장: (1) 테이블 정확한 가격 + 핵심 기술 신호, (2) 셋업 강도 또는 취약점, (3) 소셜근거 기반 주요 촉매 — 5% 이상 등락 시 구체적 촉매 필수 (일반 금리/거시 내러티브 금지); 언론 보도·루머는 '[소스] 보도에 따른', 공식 공시는 '[이벤트] 공시 후'. 실적은 14일 이내일 때만 언급, 그 외 완전 생략.",
       "key_risk_en": "Specific risk — cite EMA level or % from table if applicable",
       "key_risk_ko": "핵심 리스크 — 가능하면 테이블의 EMA 수치·% 인용",
       "key_opportunity_en": "Specific opportunity — cite exact entry or breakout level from data",
@@ -595,7 +611,7 @@ Generate ONE JSON object (raw JSON only, no markdown):
   ]
 }}
 
-symbol_briefs: TIER1 전 종목(11개), 순서: TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL
+symbol_briefs: TIER1 전 종목(12개), 순서: TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL, SPCX
 Raw JSON only."""
 
 
