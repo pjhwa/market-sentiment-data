@@ -4,7 +4,7 @@
 
 **Layer 2 — shared data repository** for SniperBoard's AI-powered market intelligence pipeline.
 
-A server cron job runs four collectors daily, querying Grok via Hermes and fetching data from the SniperBoard backend. Results are committed to this repository as standard JSON. Any consuming program — including SniperBoard — only needs the raw GitHub URL.
+A server cron job runs five collectors daily, querying Grok via Hermes and fetching data from the SniperBoard backend. Results are committed to this repository as standard JSON. Any consuming program — including SniperBoard — only needs the raw GitHub URL.
 
 ---
 
@@ -73,7 +73,7 @@ market-sentiment-data/
 
 ---
 
-## The Four Collectors
+## The Five Collectors
 
 ### 1. Social Sentiment (`collect/collect_sentiment.py`)
 
@@ -85,8 +85,8 @@ Runs **twice daily** (pre_open and post_close slots). Symbols are split into two
 4. Computes **divergence** (price direction vs. sentiment sign) after Grok responds
 5. Computes **composite_score** (−2.0 ~ +2.0) weighting confidence, bot suspicion, mention volume, divergence, and trend
 
-**TIER1 — Large-cap / Big Tech (11 symbols): individual deep analysis, twice daily (pre_open + post_close)**
-TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL
+**TIER1 — Large-cap / Big Tech (12 symbols): individual deep analysis, twice daily (pre_open + post_close)**
+TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL, SPCX
 
 **TIER2 — Momentum / Theme plays (10 symbols): batch analysis, once daily (post_close only)**
 RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI
@@ -109,7 +109,7 @@ Also captures a **context snapshot** at generation time (for transparency in Sni
 
 ### 3. Earnings Intelligence (`collect/collect_earnings.py`)
 
-Fetches earnings data via **yfinance** (calendar + earnings history) for all 7 watchlist symbols. Sends tiered data to Grok for risk interpretation:
+Fetches earnings data via **yfinance** (calendar + earnings history) for all TIER1 symbols. Sends tiered data to Grok for risk interpretation:
 
 - **Imminent** (≤7 days): event risk management zone
 - **Approaching** (8–21 days): position planning zone

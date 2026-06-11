@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-06-05 (Brief prompt quality: causal language + Japanese prevention) -->
+<!-- AUTO-GENERATED: 2026-06-12 spcx-tier1 -->
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 
@@ -42,10 +42,10 @@ market-sentiment-data/
 ├── collect/
 │   ├── __init__.py
 │   ├── collect_sentiment.py           # Collector 1 — python -m collect.collect_sentiment
-│   ├── collect_brief.py               # Collector 2 — python -m collect.collect_brief (트레이딩 신호 중심)
+│   ├── collect_brief.py               # Collector 2 — python -m collect.collect_brief (trading signal focus)
 │   ├── collect_earnings.py            # Collector 3 — python -m collect.collect_earnings
 │   ├── collect_macro_insight.py       # Collector 4 — python -m collect.collect_macro_insight
-│   ├── collect_morning_briefing.py    # Collector 5 — python -m collect.collect_morning_briefing (아침 브리핑, 매일 KST 07:30)
+│   ├── collect_morning_briefing.py    # Collector 5 — python -m collect.collect_morning_briefing (morning briefing, daily at KST 07:30)
 │   ├── probe_mention_volume.py        # One-shot symbol selection probe — mention volume scanner (169 candidates)
 │   ├── price_context.py               # Neutral price-context fetcher (used by Collector 1)
 │   ├── git_utils.py                   # commit_and_push() shared helper
@@ -64,7 +64,7 @@ market-sentiment-data/
 │   ├── latest.json               # AI Daily Brief: always-current (트레이딩 신호 중심)
 │   ├── brief.log                 # Cron log for collect_brief
 │   └── history/YYYY-MM-DD_<slot>.json
-├── briefing/                     # 아침 종합 브리핑 (schema_version 1.1, global_context 포함)
+├── briefing/                     # Morning briefing (schema_version 1.1, includes global_context)
 │   ├── latest.json               # Morning Briefing: always-current (2-stage Grok pipeline)
 │   ├── briefing.log              # Cron log for collect_morning_briefing
 │   └── history/YYYY-MM-DD.json
@@ -90,7 +90,7 @@ All config is injected via environment variables. Never hardcode paths or tokens
 | Variable | Default | Used by |
 |----------|---------|---------|
 | `SENTIMENT_REPO_PATH` | script directory | all collectors |
-| `HERMES_CMD` | 자동탐색 (`shutil.which` → `~/.local/bin` → `/opt/homebrew/bin` → `/usr/local/bin`) | all collectors |
+| `HERMES_CMD` | auto-detect (`shutil.which` → `~/.local/bin` → `/opt/homebrew/bin` → `/usr/local/bin`) | all collectors |
 | `HERMES_PROVIDER` | `""` (empty = no `--provider` flag) | all collectors |
 | `HERMES_TIMEOUT` | `120` | all collectors |
 | `HERMES_TIMEOUT_GLOBAL` | `90` | collector 5 (morning briefing, stage 1 global context fetch) |
@@ -141,8 +141,8 @@ The main sentiment collector. Runs twice daily. For TIER1 symbols individually +
 6. Write `sentiment/latest.json` + `sentiment/history/YYYY-MM-DD_<slot>.json`
 7. `git commit + push`
 
-**TIER1 — Large-cap / Big Tech (11 symbols, individual deep analysis, twice daily):**
-`TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL`
+**TIER1 — Large-cap / Big Tech (12 symbols, individual deep analysis, twice daily):**
+`TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL, SPCX`
 
 **TIER2 — Momentum / Theme plays (10 symbols, batch analysis, post_close only):**
 `RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI`
@@ -222,7 +222,7 @@ composite_score = clamp(round(score, 1), -2.0, 2.0)
 | `load_pre_open_scores(path)` | Reads earlier pre_open file for intraday_shift |
 | `compute_symbol_composite(...)` | composite_score for symbols |
 | `compute_market_composite(...)` | composite_score for market object |
-| `build_symbol_entry(..., tier)` | Assembles final per-symbol JSON object; `tier` 필드 포함 |
+| `build_symbol_entry(..., tier)` | Assembles final per-symbol JSON object; includes `tier` field |
 | `build_tier2_batch_prompt(watchlist)` | Builds batch prompt for all TIER2 symbols in a single Grok call |
 | `build_market_entry(...)` | Assembles final market JSON object |
 | `git_commit_push(...)` | Delegates to `collect/git_utils.commit_and_push()` |
@@ -582,7 +582,7 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 
 # ─── morning briefing (once daily, 22:30 UTC = KST 07:30) ────────────────────
 # 2-stage pipeline: stage 1 fetches global context (90s), stage 2 generates briefing (300s)
-# 의존성: collect_sentiment 완료 후 실행 (충분한 지연 확보)
+# Dependency: runs after collect_sentiment completes (sufficient delay ensured)
 30 22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 HERMES_TIMEOUT_GLOBAL=90 python3 -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
 ```
 
