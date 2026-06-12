@@ -1,0 +1,206 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-12T21:45:00Z",
+  "verified_at": "2026-06-13T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    PLTR: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": false,
+      "severity": "error",
+      "detail": "traffic_light: 브리핑=green vs 기대=yellow (score=67.0)"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: inaccurate — The legislation itself is confirmed accurate — Taiwan is advancing criminalization of unauthorized AI chip exports to China (UPI June 10, Pandaily, Tom's Hardware). However, the briefing states 'TSMC shares slipped on the news,' which is factually wrong. Multiple independent sources (MEXC, Blockonomi, CoinCentral, MoneyCheck) confirm TSM stock SURGED approximately 2.5%, opening at $427.11 after only a brief premarket dip. The TSMC CEO also purchased shares on June 5, further supporting bullish sentiment. The stock direction in the briefing is inverted.\n    rank=2: questionable — Pakistan PM's announcement of agreed deal wording is confirmed (Washington Post, Al Jazeera, June 12). Oil fell ~4% to below $84/barrel — confirmed (CNBC). However, Trump later disputed Iran's published 14-point draft text, saying it did not represent what Washington and Tehran had actually agreed, introducing significant deal uncertainty that the briefing omits. The '~50% of pre-war Hormuz flows' figure is questionable: June data shows ~1.8M barrels/day transiting, up 50% from May's 1.2M but dramatically below pre-war total Hormuz flows of ~21M barrels/day. The '50%' figure likely refers to month-over-month recovery rate, not absolute volume versus pre-war baseline."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    SpaceX IPO (SPCX) debuts on Nasdaq — largest IPO in history at $75 billion (영향: Massive market event on June 12 directly driving the broad equity rally. Priced at $135, opened at $150, closed ~$161 (+19%). TSLA affected via Elon Musk halo/perception dynamics. AMZN affected as Blue Origin's direct newly-public competitor. Broader AI infrastructure and satellite connectivity theme reinforces watchlist names like NVDA. This IPO is the single largest catalyst for the Nasdaq's +2.5% surge on June 12 and its complete omission is a critical gap in market context.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Green/67 is directionally correct given AI semiconductor strength and de-escalation bets, but substantially understates June 12 actual market bullishness. The session was the strongest since April 8 with Nasdaq +2.5% and S&P500 +1.8%. The SpaceX IPO debut added a distinct risk-appetite amplifier entirely absent from the briefing. A score of 74-80 with a headline capturing the historic IPO catalyst would better reflect conditions. The current headline over-weights risk factors (Taiwan crackdown, ECB hike) while missing the dominant positive drivers of the session."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Semiconductor leadership thesis is broadly supported by the June 12 rally and AI infrastructure narrative. However: (1) SMH +1.72% for June 12 cannot be independently confirmed — June 11 data showed SMH at $609.94 with a -1.69% decline that day; June 12 figure unverified. (2) CRWD (CrowdStrike) is a cybersecurity company, not a semiconductor — grouping it under semiconductor/AI connectivity rotation is a category error, even if the technical analysis on the stock itself may be valid. (3) The SpaceX IPO created a distinct 'new space economy' sector narrative on June 12 entirely absent from the sector analysis."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSM: Global context states 'TSMC shares slipped on the news' of Taiwan chip export criminalization. This is factually inverted: TSM surged approximately 2.5% on the news, opening at $427.11 (MEXC, Blockonomi, CoinCentral). Reported close of $423.93 is also slightly inconsistent with independent data showing ~$421.07 close on June 12.\n    CRWD: CrowdStrike is a cybersecurity company (endpoint security), not a semiconductor. Grouping it alongside ALAB and MU under semiconductor/AI connectivity sector rotation analysis is a category error. The Stage2 7/7 and buy action may independently be valid, but the sector framing is misleading to readers.\n    MU: Closing price of $981.61 could not be independently confirmed against June 12, 2026 market data. This price level is extremely elevated relative to Micron's historical trading range and warrants explicit sourcing. If inaccurate, this represents a significant data ingestion error."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-12T22:16:04Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Taiwan weighs criminal penalties for unauthorized AI chip exports to China",
+        "accuracy": "inaccurate",
+        "note": "The legislation itself is confirmed accurate — Taiwan is advancing criminalization of unauthorized AI chip exports to China (UPI June 10, Pandaily, Tom's Hardware). However, the briefing states 'TSMC shares slipped on the news,' which is factually wrong. Multiple independent sources (MEXC, Blockonomi, CoinCentral, MoneyCheck) confirm TSM stock SURGED approximately 2.5%, opening at $427.11 after only a brief premarket dip. The TSMC CEO also purchased shares on June 5, further supporting bullish sentiment. The stock direction in the briefing is inverted."
+      },
+      {
+        "rank": 2,
+        "title": "US-Iran deal wording agreed, Hormuz oil flows at half pre-war levels",
+        "accuracy": "questionable",
+        "note": "Pakistan PM's announcement of agreed deal wording is confirmed (Washington Post, Al Jazeera, June 12). Oil fell ~4% to below $84/barrel — confirmed (CNBC). However, Trump later disputed Iran's published 14-point draft text, saying it did not represent what Washington and Tehran had actually agreed, introducing significant deal uncertainty that the briefing omits. The '~50% of pre-war Hormuz flows' figure is questionable: June data shows ~1.8M barrels/day transiting, up 50% from May's 1.2M but dramatically below pre-war total Hormuz flows of ~21M barrels/day. The '50%' figure likely refers to month-over-month recovery rate, not absolute volume versus pre-war baseline."
+      },
+      {
+        "rank": 3,
+        "title": "ECB hikes rates for first time since 2023 on Iran energy shock",
+        "accuracy": "accurate",
+        "note": "Fully confirmed. ECB raised the main refinancing rate to 2.40% on June 11, citing Middle East energy inflation with eurozone CPI at 3.2% in May 2026 (ECB press release, CNBC, Capital Economics). BOJ hike next week (June 15-16 meeting) is confirmed at ~97% market pricing with near-consensus economist forecasts for a 25bps hike to 1.0% (Bloomberg, Investing.com)."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "SpaceX IPO (SPCX) debuts on Nasdaq — largest IPO in history at $75 billion",
+        "impact": "Massive market event on June 12 directly driving the broad equity rally. Priced at $135, opened at $150, closed ~$161 (+19%). TSLA affected via Elon Musk halo/perception dynamics. AMZN affected as Blue Origin's direct newly-public competitor. Broader AI infrastructure and satellite connectivity theme reinforces watchlist names like NVDA. This IPO is the single largest catalyst for the Nasdaq's +2.5% surge on June 12 and its complete omission is a critical gap in market context.",
+        "severity": "critical"
+      },
+      {
+        "title": "US equities post strongest single-session gains since April 8 (Nasdaq +2.5%, S&P500 +1.8%, DJIA +1.9%)",
+        "impact": "All watchlist stocks rode the broad risk-on rally. Dow +929 points to 50,848, S&P500 +127 to 7,393, Nasdaq +640 to 25,809. This broad bullish session context is absent from the briefing, undermining the accuracy of individual stock momentum signals and making the market mood score of 67 look understated.",
+        "severity": "important"
+      },
+      {
+        "title": "Trump disputes Iran's published draft deal text after Pakistan PM announcement",
+        "impact": "Late-breaking intraday reversal to the Iran deal narrative. After Iran's Mehr News Agency released a 14-point draft, Trump denied it represented the agreed US position, adding uncertainty. Oil remained volatile. This complication affects energy sector outlook and overall geopolitical risk tone relevant to the entire watchlist.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Green/67 is directionally correct given AI semiconductor strength and de-escalation bets, but substantially understates June 12 actual market bullishness. The session was the strongest since April 8 with Nasdaq +2.5% and S&P500 +1.8%. The SpaceX IPO debut added a distinct risk-appetite amplifier entirely absent from the briefing. A score of 74-80 with a headline capturing the historic IPO catalyst would better reflect conditions. The current headline over-weights risk factors (Taiwan crackdown, ECB hike) while missing the dominant positive drivers of the session."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Semiconductor leadership thesis is broadly supported by the June 12 rally and AI infrastructure narrative. However: (1) SMH +1.72% for June 12 cannot be independently confirmed — June 11 data showed SMH at $609.94 with a -1.69% decline that day; June 12 figure unverified. (2) CRWD (CrowdStrike) is a cybersecurity company, not a semiconductor — grouping it under semiconductor/AI connectivity rotation is a category error, even if the technical analysis on the stock itself may be valid. (3) The SpaceX IPO created a distinct 'new space economy' sector narrative on June 12 entirely absent from the sector analysis."
+    },
+    "stock_errors": [
+      {
+        "symbol": "TSM",
+        "error": "Global context states 'TSMC shares slipped on the news' of Taiwan chip export criminalization. This is factually inverted: TSM surged approximately 2.5% on the news, opening at $427.11 (MEXC, Blockonomi, CoinCentral). Reported close of $423.93 is also slightly inconsistent with independent data showing ~$421.07 close on June 12."
+      },
+      {
+        "symbol": "CRWD",
+        "error": "CrowdStrike is a cybersecurity company (endpoint security), not a semiconductor. Grouping it alongside ALAB and MU under semiconductor/AI connectivity sector rotation analysis is a category error. The Stage2 7/7 and buy action may independently be valid, but the sector framing is misleading to readers."
+      },
+      {
+        "symbol": "MU",
+        "error": "Closing price of $981.61 could not be independently confirmed against June 12, 2026 market data. This price level is extremely elevated relative to Micron's historical trading range and warrants explicit sourcing. If inaccurate, this represents a significant data ingestion error."
+      }
+    ],
+    "overall_score": 68,
+    "summary": "The briefing's macroeconomic framework is largely directionally correct — the ECB hike, Iran deal progress, and Taiwan chip legislation are all confirmed — but contains a direct factual inversion on TSMC's stock reaction (surged ~2.5%, not slipped) and omits Trump's subsequent dispute of Iran's draft deal text. The most critical failure is the complete omission of the SpaceX SPCX IPO, the largest in history at $75B, which debuted on June 12 and was a primary driver of the Nasdaq's +2.5% session-best rally; no briefing aiming to capture June 12 market dynamics can be considered complete without it. Market mood score of 67 and sector analysis are both understated given actual session strength."
+  }
+}
