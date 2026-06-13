@@ -1,0 +1,210 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-13T21:45:00Z",
+  "verified_at": "2026-06-14T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    PLTR: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=67.0 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: MU reports June 24 (est. EPS $19.66))"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: outdated — Insurance premiums ARE still elevated (confirmed at 3-8% of vessel value vs 0.001% pre-crisis, effectively 4,000x). However, a CRITICAL development is missing: on June 12, 2026, Pakistan's PM announced the US and Iran reached final agreed text on a peace deal. Trump signaled imminent signing possibly within days. Brent crude fell 5%+ on Sunday on this news. Characterizing Hormuz risk as 'unchanged' is materially outdated given active peace-deal talks that could reopen the strait imminently.\n    rank=3: inaccurate — Two distinct errors: (1) META: The FTC's monopolization case was DISMISSED by Judge Boasberg in November 2025 — there was no liability finding, so there is no remedies phase for Meta. The FTC appealed in January 2026; the appeal is pending. (2) GOOGL: The remedies decision was issued September 2025 and structural options (Chrome divestiture, Android contingent divestiture) were REJECTED by the court. Behavioral remedies were imposed instead (data sharing, choice screens). DOJ appealed the structural rejection in February 2026, which technically keeps structural relief theoretically alive on appeal, but the trial court ruling went against breakup. Stating 'structural options still on table' and grouping META with Google in a remedies-phase description is significantly misleading."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    US-Iran peace deal near signing — Pakistan announces final agreed text (June 12) (영향: Affects the entire watchlist: (1) Hormuz risk posture likely to shift dramatically — shipping premiums expected to fall, tanker routing to normalize; (2) Oil prices already fell 3-5%+ and could fall further, directly pressuring energy names; (3) Broader risk-on sentiment could benefit semiconductors (TSM, NVDA, MU) and growth names; (4) The briefing's Hormuz 'unchanged' framing is the direct casualty of this omission. Watchlist tickers most affected: TSM (supply chain relief), energy-adjacent names, macro-sensitive TSLA and AMZN.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: VIX at 17.68 is confirmed (matches June 12 close). The yellow/67.0 score and 'paradox' framing are reasonable on their face, but the briefing's mood analysis is built on a stale Hormuz risk read and misses the Iran peace deal catalyst that was actively moving oil and equities on June 12-13. A more current read would likely skew the mood greener on macro (oil down hard, geopolitical risk declining) while noting the unresolved AI antitrust and consumer sentiment headwinds. The headline framing of chip-controls-as-stabilizer is accurate but undersells the peace-deal story as the dominant near-term driver."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Oil down 3.23% directionally confirmed (search shows 2-5% decline on Iran peace deal news, consistent with that order of magnitude). Semiconductor leadership is plausible given BIS case-by-case policy relief. However: (1) Energy lagging is understated — if Iran deal closes, energy could face a much sharper structural de-rating, not just a session lag; (2) The AAPL revenue headwind from Google default-search remedy taking effect is not reflected in sector analysis; (3) Characterizing large-cap tech as facing 'distribution pressure' broadly is correct but the specific antitrust driver for GOOGL/META is misdescribed."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Briefing assigns action=avoid citing antitrust headwinds and quotes Stage2 score of 2. While the technical read may be independent, the antitrust narrative embedded in the global issues section is factually wrong for META (FTC case dismissed, no remedies phase). If avoidance rationale partly relies on antitrust overhang, the fundamental premise is incorrect.\n    MU: Briefing reports closing price of $981.61 with RS 100. Web sources reference Micron near ~$400 with analyst targets of $450-$500. A price near $981 for Micron would imply a market cap exceeding $1 trillion, which is not corroborated by any available source. This price appears potentially fabricated or reflects a data error. Could not definitively confirm June 13 close but the magnitude discrepancy warrants flagging.\n    CRWD: Briefing reports closing price of $682.80 with RS 100 and Stage2 score of 7. Web sources reference CRWD forecast/price targets around $413. While exact June 13 close is not independently confirmed, a price of $682.80 is significantly above available reference points and should be verified against an authoritative source before acting on the buy signal.\n    AAPL: Minor: Briefing states $291.13 close. Search data shows AAPL traded in $289.62-$297.14 range on June 13 and was at approximately $291.52 — close enough to be within rounding/intraday variance. Not a material error, but the more significant omission is that Google antitrust choice screens took effect in June 2026, removing billions in default-search revenue from Apple — a fundamental headwind not mentioned in the AAPL watchlist entry."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-13T22:16:06Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip export controls shift to case-by-case licensing",
+        "accuracy": "accurate",
+        "note": "Confirmed: BIS shifted advanced AI chip exports from presumption-of-denial to case-by-case review effective January 15, 2026. Compliance conditions (50% cap on China/Macau shipments, KYC procedures, no-diversion certification) are in effect. Advanced node approvals remain selective. The 25% tariff layer is consistent with existing trade framework."
+      },
+      {
+        "rank": 2,
+        "title": "Strait of Hormuz shipping risk remains elevated",
+        "accuracy": "outdated",
+        "note": "Insurance premiums ARE still elevated (confirmed at 3-8% of vessel value vs 0.001% pre-crisis, effectively 4,000x). However, a CRITICAL development is missing: on June 12, 2026, Pakistan's PM announced the US and Iran reached final agreed text on a peace deal. Trump signaled imminent signing possibly within days. Brent crude fell 5%+ on Sunday on this news. Characterizing Hormuz risk as 'unchanged' is materially outdated given active peace-deal talks that could reopen the strait imminently."
+      },
+      {
+        "rank": 3,
+        "title": "US AI antitrust probes advance toward remedies phase",
+        "accuracy": "inaccurate",
+        "note": "Two distinct errors: (1) META: The FTC's monopolization case was DISMISSED by Judge Boasberg in November 2025 — there was no liability finding, so there is no remedies phase for Meta. The FTC appealed in January 2026; the appeal is pending. (2) GOOGL: The remedies decision was issued September 2025 and structural options (Chrome divestiture, Android contingent divestiture) were REJECTED by the court. Behavioral remedies were imposed instead (data sharing, choice screens). DOJ appealed the structural rejection in February 2026, which technically keeps structural relief theoretically alive on appeal, but the trial court ruling went against breakup. Stating 'structural options still on table' and grouping META with Google in a remedies-phase description is significantly misleading."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "US-Iran peace deal near signing — Pakistan announces final agreed text (June 12)",
+        "impact": "Affects the entire watchlist: (1) Hormuz risk posture likely to shift dramatically — shipping premiums expected to fall, tanker routing to normalize; (2) Oil prices already fell 3-5%+ and could fall further, directly pressuring energy names; (3) Broader risk-on sentiment could benefit semiconductors (TSM, NVDA, MU) and growth names; (4) The briefing's Hormuz 'unchanged' framing is the direct casualty of this omission. Watchlist tickers most affected: TSM (supply chain relief), energy-adjacent names, macro-sensitive TSLA and AMZN.",
+        "severity": "critical"
+      },
+      {
+        "title": "University of Michigan Consumer Sentiment (preliminary June) released June 13",
+        "impact": "Consensus expected rebound to 46 from 44.8. Near recent record lows. Consumer sentiment at these levels exerts pressure on consumer-facing names: AAPL, AMZN, TSLA. Missed signal for market mood calibration.",
+        "severity": "important"
+      },
+      {
+        "title": "Google antitrust behavioral remedies take effect — choice screens live for Apple, Samsung, Mozilla (June 2026)",
+        "impact": "GOOGL: default search agreement ban now active, materially affecting revenue. AAPL: loses billions in annual Google default search payments, a meaningful headwind not reflected in briefing's 'watch' characterization.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "VIX at 17.68 is confirmed (matches June 12 close). The yellow/67.0 score and 'paradox' framing are reasonable on their face, but the briefing's mood analysis is built on a stale Hormuz risk read and misses the Iran peace deal catalyst that was actively moving oil and equities on June 12-13. A more current read would likely skew the mood greener on macro (oil down hard, geopolitical risk declining) while noting the unresolved AI antitrust and consumer sentiment headwinds. The headline framing of chip-controls-as-stabilizer is accurate but undersells the peace-deal story as the dominant near-term driver."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Oil down 3.23% directionally confirmed (search shows 2-5% decline on Iran peace deal news, consistent with that order of magnitude). Semiconductor leadership is plausible given BIS case-by-case policy relief. However: (1) Energy lagging is understated — if Iran deal closes, energy could face a much sharper structural de-rating, not just a session lag; (2) The AAPL revenue headwind from Google default-search remedy taking effect is not reflected in sector analysis; (3) Characterizing large-cap tech as facing 'distribution pressure' broadly is correct but the specific antitrust driver for GOOGL/META is misdescribed."
+    },
+    "stock_errors": [
+      {
+        "symbol": "META",
+        "error": "Briefing assigns action=avoid citing antitrust headwinds and quotes Stage2 score of 2. While the technical read may be independent, the antitrust narrative embedded in the global issues section is factually wrong for META (FTC case dismissed, no remedies phase). If avoidance rationale partly relies on antitrust overhang, the fundamental premise is incorrect."
+      },
+      {
+        "symbol": "MU",
+        "error": "Briefing reports closing price of $981.61 with RS 100. Web sources reference Micron near ~$400 with analyst targets of $450-$500. A price near $981 for Micron would imply a market cap exceeding $1 trillion, which is not corroborated by any available source. This price appears potentially fabricated or reflects a data error. Could not definitively confirm June 13 close but the magnitude discrepancy warrants flagging."
+      },
+      {
+        "symbol": "CRWD",
+        "error": "Briefing reports closing price of $682.80 with RS 100 and Stage2 score of 7. Web sources reference CRWD forecast/price targets around $413. While exact June 13 close is not independently confirmed, a price of $682.80 is significantly above available reference points and should be verified against an authoritative source before acting on the buy signal."
+      },
+      {
+        "symbol": "AAPL",
+        "error": "Minor: Briefing states $291.13 close. Search data shows AAPL traded in $289.62-$297.14 range on June 13 and was at approximately $291.52 — close enough to be within rounding/intraday variance. Not a material error, but the more significant omission is that Google antitrust choice screens took effect in June 2026, removing billions in default-search revenue from Apple — a fundamental headwind not mentioned in the AAPL watchlist entry."
+      }
+    ],
+    "overall_score": 55,
+    "summary": "The briefing's chip-controls and VIX data are accurate, but it contains a significant factual error on Meta antitrust (case dismissed, no remedies phase), overstates Google's structural-remedy risk (court rejected breakup), and critically omits the US-Iran peace deal — the dominant market catalyst on June 12-13 that is directly invalidating its Hormuz 'unchanged' characterization and driving the oil decline it attributes to other factors. Two watchlist prices (MU at $981.61, CRWD at $682.80) are unverifiable against current sources and may contain data errors significant enough to affect actionability of the buy signals on those names."
+  }
+}
