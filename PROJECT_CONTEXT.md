@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-06-12 spcx-tier1 -->
+<!-- AUTO-GENERATED: 2026-06-13 health-monitor -->
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 
@@ -39,6 +39,9 @@ Social sentiment data is separated into **3 layers**. This separation is the cor
 
 ```
 market-sentiment-data/
+├── monitor/
+│   ├── health_check.py                # Comprehensive health monitor — runs every 2h via crontab
+│   └── health_check.log              # Monitor run log
 ├── collect/
 │   ├── __init__.py
 │   ├── collect_sentiment.py           # Collector 1 — python -m collect.collect_sentiment
@@ -570,27 +573,61 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 
 ## 12. Cron Schedule
 
+Actual production crontab on Mac Mini (KST = UTC+9). All entries use absolute path to python3 and `cd` to repo root first — **`cd` is required** for log file paths to resolve correctly.
+
 ```bash
-# ─── pre_open (06:00 KST / 22:00 KST) ──────────────────────────────────────
-# All collectors run with PYTHONPATH and python -m module notation
-00 6,22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 python3 -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
-30 6,22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 python3 -m collect.collect_brief >> brief/brief.log 2>&1
-45 6,22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 python3 -m collect.collect_macro_insight >> macro/macro.log 2>&1
+# ─── sentiment (05:30, 22:30 KST = 20:30, 13:30 UTC) ─────────────────────
+30 5,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
 
-# ─── earnings (once daily, 07:00 UTC) ────────────────────────────────────────
-00 7 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data python3 -m collect.collect_earnings >> earnings/earnings.log 2>&1
+# ─── brief (06:00, 22:00 KST) ────────────────────────────────────────────
+00 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_brief >> brief/brief.log 2>&1
 
-# ─── morning briefing (once daily, 22:30 UTC = KST 07:30) ────────────────────
-# 2-stage pipeline: stage 1 fetches global context (90s), stage 2 generates briefing (300s)
-# Dependency: runs after collect_sentiment completes (sufficient delay ensured)
-30 22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 HERMES_TIMEOUT_GLOBAL=90 python3 -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
+# ─── macro insight (06:15, 22:15 KST) ────────────────────────────────────
+15 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_macro_insight >> macro/macro.log 2>&1
+
+# ─── earnings (once daily, 06:30 KST) ────────────────────────────────────
+30 6 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data /opt/homebrew/bin/python3 -m collect.collect_earnings >> earnings/earnings.log 2>&1
+
+# ─── morning briefing (once daily, 06:45 KST = 21:45 UTC) ───────────────
+45 6 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
+
+# ─── auto_improve (once daily, 07:15 KST) ────────────────────────────────
+15 7 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data /opt/homebrew/bin/python3 -m collect.auto_improve >> briefing/auto_improve.log 2>&1
+
+# ─── health monitor (every 2 hours) ──────────────────────────────────────
+0 */2 * * * cd /Users/jerry/dev/market-sentiment-data && /opt/homebrew/bin/python3 monitor/health_check.py >> monitor/health_check.log 2>&1
 ```
 
-> **PATH note:** cron environments have minimal PATH. Use absolute paths to `python3` and `hermes`, or set `PATH` explicitly. All log files live inside their data directory (e.g. `sentiment/sentiment.log`).
+> **Critical**: The `cd /path/to/repo &&` prefix is mandatory. Without it, the shell's working directory is HOME, and relative log paths like `>> sentiment/sentiment.log` fail silently (directory does not exist), causing the Python script to never execute.
 
 ---
 
-## 13. Safety Guardrails (Non-Negotiable)
+## 13. Health Monitor (`monitor/health_check.py`)
+
+Runs every 2 hours via crontab. Checks 13 categories and sends a macOS native notification (Sosumi alert) on any FAIL. Logs to `monitor/health_check.log`.
+
+| Category | What is checked |
+|----------|----------------|
+| **DataFreshness** | 5 collector files: max allowed age (sentiment/brief/macro 25h, earnings/briefing 26h) |
+| **DataQuality** | 22-symbol coverage, enum validity (sentiment/confidence/divergence), required bilingual fields |
+| **CronExecution** | Log file mtime vs. expected cron interval. Downgraded to WARN if data itself is fresh (manual run) |
+| **LogErrors** | Last 100 lines of each cron log scanned for ERROR/FAIL/Traceback |
+| **Git** | Local↔remote sync (ahead/behind), last commit age, GitHub API reachability |
+| **Hermes** | Binary existence and version (`hermes --version`) |
+| **Docker** | sniperboard-backend/frontend running, restart count (FAIL if >5), memory usage |
+| **API** | 9 SniperBoard endpoints + daily(NVDA) close price + SPCX 404 expected + SPCX in sentiment |
+| **Frontend** | localhost:4000 HTTP 200 |
+| **SignalDB** | signal_log.db readable, status breakdown, last signal age (FAIL if >14 days) |
+| **APScheduler** | Backend Docker log — startup confirmed, job execution traces during market hours |
+| **System** | Disk free space (FAIL if < 10GB) |
+| **Network** | GitHub and Yahoo Finance reachability |
+
+**Run manually:**
+```bash
+cd /Users/jerry/dev/market-sentiment-data && python3 monitor/health_check.py
+```
+
+## 14. Safety Guardrails (Non-Negotiable)
 
 | Principle | Code implementation |
 |-----------|---------------------|
@@ -604,7 +641,7 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 
 ---
 
-## 14. Testing
+## 15. Testing
 
 ```bash
 PYTHONPATH=/path/to/market-sentiment-data python -m pytest collect/ -v
@@ -620,7 +657,7 @@ Tests are co-located in `collect/` and run with pytest. No external services req
 
 ---
 
-## 15. Cross-Repo Linkage (SniperBoard)
+## 16. Cross-Repo Linkage (SniperBoard)
 
 - `sniperboard/backend/services/sentiment_service.py` — fetches `sentiment/latest.json` + `sentiment/history/`
 - `sniperboard/backend/services/brief_service.py` — fetches `brief/latest.json`

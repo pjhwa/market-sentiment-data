@@ -505,26 +505,61 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 
 ## 11. 크론 스케줄
 
+실제 운용 crontab (Mac Mini, KST = UTC+9). **`cd /절대경로 &&` 접두사는 필수** — 없으면 쉘의 작업 디렉토리가 HOME이 되어 `>> sentiment/sentiment.log` 같은 상대 경로 로그 redirect가 디렉토리 없음으로 실패하고 Python 스크립트 자체가 실행되지 않음.
+
 ```bash
-# 모든 수집기는 PYTHONPATH + python -m 모듈 방식으로 실행
-00 6,22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 python3 -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
-30 6,22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 python3 -m collect.collect_brief >> brief/brief.log 2>&1
-45 6,22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 python3 -m collect.collect_macro_insight >> macro/macro.log 2>&1
+# ─── 심리 (05:30, 22:30 KST) ───────────────────────────────────────────────
+30 5,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
 
-# ─── earnings (하루 1회) ────────────────────────────────────────────────────
-00 7 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data python3 -m collect.collect_earnings >> earnings/earnings.log 2>&1
+# ─── 브리프 (06:00, 22:00 KST) ───────────────────────────────────────────
+00 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_brief >> brief/brief.log 2>&1
 
-# ─── morning briefing (하루 1회, UTC 22:30 = KST 07:30) ─────────────────────
-# 2단계 파이프라인: 1단계 글로벌 컨텍스트 수집(90초), 2단계 브리핑 생성(300초)
-# 의존성: collect_sentiment 완료 후 실행 (충분한 지연 확보)
-30 22 * * * cd ~/dev/market-sentiment-data && PYTHONPATH=~/dev/market-sentiment-data HERMES_TIMEOUT=300 HERMES_TIMEOUT_GLOBAL=90 python3 -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
+# ─── 매크로 인사이트 (06:15, 22:15 KST) ──────────────────────────────────
+15 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_macro_insight >> macro/macro.log 2>&1
+
+# ─── 어닝 (하루 1회, 06:30 KST) ────────────────────────────────────────
+30 6 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data /opt/homebrew/bin/python3 -m collect.collect_earnings >> earnings/earnings.log 2>&1
+
+# ─── 아침 브리핑 (하루 1회, 06:45 KST) ──────────────────────────────────
+45 6 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
+
+# ─── auto_improve (하루 1회, 07:15 KST) ─────────────────────────────────
+15 7 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data /opt/homebrew/bin/python3 -m collect.auto_improve >> briefing/auto_improve.log 2>&1
+
+# ─── 헬스 모니터 (2시간마다) ────────────────────────────────────────────
+0 */2 * * * cd /Users/jerry/dev/market-sentiment-data && /opt/homebrew/bin/python3 monitor/health_check.py >> monitor/health_check.log 2>&1
 ```
-
-> **PATH 주의:** 크론 환경은 PATH가 최소화되어 있습니다. `python3`과 `hermes`의 절대 경로를 사용하세요. 각 로그 파일은 해당 데이터 폴더 내에 위치합니다(예: `sentiment/sentiment.log`).
 
 ---
 
-## 12. 안전 가드레일 (비협상 원칙)
+## 12. 헬스 모니터 (`monitor/health_check.py`)
+
+2시간마다 crontab 실행. 13개 카테고리를 점검하고 FAIL 발생 시 macOS 알림(Sosumi) 전송. 로그: `monitor/health_check.log`.
+
+| 카테고리 | 점검 내용 |
+|----------|-----------|
+| **DataFreshness** | 5개 파일 최대 경과 시간 (심리/브리프/매크로 25h, 어닝/브리핑 26h) |
+| **DataQuality** | 22개 심볼 커버리지, enum 유효성, 필수 이중언어 필드 |
+| **CronExecution** | 로그 파일 mtime vs 예상 주기 (데이터가 최신이면 WARN 격하) |
+| **LogErrors** | 각 로그 최근 100줄에서 ERROR/FAIL/Traceback 탐지 |
+| **Git** | 로컬↔원격 동기화, 마지막 커밋 경과, GitHub API 접근 |
+| **Hermes** | 바이너리 존재 및 버전 |
+| **Docker** | 컨테이너 실행 상태, 재시작 횟수(5회 초과=FAIL), 메모리 사용량 |
+| **API** | 9개 엔드포인트 + daily(NVDA) + SPCX 404 정상 + SPCX sentiment 포함 |
+| **Frontend** | localhost:4000 HTTP 200 |
+| **SignalDB** | signal_log.db 읽기 가능, 상태별 분포, 마지막 신호 경과 (14일 초과=FAIL) |
+| **APScheduler** | 백엔드 Docker 로그에서 시작 확인 + 장중 scan 실행 흔적 |
+| **System** | 디스크 여유 공간 (10GB 미만=FAIL) |
+| **Network** | GitHub, Yahoo Finance 접근 |
+
+**수동 실행:**
+```bash
+cd /Users/jerry/dev/market-sentiment-data && python3 monitor/health_check.py
+```
+
+---
+
+## 13. 안전 가드레일 (비협상 원칙)
 
 | 원칙 | 코드 구현 |
 |------|----------|
@@ -538,7 +573,7 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 
 ---
 
-## 13. 테스트
+## 14. 테스트
 
 ```bash
 python -m pytest collect/ -v          # 48개 테스트 (Phase 5)
@@ -554,7 +589,7 @@ python -m pytest collect/ -v          # 48개 테스트 (Phase 5)
 
 ---
 
-## 14. 크로스 레포 연결 (SniperBoard)
+## 15. 크로스 레포 연결 (SniperBoard)
 
 - `sniperboard/backend/services/sentiment_service.py` — `sentiment/latest.json` + `sentiment/history/` 수집
 - `sniperboard/backend/services/brief_service.py` — `brief/latest.json` 수집

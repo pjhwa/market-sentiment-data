@@ -12,6 +12,9 @@ A server cron job runs five collectors daily, querying Grok via Hermes and fetch
 
 ```
 market-sentiment-data/
+├── monitor/
+│   ├── health_check.py              # Health monitor — runs every 2h, macOS alert on failure
+│   └── health_check.log            # Monitor log
 ├── README.md                        # This document (English)
 ├── README.ko.md                     # Korean version
 ├── PROJECT_CONTEXT.md               # Architecture & code reference (English)
@@ -261,23 +264,39 @@ PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 | `SNIPERBOARD_API_BASE` | `http://localhost:5001` | SniperBoard backend URL |
 | `SENTIMENT_SLOT` | auto-detect | Override slot: `pre_open` or `post_close` |
 
-**Cron example (server, UTC-based):**
+**Production crontab (Mac Mini, KST = UTC+9). `cd` prefix is mandatory — without it, log file paths fail silently and the script never runs:**
+
 ```bash
-# pre_open: 13:00 UTC (22:00 KST)
-0 13 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
-0 13 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_brief >> brief/brief.log 2>&1
-0 13 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_macro_insight >> macro/macro.log 2>&1
+# sentiment: 05:30, 22:30 KST (twice daily)
+30 5,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
 
-# post_close: 21:00 UTC (06:00 KST)
-0 21 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
-0 21 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_brief >> brief/brief.log 2>&1
-0 21 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_macro_insight >> macro/macro.log 2>&1
+# brief + macro: 06:00/22:00 and 06:15/22:15 KST (twice daily)
+00 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -m collect.collect_brief >> brief/brief.log 2>&1
+15 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -m collect.collect_macro_insight >> macro/macro.log 2>&1
 
-# earnings: once daily at 14:00 UTC
-0 14 * * 1-5  cd ~/dev/market-sentiment-data && python -m collect.collect_earnings >> earnings/earnings.log 2>&1
+# earnings + briefing + auto_improve: 06:30/06:45/07:15 KST (once daily)
+30 6 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -m collect.collect_earnings >> earnings/earnings.log 2>&1
+45 6 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
+15 7 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -m collect.auto_improve >> briefing/auto_improve.log 2>&1
 
-# morning briefing: once daily at 22:30 UTC (07:30 KST)
-30 22 * * *  cd ~/dev/market-sentiment-data && HERMES_TIMEOUT=300 HERMES_TIMEOUT_GLOBAL=90 python -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
+# health monitor: every 2 hours
+0 */2 * * * cd /Users/jerry/dev/market-sentiment-data && /opt/homebrew/bin/python3 monitor/health_check.py >> monitor/health_check.log 2>&1
+```
+
+See `PROJECT_CONTEXT.md` Section 12 for complete crontab with all environment variables.
+
+---
+
+## Health Monitor
+
+`monitor/health_check.py` — runs every 2 hours via crontab. Checks 13 categories (data freshness, data quality, cron execution, log errors, git/GitHub, Hermes, Docker, 9 API endpoints, frontend, signal DB, APScheduler, disk/network). Sends a macOS native notification on FAIL.
+
+```bash
+# Run manually
+cd /Users/jerry/dev/market-sentiment-data && python3 monitor/health_check.py
+
+# View log
+tail -f monitor/health_check.log
 ```
 
 ---

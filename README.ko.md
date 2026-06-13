@@ -12,6 +12,9 @@
 
 ```
 market-sentiment-data/
+├── monitor/
+│   ├── health_check.py              # 헬스 모니터 — 2시간마다 실행, 이상 감지 시 macOS 알림
+│   └── health_check.log            # 모니터 로그
 ├── README.md                        # 영어 문서
 ├── README.ko.md                     # 이 문서 (한국어)
 ├── PROJECT_CONTEXT.md               # 아키텍처 & 코드 레퍼런스 (영어)
@@ -245,6 +248,20 @@ PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 | `HERMES_RETRY` | `1` | 타임아웃 시 재시도 횟수 |
 | `SNIPERBOARD_API_BASE` | `http://localhost:5001` | SniperBoard 백엔드 URL |
 | `SENTIMENT_SLOT` | 자동 감지 | 슬롯 강제 지정: `pre_open` 또는 `post_close` |
+
+---
+
+## 헬스 모니터
+
+`monitor/health_check.py` — crontab으로 2시간마다 자동 실행. 13개 카테고리 점검(데이터 freshness, 품질, cron 실행 이력, 로그 오류, git/GitHub, Hermes, Docker, API 9개, 프론트엔드, signal DB, APScheduler, 디스크, 네트워크). FAIL 시 macOS 알림(Sosumi) 전송.
+
+```bash
+# 수동 실행
+cd /Users/jerry/dev/market-sentiment-data && python3 monitor/health_check.py
+
+# 로그 확인
+tail -f monitor/health_check.log
+```
 
 ---
 
