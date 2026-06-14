@@ -1,0 +1,203 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-14T21:45:00Z",
+  "verified_at": "2026-06-15T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    PLTR: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=67.0 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: MU reports June 24 (est. EPS $19.66 — verify actual at broke)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — Briefing says 'Iran has not confirmed' but as of June 14 Pakistan's PM declared the ceasefire 'now in place' and a formal signing ceremony is scheduled for June 19 in Switzerland. Iran's Supreme Leader sign-off was the final missing step per NBC News, making this more confirmed than the briefing states. The 'developing' tag is appropriate but the no-confirmation framing is behind current events.\n    rank=4: questionable — On June 1, 2026 the US issued a notice extending the AI chip shipment ban to subsidiaries of Chinese companies located outside China — a meaningful scope expansion that the briefing omits by calling the regime 'stable with no escalation.' The case-by-case licensing + 25% tariff framework description is otherwise accurate."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    SpaceX IPO: largest in history at $75B, +19% first-day gain (June 12) (영향: Directly relevant to NVDA (AI data center demand narrative), AI infrastructure sector sentiment, and broader tech risk appetite. SpaceX's record debut triggered analysts to call it a 'first of three big tests' for AI-related IPO appetite, creating a sector tailwind not reflected in the briefing's sector or watchlist analysis. NVDA, CRWD, PLTR could all benefit from improved sentiment toward AI growth names.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: VIX closed at 17.68 on June 12 — genuinely subdued given the geopolitical backdrop. Yellow/67 with the 'paradox' framing of calm VIX vs fragile ceasefire is a reasonable read. The SpaceX IPO tailwind on June 12 may argue for a slightly more constructive tone than yellow, but yellow is defensible given tariff overhang."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The SpaceX IPO on June 12 created a meaningful AI infrastructure tailwind that is entirely absent from the sector narrative. AI infrastructure and compute names should be flagged as a potential rotation catalyst. The description of AMZN and MSFT in DISTRIBUTION is plausible but cannot be independently verified without Stage2 model data. Energy names carry oil narrative interest per the US-Iran deal progress, which the briefing correctly notes."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "NVDA: Briefing states close of $205.19; search data shows June 14 trading range of $203.44–$207.07 with a price of $205.42. Discrepancy is <0.12% and likely reflects data source timing, not a material error.\n    MU: Briefing states $981.61 (confirmed June 12 Friday close). By June 14 the stock traded between $960.20 and $1,012.62, latest at $989.46. Using Friday close is appropriate for a Sunday-generated briefing but the figure is 2 trading sessions stale and does not reflect the volatile intraday range seen on June 14."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-14T22:16:06Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-Iran peace deal / ceasefire",
+        "accuracy": "outdated",
+        "note": "Briefing says 'Iran has not confirmed' but as of June 14 Pakistan's PM declared the ceasefire 'now in place' and a formal signing ceremony is scheduled for June 19 in Switzerland. Iran's Supreme Leader sign-off was the final missing step per NBC News, making this more confirmed than the briefing states. The 'developing' tag is appropriate but the no-confirmation framing is behind current events."
+      },
+      {
+        "rank": 2,
+        "title": "Israel strikes Beirut",
+        "accuracy": "accurate",
+        "note": "Confirmed by Al Jazeera, NPR, Axios: Israeli strikes on Beirut's southern suburbs (Dahiyeh) on June 14 killed at least 3 and wounded 7+. Israel cited Hezbollah missile fire on northern Israel. The briefing's framing is accurate."
+      },
+      {
+        "rank": 3,
+        "title": "Trump tariff threats on Korea",
+        "accuracy": "accurate",
+        "note": "25% tariff on South Korean goods announced January 2026 (CBS, WaPo, Bloomberg). No new tariff actions in the June window. Court appeals context cannot be independently verified but the tariff level and timeline are confirmed."
+      },
+      {
+        "rank": 4,
+        "title": "US-China semis export controls stable",
+        "accuracy": "questionable",
+        "note": "On June 1, 2026 the US issued a notice extending the AI chip shipment ban to subsidiaries of Chinese companies located outside China — a meaningful scope expansion that the briefing omits by calling the regime 'stable with no escalation.' The case-by-case licensing + 25% tariff framework description is otherwise accurate."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "SpaceX IPO: largest in history at $75B, +19% first-day gain (June 12)",
+        "impact": "Directly relevant to NVDA (AI data center demand narrative), AI infrastructure sector sentiment, and broader tech risk appetite. SpaceX's record debut triggered analysts to call it a 'first of three big tests' for AI-related IPO appetite, creating a sector tailwind not reflected in the briefing's sector or watchlist analysis. NVDA, CRWD, PLTR could all benefit from improved sentiment toward AI growth names.",
+        "severity": "critical"
+      },
+      {
+        "title": "US extends AI chip export ban to Chinese-owned subsidiaries outside China (June 1)",
+        "impact": "Affects SMH semiconductor names broadly; TSM exposure to Chinese customers via non-China subsidiaries now under additional scrutiny. Modestly negative for TSM revenue ceiling estimates.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "VIX closed at 17.68 on June 12 — genuinely subdued given the geopolitical backdrop. Yellow/67 with the 'paradox' framing of calm VIX vs fragile ceasefire is a reasonable read. The SpaceX IPO tailwind on June 12 may argue for a slightly more constructive tone than yellow, but yellow is defensible given tariff overhang."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "The SpaceX IPO on June 12 created a meaningful AI infrastructure tailwind that is entirely absent from the sector narrative. AI infrastructure and compute names should be flagged as a potential rotation catalyst. The description of AMZN and MSFT in DISTRIBUTION is plausible but cannot be independently verified without Stage2 model data. Energy names carry oil narrative interest per the US-Iran deal progress, which the briefing correctly notes."
+    },
+    "stock_errors": [
+      {
+        "symbol": "NVDA",
+        "error": "Briefing states close of $205.19; search data shows June 14 trading range of $203.44–$207.07 with a price of $205.42. Discrepancy is <0.12% and likely reflects data source timing, not a material error."
+      },
+      {
+        "symbol": "MU",
+        "error": "Briefing states $981.61 (confirmed June 12 Friday close). By June 14 the stock traded between $960.20 and $1,012.62, latest at $989.46. Using Friday close is appropriate for a Sunday-generated briefing but the figure is 2 trading sessions stale and does not reflect the volatile intraday range seen on June 14."
+      }
+    ],
+    "overall_score": 74,
+    "summary": "The briefing's core geopolitical framing is mostly accurate but materially lags on two fronts: the US-Iran ceasefire is more confirmed than stated (signing ceremony set for June 19), and the SpaceX $75B record IPO on June 12 — the single largest market event of the week — is entirely absent despite its direct bearing on AI infrastructure sentiment and watchlist names like NVDA and CRWD. Stock prices are correct to within rounding for the most recent market close. The semis export control section understates a June 1 scope expansion. Overall the briefing is reliable for macro context but should be supplemented with the SpaceX IPO narrative before use."
+  }
+}
