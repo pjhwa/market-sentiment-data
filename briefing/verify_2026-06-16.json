@@ -1,0 +1,202 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-15T21:45:01Z",
+  "verified_at": "2026-06-16T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    PLTR: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": false,
+      "severity": "error",
+      "detail": "traffic_light: 브리핑=green vs 기대=yellow (score=71.0)"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: MU reporting June 24 (est. EPS $19.69 — verify actual at bro)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=False)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — The case-by-case licensing policy (BIS final rule) took effect January 15, 2026 — not June 12. This is a 5-month-old policy shift, not developing news. The 25% tariff detail and AI accelerator scrutiny description are accurate. The briefing's 'Reuters 2026-06-12' source date is unverifiable and likely misattributed; actual regulatory action was in January 2026. Current state description is broadly correct but not 'developing.'\n    rank=2: inaccurate — CRITICAL ERROR. The Strait was effectively CLOSED for 3+ months after the US-Israel military campaign against Iran began in late February 2026. The briefing's claim of 'No closure; commercial traffic continues' is factually wrong. More critically, a US-Iran peace deal was announced June 14–15 (signed Friday in Geneva) that will reopen the Strait — this is the single biggest market catalyst of June 15. Insurance premiums did not merely rise 15-20%; they surged from ~0.25% to 3–8% of vessel value per transit. The briefing's characterization of this issue is fundamentally wrong on all counts.\n    rank=3: inaccurate — Two material errors: (1) Google's remedies phase is NOT 'under discussion' — Judge Mehta issued a final remedies decision on September 2, 2025, finalized April 2026, prohibiting exclusive distribution contracts and mandating search data sharing with rivals. A final ruling EXISTS. (2) The Meta FTC case was DISMISSED at the liability phase in November 2025 — the judge ruled Meta lacks monopoly power when TikTok/YouTube are included. The FTC appealed in January 2026 but no active remedy phase exists for META. The briefing misstates both cases."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    US-Iran peace deal announced June 14–15, Strait of Hormuz to reopen (영향: This was the PRIMARY driver of the June 15 rally (S&P +1.65%, Nasdaq +3.07%, Dow record close). Oil fell to 3-month lows (~$80 WTI), crushing XLE while boosting travel, consumer, and growth stocks. Directly affects: AMZN, META, TSLA (consumer/travel uplift), AAPL (supply chain relief). The briefing misattributes the entire market move to chip policy instead of this deal. Absence of this story makes the briefing's macro narrative unreliable.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The green traffic light and score of 71 are directionally correct — markets were strongly up on June 15 (Nasdaq +3.07%, S&P +1.65%, Dow record close, VIX at 17.68). However, the headline and summary attribute the rally entirely to 'chip policy shift' when the primary catalyst was the US-Iran peace deal and imminent Hormuz reopening. This is a fundamental misdiagnosis of market causality. Investors pricing Hormuz risk 'as lower-probability tail events' is the opposite of reality — the entire risk-on move was driven by resolution of a tail event that had already materialized. The mood score may be valid but the narrative is misleading."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Semiconductors (SMH) and AI infrastructure as leaders is confirmed by market data. However, XLE (energy) is listed in 'Leaders' while energy stocks actually LAGGED on June 15 as oil dropped to 3-month lows on the Iran deal. The briefing's own 'Laggards' section correctly identifies energy as lagging 'on falling oil prices,' making the XLE placement in 'Leaders' internally contradictory and factually wrong for June 15 session. ITA (aerospace/defense) behavior is unverified but plausible given peace deal context cutting defense spending expectations."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "NVDA: Briefing reports a close of $212.45. Verified intraday range on June 15 was $207.71–$211.38 with a closing price of approximately $211.02. The reported price of $212.45 is above the day's high and appears to be a data error. The +3.54% gain figure is also inconsistent with the verified price range.\n    META: Briefing states action=avoid due to structural weakness. While technical signals may warrant caution, the DOJ/FTC antitrust framing in global context is inaccurate — the FTC case against META was dismissed at the liability phase in November 2025. The regulatory overhang the briefing implies for META via antitrust is materially overstated."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-15T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip export controls shift to case-by-case licensing + 25% tariff",
+        "accuracy": "outdated",
+        "note": "The case-by-case licensing policy (BIS final rule) took effect January 15, 2026 — not June 12. This is a 5-month-old policy shift, not developing news. The 25% tariff detail and AI accelerator scrutiny description are accurate. The briefing's 'Reuters 2026-06-12' source date is unverifiable and likely misattributed; actual regulatory action was in January 2026. Current state description is broadly correct but not 'developing.'"
+      },
+      {
+        "rank": 2,
+        "title": "Strait of Hormuz tanker traffic remains open but insurance premiums elevated",
+        "accuracy": "inaccurate",
+        "note": "CRITICAL ERROR. The Strait was effectively CLOSED for 3+ months after the US-Israel military campaign against Iran began in late February 2026. The briefing's claim of 'No closure; commercial traffic continues' is factually wrong. More critically, a US-Iran peace deal was announced June 14–15 (signed Friday in Geneva) that will reopen the Strait — this is the single biggest market catalyst of June 15. Insurance premiums did not merely rise 15-20%; they surged from ~0.25% to 3–8% of vessel value per transit. The briefing's characterization of this issue is fundamentally wrong on all counts."
+      },
+      {
+        "rank": 3,
+        "title": "US DOJ/FTC AI antitrust review enters remedy phase for GOOGL/META",
+        "accuracy": "inaccurate",
+        "note": "Two material errors: (1) Google's remedies phase is NOT 'under discussion' — Judge Mehta issued a final remedies decision on September 2, 2025, finalized April 2026, prohibiting exclusive distribution contracts and mandating search data sharing with rivals. A final ruling EXISTS. (2) The Meta FTC case was DISMISSED at the liability phase in November 2025 — the judge ruled Meta lacks monopoly power when TikTok/YouTube are included. The FTC appealed in January 2026 but no active remedy phase exists for META. The briefing misstates both cases."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "US-Iran peace deal announced June 14–15, Strait of Hormuz to reopen",
+        "impact": "This was the PRIMARY driver of the June 15 rally (S&P +1.65%, Nasdaq +3.07%, Dow record close). Oil fell to 3-month lows (~$80 WTI), crushing XLE while boosting travel, consumer, and growth stocks. Directly affects: AMZN, META, TSLA (consumer/travel uplift), AAPL (supply chain relief). The briefing misattributes the entire market move to chip policy instead of this deal. Absence of this story makes the briefing's macro narrative unreliable.",
+        "severity": "critical"
+      },
+      {
+        "title": "SpaceX (SPCX) surged ~20% on June 15, extending post-IPO gains from June 12",
+        "impact": "SPCX IPO'd at $135 on June 12, closed at $161.11 (+19.3%) on debut. Extended gains June 15, becoming 6th largest US public company at >$2T market cap. Dominated retail investor flows and news cycle. Relevant as competitive/sentiment context for TSLA (Musk overlap) and tech broadly. Not mentioned in briefing at all.",
+        "severity": "important"
+      },
+      {
+        "title": "Oil price drop to 3-month lows on Iran ceasefire deal",
+        "impact": "WTI crude fell sharply on June 15 as the Hormuz peace deal was announced. Directly undercuts XLE as a sector leader. Energy sector lagged the broader market on June 15, contradicting the briefing's placement of XLE in the 'Leaders' group.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "The green traffic light and score of 71 are directionally correct — markets were strongly up on June 15 (Nasdaq +3.07%, S&P +1.65%, Dow record close, VIX at 17.68). However, the headline and summary attribute the rally entirely to 'chip policy shift' when the primary catalyst was the US-Iran peace deal and imminent Hormuz reopening. This is a fundamental misdiagnosis of market causality. Investors pricing Hormuz risk 'as lower-probability tail events' is the opposite of reality — the entire risk-on move was driven by resolution of a tail event that had already materialized. The mood score may be valid but the narrative is misleading."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Semiconductors (SMH) and AI infrastructure as leaders is confirmed by market data. However, XLE (energy) is listed in 'Leaders' while energy stocks actually LAGGED on June 15 as oil dropped to 3-month lows on the Iran deal. The briefing's own 'Laggards' section correctly identifies energy as lagging 'on falling oil prices,' making the XLE placement in 'Leaders' internally contradictory and factually wrong for June 15 session. ITA (aerospace/defense) behavior is unverified but plausible given peace deal context cutting defense spending expectations."
+    },
+    "stock_errors": [
+      {
+        "symbol": "NVDA",
+        "error": "Briefing reports a close of $212.45. Verified intraday range on June 15 was $207.71–$211.38 with a closing price of approximately $211.02. The reported price of $212.45 is above the day's high and appears to be a data error. The +3.54% gain figure is also inconsistent with the verified price range."
+      },
+      {
+        "symbol": "META",
+        "error": "Briefing states action=avoid due to structural weakness. While technical signals may warrant caution, the DOJ/FTC antitrust framing in global context is inaccurate — the FTC case against META was dismissed at the liability phase in November 2025. The regulatory overhang the briefing implies for META via antitrust is materially overstated."
+      }
+    ],
+    "overall_score": 38,
+    "summary": "The briefing contains a critical factual failure at its core: the Strait of Hormuz was not 'open with minor premium increases' but had been effectively closed for 3+ months, and the US-Iran peace deal announced on June 14–15 to reopen it was the dominant market catalyst on June 15 — entirely absent from this briefing. The macro narrative is therefore inverted, attributing a geopolitical-relief rally to chip licensing policy. Additional material errors include the antitrust status for both GOOGL and META, NVDA's closing price being above the verified intraday high, and XLE incorrectly placed in sector leaders while energy lagged. Stock-level price data for TSM and MU is confirmed accurate, and the green mood direction is correct, but the causal reasoning underpinning the briefing is unreliable."
+  }
+}
