@@ -28,6 +28,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
+import yfinance as yf
 
 from collect.git_utils import commit_and_push
 
@@ -143,6 +144,27 @@ def fetch_all_data() -> dict:
     prepost_data: dict = {}
     for sym, _, _ in ALL_SYMBOLS:
         daily = _api_get("/daily", {"symbol": sym})
+        if daily is None:
+            # API 실패 시 yfinance에서 직접 기본 가격 데이터 시도 (신규 상장 등 데이터 부족 종목)
+            try:
+                hist = yf.Ticker(sym).history(period="5d")
+                if not hist.empty and len(hist) >= 1:
+                    closes = hist["Close"].dropna().tolist()
+                    latest_price = round(float(closes[-1]), 2)
+                    prev_chg = round((closes[-1] - closes[-2]) / closes[-2] * 100, 2) if len(closes) >= 2 else 0.0
+                    symbol_detail[sym] = {
+                        "price":                  latest_price,
+                        "change_pct_prev_day":    prev_chg,
+                        "high_52w_price":         None,
+                        "stage2_score":           None,
+                        "rs_score":               None,
+                        "market_structure":       "UNKNOWN",
+                        "ipo_pending":            True,
+                        "ipo_days":               len(hist),
+                    }
+                    print(f"[INFO] {sym}: SniperBoard 데이터 없음 — yfinance 기본 가격만 수집 ({len(hist)}일 치)", file=sys.stderr)
+            except Exception as yf_err:
+                print(f"[WARN] {sym}: yfinance fallback 실패: {yf_err}", file=sys.stderr)
         if daily and daily.get("stage2"):
             s2 = daily["stage2"]
             checks = s2.get("checks", {})
@@ -280,6 +302,10 @@ def _format_authoritative_table(data: dict) -> str:
         if not d:
             rows.append(f"{sym:<6} {'데이터없음':>10}")
             continue
+        if d.get("ipo_pending"):
+            days = d.get("ipo_days", "?")
+            rows.append(f"{sym:<6} ${d['price']:>9,.2f} {d.get('change_pct_prev_day', 0):>+7.2f}%  {'N/A':>12} {'N/A':>11} {'N/A':>7}  {'N/A':<12} {'N/A':>9} ⚠RECENT IPO({days}d) — Stage2/RS 데이터 없음")
+            continue
         price_s  = f"${d['price']:,.2f}"
         chg_s    = f"{d.get('change_pct_prev_day', 0):+.2f}%"
         high_s   = f"${d['high_52w_price']:,.2f}" if d.get("high_52w_price") else "N/A"
@@ -343,6 +369,17 @@ def _format_symbol_block(data: dict) -> str:
         d = detail.get(sym)
         if not d:
             lines.append(f"{sym} ({company}) [T{tier}]: 데이터 없음")
+            continue
+
+        if d.get("ipo_pending"):
+            days = d.get("ipo_days", "?")
+            price = d.get("price", 0)
+            chg = d.get("change_pct_prev_day", 0)
+            lines.append(
+                f"{sym} ({company}) [T{tier}]: ⚠RECENT IPO ({days}일 거래 기록)\n"
+                f"  가격: ${price:,.2f} (전일 {chg:+.2f}%) | Stage2/RS 데이터 없음 (기술적 분석 불가)\n"
+                f"  → watchlist 포함하되 action=watch, 기본 가격만 서술"
+            )
             continue
 
         sent = sent_by_sym.get(sym, {})
@@ -996,6 +1033,7 @@ MARKET DATA ({now_kst}):
 REQUIREMENTS:
 - spotlight: 2-4 most interesting from the 22 (mix of opportunities and risks)
 - watchlist: ALL 22 in order TSM,NVDA,META,TSLA,PLTR,MU,CRWD,AMZN,MSFT,AAPL,GOOGL,SPCX,RKLB,CEG,VST,ALAB,OKLO,APP,ANET,NVO,QBTS,SOFI
+  ⚠ RECENT IPO RULE: If a watchlist ticker shows ⚠RECENT IPO in the authoritative table (insufficient Stage2/RS data), write the entry as: action='watch', market_structure='UNKNOWN', analysis='[TICKER]: Recent IPO — technical data not yet available (N trading days). Price: $X.XX (prev chg Y%). Fundamental assessment: [1-2 sentences on business/sector fit within TIER]. No Stage2/RS signal possible until sufficient history accumulates.' Do NOT assign buy/avoid based on missing data.
 ACTION RULES — apply in this EXACT priority order (first rule that applies wins):
   RULE 1 (HARD): action=avoid  IF: market_structure=DOWNTREND AND Stage2≤6
                                OR  Stage2≤2 (regardless of structure)
