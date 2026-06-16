@@ -1,0 +1,219 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-15T21:45:01Z",
+  "verified_at": "2026-06-17T07:15",
+  "overall_passed": false,
+  "error_count": 4,
+  "warning_count": 7,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 3건:\n    NVDA: API=DOWNTREND vs 브리핑=DISTRIBUTION\n    ANET: API=DISTRIBUTION vs 브리핑=DOWNTREND\n    SOFI: API=DISTRIBUTION vs 브리핑=DOWNTREND"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "PLTR: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 1건:\n    NVDA: Rule1 → avoid 필요 (struct=DOWNTREND,S2=6,RS=53), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": false,
+      "severity": "error",
+      "detail": "score: 브리핑=71.0 vs API=69.2 (차이>1.8) / traffic_light: 브리핑=green vs 기대=yellow (score=69.2)"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: MU reporting June 24 (est. EPS $19.69 — verify actual at bro)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=False)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — Case-by-case licensing is real — BIS published the final rule effective January 15, 2026, not June. By June the policy has been operational for ~5 months; framing it as a fresh 'shift' in the June 12 source is misleading. The 25% tariff is a separate trade measure from the BIS export-control regime. Current state: non-AI chips are being processed under the new review framework; advanced AI accelerators still face presumption-of-denial scrutiny. Core description is broadly accurate but the framing and sourcing imply this is a new development when it is months old.\n    rank=2: inaccurate — Critical and material error. The briefing states 'No closure; commercial traffic continues with 15-20% higher war-risk premiums.' Reality: Iran's IRGC formally closed the Strait on March 2, 2026. A Pakistan-brokered ceasefire briefly reopened it April 8; Iran re-closed April 18. As of June 11-14 only 1-7 AIS-visible commercial crossings per day (near-zero traffic). War-risk premiums surged to 3–8% of vessel value vs. pre-crisis 0.25% — a 1,200–3,200% increase, not 15–20%. Brent peaked at $118–120/bbl (~+64%). Furthermore, a US-Iran framework peace deal was announced June 15–16 (NPR, NBC News) — signed the same day the briefing was generated — allowing immediate Iranian oil exports, causing Brent to fall ~4% to ~$83 and WTI to ~$80. The briefing completely omits the months-long crisis AND the landmark peace deal announced hours before generation.\n    rank=3: inaccurate — The briefing states 'no final ruling yet.' This is incorrect on both fronts. Google: Judge Mehta issued a final remedies order in April 2026 requiring data sharing with competitors for 5 years and banning default-placement contracts; Chrome divestiture was not ordered but the ruling explicitly extends to Gemini/AI products — this is a final ruling, not a preliminary finding. Meta: The FTC LOST its monopolization case in November 2025 when Judge Boasberg ruled Meta lacks monopoly power when TikTok/YouTube are included in the market definition; the FTC filed an appeal in January 2026. The claim that 'preliminary findings favor increased oversight of AI model distribution' is partially true for Google only. Characterizing both as remedy-phase without final rulings is factually wrong."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 2건:\n    US-Iran framework peace deal signed June 15–16, 2026 — Strait of Hormuz to reopen (영향: XLE and energy names: oil fell ~4–4.5% (Brent ~$83, WTI ~$80) on reopening news, pressuring energy sector despite briefing flagging XLE as green. ITA (defense ETF): potential headwind as conflict risk premium unwinds. XLE sector rotation thesis in briefing is now directionally reversed. Broader market: US crude at lowest since early March removes one major macro tail risk, positive for consumer/cyclical names like XLY, AMZN, TSLA.)\n    Semiconductor sector sell-off June 16 — NVDA -2.37%, TSM -3.53%, MU -6.18%; Nasdaq -1.15% (영향: NVDA closed $207.41 vs. briefing's $212.45; TSM closed $425.83 vs. briefing's $441.40; MU closed $1,020.76 vs. briefing's $1,087.99. SMH likely down 3–4%. The briefing's 'buy' calls on TSM, MU and 'green' signal on SMH were immediately contradicted by June 16 action. Broader Nasdaq decline (-1.15%) reverses the 'green macro breadth' narrative. Ongoing context: a $1.3T sector wipeout on June 5 (PHLX chip index -10%) from Broadcom's guidance miss still overhangs the sector.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "Briefing calls traffic light GREEN (71.0) with headline 'Chip policy shift and green macro signals lift tech despite VIX calm.' June 16 reality: Nasdaq fell 1.15%, S&P 500 fell 0.08%, with tech and semiconductors as the primary drag. Session had a clear defensive/value tilt — utilities and financials led as rates fell on the Iran peace deal. The tech-led green narrative is directly contradicted by price action. A neutral-to-yellow assessment would be more accurate given the mixed breadth (Dow +0.64%, Nasdaq -1.15%) and dominant macro catalyst (Hormuz reopening) pulling sector leadership away from semiconductors."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "Briefing flags SMH, XLE, XLY, XHB, ITA as green leaders with 'Semiconductors and AI infrastructure names lead on volume and RS strength.' June 16 contradicts this across multiple sectors: (1) SMH declined sharply (NVDA -2.37%, TSM -3.53%, MU -6.18%) — semiconductors were the session's drag, not leader; (2) XLE faces headwinds from the US-Iran deal and 4–4.5% oil price drop; (3) ITA (defense) may unwind conflict premium on ceasefire. The briefing's rotation thesis ('money rotating into semiconductors') was already reversing on June 16. Only XLY (consumer discretionary) and XHB (homebuilders) could plausibly hold up given rate-fall tailwind from Iran deal. The laggard characterization of defensives is also partially wrong — utilities led on June 16."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSM: Briefing reports last close $441.40 (+4.12%) with 'buy' action. By June 16 close TSM traded at $425.83 (-3.53%), a $15.57 decline from briefed price. The 'buy' signal is now 48 hours stale against a materially lower price and negative session momentum.\n    NVDA: Briefing reports last close $212.45 (+3.54%). June 16 close: $207.41 (-2.37%). The DISTRIBUTION stage warning in the briefing remains valid but the price reference is stale by $5.04 per share.\n    MU: Briefing reports last close $1,087.99 (+10.84%) with 'buy' action and Stage2=7/RS=100. June 16 close: $1,020.76 (-6.18%), erasing more than half the prior session's gain. The aggressive 'buy' signal should be reassessed.\n    META: Briefing states DOJ/FTC antitrust review is in 'remedy phase' with 'no final ruling yet.' In reality the FTC lost the Meta monopolization case in November 2025; an appeal was filed January 2026. There is no active remedy phase for META — the briefing's antitrust risk framing for this stock is factually incorrect.\n    XLE: Briefing marks XLE as a sector leader with green technical signals. The US-Iran peace deal announced June 15–16 caused oil to drop ~4–4.5% to multi-month lows, which is a direct headwind to XLE. The sector signal is directionally wrong as of verification date."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-16T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip export controls shift to case-by-case licensing + 25% tariff",
+        "accuracy": "outdated",
+        "note": "Case-by-case licensing is real — BIS published the final rule effective January 15, 2026, not June. By June the policy has been operational for ~5 months; framing it as a fresh 'shift' in the June 12 source is misleading. The 25% tariff is a separate trade measure from the BIS export-control regime. Current state: non-AI chips are being processed under the new review framework; advanced AI accelerators still face presumption-of-denial scrutiny. Core description is broadly accurate but the framing and sourcing imply this is a new development when it is months old."
+      },
+      {
+        "rank": 2,
+        "title": "Strait of Hormuz tanker traffic remains open but insurance premiums elevated",
+        "accuracy": "inaccurate",
+        "note": "Critical and material error. The briefing states 'No closure; commercial traffic continues with 15-20% higher war-risk premiums.' Reality: Iran's IRGC formally closed the Strait on March 2, 2026. A Pakistan-brokered ceasefire briefly reopened it April 8; Iran re-closed April 18. As of June 11-14 only 1-7 AIS-visible commercial crossings per day (near-zero traffic). War-risk premiums surged to 3–8% of vessel value vs. pre-crisis 0.25% — a 1,200–3,200% increase, not 15–20%. Brent peaked at $118–120/bbl (~+64%). Furthermore, a US-Iran framework peace deal was announced June 15–16 (NPR, NBC News) — signed the same day the briefing was generated — allowing immediate Iranian oil exports, causing Brent to fall ~4% to ~$83 and WTI to ~$80. The briefing completely omits the months-long crisis AND the landmark peace deal announced hours before generation."
+      },
+      {
+        "rank": 3,
+        "title": "US DOJ/FTC AI antitrust review enters remedy phase for GOOGL/META",
+        "accuracy": "inaccurate",
+        "note": "The briefing states 'no final ruling yet.' This is incorrect on both fronts. Google: Judge Mehta issued a final remedies order in April 2026 requiring data sharing with competitors for 5 years and banning default-placement contracts; Chrome divestiture was not ordered but the ruling explicitly extends to Gemini/AI products — this is a final ruling, not a preliminary finding. Meta: The FTC LOST its monopolization case in November 2025 when Judge Boasberg ruled Meta lacks monopoly power when TikTok/YouTube are included in the market definition; the FTC filed an appeal in January 2026. The claim that 'preliminary findings favor increased oversight of AI model distribution' is partially true for Google only. Characterizing both as remedy-phase without final rulings is factually wrong."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "US-Iran framework peace deal signed June 15–16, 2026 — Strait of Hormuz to reopen",
+        "impact": "XLE and energy names: oil fell ~4–4.5% (Brent ~$83, WTI ~$80) on reopening news, pressuring energy sector despite briefing flagging XLE as green. ITA (defense ETF): potential headwind as conflict risk premium unwinds. XLE sector rotation thesis in briefing is now directionally reversed. Broader market: US crude at lowest since early March removes one major macro tail risk, positive for consumer/cyclical names like XLY, AMZN, TSLA.",
+        "severity": "critical"
+      },
+      {
+        "title": "Semiconductor sector sell-off June 16 — NVDA -2.37%, TSM -3.53%, MU -6.18%; Nasdaq -1.15%",
+        "impact": "NVDA closed $207.41 vs. briefing's $212.45; TSM closed $425.83 vs. briefing's $441.40; MU closed $1,020.76 vs. briefing's $1,087.99. SMH likely down 3–4%. The briefing's 'buy' calls on TSM, MU and 'green' signal on SMH were immediately contradicted by June 16 action. Broader Nasdaq decline (-1.15%) reverses the 'green macro breadth' narrative. Ongoing context: a $1.3T sector wipeout on June 5 (PHLX chip index -10%) from Broadcom's guidance miss still overhangs the sector.",
+        "severity": "critical"
+      },
+      {
+        "title": "Kevin Warsh's first FOMC meeting as Fed Chair (June 16–17, 2026)",
+        "impact": "Rate hold expected at 3.50–3.75% but markets watching dot plot and communication style. Inflation at 4.2% (May) means cuts remain off the table. Rate-sensitive names (MSFT, high-PE software under distribution) face continued pressure. Warsh press conference June 17 is the single biggest macro catalyst on the day this briefing is being read.",
+        "severity": "important"
+      },
+      {
+        "title": "SpaceX acquires AI coding startup Cursor in $60B deal — SpaceX valuation surges 20%, surpassing Amazon",
+        "impact": "Significant AI sector sentiment event. Affects AMZN (market cap now below SpaceX private valuation — a headline comparison affecting sentiment). Broader AI infrastructure narrative (PLTR, NVDA) potentially boosted by signal that AI tooling M&A is accelerating at premium valuations.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "inaccurate",
+      "note": "Briefing calls traffic light GREEN (71.0) with headline 'Chip policy shift and green macro signals lift tech despite VIX calm.' June 16 reality: Nasdaq fell 1.15%, S&P 500 fell 0.08%, with tech and semiconductors as the primary drag. Session had a clear defensive/value tilt — utilities and financials led as rates fell on the Iran peace deal. The tech-led green narrative is directly contradicted by price action. A neutral-to-yellow assessment would be more accurate given the mixed breadth (Dow +0.64%, Nasdaq -1.15%) and dominant macro catalyst (Hormuz reopening) pulling sector leadership away from semiconductors."
+    },
+    "sector_check": {
+      "assessment": "inaccurate",
+      "note": "Briefing flags SMH, XLE, XLY, XHB, ITA as green leaders with 'Semiconductors and AI infrastructure names lead on volume and RS strength.' June 16 contradicts this across multiple sectors: (1) SMH declined sharply (NVDA -2.37%, TSM -3.53%, MU -6.18%) — semiconductors were the session's drag, not leader; (2) XLE faces headwinds from the US-Iran deal and 4–4.5% oil price drop; (3) ITA (defense) may unwind conflict premium on ceasefire. The briefing's rotation thesis ('money rotating into semiconductors') was already reversing on June 16. Only XLY (consumer discretionary) and XHB (homebuilders) could plausibly hold up given rate-fall tailwind from Iran deal. The laggard characterization of defensives is also partially wrong — utilities led on June 16."
+    },
+    "stock_errors": [
+      {
+        "symbol": "TSM",
+        "error": "Briefing reports last close $441.40 (+4.12%) with 'buy' action. By June 16 close TSM traded at $425.83 (-3.53%), a $15.57 decline from briefed price. The 'buy' signal is now 48 hours stale against a materially lower price and negative session momentum."
+      },
+      {
+        "symbol": "NVDA",
+        "error": "Briefing reports last close $212.45 (+3.54%). June 16 close: $207.41 (-2.37%). The DISTRIBUTION stage warning in the briefing remains valid but the price reference is stale by $5.04 per share."
+      },
+      {
+        "symbol": "MU",
+        "error": "Briefing reports last close $1,087.99 (+10.84%) with 'buy' action and Stage2=7/RS=100. June 16 close: $1,020.76 (-6.18%), erasing more than half the prior session's gain. The aggressive 'buy' signal should be reassessed."
+      },
+      {
+        "symbol": "META",
+        "error": "Briefing states DOJ/FTC antitrust review is in 'remedy phase' with 'no final ruling yet.' In reality the FTC lost the Meta monopolization case in November 2025; an appeal was filed January 2026. There is no active remedy phase for META — the briefing's antitrust risk framing for this stock is factually incorrect."
+      },
+      {
+        "symbol": "XLE",
+        "error": "Briefing marks XLE as a sector leader with green technical signals. The US-Iran peace deal announced June 15–16 caused oil to drop ~4–4.5% to multi-month lows, which is a direct headwind to XLE. The sector signal is directionally wrong as of verification date."
+      }
+    ],
+    "overall_score": 28,
+    "summary": "The briefing contains two critical factual failures that undermine its core narrative: it completely misrepresents the Strait of Hormuz situation (describing mild 15–20% premium elevation when traffic is near-zero and a landmark peace deal was signed the same day it was generated), and it incorrectly states no final rulings exist in the Google/Meta antitrust cases when Google already has a final remedies order. The market mood and sector analysis are directly contradicted by June 16 price action — semiconductors, framed as the leading sector, were the primary drag on the day. Four significant market-moving events (US-Iran deal, semi sell-off, Warsh Fed meeting, SpaceX/Cursor deal) are entirely absent. Stock price references are 48 hours stale with material moves against the briefing's buy signals on TSM, NVDA, and MU."
+  }
+}
