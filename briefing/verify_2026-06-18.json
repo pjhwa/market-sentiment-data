@@ -1,0 +1,210 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-17T21:45:01Z",
+  "verified_at": "2026-06-18T07:15",
+  "overall_passed": false,
+  "error_count": 3,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 1건:\n    META: 브리핑에 구조 표기 없음 (API=UPTREND)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    PLTR: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": false,
+      "severity": "error",
+      "detail": "traffic_light: 브리핑=green vs 기대=yellow (score=60.7)"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: MU reporting June 24 (est. EPS $19.72 — verify actual at bro)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: inaccurate — The briefing's characterization of 'occasional tanker harassment' and 'no closure' is severely wrong. The Strait of Hormuz has been effectively closed since February 28, 2026, when the US and Israel launched an air war against Iran and Khamenei was assassinated. Iran formally declared full closure on June 10, 2026. As of June 17, 0 commercial ships are transiting vs. ~94/day pre-conflict. War risk insurance is 4-5x pre-war levels, not merely 'structurally higher.' A US-Iran peace deal was announced June 14 (MoU to be signed in Switzerland, US naval blockade being lifted), but UAE estimates full flows won't resume until 2027. The briefing's description reflects conditions from many months ago.\n    rank=3: outdated — The Google case has progressed beyond 'remedy hearings scheduled; no final orders issued.' The DOJ won significant remedies against Google (per DOJ press release), including provisions covering generative AI products. Google filed a Notice of Appeal on January 16, 2026 challenging the orders, and the appeals court is expected to hear arguments in late 2026/early 2027. The case is in the post-remedy appeals phase, not pre-order hearing phase. The Microsoft FTC probe is advancing but specific June 2026 hearing dates were not verifiable."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    FOMC June 17 hawkish dot plot triggers broad market selloff under new Fed Chair Warsh (영향: S&P 500 -1.21%, Nasdaq -1.34%, Dow -0.98% on June 17. Nine of 18 FOMC officials support at least one rate hike in 2026; traders now pricing October hike. Warsh held maiden press conference, announced task forces to overhaul Fed operations. Directly impacts all growth/tech watchlist names: NVDA, META, MSFT, AMZN, AAPL, TSLA, PLTR, CRWD — rising rate expectations compress growth multiples and add headwinds to AI capex justification.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "The 'green' traffic light and 'VIX compression' narrative do not reflect the June 17 session outcome. The FOMC hawkish dot plot under new Chair Warsh caused all three major indices to close sharply lower (S&P -1.21%, Nasdaq -1.34%, Dow -0.98%). VIX data from June 17 shows readings of 16.41-17.68 during the session — the 18.44 figure cited may be a post-FOMC closing spike, but framing this as 'compression' is misleading given the day's risk-off catalyst. A yellow or red designation more accurately reflects actual June 17 market conditions."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Semiconductor outperformance direction is correct: MU was +3.83% and TSM was +2.44-3.23% on June 17. However, SMH's cited gain of +1.29% appears understated — SMH closed at ~635.67 vs prior close of 616.00, implying approximately +3.2%. The mega-cap software weakness (META -6%, MSFT/AMZN declines on AI capex) is directionally accurate. However the analysis entirely omits the FOMC-driven broad market decline as the dominant sector driver, which affected growth/tech across the board, not just software."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSM: Briefing shows close at $432.15, but June 17 trading data places TSM in the $436-$440 range (sources confirm $436.23 to $439.60, up 2.44%-3.23%). The briefing close price is approximately $4-7 below the actual trading range.\n    MU: Briefing shows close at $1,043.19, but June 17 intraday data shows MU trading $1,014-$1,062 with a session price of ~$1,059 (+3.83%). The $1,043 close is within the day's range but below the apparent closing level.\n    NVDA: Pre-market cited at $205.15 (+0.24%), but June 17 pre-market data shows NVDA at $208.03 as of 6:58 AM EDT. The directional bias is consistent but the price and percentage are materially off.\n    SMH: Sector analysis cites SMH +1.29%, but June 17 close of ~635.67 vs prior close of 616.00 implies approximately +3.2% — roughly 2.5x the stated gain."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-17T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip export licensing regime holds steady",
+        "accuracy": "accurate",
+        "note": "January 2026 BIS revision to case-by-case licensing with 25% tariff is confirmed by multiple sources (Morgan Lewis, Mayer Brown, Covington). June 2026 Commerce Dept guidance extending requirements to Chinese-headquartered firms operating outside China is a minor update fully consistent with the briefing's description. No new blanket bans or broad approvals detected in the last 48h."
+      },
+      {
+        "rank": 2,
+        "title": "Strait of Hormuz shipping risk remains elevated",
+        "accuracy": "inaccurate",
+        "note": "The briefing's characterization of 'occasional tanker harassment' and 'no closure' is severely wrong. The Strait of Hormuz has been effectively closed since February 28, 2026, when the US and Israel launched an air war against Iran and Khamenei was assassinated. Iran formally declared full closure on June 10, 2026. As of June 17, 0 commercial ships are transiting vs. ~94/day pre-conflict. War risk insurance is 4-5x pre-war levels, not merely 'structurally higher.' A US-Iran peace deal was announced June 14 (MoU to be signed in Switzerland, US naval blockade being lifted), but UAE estimates full flows won't resume until 2027. The briefing's description reflects conditions from many months ago."
+      },
+      {
+        "rank": 3,
+        "title": "US AI antitrust probes advance toward remedies",
+        "accuracy": "outdated",
+        "note": "The Google case has progressed beyond 'remedy hearings scheduled; no final orders issued.' The DOJ won significant remedies against Google (per DOJ press release), including provisions covering generative AI products. Google filed a Notice of Appeal on January 16, 2026 challenging the orders, and the appeals court is expected to hear arguments in late 2026/early 2027. The case is in the post-remedy appeals phase, not pre-order hearing phase. The Microsoft FTC probe is advancing but specific June 2026 hearing dates were not verifiable."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "FOMC June 17 hawkish dot plot triggers broad market selloff under new Fed Chair Warsh",
+        "impact": "S&P 500 -1.21%, Nasdaq -1.34%, Dow -0.98% on June 17. Nine of 18 FOMC officials support at least one rate hike in 2026; traders now pricing October hike. Warsh held maiden press conference, announced task forces to overhaul Fed operations. Directly impacts all growth/tech watchlist names: NVDA, META, MSFT, AMZN, AAPL, TSLA, PLTR, CRWD — rising rate expectations compress growth multiples and add headwinds to AI capex justification.",
+        "severity": "critical"
+      },
+      {
+        "title": "US-Iran peace deal announced June 14 — Hormuz reopening process underway",
+        "impact": "Trump and Iran announced agreement to end the war; US lifting naval blockade and Iranian oil sanctions immediately under MoU. However UAE estimates full Hormuz flows won't resume until 2027. Affects energy sector broadly; reduces war risk premium but does not resolve near-term shipping disruption. Also a major macro tail risk partially resolving.",
+        "severity": "important"
+      },
+      {
+        "title": "Retail sales May 2026 surge +0.9% vs +0.5% expected",
+        "impact": "Hotter consumer data reinforces Fed's hawkish posture. Adds upward pressure on inflation expectations, amplifying FOMC rate hike narrative. Broad macro headwind for rate-sensitive growth names in watchlist (TSLA, PLTR, AMZN).",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "inaccurate",
+      "note": "The 'green' traffic light and 'VIX compression' narrative do not reflect the June 17 session outcome. The FOMC hawkish dot plot under new Chair Warsh caused all three major indices to close sharply lower (S&P -1.21%, Nasdaq -1.34%, Dow -0.98%). VIX data from June 17 shows readings of 16.41-17.68 during the session — the 18.44 figure cited may be a post-FOMC closing spike, but framing this as 'compression' is misleading given the day's risk-off catalyst. A yellow or red designation more accurately reflects actual June 17 market conditions."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Semiconductor outperformance direction is correct: MU was +3.83% and TSM was +2.44-3.23% on June 17. However, SMH's cited gain of +1.29% appears understated — SMH closed at ~635.67 vs prior close of 616.00, implying approximately +3.2%. The mega-cap software weakness (META -6%, MSFT/AMZN declines on AI capex) is directionally accurate. However the analysis entirely omits the FOMC-driven broad market decline as the dominant sector driver, which affected growth/tech across the board, not just software."
+    },
+    "stock_errors": [
+      {
+        "symbol": "TSM",
+        "error": "Briefing shows close at $432.15, but June 17 trading data places TSM in the $436-$440 range (sources confirm $436.23 to $439.60, up 2.44%-3.23%). The briefing close price is approximately $4-7 below the actual trading range."
+      },
+      {
+        "symbol": "MU",
+        "error": "Briefing shows close at $1,043.19, but June 17 intraday data shows MU trading $1,014-$1,062 with a session price of ~$1,059 (+3.83%). The $1,043 close is within the day's range but below the apparent closing level."
+      },
+      {
+        "symbol": "NVDA",
+        "error": "Pre-market cited at $205.15 (+0.24%), but June 17 pre-market data shows NVDA at $208.03 as of 6:58 AM EDT. The directional bias is consistent but the price and percentage are materially off."
+      },
+      {
+        "symbol": "SMH",
+        "error": "Sector analysis cites SMH +1.29%, but June 17 close of ~635.67 vs prior close of 616.00 implies approximately +3.2% — roughly 2.5x the stated gain."
+      }
+    ],
+    "overall_score": 36,
+    "summary": "The briefing contains a critical geopolitical factual error: the Strait of Hormuz has been effectively closed since February 2026 due to the US-Israel-Iran war, making the 'no closure / occasional harassment' characterization months out of date. The June 17 FOMC meeting — the dominant market-moving event of the day, which drove S&P -1.21% and Nasdaq -1.34% under new Fed Chair Warsh's hawkish dot plot — is entirely absent from the briefing, making the 'green' market mood designation misleading. Several stock prices (TSM, MU, NVDA) and the SMH percentage have material inaccuracies, and the Google antitrust status is outdated by at least one major milestone (final remedies already issued, case now in appeals)."
+  }
+}
