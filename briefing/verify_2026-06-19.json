@@ -1,0 +1,216 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-18T21:45:01Z",
+  "verified_at": "2026-06-19T07:15",
+  "overall_passed": false,
+  "error_count": 3,
+  "warning_count": 6,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 2건:\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "PLTR: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": false,
+      "severity": "error",
+      "detail": "traffic_light: 브리핑=green vs 기대=yellow (score=65.1)"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: MU reports June 24 (est. EPS $19.72))"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": false,
+      "severity": "warning",
+      "detail": "developing 이슈 3건인데 big_picture에 유보 표현 없음: ['US-China chip export controls move to case-by-case', 'Iran Strait of Hormuz risk remains elevated amid p', 'US AI antitrust probes advance against Google and ']"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: inaccurate — CRITICAL INVERSION: A US-Iran deal was signed around June 15-17, 2026 mandating full reopening of the Strait of Hormuz toll-free for at least 60 days. The Joint Maritime Information Center DOWNGRADED the threat level from 'severe' to 'substantial' on June 17 — one day before this briefing was generated. Approximately 118 tankers are now queued to exit the Persian Gulf. The briefing's characterization of 'elevated risk premium' and 'no closure' directly contradicts current reality. The shipping disruption story has reversed into a supply normalization story.\n    rank=3: questionable — For Google: Remedies were decided in September 2025 (exclusive contracts banned, data sharing mandated); both Google and DOJ filed cross-appeals in Jan-Feb 2026. The briefing's description of an active 'discovery phase producing market-moving leaks on ad/AI model separation' is inaccurate — this is now in the appellate phase. For Meta: FTC v. Meta was dismissed at trial level in November 2025 (Judge Boasberg ruled Meta lacks monopoly power when TikTok/YouTube are included); FTC appealed in January 2026. 'Structural remedy discussions active' is misleading — the case was dismissed at trial, not in remedy negotiation."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 2건:\n    Fed holds rates at 3.5-3.75% but signals possible rate HIKE — hawkish pivot under new Chair Warsh (영향: Market-wide hawkish shock: dot plot median moved to 3.8% (from 3.4% in March), with 9 of 18 officials projecting at least one hike in 2026. Warsh removed forward guidance language and cut/hike bias language entirely. Affects all rate-sensitive watchlist names: MSFT (avoid), AMZN (watch), META (avoid), AAPL (watch). Despite this, Nasdaq rallied 1.91% and S&P 500 gained 1.08% on June 18 — suggesting market relief at no immediate hike, but the hawkish lean is a critical missing context.)\n    US-Iran deal signed; Strait of Hormuz reopening underway as of June 17 (영향: XLE and energy sector: oil risk premium removal could pressure energy names that briefing lists as 'leaders.' Brent/WTI supply normalization narrative (118 tankers queued) is the opposite of the elevated-risk story in the briefing. CEG and VST power thesis unaffected, but the geopolitical macro frame underpinning XLE bullishness is reversed.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Green light and score of 65.1 are directionally defensible — Nasdaq gained 1.91% and S&P 500 gained 1.08% on June 18. However, the briefing's stated drivers are substantially wrong: the Iran risk narrative is inverted (Hormuz deal reduces geopolitical premium), and the single most important market catalyst of the day — the Fed's hawkish pivot under Warsh (signaling possible 2026 rate hike) — is entirely absent. A score built on incorrect macro premises, even if the directional call happens to be right, is analytically unreliable."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Semiconductor leadership is confirmed by price action (MU was up strongly, TSM also advanced). However, the energy/XLE bullish thesis rests on the Hormuz risk premium which has now partially collapsed due to the Iran deal. The briefing misses Marvell's +7.27% surge as the strongest AI infrastructure data point of the day. Accenture's historic -19% crash is an important enterprise tech warning absent from the laggard analysis. The rotation narrative is partially correct but missing its most important data points."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSM: Significant price and return discrepancy: briefing states $462.12 (+6.94%) for June 18 close. Multiple sources show TSM closed June 18 at approximately $432.15 with a prior close of $425.83 — implying approximately +1.48% gain on the day. The briefing's price is ~$30 higher than observed data and the stated +6.94% gain is roughly 4.7 percentage points above available data. This is a material factual error.\n    MU: Minor: briefing states $1,133.99 (+8.70%) for June 18 close. From June 17 close of $1,043.19, an 8.7% gain yields ~$1,133.99 which is mathematically consistent. Intraday range on June 18 was $1,086.71-$1,145.87 so this close price is plausible. No confirmed error but the +8.70% single-day surge is unusually large and may reflect pre-earnings momentum ahead of June 24 fiscal Q3 report.\n    PLTR: Briefing states RS=0.0 which is implausible for a stock described as UPTREND with Stage2=1. Either RS is misreported or there is a data pipeline error; an RS of 0 would indicate the weakest relative strength in the universe, inconsistent with UPTREND classification."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-18T22:16:08Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip export controls move to case-by-case licensing",
+        "accuracy": "accurate",
+        "note": "BIS shifted from 'presumption of denial' to 'case-by-case review' for NVDA H200 and AMD MI325X-equivalent chips in January 2026, with 25% tariff, 50% volume cap, and strict KYC requirements confirmed. Framing as a developing June 2026 story is slightly misleading — the policy framework was established in January — but the current operational state described (individual approvals being processed) is accurate."
+      },
+      {
+        "rank": 2,
+        "title": "Iran Strait of Hormuz risk remains elevated amid proxy tensions",
+        "accuracy": "inaccurate",
+        "note": "CRITICAL INVERSION: A US-Iran deal was signed around June 15-17, 2026 mandating full reopening of the Strait of Hormuz toll-free for at least 60 days. The Joint Maritime Information Center DOWNGRADED the threat level from 'severe' to 'substantial' on June 17 — one day before this briefing was generated. Approximately 118 tankers are now queued to exit the Persian Gulf. The briefing's characterization of 'elevated risk premium' and 'no closure' directly contradicts current reality. The shipping disruption story has reversed into a supply normalization story."
+      },
+      {
+        "rank": 3,
+        "title": "US AI antitrust probes advance against Google and Meta",
+        "accuracy": "questionable",
+        "note": "For Google: Remedies were decided in September 2025 (exclusive contracts banned, data sharing mandated); both Google and DOJ filed cross-appeals in Jan-Feb 2026. The briefing's description of an active 'discovery phase producing market-moving leaks on ad/AI model separation' is inaccurate — this is now in the appellate phase. For Meta: FTC v. Meta was dismissed at trial level in November 2025 (Judge Boasberg ruled Meta lacks monopoly power when TikTok/YouTube are included); FTC appealed in January 2026. 'Structural remedy discussions active' is misleading — the case was dismissed at trial, not in remedy negotiation."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Fed holds rates at 3.5-3.75% but signals possible rate HIKE — hawkish pivot under new Chair Warsh",
+        "impact": "Market-wide hawkish shock: dot plot median moved to 3.8% (from 3.4% in March), with 9 of 18 officials projecting at least one hike in 2026. Warsh removed forward guidance language and cut/hike bias language entirely. Affects all rate-sensitive watchlist names: MSFT (avoid), AMZN (watch), META (avoid), AAPL (watch). Despite this, Nasdaq rallied 1.91% and S&P 500 gained 1.08% on June 18 — suggesting market relief at no immediate hike, but the hawkish lean is a critical missing context.",
+        "severity": "critical"
+      },
+      {
+        "title": "US-Iran deal signed; Strait of Hormuz reopening underway as of June 17",
+        "impact": "XLE and energy sector: oil risk premium removal could pressure energy names that briefing lists as 'leaders.' Brent/WTI supply normalization narrative (118 tankers queued) is the opposite of the elevated-risk story in the briefing. CEG and VST power thesis unaffected, but the geopolitical macro frame underpinning XLE bullishness is reversed.",
+        "severity": "critical"
+      },
+      {
+        "title": "US equity markets CLOSED June 19 for Juneteenth federal holiday",
+        "impact": "Entire watchlist: No trading today. All buy/watch/avoid action signals in this briefing are non-actionable on the date it is being read. The next trading session is Monday June 22. This context is entirely absent from the briefing.",
+        "severity": "important"
+      },
+      {
+        "title": "Marvell Technology (MRVL) +7.27% to $310.58 on AWS Trainium chip commercialization",
+        "impact": "AWS entered early talks to sell custom Trainium AI chips to third-party customers; KeyBanc raised MRVL PT from $260 to $385. Directly relevant to AI infrastructure semiconductor theme (NVDA competitive landscape, AI data center narrative supporting CEG/VST). Should have appeared in sector analysis.",
+        "severity": "important"
+      },
+      {
+        "title": "Accenture (ACN) -19% worst single-day decline in company history on earnings",
+        "impact": "Enterprise IT spending signal: read-through for MSFT (Azure), AMZN (AWS), and CRWD (enterprise security). Indicates potential enterprise software spending slowdown that conflicts with the briefing's bullish software rotation narrative.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Green light and score of 65.1 are directionally defensible — Nasdaq gained 1.91% and S&P 500 gained 1.08% on June 18. However, the briefing's stated drivers are substantially wrong: the Iran risk narrative is inverted (Hormuz deal reduces geopolitical premium), and the single most important market catalyst of the day — the Fed's hawkish pivot under Warsh (signaling possible 2026 rate hike) — is entirely absent. A score built on incorrect macro premises, even if the directional call happens to be right, is analytically unreliable."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Semiconductor leadership is confirmed by price action (MU was up strongly, TSM also advanced). However, the energy/XLE bullish thesis rests on the Hormuz risk premium which has now partially collapsed due to the Iran deal. The briefing misses Marvell's +7.27% surge as the strongest AI infrastructure data point of the day. Accenture's historic -19% crash is an important enterprise tech warning absent from the laggard analysis. The rotation narrative is partially correct but missing its most important data points."
+    },
+    "stock_errors": [
+      {
+        "symbol": "TSM",
+        "error": "Significant price and return discrepancy: briefing states $462.12 (+6.94%) for June 18 close. Multiple sources show TSM closed June 18 at approximately $432.15 with a prior close of $425.83 — implying approximately +1.48% gain on the day. The briefing's price is ~$30 higher than observed data and the stated +6.94% gain is roughly 4.7 percentage points above available data. This is a material factual error."
+      },
+      {
+        "symbol": "MU",
+        "error": "Minor: briefing states $1,133.99 (+8.70%) for June 18 close. From June 17 close of $1,043.19, an 8.7% gain yields ~$1,133.99 which is mathematically consistent. Intraday range on June 18 was $1,086.71-$1,145.87 so this close price is plausible. No confirmed error but the +8.70% single-day surge is unusually large and may reflect pre-earnings momentum ahead of June 24 fiscal Q3 report."
+      },
+      {
+        "symbol": "PLTR",
+        "error": "Briefing states RS=0.0 which is implausible for a stock described as UPTREND with Stage2=1. Either RS is misreported or there is a data pipeline error; an RS of 0 would indicate the weakest relative strength in the universe, inconsistent with UPTREND classification."
+      }
+    ],
+    "overall_score": 40,
+    "summary": "The briefing contains one critical factual inversion (Strait of Hormuz risk is actively DECREASING following a US-Iran deal and threat-level downgrade on June 17, the day before generation — the exact opposite of what is reported), omits the most market-moving event of June 18 (Fed's hawkish pivot under new Chair Warsh signaling a possible 2026 rate hike), and fails to note that US markets are closed today for Juneteenth. TSM's stated price of $462.12 (+6.94%) is materially inconsistent with observed data of approximately $432.15 (+1.48%). While the semiconductor leadership theme and green market directional call are broadly defensible, the macro narrative underpinning the briefing rests on outdated and in one case inverted premises, making the sector and watchlist analysis significantly less reliable than the score and mood indicators suggest."
+  }
+}
