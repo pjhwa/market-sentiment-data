@@ -1,0 +1,206 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-19T21:45:01Z",
+  "verified_at": "2026-06-20T07:15",
+  "overall_passed": false,
+  "error_count": 3,
+  "warning_count": 6,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 2건:\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "PLTR: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": false,
+      "severity": "error",
+      "detail": "traffic_light: 브리핑=green vs 기대=yellow (score=65.1)"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": false,
+      "severity": "warning",
+      "detail": "developing 이슈 2건인데 big_picture에 유보 표현 없음: ['US-China chip export licensing shifts to case-by-c', 'Iran Strait of Hormuz shipping risk remains elevat']"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — The BIS case-by-case review policy and the 25% tariff on cleared shipments were both established in January 2026 (BIS final rule effective January 15, 2026), not 'mid-June 2026' as the briefing implies. The policy content is accurate but the recency framing is misleading — this is a 6-month-old policy being presented as a current development.\n    rank=2: inaccurate — CRITICAL ERROR. On June 18, 2026 — the day before this briefing was generated — President Trump and Iranian President Pezeshkian signed an MOU at Versailles to end the war and reopen the Strait of Hormuz. The deal entered into force immediately per Pakistani mediators, with Iran beginning to reopen the Strait and the US lifting its naval blockade. CNBC reported 'Strait of Hormuz reopening may take weeks to ease shipping backlog.' The June 18 US equity rally was partly attributed to 'optimism over the US-Iran deal.' The briefing's claim of 'no de-escalation' is directly contradicted by a signed peace MOU.\n    rank=3: questionable — Search results indicate Judge Mehta issued a final remedy order in April 2026 mandating behavioral remedies (default deal ban, choice screens, data portability) while explicitly rejecting structural remedies (Chrome/Android divestiture). The briefing claims a 'structural remedies' ruling is still pending within 60 days, which appears inconsistent with the April 2026 order already rejecting structural relief. The June 18 date for concluding the remedies phase cannot be independently confirmed from available sources."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    US-Iran MOU signed June 18 at Versailles — Strait of Hormuz set to reopen (영향: Energy sector fundamentally repriced: Iran deal removes the Hormuz blockade risk premium that had been driving tanker rerouting and elevated oil-related insurance costs. Stocks with energy/oil exposure benefited; the Hormuz de-escalation is a positive tail-risk removal for the broader market. The Fed-surprise-driven tech rally on June 18 was compounded by this geopolitical shift. Any energy names in the watchlist (not present in current 10 but referenced in sector analysis) would be directly affected.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The green/65.1 mood anchored on 'chip policy stability and low VIX' has a reasonable basis given semiconductor outperformance on June 18, but the analysis is built on two flawed premises: (1) it treats Hormuz as an unresolved risk when a peace MOU was signed June 18, which should update geopolitical risk scores significantly; (2) it ignores the Fed's hawkish June 17 pivot, which is a meaningful headwind for rate-sensitive growth names. The true mood on June 18 was 'cautiously optimistic on Iran deal, nervous about hawkish Fed' — a more mixed picture than the briefing conveys."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Semiconductor leadership (SMH strong YTD, +83% in 2026) and specific names like TSM, MU, CRWD in UPTREND are consistent with verified data. NVO -0.76% and IWM +1.97% are approximately confirmed (IWM was actually +2.12% on June 18, a minor discrepancy). However, the energy sector narrative is materially outdated: the US-Iran MOU fundamentally changes the 'elevated Hormuz risk / Cape of Good Hope rerouting' story that the briefing uses to explain energy interest. Energy stocks declined on June 18 as the Iran deal removed the conflict premium from oil prices, directly contradicting the briefing's framing."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "IWM: Briefing states IWM +1.97%; verified June 18 data shows IWM (iShares Russell 2000 ETF) was up +2.12% on the day. Minor discrepancy, possibly from index vs ETF pricing differences.\n    AAPL: Briefing states close of $298.01; verified June 18 data from one source shows $297.95. Discrepancy of $0.06 — likely a data-source rounding difference, not a material error.\n    MU: Briefing states $1,133.99; one data source confirms this figure with previous close $1,043.19 (implying +8.70%, consistent). However a second source shows an intraday high of $1,154.70 and a June 18-19 close of $1,151.80. With markets closed June 19, the $1,151.80 figure may reflect pre-market/after-hours activity or data-source error. The $1,133.99 June 18 official close appears correct, but the discrepancy is worth monitoring."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-19T22:16:08Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip export licensing shifts to case-by-case approvals",
+        "accuracy": "outdated",
+        "note": "The BIS case-by-case review policy and the 25% tariff on cleared shipments were both established in January 2026 (BIS final rule effective January 15, 2026), not 'mid-June 2026' as the briefing implies. The policy content is accurate but the recency framing is misleading — this is a 6-month-old policy being presented as a current development."
+      },
+      {
+        "rank": 2,
+        "title": "Iran Strait of Hormuz shipping risk remains elevated with no de-escalation",
+        "accuracy": "inaccurate",
+        "note": "CRITICAL ERROR. On June 18, 2026 — the day before this briefing was generated — President Trump and Iranian President Pezeshkian signed an MOU at Versailles to end the war and reopen the Strait of Hormuz. The deal entered into force immediately per Pakistani mediators, with Iran beginning to reopen the Strait and the US lifting its naval blockade. CNBC reported 'Strait of Hormuz reopening may take weeks to ease shipping backlog.' The June 18 US equity rally was partly attributed to 'optimism over the US-Iran deal.' The briefing's claim of 'no de-escalation' is directly contradicted by a signed peace MOU."
+      },
+      {
+        "rank": 3,
+        "title": "US DOJ antitrust remedies hearing on Google search concludes",
+        "accuracy": "questionable",
+        "note": "Search results indicate Judge Mehta issued a final remedy order in April 2026 mandating behavioral remedies (default deal ban, choice screens, data portability) while explicitly rejecting structural remedies (Chrome/Android divestiture). The briefing claims a 'structural remedies' ruling is still pending within 60 days, which appears inconsistent with the April 2026 order already rejecting structural relief. The June 18 date for concluding the remedies phase cannot be independently confirmed from available sources."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "US-Iran MOU signed June 18 at Versailles — Strait of Hormuz set to reopen",
+        "impact": "Energy sector fundamentally repriced: Iran deal removes the Hormuz blockade risk premium that had been driving tanker rerouting and elevated oil-related insurance costs. Stocks with energy/oil exposure benefited; the Hormuz de-escalation is a positive tail-risk removal for the broader market. The Fed-surprise-driven tech rally on June 18 was compounded by this geopolitical shift. Any energy names in the watchlist (not present in current 10 but referenced in sector analysis) would be directly affected.",
+        "severity": "critical"
+      },
+      {
+        "title": "Fed FOMC hawkish pivot — June 17 meeting delivered hawkish surprise under new Chair Warsh",
+        "impact": "The Fed held rates at 3.50-3.75% but flipped its dot plot: 9 of 18 officials now project a 2026 rate hike, median end-year rate rose to 3.8% (from cut expectations in March), easing bias stripped from statement. This affects all rate-sensitive names in the watchlist — MSFT, AMZN, AAPL, META. Markets initially sold off on the hawkish shift then recovered on June 18 partly due to the Iran deal. The briefing makes no mention of this significant macro shift.",
+        "severity": "important"
+      },
+      {
+        "title": "Juneteenth — US markets closed June 19, 2026; next trading day June 22",
+        "impact": "NYSE and Nasdaq were closed all day June 19 for Juneteenth National Independence Day. All watchlist prices cited in the briefing are from June 18 close, not June 19. The briefing was generated at 21:45 UTC June 19 (06:45 KST June 20) but there was no new price discovery on June 19. Readers acting on this briefing face a gap until June 22 open where geopolitical developments (Iran deal, Fed) may reprice overnight futures.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "The green/65.1 mood anchored on 'chip policy stability and low VIX' has a reasonable basis given semiconductor outperformance on June 18, but the analysis is built on two flawed premises: (1) it treats Hormuz as an unresolved risk when a peace MOU was signed June 18, which should update geopolitical risk scores significantly; (2) it ignores the Fed's hawkish June 17 pivot, which is a meaningful headwind for rate-sensitive growth names. The true mood on June 18 was 'cautiously optimistic on Iran deal, nervous about hawkish Fed' — a more mixed picture than the briefing conveys."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Semiconductor leadership (SMH strong YTD, +83% in 2026) and specific names like TSM, MU, CRWD in UPTREND are consistent with verified data. NVO -0.76% and IWM +1.97% are approximately confirmed (IWM was actually +2.12% on June 18, a minor discrepancy). However, the energy sector narrative is materially outdated: the US-Iran MOU fundamentally changes the 'elevated Hormuz risk / Cape of Good Hope rerouting' story that the briefing uses to explain energy interest. Energy stocks declined on June 18 as the Iran deal removed the conflict premium from oil prices, directly contradicting the briefing's framing."
+    },
+    "stock_errors": [
+      {
+        "symbol": "IWM",
+        "error": "Briefing states IWM +1.97%; verified June 18 data shows IWM (iShares Russell 2000 ETF) was up +2.12% on the day. Minor discrepancy, possibly from index vs ETF pricing differences."
+      },
+      {
+        "symbol": "AAPL",
+        "error": "Briefing states close of $298.01; verified June 18 data from one source shows $297.95. Discrepancy of $0.06 — likely a data-source rounding difference, not a material error."
+      },
+      {
+        "symbol": "MU",
+        "error": "Briefing states $1,133.99; one data source confirms this figure with previous close $1,043.19 (implying +8.70%, consistent). However a second source shows an intraday high of $1,154.70 and a June 18-19 close of $1,151.80. With markets closed June 19, the $1,151.80 figure may reflect pre-market/after-hours activity or data-source error. The $1,133.99 June 18 official close appears correct, but the discrepancy is worth monitoring."
+      }
+    ],
+    "overall_score": 42,
+    "summary": "The briefing's stock price data for verified names (TSM, NVDA, MU, AAPL) is largely accurate and the semiconductor sector analysis is directionally sound. However, the briefing contains a critical geopolitical error — claiming 'no de-escalation' on the Strait of Hormuz when a US-Iran MOU was signed June 18, the day before the briefing was generated, directly undermining both the global issues section and the energy sector narrative. Two major market-moving events are entirely absent: the Fed's hawkish June 17 pivot under Chair Warsh (dot plot flipped to hike, 9 of 18 officials projecting 2026 rate increase) and the Juneteenth market closure on June 19 (meaning all prices are June 18 data with no June 19 trading). The geopolitical and macro frameworks are stale enough to materially misguide trading decisions."
+  }
+}
