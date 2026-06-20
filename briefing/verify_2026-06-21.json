@@ -1,0 +1,211 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-20T21:45:01Z",
+  "verified_at": "2026-06-21T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 2건:\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "PLTR: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=65.6 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: MU reports in 3 days (est. EPS $20.05))"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=3: inaccurate — BOJ 1% hike on June 16 (7-1 vote) and Nikkei 70,000 milestone are confirmed (Nikkei crossed 70,000 on June 16, surged to 71,153 by June 18). However, 'yen stabilization' is factually wrong — USD/JPY was at ~161.31 as of June 20 (near 2-year low for the yen), having weakened rather than stabilized post-hike. Policy divergence with the Fed continues to pressure the yen lower despite the BOJ hike."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 4건 (critical 없음): ['CrowdStrike 4-for-1 stock split: record date June 25, trading split-adjusted July 2', 'Micron Technology (MU) earnings report on June 24, 2026', 'US markets closed June 19 (Juneteenth holiday) — June 20 was a post-3-day-weekend catch-up session']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Yellow/65.6 appears slightly conservative. VIX was at ~16.4 as of June 16 (below long-term average, down from 22 on June 10), markets are near all-time highs, Iran deal is confirmed, and TSM/MU posted very large single-day gains on June 20. The Fed hawkish risk is real but already priced in per the dot plot. A green/70+ reading would be more consistent with observed risk sentiment. The 'market paradox' framing is analytically coherent but the score undersells the bullish data points."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Semiconductor leadership on June 20 is strongly confirmed: TSM +6.94%, MU +8.70%, NVDA +2.95%. CRWD UPTREND and ANET positioning are consistent with search findings. AI infrastructure rotation toward MU, TSM, and power names is directionally well-supported. Biotech/consumer discretionary lagging is plausible but not independently verified in available search results."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CRWD: Briefing action=buy with no mention of pending 4-for-1 stock split (announced June 3; record date June 25; effective July 2, 2026). At $684.86, the split-adjusted price will be ~$171. All Stage2, RS, and price-level analysis must be interpreted in pre-split terms. Omitting this 5-days-away event from a buy recommendation is a material gap.\n    MU: action=buy at $1133.99 with no mention of June 24 earnings report — a high-stakes binary event for a stock up ~298% YTD and widely described as a bellwether for the entire AI trade. An unqualified buy recommendation 4 days before earnings is misleading without disclosing the event risk.\n    NVDA: Minor: briefing states NVDA 'remains in DOWNTREND structure' despite closing +2.95% on June 20. While Stage2 7 (partial) and technical DOWNTREND designation may be an internal system call, the framing conflicts with the broader sector narrative of AI demand strength and TSM/MU surge — warrants closer structural review."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-20T22:16:00Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-Iran MOU advances Strait of Hormuz reopening",
+        "accuracy": "accurate",
+        "note": "Core facts confirmed by PBS, NPR, Al Jazeera, CNN: interim MOU was signed June 15 (Trump/Vance virtually signed; Ghalibaf for Iran). However, briefing states 'three days ago' (implying June 17) — the actual signing was 5 days prior. Switzerland signing ceremony was planned for June 19 (Juneteenth holiday) and may have already concluded by the time this briefing was generated, making 'delegations meet this week' slightly stale. Iraq output ramp above 3M bpd claim is unverifiable from available search results. Ships cleared for southern Hormuz route is confirmed."
+      },
+      {
+        "rank": 2,
+        "title": "Fed's preferred inflation gauge seen accelerating",
+        "accuracy": "accurate",
+        "note": "Fully confirmed. FOMC June 17 dot plot raised 2026 headline PCE forecast to 3.6% (from 2.7%) and core PCE to 3.3% (from 2.7%). Nine of 18 FOMC officials now project at least one 25bp hike; median fed funds rate forecast raised from 3.4% to 3.8% for 2026. Fed held at 3.50-3.75% on June 17. Hawkish pivot and market repricing well-documented."
+      },
+      {
+        "rank": 3,
+        "title": "BOJ raises policy rate to 1% amid yen stabilization",
+        "accuracy": "inaccurate",
+        "note": "BOJ 1% hike on June 16 (7-1 vote) and Nikkei 70,000 milestone are confirmed (Nikkei crossed 70,000 on June 16, surged to 71,153 by June 18). However, 'yen stabilization' is factually wrong — USD/JPY was at ~161.31 as of June 20 (near 2-year low for the yen), having weakened rather than stabilized post-hike. Policy divergence with the Fed continues to pressure the yen lower despite the BOJ hike."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "CrowdStrike 4-for-1 stock split: record date June 25, trading split-adjusted July 2",
+        "impact": "CRWD: Major corporate event announced June 3, 2026 and confirmed by SEC filing. Record date is just 5 days away (June 25). At $684.86 pre-split, post-split price will be ~$171/share. The briefing's 'buy' action and Stage2/RS analysis on CRWD contains no mention of this material event.",
+        "severity": "important"
+      },
+      {
+        "title": "Micron Technology (MU) earnings report on June 24, 2026",
+        "impact": "MU: Earnings in 4 days are described by analysts as 'a crucial gauge of the US stock market rally fueled by AI momentum.' MU is up ~298% YTD entering the print. A buy recommendation at $1133.99 without noting the near-term binary earnings risk is materially incomplete. NVDA, TSM, and SMH broadly would also react to a MU miss.",
+        "severity": "important"
+      },
+      {
+        "title": "US markets closed June 19 (Juneteenth holiday) — June 20 was a post-3-day-weekend catch-up session",
+        "impact": "All watchlist stocks: The large single-day moves on June 20 (TSM +6.94%, MU +8.70%) partly reflect pent-up demand from the extended weekend. Briefing attributes gains solely to Iran deal and AI demand without noting the holiday catch-up dynamic.",
+        "severity": "minor"
+      },
+      {
+        "title": "Semiconductor sector $1.3T single-day wipeout on June 5, 2026 (Philadelphia Semi Index -10.3%) now fully reversed",
+        "impact": "SMH, NVDA, AMD, Intel: The briefing's bullish semiconductor framing is directionally correct as of June 20, but the sector has only recently clawed back a dramatic crash triggered by Broadcom's AI guidance miss. The recovery context matters for understanding the 'UPTREND' structural call.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow/65.6 appears slightly conservative. VIX was at ~16.4 as of June 16 (below long-term average, down from 22 on June 10), markets are near all-time highs, Iran deal is confirmed, and TSM/MU posted very large single-day gains on June 20. The Fed hawkish risk is real but already priced in per the dot plot. A green/70+ reading would be more consistent with observed risk sentiment. The 'market paradox' framing is analytically coherent but the score undersells the bullish data points."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Semiconductor leadership on June 20 is strongly confirmed: TSM +6.94%, MU +8.70%, NVDA +2.95%. CRWD UPTREND and ANET positioning are consistent with search findings. AI infrastructure rotation toward MU, TSM, and power names is directionally well-supported. Biotech/consumer discretionary lagging is plausible but not independently verified in available search results."
+    },
+    "stock_errors": [
+      {
+        "symbol": "CRWD",
+        "error": "Briefing action=buy with no mention of pending 4-for-1 stock split (announced June 3; record date June 25; effective July 2, 2026). At $684.86, the split-adjusted price will be ~$171. All Stage2, RS, and price-level analysis must be interpreted in pre-split terms. Omitting this 5-days-away event from a buy recommendation is a material gap."
+      },
+      {
+        "symbol": "MU",
+        "error": "action=buy at $1133.99 with no mention of June 24 earnings report — a high-stakes binary event for a stock up ~298% YTD and widely described as a bellwether for the entire AI trade. An unqualified buy recommendation 4 days before earnings is misleading without disclosing the event risk."
+      },
+      {
+        "symbol": "NVDA",
+        "error": "Minor: briefing states NVDA 'remains in DOWNTREND structure' despite closing +2.95% on June 20. While Stage2 7 (partial) and technical DOWNTREND designation may be an internal system call, the framing conflicts with the broader sector narrative of AI demand strength and TSM/MU surge — warrants closer structural review."
+      }
+    ],
+    "overall_score": 74,
+    "summary": "The three global macro issues are substantially accurate — US-Iran MOU, BOJ 1% hike, and hawkish Fed PCE shift are all confirmed, though the MOU timing ('three days ago') is off by 2 days and the BOJ section incorrectly characterizes the yen as 'stabilizing' when it actually weakened to a near 2-year low (~161 vs dollar). The briefing's most significant omissions are the CrowdStrike 4-for-1 stock split (record date June 25, just 5 days out) and the Micron earnings event on June 24 — both are material to the buy recommendations on CRWD and MU respectively and represent meaningful gaps for an actionable morning briefing."
+  }
+}
