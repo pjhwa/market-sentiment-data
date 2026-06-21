@@ -1,0 +1,205 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-21T21:45:01Z",
+  "verified_at": "2026-06-22T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 2건:\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "PLTR: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=65.6 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: outdated — The briefing's claim of 'no de-escalation in June 2026' is materially wrong. A US-Iran ceasefire MoU was signed June 15, 2026. The US-led maritime security group downgraded the Hormuz threat level on June 17. The US lifted its blockade on Iranian ports June 18. Tanker traffic rose to ~20 vessels on June 19 (highest since June 2). Residual risks (mines, service fees) remain, but 'no de-escalation' is factually incorrect as of the briefing date. The Bloomberg/FT June 18 source cited should have captured this shift."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    US-Iran peace deal signed June 15; Strait of Hormuz partially reopening as of June 19 (영향: Energy sector narrative in the briefing is built on an elevated-risk premise that has materially softened. Oil names that were flagged for 'narrative interest from Hormuz risk' should be reassessed — the risk premium is unwinding. No watchlist stock is directly an energy name, but macro context for oil prices and broader risk appetite has shifted positively.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: VIX at 16.4 is directionally confirmed (16.41 recorded June 16, ~16.78 June 19). However, the headline's framing — 'despite elevated Hormuz transit risk' — is based on the outdated Hormuz narrative. The actual macro backdrop is more constructive than presented: the US-Iran deal represents a geopolitical risk reduction that the briefing missed entirely. Traffic light 'yellow' at 65.6 may be slightly pessimistic given the Hormuz de-escalation."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Semis leadership via SMH and AI infrastructure names is consistent with confirmed data (TSM +6.94% June 20, MU +8.70% June 21 confirmed). Energy lagging despite Hormuz narrative is somewhat validated — but the rationale should be updated: risk premium is deflating due to the peace deal, not simply because names are in downtrend. Gold/healthcare lagging is plausible but unverified against June 21 closing data."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MU: No factual error found. Price $1133.99 and +8.70% gain confirmed: previous close $1043.19, computed gain = 8.70%. Accurate.\n    TSM: No factual error found. Price $462.12 confirmed via independent data (previous close $432.15 implies +6.94%). Accurate.\n    NVDA: Price $210.69 (+2.95%) could not be independently confirmed for June 21 close. Unverifiable from available sources.\n    CRWD: Price $684.86 (+0.28%) could not be independently confirmed for June 21 close. Unverifiable from available sources."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-21T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China semis export controls move to case-by-case licensing",
+        "accuracy": "accurate",
+        "note": "Case-by-case licensing for advanced AI chips (H200-class) to China was formalized January 15, 2026. In June 2026 the US additionally reaffirmed that restrictions apply to subsidiaries of Chinese firms operating outside China. The 25% tariff layer on approved shipments is not directly confirmed by the sources found, but the overall licensing framework is accurate."
+      },
+      {
+        "rank": 2,
+        "title": "Iran Strait of Hormuz transit risk remains elevated",
+        "accuracy": "outdated",
+        "note": "The briefing's claim of 'no de-escalation in June 2026' is materially wrong. A US-Iran ceasefire MoU was signed June 15, 2026. The US-led maritime security group downgraded the Hormuz threat level on June 17. The US lifted its blockade on Iranian ports June 18. Tanker traffic rose to ~20 vessels on June 19 (highest since June 2). Residual risks (mines, service fees) remain, but 'no de-escalation' is factually incorrect as of the briefing date. The Bloomberg/FT June 18 source cited should have captured this shift."
+      },
+      {
+        "rank": 3,
+        "title": "US DOJ/FTC AI antitrust remedies enter remedy phase",
+        "accuracy": "unverifiable",
+        "note": "Search results confirm sustained DOJ/FTC focus on AI and Big Tech in 2026, but no source corroborates the specific claim that federal AI antitrust cases have moved to a 'remedy phase' with structural proposals under active consideration in June 2026. The WSJ June 19 citation could not be verified. Possible but unsupported."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "US-Iran peace deal signed June 15; Strait of Hormuz partially reopening as of June 19",
+        "impact": "Energy sector narrative in the briefing is built on an elevated-risk premise that has materially softened. Oil names that were flagged for 'narrative interest from Hormuz risk' should be reassessed — the risk premium is unwinding. No watchlist stock is directly an energy name, but macro context for oil prices and broader risk appetite has shifted positively.",
+        "severity": "critical"
+      },
+      {
+        "title": "US reaffirms chip export restrictions apply to Chinese-firm subsidiaries outside China (June 2026)",
+        "impact": "Adds a compliance layer for TSM (non-US fab), NVDA (supply chain), and ALAB. Modestly negative for semis names with exposure to China-linked customers outside China.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "VIX at 16.4 is directionally confirmed (16.41 recorded June 16, ~16.78 June 19). However, the headline's framing — 'despite elevated Hormuz transit risk' — is based on the outdated Hormuz narrative. The actual macro backdrop is more constructive than presented: the US-Iran deal represents a geopolitical risk reduction that the briefing missed entirely. Traffic light 'yellow' at 65.6 may be slightly pessimistic given the Hormuz de-escalation."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Semis leadership via SMH and AI infrastructure names is consistent with confirmed data (TSM +6.94% June 20, MU +8.70% June 21 confirmed). Energy lagging despite Hormuz narrative is somewhat validated — but the rationale should be updated: risk premium is deflating due to the peace deal, not simply because names are in downtrend. Gold/healthcare lagging is plausible but unverified against June 21 closing data."
+    },
+    "stock_errors": [
+      {
+        "symbol": "MU",
+        "error": "No factual error found. Price $1133.99 and +8.70% gain confirmed: previous close $1043.19, computed gain = 8.70%. Accurate."
+      },
+      {
+        "symbol": "TSM",
+        "error": "No factual error found. Price $462.12 confirmed via independent data (previous close $432.15 implies +6.94%). Accurate."
+      },
+      {
+        "symbol": "NVDA",
+        "error": "Price $210.69 (+2.95%) could not be independently confirmed for June 21 close. Unverifiable from available sources."
+      },
+      {
+        "symbol": "CRWD",
+        "error": "Price $684.86 (+0.28%) could not be independently confirmed for June 21 close. Unverifiable from available sources."
+      }
+    ],
+    "overall_score": 62,
+    "summary": "The briefing's stock-level data (TSM, MU prices and returns) is accurate and independently confirmed, and the semis export control framing is broadly correct. However, the Hormuz 'no de-escalation' claim is a significant factual error — a US-Iran peace MoU was signed June 15 and the threat level was officially downgraded by June 17, fully before the briefing was generated. This error cascades into the market mood rationale and sector narrative, making the macro risk framing materially misleading. The DOJ/FTC antitrust remedy claim is unverifiable."
+  }
+}
