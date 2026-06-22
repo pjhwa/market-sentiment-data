@@ -1,0 +1,212 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-21T21:45:01Z",
+  "verified_at": "2026-06-23T07:15",
+  "overall_passed": false,
+  "error_count": 4,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 2건:\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "PLTR: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 2건:\n    NVDA: Rule1 → avoid 필요 (struct=DOWNTREND,S2=6,RS=60), 실제=watch\n    AMZN: Rule1 → avoid 필요 (struct=DISTRIBUTION,S2=2,RS=44), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": false,
+      "severity": "error",
+      "detail": "score: 브리핑=65.6 vs API=63.8 (차이>1.8)"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: outdated — Critically outdated as of June 22-23. The briefing states 'no de-escalation in June 2026' but the situation changed materially: (1) US-Iran peace talks advanced over the June 21-22 weekend in Switzerland; (2) the US authorized Iranian oil sales through August via a 60-day general license issued June 22; (3) Iran is expected to end its near-total Hormuz closure in exchange for the US lifting its port blockade; (4) Brent crude has fallen from ~$120 to ~$78/barrel, the lowest since March 3, reflecting de-escalation pricing. The 'no de-escalation' framing is directly contradicted by June 22 reporting."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 2건:\n    US-Iran peace talks produce breakthrough: Iranian oil sales authorized, Hormuz de-escalation imminent (영향: Energy watchlist names (not represented in top-10 but affect macro): oil de-escalation removes the 'Hormuz risk premium' narrative that the briefing uses to frame energy sector interest. Broader market: crude falling to $78 reduces inflation pressure and shifts macro tone from the briefing's framing. This also invalidates the briefing's risk item #2 entirely.)\n    Big Tech broad selloff on June 22: Alphabet -5%, MSFT -3%, NVDA declining, META and AMZN lower (영향: Directly affects NVDA (watch), META (avoid), AMZN (watch), MSFT (avoid) in the watchlist. Alphabet -5% driven by AI talent departure concerns. MSFT -3%. Nasdaq Composite -1.3%, S&P 500 -0.4%. The briefing's 'optimistic' mood on these names and the 'yellow/65.6' score are inconsistent with June 22 market action.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The yellow/65.6 score and 'semis surge on tariff clarity, VIX calm at 16.4' headline were plausible as of June 20 data. However, June 22 trading materially changed conditions: Nasdaq -1.3%, S&P -0.4%, Big Tech broadly sold off, and the Hormuz de-escalation story shifted the macro backdrop. VIX at 16.4 is cited from June 16 data; the June 22 tech selloff likely pushed VIX higher. The headline's optimistic framing is no longer accurate for the current moment."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The SMH +5.76% semiconductor leadership claim reflects historical performance (likely the prior week's move), not current conditions. On June 22, tech and semis were mixed — MU rallied on earnings anticipation but NVDA declined. The energy sector characterization ('narrative interest from Hormuz risk but in DOWNTREND') is directionally correct on technicals, but the Hormuz narrative is now inverted: de-escalation is accelerating energy's downtrend, not supporting it. The rotation thesis (AI infrastructure + power names) remains plausible on a multi-week horizon but is not the story of June 22."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSM: Briefing states TSM 'closed yesterday at $462.12, up 6.94%.' The $462.12 price matches TSMC's June 18 close (confirmed in search results), not June 20 (Friday, the last trading day before the June 21 briefing generation date). June 22 data implies a June 20 close closer to $432. If the briefing is using June 18 data as 'yesterday,' this is a staleness error of 2 trading days on the price and the daily move percentage.\n    NVDA: Briefing notes NVDA is in DOWNTREND (consistent with price below ATH of $236.54 reached May 14). However, the June 22 move shows NVDA declining further within that DOWNTREND alongside broad Big Tech. No price factual error, but the 'watch' action rating and 'optimistic' mood may underweight the current selling pressure given the June 22 Big Tech selloff context."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-22T22:16:12Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China semis export controls move to case-by-case licensing",
+        "accuracy": "accurate",
+        "note": "Confirmed. BIS implemented case-by-case licensing for advanced AI chips (H200, MI325X) to China effective January 15, 2026. The policy shift away from presumption-of-denial is well-documented. However, the '25% tariff layer on approved shipments' is not corroborated by available sources — this specific detail is unverified and may conflate a separate trade measure."
+      },
+      {
+        "rank": 2,
+        "title": "Iran Strait of Hormuz transit risk remains elevated",
+        "accuracy": "outdated",
+        "note": "Critically outdated as of June 22-23. The briefing states 'no de-escalation in June 2026' but the situation changed materially: (1) US-Iran peace talks advanced over the June 21-22 weekend in Switzerland; (2) the US authorized Iranian oil sales through August via a 60-day general license issued June 22; (3) Iran is expected to end its near-total Hormuz closure in exchange for the US lifting its port blockade; (4) Brent crude has fallen from ~$120 to ~$78/barrel, the lowest since March 3, reflecting de-escalation pricing. The 'no de-escalation' framing is directly contradicted by June 22 reporting."
+      },
+      {
+        "rank": 3,
+        "title": "US DOJ/FTC AI antitrust remedies enter remedy phase",
+        "accuracy": "unverifiable",
+        "note": "Search results confirm continued DOJ/FTC focus on Big Tech and AI in 2026, with antitrust enforcement described as an active priority. However, no sources specifically confirm that major AI platform cases have formally moved to 'remedy hearings with structural proposals under active consideration' in June 2026. The general antitrust narrative is directionally plausible but the specific procedural claim (liability → remedy phase) could not be verified from available data."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "US-Iran peace talks produce breakthrough: Iranian oil sales authorized, Hormuz de-escalation imminent",
+        "impact": "Energy watchlist names (not represented in top-10 but affect macro): oil de-escalation removes the 'Hormuz risk premium' narrative that the briefing uses to frame energy sector interest. Broader market: crude falling to $78 reduces inflation pressure and shifts macro tone from the briefing's framing. This also invalidates the briefing's risk item #2 entirely.",
+        "severity": "critical"
+      },
+      {
+        "title": "Big Tech broad selloff on June 22: Alphabet -5%, MSFT -3%, NVDA declining, META and AMZN lower",
+        "impact": "Directly affects NVDA (watch), META (avoid), AMZN (watch), MSFT (avoid) in the watchlist. Alphabet -5% driven by AI talent departure concerns. MSFT -3%. Nasdaq Composite -1.3%, S&P 500 -0.4%. The briefing's 'optimistic' mood on these names and the 'yellow/65.6' score are inconsistent with June 22 market action.",
+        "severity": "critical"
+      },
+      {
+        "title": "MU surging to new all-time highs ahead of June 24 earnings report (Q3 FY2026)",
+        "impact": "Directly affects MU (buy) in watchlist. Earnings June 24 with consensus EPS ~$20.25 (+942% YoY) on $34.7B revenue. This pre-earnings momentum is bullish confirmation for the briefing's buy rating on MU but is an important catalyst update not mentioned.",
+        "severity": "important"
+      },
+      {
+        "title": "SpaceX 3-day decline: -16.4% on June 22 alone, ~$600B market cap erasure",
+        "impact": "Not directly in watchlist, but signals risk-off in high-valuation growth names. Macro sentiment negative for speculative/high-multiple tech names in the watchlist.",
+        "severity": "minor"
+      },
+      {
+        "title": "Nasdaq-100 quarterly index rebalancing adds AI and tech names",
+        "impact": "Passive flow changes affect many watchlist names. Index additions typically see buying pressure; deletions see selling. Specific symbols affected not confirmed by available data.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "The yellow/65.6 score and 'semis surge on tariff clarity, VIX calm at 16.4' headline were plausible as of June 20 data. However, June 22 trading materially changed conditions: Nasdaq -1.3%, S&P -0.4%, Big Tech broadly sold off, and the Hormuz de-escalation story shifted the macro backdrop. VIX at 16.4 is cited from June 16 data; the June 22 tech selloff likely pushed VIX higher. The headline's optimistic framing is no longer accurate for the current moment."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "The SMH +5.76% semiconductor leadership claim reflects historical performance (likely the prior week's move), not current conditions. On June 22, tech and semis were mixed — MU rallied on earnings anticipation but NVDA declined. The energy sector characterization ('narrative interest from Hormuz risk but in DOWNTREND') is directionally correct on technicals, but the Hormuz narrative is now inverted: de-escalation is accelerating energy's downtrend, not supporting it. The rotation thesis (AI infrastructure + power names) remains plausible on a multi-week horizon but is not the story of June 22."
+    },
+    "stock_errors": [
+      {
+        "symbol": "TSM",
+        "error": "Briefing states TSM 'closed yesterday at $462.12, up 6.94%.' The $462.12 price matches TSMC's June 18 close (confirmed in search results), not June 20 (Friday, the last trading day before the June 21 briefing generation date). June 22 data implies a June 20 close closer to $432. If the briefing is using June 18 data as 'yesterday,' this is a staleness error of 2 trading days on the price and the daily move percentage."
+      },
+      {
+        "symbol": "NVDA",
+        "error": "Briefing notes NVDA is in DOWNTREND (consistent with price below ATH of $236.54 reached May 14). However, the June 22 move shows NVDA declining further within that DOWNTREND alongside broad Big Tech. No price factual error, but the 'watch' action rating and 'optimistic' mood may underweight the current selling pressure given the June 22 Big Tech selloff context."
+      }
+    ],
+    "overall_score": 58,
+    "summary": "The briefing's semiconductor thesis (case-by-case licensing, semis leadership) was accurate when generated but is now 33 hours stale during a period of significant macro change. The most critical failure is the Hormuz risk framing: the briefing asserts 'no de-escalation' but June 22 brought a US-Iran peace breakthrough with Iranian oil authorized and Hormuz closure likely ending, materially inverting the macro narrative. Compounding this, the June 22 Big Tech selloff (Nasdaq -1.3%, GOOG -5%, MSFT -3%) directly contradicts the briefing's 'yellow/optimistic' tone on multiple watchlist names; the briefing should be treated as directionally outdated for intraday decision-making."
+  }
+}
