@@ -1,0 +1,215 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-23T21:45:01Z",
+  "verified_at": "2026-06-24T07:15",
+  "overall_passed": false,
+  "error_count": 3,
+  "warning_count": 3,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 2건:\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "PLTR: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=52.8 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: [MU] 오늘 미국 장 마감 후 실적 발표됨 (EPS 추정 $20.28 — 실제 결과는 증권사 확인))"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": false,
+      "severity": "error",
+      "detail": "rank=2: confidence=confirmed이지만 인정 소스 없음 (source='nikkei asia 2026-06-22 / crypto briefing 2026-06-23')"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 2건:\n    Bank of America issues shocking hawkish call: 3 Fed rate hikes in 2026 (영향: CRITICAL omission. BofA reversed from cut expectations to forecasting 3 quarter-point hikes (Sep/Oct/Dec 2026) citing inflation 'unambiguously worse' under new Fed Chair Kevin Warsh. This was a co-equal driver of the June 23 selloff alongside China/Taiwan news — TheStreet explicitly named it as a persistent theme in the day's selloff. Directly undermines the briefing's claim that TLT/rates are 'technically green'; rising rate expectations pressure TLT significantly. Affects AMZN, MSFT, META (higher discount rates) and CRWD (growth multiple compression).)\n    Micron Technology (MU) fiscal Q3 2026 earnings scheduled June 24 (영향: MU has a binary earnings event the day after this briefing. Consensus: $34.66B revenue, $19.95 EPS. The briefing recommends 'buy' on MU without flagging this overnight risk. MU was already down 13%+ into earnings, creating a high-stakes setup that should carry an explicit risk caveat. The South Korean chip collapse (KOSPI -9.99%, Samsung/SK Hynix -12%) was a direct precursor to MU's June 23 selloff.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The yellow/52.8 score and the semiconductor/Taiwan/rare-earth narrative are accurate. However the briefing omits the BofA rate hike call as a co-equal market driver, which the market itself identified as significant. The claim that 'rates (TLT) remain technically green' is undermined by a hawkish 3-hike forecast from BofA circulating the same day — TLT would be under meaningful pressure. The headline is partially accurate but presents an incomplete picture of the June 23 selloff drivers."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: SMH decline is reported as -7.01%; independent data shows SMH trading at -6.86% at open with an intraday range suggesting a close near -6.5% to -7%, so the figure is approximately correct. The characterization of credit (HYG/JNK) and rates (TLT) as 'technically green' is the key concern — the BofA 3-hike call is a direct headwind for TLT and rate-sensitive names, and calling rates 'green' without acknowledging this is misleading. Oil down ~2.37% aligns with Iran sanctions relief. The rotation narrative into defensives is plausible given distribution days on SPY."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MU: Reported close of $1,051.77 appears below the session's reported intraday low of $1,054.98 — a close below the daily low is impossible and suggests a data integrity issue. Additionally, the 'buy' action rating carries no mention of MU's fiscal Q3 earnings release scheduled for June 24, which is a material binary risk event. The down 13.18% figure is roughly consistent with broader reports of Micron dropping 'more than 10%' but the specific price point should be flagged.\n    TSLA: Minor discrepancy: briefing reports close of $381.61 vs independently sourced $382.04 with previous close of $405.05 (implied change -5.78%). This is within rounding/data-source variance and is not a meaningful error.\n    PLTR: The briefing itself flags a data inconsistency (Stage2=0≤2 but UPTREND market structure). This is an internal system inconsistency rather than a factual error about price, but it means the 'avoid' action is based on unreliable input data and should be treated as unresolved.\n    MSFT: Same internal data inconsistency as PLTR flagged by the briefing itself. Action based on conflicting signals."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-23T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "China adds 10 US firms to export control list, blocks rare earths",
+        "accuracy": "accurate",
+        "note": "Confirmed by Al Jazeera, SCMP, CNBC, ZeroHedge. The 10 firms include MP Materials and USA Rare Earth plus 8 defense/drone firms. China's MOFCOM cited 'malicious actions' after the Pentagon blacklist expansion. Rare earth export restrictions to US AI supply chain confirmed."
+      },
+      {
+        "rank": 2,
+        "title": "PLA Fujian carrier transits Taiwan Strait; Taipei begins 5-day combat drill",
+        "accuracy": "accurate",
+        "note": "Confirmed by SCMP and Crypto Briefing. Taiwan MND confirmed the transit on June 23, described as first since April 2026. Taiwan launched a five-day immediate combat readiness exercise the following day. Details match exactly."
+      },
+      {
+        "rank": 3,
+        "title": "US eases Iran oil sanctions; Hormuz tanker traffic rebounds",
+        "accuracy": "accurate",
+        "note": "Confirmed by Al Jazeera, NPR, CNBC. US Treasury issued a 60-day sanctions waiver (through Aug 21) as part of the June 17 MoU. Hormuz tanker activity confirmed to be increasing with Qatari LNG tankers and supertankers transiting. The '19 million barrels' figure could not be independently verified from available sources but the overall narrative is accurate."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Bank of America issues shocking hawkish call: 3 Fed rate hikes in 2026",
+        "impact": "CRITICAL omission. BofA reversed from cut expectations to forecasting 3 quarter-point hikes (Sep/Oct/Dec 2026) citing inflation 'unambiguously worse' under new Fed Chair Kevin Warsh. This was a co-equal driver of the June 23 selloff alongside China/Taiwan news — TheStreet explicitly named it as a persistent theme in the day's selloff. Directly undermines the briefing's claim that TLT/rates are 'technically green'; rising rate expectations pressure TLT significantly. Affects AMZN, MSFT, META (higher discount rates) and CRWD (growth multiple compression).",
+        "severity": "critical"
+      },
+      {
+        "title": "Micron Technology (MU) fiscal Q3 2026 earnings scheduled June 24",
+        "impact": "MU has a binary earnings event the day after this briefing. Consensus: $34.66B revenue, $19.95 EPS. The briefing recommends 'buy' on MU without flagging this overnight risk. MU was already down 13%+ into earnings, creating a high-stakes setup that should carry an explicit risk caveat. The South Korean chip collapse (KOSPI -9.99%, Samsung/SK Hynix -12%) was a direct precursor to MU's June 23 selloff.",
+        "severity": "critical"
+      },
+      {
+        "title": "SpaceX (SPCX) stock -16.4% on debut debt offering concerns",
+        "impact": "SpaceX's first bond issuance ($20B senior unsecured notes) triggered the largest single-day decline since its June 12 IPO, cutting IPO gains nearly in half. Not on the watchlist directly but contributed to broad tech/risk-off sentiment. Amplified concerns about AI infrastructure capex burn rates relevant to NVDA and MSFT.",
+        "severity": "important"
+      },
+      {
+        "title": "Korean chip stocks collapse: KOSPI -9.99%, Samsung/SK Hynix each -12%+",
+        "impact": "The Asian chip rout was the overnight catalyst that cascaded into the US semi selloff. Critical context for TSM and MU which both have deep Korean supply chain exposure. Briefing attributes the semi selloff only to China/Taiwan geopolitics, missing this Asian market transmission mechanism.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "The yellow/52.8 score and the semiconductor/Taiwan/rare-earth narrative are accurate. However the briefing omits the BofA rate hike call as a co-equal market driver, which the market itself identified as significant. The claim that 'rates (TLT) remain technically green' is undermined by a hawkish 3-hike forecast from BofA circulating the same day — TLT would be under meaningful pressure. The headline is partially accurate but presents an incomplete picture of the June 23 selloff drivers."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "SMH decline is reported as -7.01%; independent data shows SMH trading at -6.86% at open with an intraday range suggesting a close near -6.5% to -7%, so the figure is approximately correct. The characterization of credit (HYG/JNK) and rates (TLT) as 'technically green' is the key concern — the BofA 3-hike call is a direct headwind for TLT and rate-sensitive names, and calling rates 'green' without acknowledging this is misleading. Oil down ~2.37% aligns with Iran sanctions relief. The rotation narrative into defensives is plausible given distribution days on SPY."
+    },
+    "stock_errors": [
+      {
+        "symbol": "MU",
+        "error": "Reported close of $1,051.77 appears below the session's reported intraday low of $1,054.98 — a close below the daily low is impossible and suggests a data integrity issue. Additionally, the 'buy' action rating carries no mention of MU's fiscal Q3 earnings release scheduled for June 24, which is a material binary risk event. The down 13.18% figure is roughly consistent with broader reports of Micron dropping 'more than 10%' but the specific price point should be flagged."
+      },
+      {
+        "symbol": "TSLA",
+        "error": "Minor discrepancy: briefing reports close of $381.61 vs independently sourced $382.04 with previous close of $405.05 (implied change -5.78%). This is within rounding/data-source variance and is not a meaningful error."
+      },
+      {
+        "symbol": "PLTR",
+        "error": "The briefing itself flags a data inconsistency (Stage2=0≤2 but UPTREND market structure). This is an internal system inconsistency rather than a factual error about price, but it means the 'avoid' action is based on unreliable input data and should be treated as unresolved."
+      },
+      {
+        "symbol": "MSFT",
+        "error": "Same internal data inconsistency as PLTR flagged by the briefing itself. Action based on conflicting signals."
+      }
+    ],
+    "overall_score": 71,
+    "summary": "The three global context items are all factually accurate and well-sourced. However, the briefing has two critical omissions that materially affect watchlist positions: the BofA 3-hike forecast was a co-driver of the June 23 selloff that the briefing attributes entirely to geopolitics, and MU has a binary earnings event on June 24 that warrants an explicit risk caveat on the 'buy' recommendation. The MU closing price appears to be below its session low, suggesting a data error. The sector analysis overstates the stability of rate-sensitive assets (TLT) given the same-day hawkish BofA pivot."
+  }
+}
