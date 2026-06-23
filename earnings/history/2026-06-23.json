@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-23T09:59:47Z",
+  "generated_at": "2026-06-23T21:30:01Z",
   "schema_version": "2.0",
   "upcoming_earnings": [
     {
@@ -7,14 +7,14 @@
       "earnings_date": "2026-06-24",
       "days_until": 1,
       "relevance_tier": "imminent",
-      "eps_estimate": 20.05,
-      "revenue_estimate_b": 35.02,
+      "eps_estimate": 20.28,
+      "revenue_estimate_b": 35.25,
       "historical_beat_rate": 1.0,
-      "ai_summary_en": "MU reports earnings in 1 day with EPS estimate of 20.05 and revenue of 35.02B. Perfect 100% historical beat rate signals strong execution. Traders face high event risk with potential IV spike.",
-      "ai_summary_ko": "MU가 1일 후 EPS 20.05, 매출 35.02B로 실적 발표합니다. 100% 비트 기록으로 강력한 실행력을 보여왔습니다. 높은 이벤트 리스크와 IV 급등 가능성에 대비해야 합니다.",
+      "ai_summary_en": "MU reports earnings in just 1 day with EPS estimate of 20.28 and revenue of 35.25B. Perfect 100% historical beat rate signals strong potential for positive surprise. Imminent tier demands immediate risk management as options IV is likely to spike sharply.",
+      "ai_summary_ko": "MU가 1일 후 어닝 발표 예정이며 EPS 추정 20.28, 매출 35.25B입니다. 100% 역사적 비트율로 긍정적 서프라이즈 가능성이 높습니다. 임박 티어로 옵션 IV 급등이 예상되므로 즉각적인 리스크 관리가 필요합니다.",
       "risk_level": "high",
-      "action_note_en": "Reduce exposure or hedge volatility ahead of tomorrow's print.",
-      "action_note_ko": "내일 실적 전 포지션 축소 또는 변동성 헤지 권장."
+      "action_note_en": "Minimize direct exposure immediately and prepare for post-earnings volatility.",
+      "action_note_ko": "직접 노출을 즉시 최소화하고 어닝 후 변동성에 대비하십시오."
     },
     {
       "symbol": "TSM",
@@ -24,11 +24,11 @@
       "eps_estimate": 3.81,
       "revenue_estimate_b": 1261.32,
       "historical_beat_rate": 1.0,
-      "ai_summary_en": "TSM reports in 23 days with EPS estimate 3.81 and revenue 1261.32B. Flawless beat history supports reliability. Consensus formation phase warrants monitoring for shifts.",
-      "ai_summary_ko": "TSM은 23일 후 EPS 3.81, 매출 1261.32B 실적 발표 예정입니다. 완벽한 비트 기록으로 신뢰도가 높습니다. 컨센서스 형성 단계에서 변화 추이를 주시하세요.",
+      "ai_summary_en": "TSM reports in 23 days with EPS estimate 3.81 and revenue 1261.32B. 100% beat rate indicates consistent outperformance in the foundry space. Watching tier allows monitoring only while consensus gradually forms.",
+      "ai_summary_ko": "TSM이 23일 후 발표하며 EPS 3.81, 매출 1261.32B 예상입니다. 100% 비트율로 파운드리 부문에서 지속적 아웃퍼폼을 보여줍니다. watching 티어에서는 컨센서스 형성을 지켜보는 모니터링 단계입니다.",
       "risk_level": "low",
-      "action_note_en": "Start planning positions and watch for entry opportunities.",
-      "action_note_ko": "포지션 계획을 시작하고 진입 기회를 관찰하세요."
+      "action_note_en": "Begin position planning but avoid early entry until closer to the date.",
+      "action_note_ko": "포지션 계획을 시작하되 발표일이 가까워질 때까지 조기 진입은 피하십시오."
     },
     {
       "symbol": "TSLA",
@@ -38,11 +38,11 @@
       "eps_estimate": 0.46,
       "revenue_estimate_b": 24.66,
       "historical_beat_rate": 0.5,
-      "ai_summary_en": "TSLA earnings due in 30 days with EPS estimate 0.46 and revenue 24.66B. 50% beat rate indicates lower conviction. Gradual volatility buildup expected during monitoring phase.",
-      "ai_summary_ko": "TSLA는 30일 후 EPS 0.46, 매출 24.66B 실적 발표입니다. 50% 비트율로 신뢰도가 낮습니다. 모니터링 단계에서 점진적 변동성 상승이 예상됩니다.",
+      "ai_summary_en": "TSLA is 30 days away from earnings with EPS estimate 0.46 and revenue 24.66B. Mixed 50% beat history warrants cautious monitoring. Watching phase is for observation only with no immediate action required.",
+      "ai_summary_ko": "TSLA가 30일 후 어닝이며 EPS 0.46, 매출 24.66B입니다. 50%의 혼조 비트 기록으로 신중한 모니터링이 필요합니다. watching 단계는 관찰만 하며 즉각 조치는 필요 없습니다.",
       "risk_level": "low",
-      "action_note_en": "Keep on watchlist; defer large positions until closer to date.",
-      "action_note_ko": "워치리스트 유지, 날짜 가까워질 때까지 대형 포지션 자제."
+      "action_note_en": "Monitor developments from afar without committing capital yet.",
+      "action_note_ko": "자본 투입 없이 원거리에서 상황을 관찰하십시오."
     }
   ],
   "recent_results": [
@@ -52,8 +52,8 @@
       "eps_actual": 3.49,
       "eps_estimate": 3.33,
       "surprise_pct": 4.7,
-      "ai_reaction_en": "TSM's 4.7% beat reinforces foundry demand strength and positive sector sentiment.",
-      "ai_reaction_ko": "TSM의 4.7% 비트는 파운드리 수요 강세와 섹터 긍정 심리를 확인했습니다."
+      "ai_reaction_en": "TSM delivered a solid 4.7% beat, reinforcing strong AI-driven demand in semiconductors.",
+      "ai_reaction_ko": "TSM이 4.7% 비트로 AI 반도체 수요 강세를 재확인했습니다."
     },
     {
       "symbol": "NVDA",
@@ -61,8 +61,8 @@
       "eps_actual": 1.87,
       "eps_estimate": 1.77,
       "surprise_pct": 5.5,
-      "ai_reaction_en": "NVDA 5.5% beat underscores sustained AI momentum across the chip sector.",
-      "ai_reaction_ko": "NVDA 5.5% 비트는 AI 모멘텀 지속과 칩 섹터 전반의 강세를 보여줍니다."
+      "ai_reaction_en": "NVDA's 5.5% beat continues to validate its AI leadership position.",
+      "ai_reaction_ko": "NVDA의 5.5% 비트는 AI 리더십을 지속적으로 입증합니다."
     },
     {
       "symbol": "META",
@@ -70,8 +70,8 @@
       "eps_actual": 10.44,
       "eps_estimate": 6.66,
       "surprise_pct": 56.8,
-      "ai_reaction_en": "META's massive 56.8% beat highlights exceptional ad efficiency and profitability.",
-      "ai_reaction_ko": "META의 56.8% 대형 비트는 광고 효율성과 수익성의 탁월함을 입증했습니다."
+      "ai_reaction_en": "META's massive 56.8% beat highlights exceptional profitability and AI monetization progress.",
+      "ai_reaction_ko": "META의 56.8% 대형 비트는 탁월한 수익성과 AI 수익화를 보여줍니다."
     },
     {
       "symbol": "TSLA",
@@ -79,8 +79,8 @@
       "eps_actual": 0.41,
       "eps_estimate": 0.35,
       "surprise_pct": 17.1,
-      "ai_reaction_en": "TSLA 17.1% beat signals improving margins and execution on growth targets.",
-      "ai_reaction_ko": "TSLA 17.1% 비트는 마진 개선과 성장 목표 실행력을 확인시켰습니다."
+      "ai_reaction_en": "TSLA beat by 17.1%, easing some margin pressure concerns for investors.",
+      "ai_reaction_ko": "TSLA가 17.1% 비트하며 마진 압력 우려를 완화했습니다."
     },
     {
       "symbol": "PLTR",
@@ -88,8 +88,8 @@
       "eps_actual": 0.33,
       "eps_estimate": 0.28,
       "surprise_pct": 18.1,
-      "ai_reaction_en": "PLTR's 18.1% beat reflects accelerating commercial traction and scalability.",
-      "ai_reaction_ko": "PLTR 18.1% 비트는 상업 부문 성장 가속과 확장성을 보여줍니다."
+      "ai_reaction_en": "PLTR's 18.1% beat reflects accelerating commercial traction.",
+      "ai_reaction_ko": "PLTR의 18.1% 비트는 상업 부문 성장 가속을 반영합니다."
     },
     {
       "symbol": "MU",
@@ -97,8 +97,8 @@
       "eps_actual": 12.2,
       "eps_estimate": 9.16,
       "surprise_pct": 33.2,
-      "ai_reaction_en": "MU 33.2% beat demonstrates strong memory cycle recovery and pricing power.",
-      "ai_reaction_ko": "MU 33.2% 비트는 메모리 사이클 회복과 가격 결정력을 확인했습니다."
+      "ai_reaction_en": "MU's strong 33.2% beat signals robust memory demand recovery.",
+      "ai_reaction_ko": "MU의 33.2% 강력 비트는 메모리 수요 회복을 나타냅니다."
     },
     {
       "symbol": "CRWD",
@@ -106,8 +106,8 @@
       "eps_actual": 1.1,
       "eps_estimate": 1.07,
       "surprise_pct": 3.0,
-      "ai_reaction_en": "CRWD modest 3.0% beat supports steady cybersecurity demand outlook.",
-      "ai_reaction_ko": "CRWD의 3.0% 비트는 사이버보안 수요의 안정적 전망을 지지합니다."
+      "ai_reaction_en": "CRWD posted a modest 3.0% beat amid steady cybersecurity spending.",
+      "ai_reaction_ko": "CRWD는 안정적인 보안 지출 속에서 3.0% 소폭 비트를 기록했습니다."
     },
     {
       "symbol": "AMZN",
@@ -115,8 +115,8 @@
       "eps_actual": 2.78,
       "eps_estimate": 1.65,
       "surprise_pct": 68.2,
-      "ai_reaction_en": "AMZN's 68.2% beat highlights cloud and advertising profitability surge.",
-      "ai_reaction_ko": "AMZN 68.2% 비트는 클라우드와 광고 수익성 급등을 강조합니다."
+      "ai_reaction_en": "AMZN crushed estimates by 68.2%, driven by cloud and advertising strength.",
+      "ai_reaction_ko": "AMZN이 클라우드와 광고 강세로 68.2% 대형 비트를 달성했습니다."
     },
     {
       "symbol": "MSFT",
@@ -124,8 +124,8 @@
       "eps_actual": 4.27,
       "eps_estimate": 4.06,
       "surprise_pct": 5.2,
-      "ai_reaction_en": "MSFT 5.2% beat reaffirms cloud leadership and AI integration progress.",
-      "ai_reaction_ko": "MSFT 5.2% 비트는 클라우드 리더십과 AI 통합 진전을 재확인했습니다."
+      "ai_reaction_en": "MSFT's 5.2% beat underscores resilient cloud and AI infrastructure growth.",
+      "ai_reaction_ko": "MSFT의 5.2% 비트는 클라우드와 AI 인프라 성장의 탄력을 보여줍니다."
     },
     {
       "symbol": "AAPL",
@@ -133,8 +133,8 @@
       "eps_actual": 2.01,
       "eps_estimate": 1.94,
       "surprise_pct": 3.5,
-      "ai_reaction_en": "AAPL's 3.5% beat reflects resilient services growth amid hardware cycles.",
-      "ai_reaction_ko": "AAPL 3.5% 비트는 하드웨어 사이클 속 서비스 성장의 견고함을 보여줍니다."
+      "ai_reaction_en": "AAPL delivered a steady 3.5% beat with stable iPhone and services performance.",
+      "ai_reaction_ko": "AAPL은 안정적인 아이폰과 서비스 실적으로 3.5% 비트를 기록했습니다."
     },
     {
       "symbol": "GOOGL",
@@ -142,8 +142,8 @@
       "eps_actual": 5.11,
       "eps_estimate": 2.67,
       "surprise_pct": 91.6,
-      "ai_reaction_en": "GOOGL 91.6% beat signals breakthrough AI monetization and cost discipline.",
-      "ai_reaction_ko": "GOOGL 91.6% 비트는 AI 수익화 돌파와 비용 통제력을 입증했습니다."
+      "ai_reaction_en": "GOOGL posted an enormous 91.6% beat, highlighting AI and search monetization gains.",
+      "ai_reaction_ko": "GOOGL이 91.6% 대형 비트로 AI와 검색 수익화 성과를 강조했습니다."
     }
   ],
   "partial": false
