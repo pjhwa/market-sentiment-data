@@ -530,47 +530,47 @@ def main():
         if batch_parsed is None:
             print("[SKIP] TIER2 배치: Grok 응답 최종 실패 (JSON/배열)", file=sys.stderr)
         else:
-                # 심볼 순서 매핑 (Grok이 순서를 지키지 않을 수 있으므로 symbol 기준으로 매핑)
-                tier2_map = {sym: comp for sym, comp in TIER2_WATCHLIST}
-                for item in batch_parsed:
-                    symbol = item.get("symbol", "").upper()
-                    if symbol not in tier2_map:
-                        print(f"[WARN] TIER2 배치: 알 수 없는 심볼 '{symbol}' — 스킵", file=sys.stderr)
-                        continue
-                    if not validate_symbol_fields(item, symbol):
-                        print(f"[SKIP] TIER2 {symbol}: 검증 실패", file=sys.stderr)
-                        continue
+            # 심볼 순서 매핑 (Grok이 순서를 지키지 않을 수 있으므로 symbol 기준으로 매핑)
+            tier2_map = {sym: comp for sym, comp in TIER2_WATCHLIST}
+            for item in batch_parsed:
+                symbol = item.get("symbol", "").upper()
+                if symbol not in tier2_map:
+                    print(f"[WARN] TIER2 배치: 알 수 없는 심볼 '{symbol}' — 스킵", file=sys.stderr)
+                    continue
+                if not validate_symbol_fields(item, symbol):
+                    print(f"[SKIP] TIER2 {symbol}: 검증 실패", file=sys.stderr)
+                    continue
 
-                    close_dir = fetch_close_direction(symbol)
-                    sentiment_score = SENTIMENT_SCORE_MAP[item["sentiment"]]
-                    divergence = compute_divergence(close_dir, sentiment_score)
+                close_dir = fetch_close_direction(symbol)
+                sentiment_score = SENTIMENT_SCORE_MAP[item["sentiment"]]
+                divergence = compute_divergence(close_dir, sentiment_score)
 
-                    ctx: dict = {"available": False}
-                    entry = build_symbol_entry(item, symbol, now_iso, ctx, divergence, tier=2)
-                    prev_score = pre_open_scores["symbols"].get(symbol)
-                    entry["intraday_shift"] = (
-                        compute_intraday_shift(prev_score, entry["sentiment_score"])
-                        if prev_score is not None else None
-                    )
-                    entry["composite_score"] = compute_symbol_composite(
-                        sentiment_score=entry["sentiment_score"],
-                        confidence=entry["confidence"],
-                        bot_suspected=entry["bot_suspected"],
-                        mention_volume=entry["mention_volume"],
-                        divergence=entry.get("divergence", "none"),
-                        trend_vs_yesterday=entry["trend_vs_yesterday"],
-                        intraday_shift=entry.get("intraday_shift"),
-                    )
-                    symbol_entries.append(entry)
-                    success_count += 1
-                    print(
-                        f"[OK]   {symbol} [Tier2]: sentiment={entry['sentiment']} "
-                        f"confidence={entry['confidence']} divergence={divergence}"
-                    )
+                ctx: dict = {"available": False}
+                entry = build_symbol_entry(item, symbol, now_iso, ctx, divergence, tier=2)
+                prev_score = pre_open_scores["symbols"].get(symbol)
+                entry["intraday_shift"] = (
+                    compute_intraday_shift(prev_score, entry["sentiment_score"])
+                    if prev_score is not None else None
+                )
+                entry["composite_score"] = compute_symbol_composite(
+                    sentiment_score=entry["sentiment_score"],
+                    confidence=entry["confidence"],
+                    bot_suspected=entry["bot_suspected"],
+                    mention_volume=entry["mention_volume"],
+                    divergence=entry.get("divergence", "none"),
+                    trend_vs_yesterday=entry["trend_vs_yesterday"],
+                    intraday_shift=entry.get("intraday_shift"),
+                )
+                symbol_entries.append(entry)
+                success_count += 1
+                print(
+                    f"[OK]   {symbol} [Tier2]: sentiment={entry['sentiment']} "
+                    f"confidence={entry['confidence']} divergence={divergence}"
+                )
 
-                    if divergence in ("bullish_divergence", "bearish_divergence"):
-                        short = "bullish" if divergence == "bullish_divergence" else "bearish"
-                        divergences.append(f"{symbol}({short})")
+                if divergence in ("bullish_divergence", "bearish_divergence"):
+                    short = "bullish" if divergence == "bullish_divergence" else "bearish"
+                    divergences.append(f"{symbol}({short})")
     else:
         print(f"[INFO] TIER2 건너뜀 (슬롯={slot}, post_close 전용)")
 
