@@ -1,50 +1,50 @@
 {
-  "generated_at": "2026-06-23T09:59:16Z",
+  "generated_at": "2026-06-23T13:15:00Z",
   "schema_version": "2.0",
   "slot": "pre_open",
   "overall": {
-    "summary_en": "Mixed: credit/rates stable vs commodity weakness",
-    "summary_ko": "크레딧·금리 안정 vs 원자재 약세 혼조",
+    "summary_en": "Mixed: vol rising but credit holds steady",
+    "summary_ko": "변동성↑ 속 크레딧 지지 혼조",
     "bullets_en": [
-      "VIX 19.82 up 14.7% → normalization supports positioning",
-      "Credit HYG/JNK uptrend → risk appetite stable",
-      "Oil 73.54 down 1.71% → commodity pressure key risk"
+      "VIX 20.18 +16.8% → mixed regime, vol watchful",
+      "Credit HYG uptrend → liquidity backdrop supportive",
+      "Commodities Oil $73.57 down → risk-off pressure"
     ],
     "bullets_ko": [
-      "VIX 19.82 상승 → 정상화 지지",
-      "크레딧 HYG 상승 → 위험선호 안정",
-      "원유 73.54 약세 → 원자재 리스크"
+      "VIX 20.18 급등 → 혼조, 변동성 주시",
+      "크레딧 HYG 상승 → 유동성 지지",
+      "원유 $73.57 하락 → 상품 리스크"
     ]
   },
   "groups": {
     "volatility": {
-      "text_en": "VIX 19.82 accumulation → constructive vol backdrop",
-      "text_ko": "VIX 축적 → 건설적 변동성 배경"
+      "text_en": "VIX 20.18 surges while VIX9D drops → watchful",
+      "text_ko": "VIX 급등 VIX9D 하락 → 주시 필요"
     },
     "breadth": {
-      "text_en": "SPY/QQQ stable, MAGS weak → breadth mixed, watchful",
-      "text_ko": "SPY 안정·MAGS 약세 → 폭 혼조 주시"
+      "text_en": "SPY stable IWM up MAGS weak → breadth mixed",
+      "text_ko": "SPY 안정 IWM↑ MAGS↓ → 혼조"
     },
     "credit": {
-      "text_en": "HYG/JNK uptrend → credit conditions supportive",
-      "text_ko": "HYG/JNK 상승 → 크레딧 지지적"
+      "text_en": "HYG/JNK/LQD hold uptrends → credit supportive",
+      "text_ko": "HYG/JNK 상승 유지 → 크레딧 긍정"
     },
     "rates": {
-      "text_en": "TNX 4.451% stable → rates environment constructive",
-      "text_ko": "TNX 4.451% 안정 → 금리 환경 건설적"
+      "text_en": "TNX 4.493% stable → rates environment constructive",
+      "text_ko": "TNX 4.493% 안정 → 금리 환경 지지"
     },
     "commodities": {
-      "text_en": "Oil 73.54/GLD/BTC weak → risk-off commodity tone",
-      "text_ko": "원유·금·BTC 약세 → 리스크오프 원자재"
+      "text_en": "Oil $73.57 GLD BTC all downtrend → risk-off",
+      "text_ko": "원유·금·BTC 하락 → 리스크 오프"
     },
     "sectors": {
-      "text_en": "SMH strong vs XLE lag → sector rotation mixed",
-      "text_ko": "SMH 강세·XLE 부진 → 섹터 혼조"
+      "text_en": "SMH rallies XLE/XLY lag → sector rotation mixed",
+      "text_ko": "SMH 강세 XLE/XLY 약세 → 섹터 혼조"
     }
   },
   "computed_signals": {
     "volatility": {
-      "signal": "green",
+      "signal": "yellow",
       "direction": "deteriorating"
     },
     "breadth": {
