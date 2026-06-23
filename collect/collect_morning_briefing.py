@@ -21,8 +21,6 @@ Grok(hermes)으로 일반인 친화적 종합 브리핑을 생성한다.
 
 import json
 import os
-import re
-import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -31,14 +29,13 @@ import requests
 import yfinance as yf
 
 from collect.git_utils import commit_and_push
+from collect.grok_utils import call_hermes, call_hermes_json, extract_json
 
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
-HERMES_CMD = os.environ.get("HERMES_CMD", "/Users/jerry/.local/bin/hermes")
-HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
-CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "180"))
-HERMES_RETRY = int(os.environ.get("HERMES_RETRY", "1"))
-SNIPERBOARD_API = os.environ.get("SNIPERBOARD_API_BASE", "http://localhost:5001")
+# morning briefing has longer timeouts than other collectors
+CALL_TIMEOUT        = int(os.environ.get("HERMES_TIMEOUT", "180"))
 CALL_TIMEOUT_GLOBAL = int(os.environ.get("HERMES_TIMEOUT_GLOBAL", "150"))
+SNIPERBOARD_API = os.environ.get("SNIPERBOARD_API_BASE", "http://localhost:5001")
 
 _VALID_GC_CATEGORIES = {"trade_tariff", "geopolitical", "central_bank", "ai_regulation"}
 _VALID_GC_TIERS = {"breaking", "ongoing"}
@@ -835,16 +832,10 @@ CRITICAL: The "issues" array must contain EXACTLY 3 items.
 
 def parse_global_context(text: str) -> dict:
     """1차 Grok 응답에서 글로벌 컨텍스트 JSON 추출. 실패 시 {} 반환."""
-    if not text:
+    if not text or not text.strip():
         return {}
-    match = re.search(r"\{.*\}", text, re.DOTALL)
-    if not match:
-        print("[WARN] global_context: JSON 블록 없음", file=sys.stderr)
-        return {}
-    try:
-        data = json.loads(match.group())
-    except json.JSONDecodeError as e:
-        print(f"[WARN] global_context: JSON 파싱 실패: {e}", file=sys.stderr)
+    data = extract_json(text)
+    if data is None:
         return {}
     if not validate_global_context(data):
         return {}
@@ -1153,44 +1144,6 @@ SELF-CHECK before outputting JSON (fix any violation before output):
 - Raw JSON only. No prose before or after."""
 
 
-def call_hermes(prompt: str, timeout: int | None = None) -> str | None:
-    cmd = [HERMES_CMD, "-z", prompt]
-    if HERMES_PROVIDER:
-        cmd += ["--provider", HERMES_PROVIDER]
-    env = {**os.environ, "PATH": os.environ.get("PATH", "") + ":/usr/local/bin:/opt/homebrew/bin"}
-    effective_timeout = timeout if timeout is not None else CALL_TIMEOUT
-    for attempt in range(1 + HERMES_RETRY):
-        try:
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=effective_timeout, env=env)
-            if result.returncode != 0:
-                print(f"[ERROR] hermes 비정상 종료: {result.stderr[:300]}", file=sys.stderr)
-                return None
-            return result.stdout
-        except subprocess.TimeoutExpired:
-            remaining = HERMES_RETRY - attempt
-            if remaining > 0:
-                print(f"[WARN] hermes 타임아웃 — 재시도 {remaining}회 남음", file=sys.stderr)
-            else:
-                print("[ERROR] hermes 타임아웃 — 재시도 소진", file=sys.stderr)
-                return None
-        except FileNotFoundError:
-            print(f"[ERROR] hermes 명령 없음: {HERMES_CMD}", file=sys.stderr)
-            return None
-    return None
-
-
-def extract_json(text: str) -> dict | None:
-    match = re.search(r"\{.*\}", text, re.DOTALL)
-    if not match:
-        print(f"[ERROR] JSON 블록 없음. 응답 앞부분: {text[:400]!r}", file=sys.stderr)
-        return None
-    try:
-        return json.loads(match.group())
-    except json.JSONDecodeError as e:
-        print(f"[ERROR] JSON 파싱 실패: {e}", file=sys.stderr)
-        return None
-
-
 VALID_TRAFFIC_LIGHT = {"green", "yellow", "red"}
 VALID_ACTION = {"buy", "hold", "watch", "avoid"}
 VALID_SENTIMENT_MOOD = {"optimistic", "cautious", "neutral", "fearful", "euphoric"}
@@ -1249,27 +1202,27 @@ def main():
     global_ctx: dict = {}
     global_context_prompt = build_global_context_prompt(now_kst, now_iso)
     print("[INFO] Grok 1차 호출: 글로벌 컨텍스트 수집 중 (최대 90초)...")
-    global_raw = call_hermes(global_context_prompt, timeout=CALL_TIMEOUT_GLOBAL)
-    if global_raw:
-        global_ctx = parse_global_context(global_raw)
-        if global_ctx and global_ctx.get("issues"):
-            print(f"[INFO] 글로벌 이슈 {len(global_ctx['issues'])}개 수집됨")
+    _gc_raw, _gc_parsed = call_hermes_json(
+        global_context_prompt,
+        timeout=CALL_TIMEOUT_GLOBAL,
+        validator=validate_global_context,
+    )
+    if _gc_parsed is not None:
+        global_ctx = _gc_parsed
+        issues_count = len(global_ctx.get("issues") or [])
+        if issues_count > 0:
+            print(f"[INFO] 글로벌 이슈 {issues_count}개 수집됨")
         else:
             print("[WARN] 글로벌 컨텍스트: 이슈 없음 — fallback으로 계속 진행", file=sys.stderr)
     else:
-        print("[WARN] 글로벌 컨텍스트 Grok 호출 실패 — fallback으로 계속 진행", file=sys.stderr)
+        print("[WARN] 글로벌 컨텍스트 최종 실패 — fallback으로 계속 진행", file=sys.stderr)
 
     # ── 2차 호출: 아침 브리핑 생성 (글로벌 컨텍스트 주입) ───────────────────
     prompt = build_prompt(data, now_kst, global_ctx)
     print("[INFO] Grok 2차 호출: 아침 브리핑 생성 중 (최대 3분 소요)...")
-    raw_text = call_hermes(prompt)
-    if raw_text is None:
-        print("[ERROR] Grok 호출 실패 — 종료", file=sys.stderr)
-        sys.exit(1)
-
-    parsed = extract_json(raw_text)
-    if parsed is None or not validate_briefing(parsed):
-        print("[ERROR] 브리핑 검증 실패 — 종료", file=sys.stderr)
+    _, parsed = call_hermes_json(prompt, timeout=CALL_TIMEOUT, validator=validate_briefing)
+    if parsed is None:
+        print("[ERROR] 브리핑 최종 실패 — 종료", file=sys.stderr)
         sys.exit(1)
 
     snapshot = {
