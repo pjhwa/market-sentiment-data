@@ -9,8 +9,6 @@ Earnings Intelligence 수집기
 import argparse
 import json
 import os
-import re
-import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -18,12 +16,9 @@ from pathlib import Path
 import yfinance as yf
 
 from collect.git_utils import commit_and_push
+from collect.grok_utils import call_hermes_json
 
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
-HERMES_CMD = os.environ.get("HERMES_CMD", "/Users/jerry/.local/bin/hermes")
-HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
-CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))
-HERMES_RETRY = int(os.environ.get("HERMES_RETRY", "1"))
 
 # TIER1: 빅테크/대형주 — 개별 어닝 AI 해석 대상 (collect_sentiment.py의 TIER1_WATCHLIST와 동기화)
 # TIER2(모멘텀/테마주)는 어닝 AI 해석 제외 (배치 분석 한계 + AI 비용)
@@ -346,43 +341,6 @@ risk_level 기준 (날짜 우선, beat_rate 보조):
 Output raw JSON only."""
 
 
-def call_hermes(prompt: str) -> str | None:
-    cmd = [HERMES_CMD, "-z", prompt]
-    if HERMES_PROVIDER:
-        cmd += ["--provider", HERMES_PROVIDER]
-    env = {**os.environ, "PATH": os.environ.get("PATH", "") + ":/usr/local/bin:/opt/homebrew/bin"}
-    for attempt in range(1 + HERMES_RETRY):
-        try:
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=CALL_TIMEOUT, env=env)
-            if result.returncode != 0:
-                print(f"[ERROR] hermes 비정상 종료: {result.stderr[:200]}", file=sys.stderr)
-                return None
-            return result.stdout
-        except subprocess.TimeoutExpired:
-            remaining = HERMES_RETRY - attempt
-            if remaining > 0:
-                print(f"[WARN] hermes 타임아웃 — 재시도 {remaining}회 남음", file=sys.stderr)
-            else:
-                print("[ERROR] hermes 타임아웃 — 재시도 소진", file=sys.stderr)
-                return None
-        except FileNotFoundError:
-            print(f"[ERROR] hermes 명령 없음: {HERMES_CMD}", file=sys.stderr)
-            return None
-    return None
-
-
-def extract_json(text: str) -> dict | None:
-    match = re.search(r"\{.*\}", text, re.DOTALL)
-    if not match:
-        print(f"[ERROR] JSON 블록 없음. 응답: {text[:300]!r}", file=sys.stderr)
-        return None
-    try:
-        return json.loads(match.group())
-    except json.JSONDecodeError as e:
-        print(f"[ERROR] JSON 파싱 실패: {e}", file=sys.stderr)
-        return None
-
-
 VALID_RISK_LEVELS = {"high", "med", "low"}
 VALID_TIERS = {"imminent", "approaching", "watching"}
 
@@ -542,11 +500,10 @@ def main(dry_run: bool = False):
         else:
             prompt = build_earnings_prompt(upcoming_raw, recent_raw)
             print("[INFO] Grok 호출 중...")
-            raw_text = call_hermes(prompt)
-            if raw_text is None:
-                print("[WARN] Grok 호출 실패 — partial 스냅샷 생성 (AI 스텁으로 원시 데이터 보존)", file=sys.stderr)
+            _, parsed = call_hermes_json(prompt, validator=validate_earnings)
+            if parsed is None:
+                print("[WARN] Grok 응답 최종 실패 — partial 스냅샷 생성 (원시 데이터 보존)", file=sys.stderr)
                 partial = True
-                # Produce usable output: factual yf data + stub AI fields (no crash)
                 parsed = {
                     "upcoming_earnings": [
                         {
@@ -578,43 +535,6 @@ def main(dry_run: bool = False):
                         for r in recent_raw
                     ]
                 }
-            else:
-                parsed = extract_json(raw_text)
-                if parsed is None or not validate_earnings(parsed):
-                    print("[WARN] 어닝 파싱/검증 실패 — partial 스냅샷으로 계속 (원시 데이터 우선)", file=sys.stderr)
-                    partial = True
-                    # Usable fallback from raw (same structure as hermes success path)
-                    parsed = {
-                        "upcoming_earnings": [
-                            {
-                                "symbol": u["symbol"],
-                                "earnings_date": u["earnings_date"],
-                                "days_until": u["days_until"],
-                                "relevance_tier": u["relevance_tier"],
-                                "eps_estimate": u.get("eps_estimate"),
-                                "revenue_estimate_b": u.get("revenue_estimate_b"),
-                                "historical_beat_rate": u.get("historical_beat_rate"),
-                                "ai_summary_en": "Grok response parse failed (partial). Raw data only.",
-                                "ai_summary_ko": "Grok 응답 파싱 실패 (partial). 원시 데이터 기반.",
-                                "risk_level": "high" if u.get("days_until", 99) <= 7 else ("med" if u.get("days_until", 99) <= 21 else "low"),
-                                "action_note_en": "Partial collection — no AI summary, manual check advised",
-                                "action_note_ko": "부분 수집 — AI 요약 없음, 수동 확인",
-                            }
-                            for u in upcoming_raw
-                        ],
-                        "recent_results": [
-                            {
-                                "symbol": r["symbol"],
-                                "report_date": r["report_date"],
-                                "eps_actual": r["eps_actual"],
-                                "eps_estimate": r["eps_estimate"],
-                                "surprise_pct": r["surprise_pct"],
-                                "ai_reaction_en": "Grok parse failed — AI reaction omitted (partial)",
-                                "ai_reaction_ko": "Grok 파싱 실패 — AI 반응 생략 (partial)",
-                            }
-                            for r in recent_raw
-                        ]
-                    }
 
     snapshot = {
         "generated_at": now_iso,
