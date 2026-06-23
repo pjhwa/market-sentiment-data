@@ -29,7 +29,7 @@ import requests
 import yfinance as yf
 
 from collect.git_utils import commit_and_push
-from collect.grok_utils import call_hermes, call_hermes_json, extract_json
+from collect.grok_utils import call_hermes_json, extract_json
 
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
 # morning briefing has longer timeouts than other collectors
