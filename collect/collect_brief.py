@@ -15,7 +15,6 @@ AI Daily Brief 수집기 (Phase 2: Accuracy-hardened)
 import json
 import os
 import re
-import subprocess
 import sys
 import datetime as dt
 from datetime import datetime, timezone
@@ -24,12 +23,9 @@ from pathlib import Path
 import requests
 
 from collect.git_utils import commit_and_push
+from collect.grok_utils import HERMES_PROVIDER, call_hermes, call_hermes_json, extract_json
 
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
-HERMES_CMD = os.environ.get("HERMES_CMD", "/Users/jerry/.local/bin/hermes")
-HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
-CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))
-HERMES_RETRY = int(os.environ.get("HERMES_RETRY", "1"))
 SNIPERBOARD_API = os.environ.get("SNIPERBOARD_API_BASE", "http://localhost:5001")
 
 # TIER1: 빅테크/대형주 — 개별 심층 분석 대상
@@ -619,43 +615,6 @@ Raw JSON only."""
 # Grok 호출 / JSON 추출 / 검증
 # ─────────────────────────────────────────────────────────────────────────────
 
-def call_hermes(prompt: str) -> str | None:
-    cmd = [HERMES_CMD, "-z", prompt]
-    if HERMES_PROVIDER:
-        cmd += ["--provider", HERMES_PROVIDER]
-    env = {**os.environ, "PATH": os.environ.get("PATH", "") + ":/usr/local/bin:/opt/homebrew/bin"}
-    for attempt in range(1 + HERMES_RETRY):
-        try:
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=CALL_TIMEOUT, env=env)
-            if result.returncode != 0:
-                print(f"[ERROR] hermes 비정상 종료: {result.stderr[:200]}", file=sys.stderr)
-                return None
-            return result.stdout
-        except subprocess.TimeoutExpired:
-            remaining = HERMES_RETRY - attempt
-            if remaining > 0:
-                print(f"[WARN] hermes 타임아웃 — 재시도 {remaining}회 남음", file=sys.stderr)
-            else:
-                print("[ERROR] hermes 타임아웃 — 재시도 소진", file=sys.stderr)
-                return None
-        except FileNotFoundError:
-            print(f"[ERROR] hermes 명령 없음: {HERMES_CMD}", file=sys.stderr)
-            return None
-    return None
-
-
-def extract_json(text: str) -> dict | None:
-    match = re.search(r"\{.*\}", text, re.DOTALL)
-    if not match:
-        print(f"[ERROR] JSON 블록 없음. 응답: {text[:300]!r}", file=sys.stderr)
-        return None
-    try:
-        return json.loads(match.group())
-    except json.JSONDecodeError as e:
-        print(f"[ERROR] JSON 파싱 실패: {e}", file=sys.stderr)
-        return None
-
-
 VALID_TONES        = {"bullish", "cautious", "bearish", "neutral"}
 VALID_SETUP_QUALITY = {"A+", "A", "B", "C", "D"}
 VALID_ACTION_BIAS  = {"buy", "hold", "watch", "avoid"}
@@ -890,14 +849,9 @@ def main():
 
     prompt = build_brief_prompt(tech, sentiment, slot)
     print("[INFO] Grok 호출 중...")
-    raw_text = call_hermes(prompt)
-    if raw_text is None:
-        print("[ERROR] Grok 호출 실패 — 종료", file=sys.stderr)
-        sys.exit(1)
-
-    parsed = extract_json(raw_text)
-    if parsed is None or not validate_brief(parsed):
-        print("[ERROR] Brief 검증 실패 — 종료", file=sys.stderr)
+    _, parsed = call_hermes_json(prompt, validator=validate_brief)
+    if parsed is None:
+        print("[ERROR] Brief 생성 최종 실패 — 종료", file=sys.stderr)
         sys.exit(1)
 
     # Quality check: causal language + Japanese characters
@@ -907,20 +861,16 @@ def main():
         for v in violations:
             print(f"  {v}", file=sys.stderr)
         correction_prompt = build_correction_prompt(prompt, violations)
-        raw_text2 = call_hermes(correction_prompt)
-        if raw_text2:
-            parsed2 = extract_json(raw_text2)
-            if parsed2 and validate_brief(parsed2):
-                remaining = validate_output_quality(parsed2)
-                if remaining:
-                    print(f"[WARN] 교정 후에도 위반 {len(remaining)}건 잔존 — 원본 사용", file=sys.stderr)
-                else:
-                    print("[INFO] 교정 성공 — 수정본 사용", file=sys.stderr)
-                    parsed = parsed2
+        _, parsed2 = call_hermes_json(correction_prompt, validator=validate_brief)
+        if parsed2:
+            remaining = validate_output_quality(parsed2)
+            if remaining:
+                print(f"[WARN] 교정 후에도 위반 {len(remaining)}건 잔존 — 원본 사용", file=sys.stderr)
             else:
-                print("[WARN] 교정본 검증 실패 — 원본 사용", file=sys.stderr)
+                print("[INFO] 교정 성공 — 수정본 사용", file=sys.stderr)
+                parsed = parsed2
         else:
-            print("[WARN] 교정 Grok 호출 실패 — 원본 사용", file=sys.stderr)
+            print("[WARN] 교정 Grok 호출/검증 실패 — 원본 사용", file=sys.stderr)
 
     context_snapshot = build_brief_context_snapshot(tech, sentiment, now_iso)
 
