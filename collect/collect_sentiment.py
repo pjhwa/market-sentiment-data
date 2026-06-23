@@ -10,30 +10,18 @@ SniperBoard 소셜 심리 수집기 (계층 1, v1.2)
 import json
 import os
 import re
-import shutil
-import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-
-def _find_hermes() -> str:
-    """HERMES_CMD 환경변수 → PATH 자동탐색 → 플랫폼별 기본 경로 순으로 탐색."""
-    if val := os.environ.get("HERMES_CMD"):
-        return val
-    if found := shutil.which("hermes"):
-        return found
-    candidates = [
-        Path.home() / ".local/bin/hermes",       # Linux (pip install)
-        Path("/opt/homebrew/bin/hermes"),          # macOS Apple Silicon
-        Path("/usr/local/bin/hermes"),             # macOS Intel / Linux
-    ]
-    for p in candidates:
-        if p.exists():
-            return str(p)
-    return str(Path.home() / ".local/bin/hermes")
-
 from collect.git_utils import commit_and_push
+from collect.grok_utils import (
+    HERMES_PROVIDER,
+    call_hermes_json,
+    call_hermes_json_array,
+    extract_json,
+    extract_json_array,
+)
 from collect.price_context import (
     fetch_close_direction,
     fetch_market_context,
@@ -42,9 +30,6 @@ from collect.price_context import (
 
 # ── 설정 ──────────────────────────────────────────────────────────────────────
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
-HERMES_CMD = _find_hermes()
-HERMES_PROVIDER = os.environ.get("HERMES_PROVIDER", "")
-CALL_TIMEOUT = int(os.environ.get("HERMES_TIMEOUT", "120"))
 
 # TIER1: 빅테크/대형주 — 개별 심층 분석, 하루 2회 (pre_open + post_close)
 TIER1_WATCHLIST = [
@@ -355,76 +340,7 @@ def load_pre_open_scores(path: Path) -> dict:
     return result
 
 
-# ── hermes 호출 ────────────────────────────────────────────────────────────────
-
-HERMES_RETRY = int(os.environ.get("HERMES_RETRY", "1"))  # 타임아웃 시 재시도 횟수
-
-
-def call_hermes(prompt: str) -> str | None:
-    cmd = [HERMES_CMD, "-z", prompt]
-    if HERMES_PROVIDER:
-        cmd += ["--provider", HERMES_PROVIDER]
-    env = {**os.environ, "PATH": os.environ.get("PATH", "") + ":/usr/local/bin:/opt/homebrew/bin"}
-
-    for attempt in range(1 + HERMES_RETRY):
-        try:
-            result = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True,
-                timeout=CALL_TIMEOUT,
-                env=env,
-            )
-            if result.returncode != 0:
-                print(f"[ERROR] hermes 비정상 종료 (rc={result.returncode}): {result.stderr[:200]}", file=sys.stderr)
-                return None
-            return result.stdout
-        except subprocess.TimeoutExpired:
-            remaining = HERMES_RETRY - attempt
-            if remaining > 0:
-                print(f"[WARN] hermes 타임아웃 ({CALL_TIMEOUT}초 초과) — 재시도 {remaining}회 남음", file=sys.stderr)
-            else:
-                print(f"[ERROR] hermes 타임아웃 — 재시도 소진, skip", file=sys.stderr)
-                return None
-        except FileNotFoundError:
-            print(
-                f"[ERROR] hermes 명령을 찾을 수 없음: {HERMES_CMD}. "
-                "PATH를 확인하거나 HERMES_CMD 환경변수로 절대경로를 지정하세요.",
-                file=sys.stderr,
-            )
-            return None
-    return None
-
-
 # ── JSON 파싱 / 검증 ──────────────────────────────────────────────────────────
-
-def extract_json(text: str) -> dict | None:
-    match = re.search(r"\{.*\}", text, re.DOTALL)
-    if not match:
-        print(f"[ERROR] JSON 블록을 찾을 수 없음. 응답: {text[:300]!r}", file=sys.stderr)
-        return None
-    try:
-        return json.loads(match.group())
-    except json.JSONDecodeError as e:
-        print(f"[ERROR] JSON 파싱 실패: {e}. 원문: {match.group()[:300]!r}", file=sys.stderr)
-        return None
-
-
-def extract_json_array(text: str) -> list | None:
-    match = re.search(r"\[.*\]", text, re.DOTALL)
-    if not match:
-        print(f"[ERROR] JSON 배열을 찾을 수 없음. 응답: {text[:300]!r}", file=sys.stderr)
-        return None
-    try:
-        result = json.loads(match.group())
-        if not isinstance(result, list):
-            print(f"[ERROR] JSON 배열이 아님: {type(result)}", file=sys.stderr)
-            return None
-        return result
-    except json.JSONDecodeError as e:
-        print(f"[ERROR] JSON 배열 파싱 실패: {e}. 원문: {match.group()[:300]!r}", file=sys.stderr)
-        return None
-
 
 def validate_symbol_fields(data: dict, symbol: str) -> bool:
     required_enums = {
@@ -570,18 +486,9 @@ def main():
             print(f"[ERROR] {symbol}: 프롬프트 오염 방지선 위반 — {e}", file=sys.stderr)
             continue
 
-        raw_text = call_hermes(prompt)
-        if raw_text is None:
-            print(f"[SKIP] {symbol}: hermes 호출 실패", file=sys.stderr)
-            continue
-
-        parsed = extract_json(raw_text)
+        _, parsed = call_hermes_json(prompt, validator=lambda d: validate_symbol_fields(d, symbol))
         if parsed is None:
-            print(f"[SKIP] {symbol}: JSON 추출 실패", file=sys.stderr)
-            continue
-
-        if not validate_symbol_fields(parsed, symbol):
-            print(f"[SKIP] {symbol}: 검증 실패", file=sys.stderr)
+            print(f"[SKIP] {symbol}: Grok 응답 최종 실패 (JSON/검증)", file=sys.stderr)
             continue
 
         close_dir = fetch_close_direction(symbol)
@@ -618,15 +525,11 @@ def main():
     if slot == "post_close":
         print(f"[INFO] TIER2 배치 질의 시작 ({len(TIER2_WATCHLIST)}종목)")
         batch_prompt = build_tier2_batch_prompt(TIER2_WATCHLIST)
-        batch_raw = call_hermes(batch_prompt)
+        _, batch_parsed = call_hermes_json_array(batch_prompt)
 
-        if batch_raw is None:
-            print("[SKIP] TIER2 배치: hermes 호출 실패", file=sys.stderr)
+        if batch_parsed is None:
+            print("[SKIP] TIER2 배치: Grok 응답 최종 실패 (JSON/배열)", file=sys.stderr)
         else:
-            batch_parsed = extract_json_array(batch_raw)
-            if batch_parsed is None:
-                print("[SKIP] TIER2 배치: JSON 배열 추출 실패", file=sys.stderr)
-            else:
                 # 심볼 순서 매핑 (Grok이 순서를 지키지 않을 수 있으므로 symbol 기준으로 매핑)
                 tier2_map = {sym: comp for sym, comp in TIER2_WATCHLIST}
                 for item in batch_parsed:
@@ -673,18 +576,12 @@ def main():
 
     # ── 시장 전체 수집 ────────────────────────────────────────────────────────
     print("[INFO] 질의 중: MARKET")
-    market_raw_text = call_hermes(MARKET_PROMPT)
+    _, market_parsed = call_hermes_json(MARKET_PROMPT, validator=validate_market_fields)
     market_entry = None
 
-    if market_raw_text is None:
-        print("[SKIP] MARKET: hermes 호출 실패", file=sys.stderr)
+    if market_parsed is None:
+        print("[SKIP] MARKET: Grok 응답 최종 실패 (JSON/검증)", file=sys.stderr)
     else:
-        market_parsed = extract_json(market_raw_text)
-        if market_parsed is None:
-            print("[SKIP] MARKET: JSON 추출 실패", file=sys.stderr)
-        elif not validate_market_fields(market_parsed):
-            print("[SKIP] MARKET: 검증 실패", file=sys.stderr)
-        else:
             market_entry = build_market_entry(market_parsed, now_iso)
             prev_market_score = pre_open_scores["market"]
             market_entry["intraday_shift"] = (
