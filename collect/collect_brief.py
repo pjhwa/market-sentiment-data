@@ -23,7 +23,7 @@ from pathlib import Path
 import requests
 
 from collect.git_utils import commit_and_push
-from collect.grok_utils import HERMES_PROVIDER, call_hermes, call_hermes_json, extract_json
+from collect.grok_utils import call_hermes_json
 
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
 SNIPERBOARD_API = os.environ.get("SNIPERBOARD_API_BASE", "http://localhost:5001")
