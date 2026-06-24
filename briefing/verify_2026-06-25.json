@@ -1,0 +1,206 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-24T21:45:01Z",
+  "verified_at": "2026-06-25T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "PLTR: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=49.5 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: MU already reported after US close (est. EPS $25.43 — verify)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": false,
+      "severity": "error",
+      "detail": "rank=3: confidence=confirmed이지만 인정 소스 없음 (source='chosun ilbo 2026-06-01 / brookings 2026-06-17 / us-china business council 2026-06-01')"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — Situation materially deteriorated before the briefing was generated. On June 22, Iran's IRGC re-declared the Strait closed, citing Israeli strikes in southern Lebanon as a 'blatant breach' of the MOU. Shipping traffic plunged from 35 to 12 transits on June 22 per Windward maritime intelligence. As of June 24, the US disputes Iran's closure and some tankers continue to transit, making this a contested status rather than a clean reopening. WTI fell to ~$70.58 and Brent to $73.74 on June 24 suggesting partial supply flow, but the briefing's 'tanker traffic picked up sharply' framing materially overstates Hormuz stability. The re-closure declaration was 2 days old at briefing generation time."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    BofA and Deutsche Bank reverse course, now forecast 2-3 Fed rate hikes in 2026 (Sep/Oct/Dec) (영향: Directly contradicts the briefing's sector claim that 'rates and credit signals are green, favoring rate-sensitive tech.' BofA projects 75bp of tightening (Sep, Oct, Dec); Deutsche Bank projects 50bp (Sep, Dec). This is material hawkish pressure on all rate-sensitive growth names in the watchlist including MSFT, AMZN, META, and NVDA. The briefing's rotation thesis toward 'rate-sensitive tech' is built on an assumption the data no longer supports.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Yellow/49.5 score is plausible given mixed June 24 close (S&P 500 -0.10% to 7,358, Nasdaq -0.43% to 25,477, Dow +0.35% to 51,849). However, the headline 'Hormuz reopening sends oil lower, tech gets relief' is misleading on two counts: Hormuz status is actively contested (Iran re-declared closure June 22) rather than cleanly open, and the Nasdaq declined on June 24 rather than gaining meaningful relief. The framing leans optimistic relative to actual market performance."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The claim that 'Rates and credit signals are green, favoring rate-sensitive tech and growth names' is directly contradicted by the June 22 BofA and Deutsche Bank forecast reversals, now calling for 2-3 Fed rate hikes in 2026 H2. This is the single largest structural risk to rate-sensitive growth names in the watchlist. Treasury 10-year yields dropped below 4.5% on June 24 due to oil deflation, which could be misleading the sector model — the forward rate path per major brokerages is now hawkish, not accommodative."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "NVDA: Briefing states closing price of $199.00 but available June 24 data shows approximately $197.72. Minor discrepancy of ~0.6%; likely a data-source timing difference but worth flagging.\n    MU: Briefing shows pre-earnings close of $1048.51 and does not reflect the after-hours earnings beat. After-hours surge of ~9% means the effective next-session opening will be materially above this level. The briefing's buy thesis is correct but the price reference is stale as of verification time.\n    MSFT: Briefing flags a data inconsistency ('Stage2 0/7 but UPTREND structure') without resolving it, presenting contradictory signals to the reader without guidance on which to trust."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-24T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Strait of Hormuz reopens, Iranian oil flows surge after US lifts blockade",
+        "accuracy": "outdated",
+        "note": "Situation materially deteriorated before the briefing was generated. On June 22, Iran's IRGC re-declared the Strait closed, citing Israeli strikes in southern Lebanon as a 'blatant breach' of the MOU. Shipping traffic plunged from 35 to 12 transits on June 22 per Windward maritime intelligence. As of June 24, the US disputes Iran's closure and some tankers continue to transit, making this a contested status rather than a clean reopening. WTI fell to ~$70.58 and Brent to $73.74 on June 24 suggesting partial supply flow, but the briefing's 'tanker traffic picked up sharply' framing materially overstates Hormuz stability. The re-closure declaration was 2 days old at briefing generation time."
+      },
+      {
+        "rank": 2,
+        "title": "Taiwan warns attack warning time shrinking amid rising China military pressure",
+        "accuracy": "accurate",
+        "note": "Confirmed by multiple June 24 sources. Taiwan Defense Minister Wellington Koo stated warning times for a Chinese attack are shortening. Taiwan launched 5-day immediate combat-readiness drills testing rapid peace-to-war transition. China's newest aircraft carrier Fujian recently transited the Taiwan Strait for the first time since April."
+      },
+      {
+        "rank": 3,
+        "title": "US expands semiconductor export controls to overseas Chinese subsidiaries",
+        "accuracy": "accurate",
+        "note": "Confirmed. US Commerce Department affirmed on June 1 that advanced AI chip licensing requirements apply to all entities with Chinese headquarters or parent companies regardless of physical location. TSMC, Samsung, and SK Hynix shifted from automatic VEU exemptions to annual license renewals starting January 2026, giving Washington annual renewal leverage."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "BofA and Deutsche Bank reverse course, now forecast 2-3 Fed rate hikes in 2026 (Sep/Oct/Dec)",
+        "impact": "Directly contradicts the briefing's sector claim that 'rates and credit signals are green, favoring rate-sensitive tech.' BofA projects 75bp of tightening (Sep, Oct, Dec); Deutsche Bank projects 50bp (Sep, Dec). This is material hawkish pressure on all rate-sensitive growth names in the watchlist including MSFT, AMZN, META, and NVDA. The briefing's rotation thesis toward 'rate-sensitive tech' is built on an assumption the data no longer supports.",
+        "severity": "critical"
+      },
+      {
+        "title": "Micron (MU) Q3 FY2026 earnings massive beat announced after market close June 24",
+        "impact": "MU reported revenue of $41.46B vs. $35.59B consensus estimate (346% YoY growth); non-GAAP EPS $25.11 vs. $20.78 est; Q4 revenue guidance $50B +/-$1B vs. $42.9B consensus. Stock surged ~9% in after-hours trading. The briefing lists MU as action=buy/mood=euphoric with RS 100, which is directionally right, but the post-earnings catalyst substantially alters near-term price action and validates the HBM/AI demand thesis for the entire semiconductor complex.",
+        "severity": "important"
+      },
+      {
+        "title": "Iran's June 22 re-declaration of Hormuz closure adds contested geopolitical tail risk",
+        "impact": "Not separately flagged in briefing as a risk factor. Energy sector volatility is elevated with conflicting US/Iran narratives about strait status. Any escalation directly affects oil supply expectations and could reverse the current downtrend, impacting energy sector positioning and acting as an inflation shock.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow/49.5 score is plausible given mixed June 24 close (S&P 500 -0.10% to 7,358, Nasdaq -0.43% to 25,477, Dow +0.35% to 51,849). However, the headline 'Hormuz reopening sends oil lower, tech gets relief' is misleading on two counts: Hormuz status is actively contested (Iran re-declared closure June 22) rather than cleanly open, and the Nasdaq declined on June 24 rather than gaining meaningful relief. The framing leans optimistic relative to actual market performance."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "The claim that 'Rates and credit signals are green, favoring rate-sensitive tech and growth names' is directly contradicted by the June 22 BofA and Deutsche Bank forecast reversals, now calling for 2-3 Fed rate hikes in 2026 H2. This is the single largest structural risk to rate-sensitive growth names in the watchlist. Treasury 10-year yields dropped below 4.5% on June 24 due to oil deflation, which could be misleading the sector model — the forward rate path per major brokerages is now hawkish, not accommodative."
+    },
+    "stock_errors": [
+      {
+        "symbol": "NVDA",
+        "error": "Briefing states closing price of $199.00 but available June 24 data shows approximately $197.72. Minor discrepancy of ~0.6%; likely a data-source timing difference but worth flagging."
+      },
+      {
+        "symbol": "MU",
+        "error": "Briefing shows pre-earnings close of $1048.51 and does not reflect the after-hours earnings beat. After-hours surge of ~9% means the effective next-session opening will be materially above this level. The briefing's buy thesis is correct but the price reference is stale as of verification time."
+      },
+      {
+        "symbol": "MSFT",
+        "error": "Briefing flags a data inconsistency ('Stage2 0/7 but UPTREND structure') without resolving it, presenting contradictory signals to the reader without guidance on which to trust."
+      }
+    ],
+    "overall_score": 62,
+    "summary": "The Taiwan and semiconductor export control items are accurate and well-sourced. However, two gaps materially reduce reliability: the Hormuz 'flows surging' narrative was already outdated at generation time given Iran's June 22 re-closure declaration, and the sector analysis calls rates 'green' for tech directly contrary to the June 22 BofA/Deutsche Bank hawkish pivot that represents the most significant structural market risk in the watchlist. The Micron Q3 blowout earnings (announced ~21:00 UTC, before briefing generation at 21:45 UTC) was also not incorporated despite being a major catalyst for the semiconductor sector."
+  }
+}
