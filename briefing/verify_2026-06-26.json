@@ -1,0 +1,206 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-25T21:45:01Z",
+  "verified_at": "2026-06-26T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 6,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=51.8 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": false,
+      "severity": "warning",
+      "detail": "developing 이슈 3건인데 big_picture에 유보 표현 없음: ['US-China chip export licensing shifts to case-by-c', 'Iran Strait of Hormuz shipping risk remains elevat', 'DOJ AI antitrust remedies hearing enters final pha']"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: inaccurate — Critically understated. The briefing describes 'elevated insurance premiums' and 'no closure,' but reality is far more severe: the US and Israel launched a full air war against Iran on Feb 28, 2026, killing Khamenei. Iran formally closed the Strait of Hormuz. War-risk insurance surged to ~4% of ship value per 7 days (up from 0.001% pre-crisis — roughly 4,000x, not the briefing's implied 3-4x). Only 12 vessels crossed on some days vs. 35 normally. A peace MOU was signed June 17 and oil prices have been falling; as of June 25 IRGC was warning ships against non-approved routes amid fragile negotiations. The 'no closure' claim and 'naval escorts' framing is factually wrong.\n    rank=3: inaccurate — Materially wrong. The Google antitrust case already reached remedies in April 2026 (prohibiting exclusive distribution contracts, mandating data sharing with rivals). Google filed a notice of appeal January 16, 2026; DOJ filed a cross-appeal February 3. Both are now at the DC Circuit Court of Appeals, not in a district-court oral-arguments phase. 'Oral arguments concluded June 24' is unverifiable and inconsistent with the known appeals timeline. More importantly, Microsoft is NOT a defendant in this proceeding — the briefing's reference to 'Google and Microsoft AI partnerships' conflates separate matters."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Apple raises Mac, iPad, and Vision Pro prices mid-cycle — citing AI memory cost inflation (영향: AAPL fell 6%+ on June 25 due to announced price hikes (MacBook Air $1,099→$1,299, iPad Pro 11\" $999→$1,199, etc.). CEO Tim Cook cited DRAM/NAND cost inflation driven by AI demand — the same dynamic that drove MU's earnings surge. The briefing shows AAPL down 6.12% but attributes no cause, missing the key narrative link between MU euphoria and AAPL pain.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: VIX closed at 18.63 on June 25, down 4.41% on the day but still above the historical long-term average (~17) and well above 'subdued' territory (typically <14-15). Describing VIX as 'subdued' at 18.63, against a backdrop of an active Iran war peace process and Hormuz uncertainty, overstates calm. The yellow traffic light and 51.8 score are defensible, but the headline framing of 'VIX stays subdued' is misleading."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: SMH strength and MU/ALAB UPTREND characterization are directionally accurate given the earnings-driven semiconductor surge. CL downtrend is confirmed (oil prices declining post-MOU). However, framing GLD in DOWNTREND requires verification not fully confirmed in search results. The 'rotation away from high-valuation large caps' narrative is consistent with AAPL/META/MSFT weakness on June 25. SMH +2.90% claim is plausible given SMH traded in a wide range ($606–$649) on the day, but the exact figure could not be precisely confirmed."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MU: Briefing reports MU up 15.74% to $1,213.56. Search results indicate MU surged approximately 19.2% in Thursday morning trading following the earnings beat, with intraday range $1,136–$1,255. The 15.74% gain figure understates the actual move; the closing price of $1,213.56 is within the trading range but the percentage is inconsistent.\n    AAPL: Briefing reports AAPL 'pre-market unchanged at $275.16' — but AAPL's 6%+ move was driven by a mid-cycle price hike announcement, a significant and specific fundamental catalyst. The pre-market flat reading is implausible if the news broke during the trading day and was widely covered by multiple outlets as a 'plunging today' event. The close price attribution ($275.15) is approximately consistent with reported ~$274-278 range, but the 'unchanged' pre-market reading and missing catalyst context are errors of omission that border on inaccuracy.\n    PLTR: Briefing shows PLTR down 5.49% with mood='optimistic'. A 5.49% single-day decline is a significant bearish signal inconsistent with an 'optimistic' mood descriptor — this appears to be a data pipeline error where mood is sourced from a separate sentiment signal that was not updated to reflect the sharp intraday selloff."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-25T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip export licensing shifts to case-by-case + 25% tariff",
+        "accuracy": "accurate",
+        "note": "Confirmed. BIS shifted to case-by-case review for advanced AI chips (H200, MI325X) destined for China/Macau in January 2026, with a 25% tariff imposed on advanced computing chips. The regime is active as of June 2026. Source date attribution to 'Reuters 2026-06-20' is reasonable for ongoing coverage, though the policy originated in January 2026."
+      },
+      {
+        "rank": 2,
+        "title": "Iran Strait of Hormuz shipping risk remains elevated post-incident",
+        "accuracy": "inaccurate",
+        "note": "Critically understated. The briefing describes 'elevated insurance premiums' and 'no closure,' but reality is far more severe: the US and Israel launched a full air war against Iran on Feb 28, 2026, killing Khamenei. Iran formally closed the Strait of Hormuz. War-risk insurance surged to ~4% of ship value per 7 days (up from 0.001% pre-crisis — roughly 4,000x, not the briefing's implied 3-4x). Only 12 vessels crossed on some days vs. 35 normally. A peace MOU was signed June 17 and oil prices have been falling; as of June 25 IRGC was warning ships against non-approved routes amid fragile negotiations. The 'no closure' claim and 'naval escorts' framing is factually wrong."
+      },
+      {
+        "rank": 3,
+        "title": "DOJ AI antitrust remedies hearing enters final phase",
+        "accuracy": "inaccurate",
+        "note": "Materially wrong. The Google antitrust case already reached remedies in April 2026 (prohibiting exclusive distribution contracts, mandating data sharing with rivals). Google filed a notice of appeal January 16, 2026; DOJ filed a cross-appeal February 3. Both are now at the DC Circuit Court of Appeals, not in a district-court oral-arguments phase. 'Oral arguments concluded June 24' is unverifiable and inconsistent with the known appeals timeline. More importantly, Microsoft is NOT a defendant in this proceeding — the briefing's reference to 'Google and Microsoft AI partnerships' conflates separate matters."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Apple raises Mac, iPad, and Vision Pro prices mid-cycle — citing AI memory cost inflation",
+        "impact": "AAPL fell 6%+ on June 25 due to announced price hikes (MacBook Air $1,099→$1,299, iPad Pro 11\" $999→$1,199, etc.). CEO Tim Cook cited DRAM/NAND cost inflation driven by AI demand — the same dynamic that drove MU's earnings surge. The briefing shows AAPL down 6.12% but attributes no cause, missing the key narrative link between MU euphoria and AAPL pain.",
+        "severity": "critical"
+      },
+      {
+        "title": "Iran–US peace MOU (signed June 17) driving oil prices to pre-war lows",
+        "impact": "Brent crude has fallen sharply from its >$100/barrel peak in March 2026 and is now only ~7% above pre-war levels. This directly affects CL (oil futures downtrend is partly peace-deal-driven, not just technical), GLD rotation, and energy sector sentiment. The briefing omits the peace deal entirely, leaving the Hormuz risk context severely incomplete.",
+        "severity": "important"
+      },
+      {
+        "title": "Micron Q3 FY2026 earnings beat: $41.5B revenue, EPS $25.11 vs $20.86 estimate (+20.4% surprise)",
+        "impact": "MU surged ~19% in Thursday morning trading; analysts raised targets to $2,000 (Susquehanna). The briefing reports the price move but does not disclose the earnings catalyst explicitly in the global context section, leaving readers without the fundamental driver behind the semiconductor sector leadership.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "VIX closed at 18.63 on June 25, down 4.41% on the day but still above the historical long-term average (~17) and well above 'subdued' territory (typically <14-15). Describing VIX as 'subdued' at 18.63, against a backdrop of an active Iran war peace process and Hormuz uncertainty, overstates calm. The yellow traffic light and 51.8 score are defensible, but the headline framing of 'VIX stays subdued' is misleading."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "SMH strength and MU/ALAB UPTREND characterization are directionally accurate given the earnings-driven semiconductor surge. CL downtrend is confirmed (oil prices declining post-MOU). However, framing GLD in DOWNTREND requires verification not fully confirmed in search results. The 'rotation away from high-valuation large caps' narrative is consistent with AAPL/META/MSFT weakness on June 25. SMH +2.90% claim is plausible given SMH traded in a wide range ($606–$649) on the day, but the exact figure could not be precisely confirmed."
+    },
+    "stock_errors": [
+      {
+        "symbol": "MU",
+        "error": "Briefing reports MU up 15.74% to $1,213.56. Search results indicate MU surged approximately 19.2% in Thursday morning trading following the earnings beat, with intraday range $1,136–$1,255. The 15.74% gain figure understates the actual move; the closing price of $1,213.56 is within the trading range but the percentage is inconsistent."
+      },
+      {
+        "symbol": "AAPL",
+        "error": "Briefing reports AAPL 'pre-market unchanged at $275.16' — but AAPL's 6%+ move was driven by a mid-cycle price hike announcement, a significant and specific fundamental catalyst. The pre-market flat reading is implausible if the news broke during the trading day and was widely covered by multiple outlets as a 'plunging today' event. The close price attribution ($275.15) is approximately consistent with reported ~$274-278 range, but the 'unchanged' pre-market reading and missing catalyst context are errors of omission that border on inaccuracy."
+      },
+      {
+        "symbol": "PLTR",
+        "error": "Briefing shows PLTR down 5.49% with mood='optimistic'. A 5.49% single-day decline is a significant bearish signal inconsistent with an 'optimistic' mood descriptor — this appears to be a data pipeline error where mood is sourced from a separate sentiment signal that was not updated to reflect the sharp intraday selloff."
+      }
+    ],
+    "overall_score": 52,
+    "summary": "The briefing's most critical failure is the Strait of Hormuz section, which describes 'elevated risk with no closure' when in fact a full US-Israel-Iran war began in late February 2026, Iran formally closed the strait, and insurance costs spiked 4,000x — a peace MOU was signed June 17 and is the main market driver now. The DOJ antitrust section conflates Google and Microsoft and mischaracterizes the case status (appeals phase, not trial). On the positive side, the semiconductor sector leadership, MU earnings surge, and AAPL weakness are directionally correct, though the AAPL price-hike catalyst is absent. The VIX-subdued framing at 18.63 is an overstatement of calm. Overall reliability is materially undermined by the geopolitical inaccuracies."
+  }
+}
