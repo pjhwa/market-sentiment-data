@@ -1,0 +1,210 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-26T21:45:00Z",
+  "verified_at": "2026-06-27T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=48.8 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: outdated — CRITICAL OMISSION: The briefing frames this as a static elevated-premium story, but the situation escalated sharply on June 26. A US-Iran ceasefire was signed June 17, but Iran allegedly violated it with drone strikes on Hormuz cargo ships. On June 26, the US struck Iranian missile/drone storage sites and coastal radar in retaliation. Trump called it a 'foolish violation.' Iran's IRGC said it 'neutralized' the American strike and warned of a decisive response. This is an active military exchange, not a multi-year-high-premium footnote."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 2건:\n    OpenAI reportedly delaying IPO to 2027 targeting $1T valuation (영향: Drove the June 26 AI-sector selloff: SoftBank -12%, AMD -2.6%, Arm -4%, Intel -2%, Marvell -3.4%, MU -2.1%. Directly weighs on MSFT (primary OpenAI commercial partner), AMZN (AWS AI capex narrative), NVDA (data center demand story), and META (AI investment justification). This was the dominant market theme on June 26 and is entirely absent from the briefing.)\n    US military strikes Iran after Hormuz ceasefire violation on June 26 (영향: Active US strikes on Iranian targets same day as briefing generation. Energy sector oil-risk premium repriced sharply upward. Broad risk-off pressure across equities. The Iran item in the briefing is framed as background context; it is actually the day's leading geopolitical event.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Yellow/48.8 is directionally reasonable given tech weakness, but the briefing states 'VIX remains below 18' when VIX closed at 18.89 on June 26 — technically above 18, not below. More importantly, the two unaddressed critical events (OpenAI IPO delay, active US-Iran military exchange) make the mood read as insufficiently bearish. A score of 35-42 better reflects actual conditions on June 26."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Semiconductor weakness and SMH underperformance are confirmed. However, the analysis attributes sector pressure solely to chip export controls and AI antitrust; the OpenAI IPO delay was the actual intraday catalyst on June 26 and is unmentioned. The 5-session Nasdaq losing streak and 4.5% weekly decline suggest deterioration well beyond what the sector narrative captures."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSLA: Briefing states close of $379.71 but available data indicates TSLA closed near $370.80 on June 26, a discrepancy of ~$8.91 (~2.4%). The avoid recommendation is directionally unchanged, but the price anchor is materially off.\n    TSM: Briefing states close of $432.35; data indicates $434.99 close on June 26 (~0.6% discrepancy). Minor error that does not affect the buy thesis.\n    NVDA: Briefing does not mention the OpenAI IPO delay as a risk factor for NVDA, which is directly tied to AI infrastructure demand expectations. The avoid recommendation is correct but the rationale is incomplete given the day's primary catalyst.\n    MSFT: Briefing assigns Stage2 score 0/7 and avoid, which is plausible structurally. However, MSFT appeared as a Dow gainer on June 25, suggesting recent price behavior may be mixed. The deeper issue is that the OpenAI IPO delay — a material MSFT-specific risk — is not mentioned in the MSFT analysis at all."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-26T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip export controls move to case-by-case licensing",
+        "accuracy": "accurate",
+        "note": "BIS final rule effective January 15, 2026 confirmed the shift to case-by-case licensing for advanced AI chips (H200-class and equivalents) destined for China and Macau. June 2026 Commerce guidance further extended coverage to Chinese-headquartered firms globally. The effective 25% tariff layer is consistent with current trade policy context. No material changes in the last 24h."
+      },
+      {
+        "rank": 2,
+        "title": "Iran Strait of Hormuz shipping risk remains elevated",
+        "accuracy": "outdated",
+        "note": "CRITICAL OMISSION: The briefing frames this as a static elevated-premium story, but the situation escalated sharply on June 26. A US-Iran ceasefire was signed June 17, but Iran allegedly violated it with drone strikes on Hormuz cargo ships. On June 26, the US struck Iranian missile/drone storage sites and coastal radar in retaliation. Trump called it a 'foolish violation.' Iran's IRGC said it 'neutralized' the American strike and warned of a decisive response. This is an active military exchange, not a multi-year-high-premium footnote."
+      },
+      {
+        "rank": 3,
+        "title": "US DOJ signals expanded AI antitrust probe scope",
+        "accuracy": "accurate",
+        "note": "DOJ (covering Nvidia) and FTC (covering Microsoft/OpenAI) active AI investigations confirmed through Q1 2026. No settlements reached. Q1 2026 saw a joint DOJ/FTC public inquiry on competitor collaboration guidelines. Consistent with briefing description."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "OpenAI reportedly delaying IPO to 2027 targeting $1T valuation",
+        "impact": "Drove the June 26 AI-sector selloff: SoftBank -12%, AMD -2.6%, Arm -4%, Intel -2%, Marvell -3.4%, MU -2.1%. Directly weighs on MSFT (primary OpenAI commercial partner), AMZN (AWS AI capex narrative), NVDA (data center demand story), and META (AI investment justification). This was the dominant market theme on June 26 and is entirely absent from the briefing.",
+        "severity": "critical"
+      },
+      {
+        "title": "US military strikes Iran after Hormuz ceasefire violation on June 26",
+        "impact": "Active US strikes on Iranian targets same day as briefing generation. Energy sector oil-risk premium repriced sharply upward. Broad risk-off pressure across equities. The Iran item in the briefing is framed as background context; it is actually the day's leading geopolitical event.",
+        "severity": "critical"
+      },
+      {
+        "title": "Nasdaq posts 5th consecutive losing session; weekly decline ~4.5%",
+        "impact": "Sustained selling pressure context is absent. All watchlist tech names (NVDA, META, MSFT, AMZN, PLTR) already rated avoid, but the 5-day losing streak framing matters for assessing whether a bounce or further breakdown is more likely near-term.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow/48.8 is directionally reasonable given tech weakness, but the briefing states 'VIX remains below 18' when VIX closed at 18.89 on June 26 — technically above 18, not below. More importantly, the two unaddressed critical events (OpenAI IPO delay, active US-Iran military exchange) make the mood read as insufficiently bearish. A score of 35-42 better reflects actual conditions on June 26."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Semiconductor weakness and SMH underperformance are confirmed. However, the analysis attributes sector pressure solely to chip export controls and AI antitrust; the OpenAI IPO delay was the actual intraday catalyst on June 26 and is unmentioned. The 5-session Nasdaq losing streak and 4.5% weekly decline suggest deterioration well beyond what the sector narrative captures."
+    },
+    "stock_errors": [
+      {
+        "symbol": "TSLA",
+        "error": "Briefing states close of $379.71 but available data indicates TSLA closed near $370.80 on June 26, a discrepancy of ~$8.91 (~2.4%). The avoid recommendation is directionally unchanged, but the price anchor is materially off."
+      },
+      {
+        "symbol": "TSM",
+        "error": "Briefing states close of $432.35; data indicates $434.99 close on June 26 (~0.6% discrepancy). Minor error that does not affect the buy thesis."
+      },
+      {
+        "symbol": "NVDA",
+        "error": "Briefing does not mention the OpenAI IPO delay as a risk factor for NVDA, which is directly tied to AI infrastructure demand expectations. The avoid recommendation is correct but the rationale is incomplete given the day's primary catalyst."
+      },
+      {
+        "symbol": "MSFT",
+        "error": "Briefing assigns Stage2 score 0/7 and avoid, which is plausible structurally. However, MSFT appeared as a Dow gainer on June 25, suggesting recent price behavior may be mixed. The deeper issue is that the OpenAI IPO delay — a material MSFT-specific risk — is not mentioned in the MSFT analysis at all."
+      }
+    ],
+    "overall_score": 58,
+    "summary": "The briefing correctly identifies chip export controls as a binary-event risk for semiconductors and accurately captures DOJ/FTC AI antitrust activity, and its avoid calls on high-valuation tech names are consistent with confirmed sector weakness. However, two critical June 26 events are entirely absent: the OpenAI IPO delay to 2027, which was the actual intraday driver of the AI selloff, and a US military strike on Iran following a ceasefire violation in the Strait of Hormuz, which the briefing reduces to a background insurance-premium note. The VIX 'below 18' claim is also factually wrong (18.89 close). These gaps — especially the Iran escalation and OpenAI IPO news — make the briefing materially incomplete for June 27 pre-market decisions."
+  }
+}
