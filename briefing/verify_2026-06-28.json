@@ -1,0 +1,211 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-27T21:45:01Z",
+  "verified_at": "2026-06-28T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=48.8 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": false,
+      "severity": "error",
+      "detail": "rank=2: confidence=confirmed이지만 인정 소스 없음 (source='bloomingbit 2026-06-27 / crypto briefing 2026-06-27')\n    rank=3: confidence=confirmed이지만 인정 소스 없음 (source='national interest 2026-06-25 / east asia forum 2026-06-26 / scmp')"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — Core fact is accurate — FCC announced expansion on June 26 targeting Huawei, ZTE, Hytera, Hikvision, Dahua. However, the briefing's claim of 'effective immediately' is incorrect. Multiple sources confirm the new rules take effect in early July 2026, not immediately. The ban also targets five firms, not just Huawei and ZTE as implied.\n    rank=3: questionable — The situation is more nuanced than described. The Trump administration has actually been recalibrating export controls in 2026 — pausing new restrictions during trade and rare earth negotiations with Beijing and in some cases approving higher-tier chip exports to China. The June 1 guidance clarified existing bans apply to Chinese firms outside China, but this is enforcement of existing rules rather than a fresh tightening. 'Further tightened' overstates what occurred."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 2건:\n    Iran ceasefire violation: US launches military strikes after Hormuz drone attacks on commercial shipping (영향: Geopolitical risk spike affecting broad market risk-off sentiment. Energy/defense names benefit; growth tech (NVDA, META, MSFT, TSLA, PLTR) face additional selling pressure. Strait of Hormuz disruption risk raises oil prices. Iran also targeted Bahrain with drones on June 27, further escalating. This is the most significant unaddressed macro risk in the briefing.)\n    Fed's Kashkari pivots to explicit rate-hike call for 2026 — first core FOMC voter to do so (영향: Kashkari said June 26 he now has 'one rate hike penciled in for 2026,' reversing his prior cut call. Nine of 18 Fed officials now project at least one hike. Higher-for-longer trajectory pressures all growth/tech names: NVDA, META, MSFT, TSLA, PLTR, CRWD, AMZN all carry elevated valuation risk in a rising rate environment. Directly contradicts the briefing's implied stable-rate backdrop.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Yellow/48.8 is plausible directionally but underweights two critical unaddressed negatives: (1) Iran military escalation with US strikes as of June 27, which is a clear risk-off catalyst not reflected in the mood framing; (2) Kashkari's rate-hike pivot, which adds macro pressure to tech multiples. The headline focus on the chip import ban is correct but incomplete — the mood score should arguably be lower (35-45 range) given these omissions. The 'mixed signals' framing is partially valid but misses the geopolitical severity."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The SMH 'down 3.97%' figure appears overstated. SMH traded in a $607.30–$621.67 intraday range on June 27 per available data, with a current price near $609, implying a much smaller daily move (~0-1% decline) vs the prior June 26 close of $610.57. Crucially, SMH is up ~69.55% YTD as of late June — labeling the semiconductor sector broadly as 'lagging sharply' misrepresents the year-to-date trend, though near-term weakness is real. The small-cap/value rotation toward IWM and RSP is accurately identified and confirmed by multiple sources showing IWM +18% YTD vs SPY."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MU: Price of $1132.33 is confirmed accurate but the 'hits MU hardest' claim in the Market Mood section conflicts with the watchlist action=buy/optimistic stance. The June 24 earnings beat (+16% surge, record $41.46B revenue, $50B Q4 guidance) is the dominant recent catalyst for MU, not the import ban. The briefing does not disclose this major earnings event which underlies the buy signal.\n    MSFT: Briefing sets action=avoid yet describes MSFT as sitting 'in UPTREND' — internally contradictory. A stock in confirmed uptrend being flagged as avoid requires explanation of the divergence signal (e.g., bearish options flow, technical distribution within uptrend) but none is provided. Kashkari rate hike risk and OpenAI IPO delay are unaddressed MSFT headwinds.\n    AAPL: The briefing lists AAPL as action=watch/neutral but omits the material CXMT lobbying story, which is directly bullish for Apple (potential memory cost relief, price hike pressure already occurring on iPads and MacBooks). This omission makes the neutral mood designation seem uninformed given the active corporate action."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-27T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US expands Chinese tech import ban to older models",
+        "accuracy": "outdated",
+        "note": "Core fact is accurate — FCC announced expansion on June 26 targeting Huawei, ZTE, Hytera, Hikvision, Dahua. However, the briefing's claim of 'effective immediately' is incorrect. Multiple sources confirm the new rules take effect in early July 2026, not immediately. The ban also targets five firms, not just Huawei and ZTE as implied."
+      },
+      {
+        "rank": 2,
+        "title": "Apple lobbies Trump admin for CXMT memory chip approval",
+        "accuracy": "accurate",
+        "note": "Fully confirmed across FT, Fortune, Bloomberg, Bloomingbit. Apple has been lobbying Commerce Dept and broader Trump administration since approximately late May 2026 due to memory cost pressures from AI-driven shortage. CXMT is on the Pentagon 1260H list but not formally on the Entity List. Decision remains pending. Apple has already raised iPad and MacBook prices as a result of chip cost inflation."
+      },
+      {
+        "rank": 3,
+        "title": "US tightens AI chip export controls, dividing global ecosystem",
+        "accuracy": "questionable",
+        "note": "The situation is more nuanced than described. The Trump administration has actually been recalibrating export controls in 2026 — pausing new restrictions during trade and rare earth negotiations with Beijing and in some cases approving higher-tier chip exports to China. The June 1 guidance clarified existing bans apply to Chinese firms outside China, but this is enforcement of existing rules rather than a fresh tightening. 'Further tightened' overstates what occurred."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Iran ceasefire violation: US launches military strikes after Hormuz drone attacks on commercial shipping",
+        "impact": "Geopolitical risk spike affecting broad market risk-off sentiment. Energy/defense names benefit; growth tech (NVDA, META, MSFT, TSLA, PLTR) face additional selling pressure. Strait of Hormuz disruption risk raises oil prices. Iran also targeted Bahrain with drones on June 27, further escalating. This is the most significant unaddressed macro risk in the briefing.",
+        "severity": "critical"
+      },
+      {
+        "title": "Fed's Kashkari pivots to explicit rate-hike call for 2026 — first core FOMC voter to do so",
+        "impact": "Kashkari said June 26 he now has 'one rate hike penciled in for 2026,' reversing his prior cut call. Nine of 18 Fed officials now project at least one hike. Higher-for-longer trajectory pressures all growth/tech names: NVDA, META, MSFT, TSLA, PLTR, CRWD, AMZN all carry elevated valuation risk in a rising rate environment. Directly contradicts the briefing's implied stable-rate backdrop.",
+        "severity": "critical"
+      },
+      {
+        "title": "OpenAI reportedly delaying IPO to 2027 after SpaceX (SPCX) post-IPO underperformance",
+        "impact": "Signals softening AI-hype premium in public markets. SpaceX priced June 11 at $135, spiked to $225+, but has retreated to ~$152. OpenAI leaning toward 2027 IPO per NYT. Negative sentiment for AI infrastructure beneficiaries: NVDA, MSFT, AMZN (cloud). May explain part of NVDA's DOWNTREND pressure.",
+        "severity": "important"
+      },
+      {
+        "title": "Micron Q3 FY2026 earnings massive beat: revenue $41.46B vs $35.84B estimate, EPS $25.11 vs $20.20 estimate",
+        "impact": "MU surged ~16% after the June 24 earnings report; Q4 guidance of $50B also crushed estimates. While MU is correctly flagged as 'buy' in the briefing, the specific earnings catalyst driving this is not disclosed. Context matters for TSM (positive read-through) and the broader semiconductor narrative which otherwise appears uniformly negative in the briefing.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow/48.8 is plausible directionally but underweights two critical unaddressed negatives: (1) Iran military escalation with US strikes as of June 27, which is a clear risk-off catalyst not reflected in the mood framing; (2) Kashkari's rate-hike pivot, which adds macro pressure to tech multiples. The headline focus on the chip import ban is correct but incomplete — the mood score should arguably be lower (35-45 range) given these omissions. The 'mixed signals' framing is partially valid but misses the geopolitical severity."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "The SMH 'down 3.97%' figure appears overstated. SMH traded in a $607.30–$621.67 intraday range on June 27 per available data, with a current price near $609, implying a much smaller daily move (~0-1% decline) vs the prior June 26 close of $610.57. Crucially, SMH is up ~69.55% YTD as of late June — labeling the semiconductor sector broadly as 'lagging sharply' misrepresents the year-to-date trend, though near-term weakness is real. The small-cap/value rotation toward IWM and RSP is accurately identified and confirmed by multiple sources showing IWM +18% YTD vs SPY."
+    },
+    "stock_errors": [
+      {
+        "symbol": "MU",
+        "error": "Price of $1132.33 is confirmed accurate but the 'hits MU hardest' claim in the Market Mood section conflicts with the watchlist action=buy/optimistic stance. The June 24 earnings beat (+16% surge, record $41.46B revenue, $50B Q4 guidance) is the dominant recent catalyst for MU, not the import ban. The briefing does not disclose this major earnings event which underlies the buy signal."
+      },
+      {
+        "symbol": "MSFT",
+        "error": "Briefing sets action=avoid yet describes MSFT as sitting 'in UPTREND' — internally contradictory. A stock in confirmed uptrend being flagged as avoid requires explanation of the divergence signal (e.g., bearish options flow, technical distribution within uptrend) but none is provided. Kashkari rate hike risk and OpenAI IPO delay are unaddressed MSFT headwinds."
+      },
+      {
+        "symbol": "AAPL",
+        "error": "The briefing lists AAPL as action=watch/neutral but omits the material CXMT lobbying story, which is directly bullish for Apple (potential memory cost relief, price hike pressure already occurring on iPads and MacBooks). This omission makes the neutral mood designation seem uninformed given the active corporate action."
+      }
+    ],
+    "overall_score": 62,
+    "summary": "The briefing's three global issues are substantively real, but the 'effective immediately' framing for the FCC ban is incorrect (early July effective date), and the AI chip controls description overstates new tightening versus enforcement of existing rules. More critically, two major market-moving events are entirely absent: Iran's ceasefire violation triggering US military strikes (a clear risk-off event) and Kashkari's rate-hike pivot (the first core FOMC voter to explicitly back a 2026 hike), both of which occurred on June 26-27 and directly affect the watchlist. The SMH daily decline figure of -3.97% also appears overstated versus observed intraday data. Stock prices for NVDA, TSM, and MU are confirmed accurate."
+  }
+}
