@@ -4,7 +4,7 @@
 
 **Layer 2 — shared data repository** for SniperBoard's AI-powered market intelligence pipeline.
 
-A server cron job runs five collectors daily, querying Grok via Hermes and fetching data from the SniperBoard backend. Results are committed to this repository as standard JSON. Any consuming program — including SniperBoard — only needs the raw GitHub URL.
+A server cron job runs six collectors daily, querying Grok via Hermes and fetching data from the SniperBoard backend and external APIs. Results are committed to this repository as standard JSON. Any consuming program — including SniperBoard — only needs the raw GitHub URL.
 
 ---
 
@@ -28,6 +28,7 @@ market-sentiment-data/
 │   ├── collect_earnings.py          # Collector 3: Earnings Intelligence
 │   ├── collect_macro_insight.py     # Collector 4: Macro Insight
 │   ├── collect_morning_briefing.py  # Collector 5: Morning Briefing (2-stage Grok pipeline, global_context)
+│   ├── collect_prediction.py        # Collector 6: Prediction Market (Kalshi FOMC 확률, no Grok)
 │   ├── probe_mention_volume.py      # Symbol selection probe — mention volume scanner (169 candidates)
 │   ├── price_context.py             # Neutral price-context fetcher (for sentiment)
 │   ├── git_utils.py                 # Shared git commit/push helper
@@ -68,6 +69,12 @@ market-sentiment-data/
 ├── macro/
 │   ├── latest.json                  # Macro Insight — always current
 │   ├── macro.log                    # Cron log
+│   └── history/
+│       └── YYYY-MM-DD_<slot>.json
+│
+├── prediction/
+│   ├── latest.json                  # Prediction Market (Kalshi FOMC) — always current
+│   ├── prediction.log               # Cron log
 │   └── history/
 │       └── YYYY-MM-DD_<slot>.json
 │
@@ -140,6 +147,35 @@ Runs once daily (KST 07:30). Uses a **2-stage Grok pipeline:**
 Returns `global_context` section with issue descriptions and market impacts, plus bilingual briefing text and key themes.
 
 **Output: `briefing/latest.json` and `briefing/history/YYYY-MM-DD.json`** (schema_version 1.1)
+
+### 6. Prediction Market (`collect/collect_prediction.py`)
+
+Runs **twice daily** (KST 05:45 and 21:45). **No Grok** — pure probability data from [Kalshi](https://kalshi.com).
+
+Fetches the next FOMC meeting's rate decision probabilities from Kalshi's prediction market:
+- Automatically finds the nearest open FOMC event
+- Maps market tickers to outcomes: `no_change`, `cut_25bps`, `cut_50bps`, `hike_25bps`
+- Stores raw `yes_ask` price as probability (0.00~1.00)
+
+**Requires:** `KALSHI_API_KEY` environment variable.
+
+**Output: `prediction/latest.json` and `prediction/history/YYYY-MM-DD_<slot>.json`**
+
+```json
+{
+  "schema_version": "1.0",
+  "source": "kalshi",
+  "next_fomc": {
+    "event_ticker": "FOMC-26JUL29",
+    "meeting_date": "2026-07-29",
+    "probabilities": { "no_change": 0.72, "cut_25bps": 0.23, "cut_50bps": 0.04, "hike_25bps": 0.01 },
+    "dominant_outcome": "no_change",
+    "dominant_probability": 0.72
+  }
+}
+```
+
+When no FOMC event is open (post-meeting gap period), `next_fomc` is `null`.
 
 ---
 

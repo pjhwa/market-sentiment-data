@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-06-28T21:45:53Z",
+  "schema_version": "1.0",
+  "slot": "post_close",
+  "source": "kalshi",
+  "next_fomc": {
+    "event_ticker": "FOMC-26JUL29",
+    "meeting_date": "2026-07-29",
+    "as_of": "2026-06-28T21:45:53Z",
+    "probabilities": {
+      "no_change": 0.72,
+      "cut_25bps": 0.23,
+      "cut_50bps": 0.04,
+      "hike_25bps": 0.01
+    },
+    "dominant_outcome": "no_change",
+    "dominant_probability": 0.72
+  }
+}

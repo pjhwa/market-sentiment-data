@@ -17,12 +17,13 @@ Social sentiment data is separated into **3 layers**. This separation is the cor
 │  Layer 1: Collect        │     │  Layer 2: Storage         │     │  Layer 3: Consume    │
 │  (server cron)           │     │  (this GitHub repo)       │     │  (SniperBoard etc.)  │
 │                          │     │                           │     │                      │
-│  5 collectors:                  │ git │  sentiment/latest.json    │ raw │  FastAPI services    │
+│  6 collectors:                  │ git │  sentiment/latest.json    │ raw │  FastAPI services    │
 │  · collect_sentiment.py         │push │  sentiment/history/       │fetch│  /api/sentiment      │
 │  · collect_brief.py             │────▶│  brief/                   │────▶│  /api/brief          │
 │  · collect_earnings.py          │     │  earnings/                │     │  /api/earnings       │
 │  · collect_macro_insight.py     │     │  macro/                   │     │  /api/macro-insight  │
 │  · collect_morning_briefing.py  │     │  briefing/ (v1.1 2-stage) │     │  /api/morning-brief… │
+│  · collect_prediction.py        │     │  prediction/ (Kalshi)     │     │  /api/prediction     │
 │                                 │     │  schema.json              │     │                      │
 └─────────────────────────┘     └──────────────────────────┘     └──────────────────────┘
 ```
@@ -49,6 +50,7 @@ market-sentiment-data/
 │   ├── collect_earnings.py            # Collector 3 — python -m collect.collect_earnings
 │   ├── collect_macro_insight.py       # Collector 4 — python -m collect.collect_macro_insight
 │   ├── collect_morning_briefing.py    # Collector 5 — python -m collect.collect_morning_briefing (morning briefing, daily at KST 07:30)
+│   ├── collect_prediction.py          # Collector 6 — python -m collect.collect_prediction (Kalshi FOMC 예측시장, twice daily)
 │   ├── probe_mention_volume.py        # One-shot symbol selection probe — mention volume scanner (169 candidates)
 │   ├── price_context.py               # Neutral price-context fetcher (used by Collector 1)
 │   ├── git_utils.py                   # commit_and_push() shared helper
@@ -79,6 +81,10 @@ market-sentiment-data/
 │   ├── latest.json               # Macro Insight: always-current
 │   ├── macro.log                 # Cron log for collect_macro_insight
 │   └── history/YYYY-MM-DD_<slot>.json
+├── prediction/
+│   ├── latest.json               # Prediction Market: 다음 FOMC 결정 확률 (Kalshi), schema_version 1.0
+│   ├── prediction.log            # Cron log for collect_prediction
+│   └── history/YYYY-MM-DD_<slot>.json
 ├── schema.json                   # JSON Schema draft-07 v2.0 (sentiment only)
 ├── README.md / README.ko.md
 └── PROJECT_CONTEXT.md / PROJECT_CONTEXT.ko.md
@@ -99,7 +105,8 @@ All config is injected via environment variables. Never hardcode paths or tokens
 | `HERMES_TIMEOUT_GLOBAL` | `90` | collector 5 (morning briefing, stage 1 global context fetch) |
 | `HERMES_RETRY` | `1` | all collectors |
 | `SNIPERBOARD_API_BASE` | `http://localhost:5001` | collectors 1, 2, 4 |
-| `SENTIMENT_SLOT` | auto-detect by UTC hour | collectors 1, 2, 4 |
+| `SENTIMENT_SLOT` | auto-detect by UTC hour | collectors 1, 2, 4, 6 |
+| `KALSHI_API_KEY` | (required) | collector 6 (prediction) |
 
 **Slot detection logic** (overridable via `SENTIMENT_SLOT`):
 - UTC 09:00–17:59 → `pre_open`
@@ -663,6 +670,67 @@ Tests are co-located in `collect/` and run with pytest. No external services req
 - `sniperboard/backend/services/brief_service.py` — fetches `brief/latest.json`
 - `sniperboard/backend/services/earnings_service.py` — fetches `earnings/latest.json` with 60-min cache; attaches `meta.age_minutes` to `/api/earnings` responses
 - `sniperboard/backend/services/macro_insight_service.py` — fetches `macro/latest.json`
+- `sniperboard/backend/services/prediction_service.py` — fetches `prediction/latest.json` (planned, not yet implemented)
 - `sniperboard/frontend/components/boards/SentimentBoard.tsx` — consumes `/api/sentiment`
 - `sniperboard/frontend/components/boards/SentimentTrendChart.tsx` — historical chart
+
+---
+
+## 17. Collector 6 — Prediction Market (`collect/collect_prediction.py`)
+
+Kalshi 예측시장에서 다음 FOMC 금리 결정 확률을 수집한다. **Grok 없음** — 순수 확률 데이터만 저장.
+
+**API:** `https://trading-api.kalshi.com/trade-api/v2`
+**인증:** `KALSHI_API_KEY` 환경변수 (Bearer 토큰)
+**스케줄:** 하루 2회 (KST 05:45 pre_open, 21:45 post_close)
+
+### 수집 흐름
+
+1. `GET /events?series_ticker=FOMC&status=open&limit=20` → 가장 가까운 미래 날짜 이벤트 선택
+2. `GET /events/{event_ticker}` → 마켓 목록 + `yes_ask` 가격 수집
+3. ticker 키워드로 outcome 매핑:
+   - `UNCHANGED` / `NO_CHANGE` → `no_change`
+   - `DOWN25` / `CUT25` → `cut_25bps`
+   - `DOWN50` / `CUT50` → `cut_50bps`
+   - `UP25` / `HIKE25` → `hike_25bps`
+4. `yes_ask` 값이 >1.0 이면 센트 단위(0~100)로 판단 → 100으로 나눔
+5. `prediction/latest.json` + `prediction/history/<date>_<slot>.json` 저장 → git push
+
+### Output Schema (schema_version 1.0)
+
+```json
+{
+  "generated_at": "2026-06-29T06:30:00Z",
+  "schema_version": "1.0",
+  "slot": "pre_open",
+  "source": "kalshi",
+  "next_fomc": {
+    "event_ticker": "FOMC-26JUL29",
+    "meeting_date": "2026-07-29",
+    "as_of": "2026-06-29T06:30:00Z",
+    "probabilities": {
+      "no_change": 0.72,
+      "cut_25bps": 0.23,
+      "cut_50bps": 0.04,
+      "hike_25bps": 0.01
+    },
+    "dominant_outcome": "no_change",
+    "dominant_probability": 0.72
+  }
+}
+```
+
+FOMC 이벤트가 없을 때 (회의 직후 공백기): `next_fomc: null` 저장, 정상 종료.
+
+### Key Functions
+
+| Function | Purpose |
+|----------|---------|
+| `detect_slot(now)` | `pre_open` / `post_close` 판정 (기존과 동일 로직) |
+| `_kalshi_get(path)` | Kalshi REST GET 호출; 실패 시 None |
+| `_parse_outcome(ticker)` | 마켓 ticker 키워드 → outcome 이름 |
+| `fetch_next_fomc_event()` | 열린 FOMC 이벤트 중 가장 가까운 것 반환 |
+| `fetch_fomc_probabilities(event_ticker)` | 이벤트 내 모든 마켓 확률 수집 |
+| `build_snapshot(slot, now)` | 전체 스냅샷 dict 생성 |
+| `save_snapshot(snapshot, slot, now)` | latest.json + history 저장, 경로 목록 반환 |
 - SniperBoard `MACRO_SYMBOLS` uses English names matching this repo's macro asset list
