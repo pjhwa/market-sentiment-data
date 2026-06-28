@@ -1,0 +1,206 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-28T21:45:01Z",
+  "verified_at": "2026-06-29T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=48.8 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: inaccurate — The briefing critically misrepresents the situation. This is not a passive 'risk premium with open shipping lanes' — the US and Israel launched coordinated airstrikes on Iran on Feb 28, 2026 (Operation Epic Fury), physically closing the Strait of Hormuz. A ceasefire MOU was signed June 17, but Iran RE-DECLARED the Strait CLOSED on June 20-22 citing continued Israeli strikes on Lebanon and US bad faith. As of June 28, the Strait status is actively contested: Iran's military says closed, US CENTCOM reports 55 ships transited June 20, Iran's foreign ministry says 'operating normally.' The briefing's claim of 'shipping lanes remain open with no new closure threats in last 48 hours' directly contradicts the June 22 Al Jazeera report of shipping stalling after Iran's closure declaration — 6 days before the briefing was generated.\n    rank=3: inaccurate — Google: Partially accurate — remedies were issued Sept 2025 (no Chrome/Android divestiture, but exclusivity contracts banned), currently under appeal by both DOJ and Google. Meta: INACCURATE — the FTC's monopolization case was DISMISSED by Judge Boasberg in November 2025; the FTC is appealing as of January 2026, but Meta is NOT in a 'remedies phase' — it won at trial. Microsoft: No active DOJ remedies phase; EU Teams bundling case was resolved via pricing concessions. Characterizing all three as being in 'remedies or appeals stage' is materially misleading for Meta."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 2건:\n    Global chipmaker selloff triggered by Samsung and SK Hynix guidance miss (~June 23, 2026) (영향: KOSPI dropped ~10%; Samsung and SK Hynix each fell 12%+. Ripple effects hit US premarket: Micron (MU), Western Digital, Sandisk lower before open. Nasdaq 100 closed -1.09% June 26. This is the primary catalyst for the semiconductor red signals on MU, NVDA, and TSM in the watchlist, but the briefing describes the semiconductor weakness without naming this specific and critical driver.)\n    Iran re-declares Strait of Hormuz closed (June 20-22, 2026) amid Israeli strikes on Lebanon (영향: Directly impacts oil/energy prices and commodities. The briefing (generated June 28) describes this as mere 'elevated monitoring' when Iran issued an active new closure declaration 6 days prior. Energy-exposed positions and commodity pricing models built on the briefing's framing are unreliable.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: VIX cited at 18.41 vs confirmed ~18.89 close on June 26 — minor discrepancy, likely different intraday timestamp. The yellow traffic light at 48.8 and semiconductor/commodity weakness are directionally defensible. However, the mood assessment rests on a critically flawed Hormuz premise ('no new closure threats') when Iran had issued an active closure declaration days earlier. The actual geopolitical tail risk is substantially higher than the briefing implies, meaning the 48.8 score and 'VIX subdued relative to frictions' characterization likely underweights real macro risk."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Semiconductor red and distribution signals are consistent with confirmed Samsung/SK Hynix-driven global selloff; Nasdaq 100 -1.09% on June 26 corroborates. Rotation toward credit (HYG) and rates (TLT) is plausible in a risk-off regime. One tension: if the Strait of Hormuz is actively contested-to-closed, crude oil should theoretically be showing sharp upside, not simply 'red with distribution pressure' — the OIL signal in red may reflect pre-MOU spike exhaustion post-June 17 ceasefire but could reverse sharply on the June 20-22 re-closure news."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "PLTR: Briefing cites $112.93; search data shows June 28 close ~$112.15 (range $107.88–$114.08). Minor discrepancy, likely intraday vs close timing difference.\n    MU: Briefing cites $1,132.33; search data shows June 28 close ~$1,133.50 (range $1,119.93–$1,198.71). Immaterially small difference, essentially correct.\n    VIX: Briefing cites 18.41; confirmed June 26 close was 18.89. Minor discrepancy, does not change the directional assessment."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-28T22:16:08Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip export licensing case-by-case with 25% tariff",
+        "accuracy": "accurate",
+        "note": "BIS revised to case-by-case review for H200/MI325X-class chips effective Jan 15, 2026. Core framing is confirmed. However, a significant June 1, 2026 update (US extended the AI chip export ban to Chinese-owned firms headquartered outside China) is absent from the briefing — this narrows the export perimeter and is relevant to NVDA and TSM watchlist positions."
+      },
+      {
+        "rank": 2,
+        "title": "Iran-Hormuz tensions keep oil supply risk premium elevated",
+        "accuracy": "inaccurate",
+        "note": "The briefing critically misrepresents the situation. This is not a passive 'risk premium with open shipping lanes' — the US and Israel launched coordinated airstrikes on Iran on Feb 28, 2026 (Operation Epic Fury), physically closing the Strait of Hormuz. A ceasefire MOU was signed June 17, but Iran RE-DECLARED the Strait CLOSED on June 20-22 citing continued Israeli strikes on Lebanon and US bad faith. As of June 28, the Strait status is actively contested: Iran's military says closed, US CENTCOM reports 55 ships transited June 20, Iran's foreign ministry says 'operating normally.' The briefing's claim of 'shipping lanes remain open with no new closure threats in last 48 hours' directly contradicts the June 22 Al Jazeera report of shipping stalling after Iran's closure declaration — 6 days before the briefing was generated."
+      },
+      {
+        "rank": 3,
+        "title": "US antitrust cases against big tech in remedies or appeals phase",
+        "accuracy": "inaccurate",
+        "note": "Google: Partially accurate — remedies were issued Sept 2025 (no Chrome/Android divestiture, but exclusivity contracts banned), currently under appeal by both DOJ and Google. Meta: INACCURATE — the FTC's monopolization case was DISMISSED by Judge Boasberg in November 2025; the FTC is appealing as of January 2026, but Meta is NOT in a 'remedies phase' — it won at trial. Microsoft: No active DOJ remedies phase; EU Teams bundling case was resolved via pricing concessions. Characterizing all three as being in 'remedies or appeals stage' is materially misleading for Meta."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Global chipmaker selloff triggered by Samsung and SK Hynix guidance miss (~June 23, 2026)",
+        "impact": "KOSPI dropped ~10%; Samsung and SK Hynix each fell 12%+. Ripple effects hit US premarket: Micron (MU), Western Digital, Sandisk lower before open. Nasdaq 100 closed -1.09% June 26. This is the primary catalyst for the semiconductor red signals on MU, NVDA, and TSM in the watchlist, but the briefing describes the semiconductor weakness without naming this specific and critical driver.",
+        "severity": "critical"
+      },
+      {
+        "title": "Iran re-declares Strait of Hormuz closed (June 20-22, 2026) amid Israeli strikes on Lebanon",
+        "impact": "Directly impacts oil/energy prices and commodities. The briefing (generated June 28) describes this as mere 'elevated monitoring' when Iran issued an active new closure declaration 6 days prior. Energy-exposed positions and commodity pricing models built on the briefing's framing are unreliable.",
+        "severity": "critical"
+      },
+      {
+        "title": "US extends AI chip export ban to Chinese-owned firms outside China (June 1, 2026)",
+        "impact": "Tightens chip export perimeter beyond what briefing describes for Issue #1. Affects NVDA sales channels and potentially TSM customer mix. The briefing's description of 'no broad new restrictions in last 48h' is technically true relative to the briefing window, but the June 1 update represents a significant policy shift within the past month.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "VIX cited at 18.41 vs confirmed ~18.89 close on June 26 — minor discrepancy, likely different intraday timestamp. The yellow traffic light at 48.8 and semiconductor/commodity weakness are directionally defensible. However, the mood assessment rests on a critically flawed Hormuz premise ('no new closure threats') when Iran had issued an active closure declaration days earlier. The actual geopolitical tail risk is substantially higher than the briefing implies, meaning the 48.8 score and 'VIX subdued relative to frictions' characterization likely underweights real macro risk."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Semiconductor red and distribution signals are consistent with confirmed Samsung/SK Hynix-driven global selloff; Nasdaq 100 -1.09% on June 26 corroborates. Rotation toward credit (HYG) and rates (TLT) is plausible in a risk-off regime. One tension: if the Strait of Hormuz is actively contested-to-closed, crude oil should theoretically be showing sharp upside, not simply 'red with distribution pressure' — the OIL signal in red may reflect pre-MOU spike exhaustion post-June 17 ceasefire but could reverse sharply on the June 20-22 re-closure news."
+    },
+    "stock_errors": [
+      {
+        "symbol": "PLTR",
+        "error": "Briefing cites $112.93; search data shows June 28 close ~$112.15 (range $107.88–$114.08). Minor discrepancy, likely intraday vs close timing difference."
+      },
+      {
+        "symbol": "MU",
+        "error": "Briefing cites $1,132.33; search data shows June 28 close ~$1,133.50 (range $1,119.93–$1,198.71). Immaterially small difference, essentially correct."
+      },
+      {
+        "symbol": "VIX",
+        "error": "Briefing cites 18.41; confirmed June 26 close was 18.89. Minor discrepancy, does not change the directional assessment."
+      }
+    ],
+    "overall_score": 38,
+    "summary": "Stock price data for the watchlist is largely accurate (TSM $432.35, CRWD $701.09, MU ~$1,132, NVDA ~$192.53 all independently confirmed), and the semiconductor sector weakness direction is correct. However, the briefing contains a critical factual error on Iran-Hormuz — describing the Strait as 'open under elevated monitoring with no new closure threats' when Iran had actively re-declared it closed on June 20-22 (an ongoing 2026 war context the briefing omits entirely); this materially misrepresents geopolitical risk. Additionally, Meta's antitrust framing is wrong (case was dismissed, not in remedies), and the major Samsung/SK Hynix chipmaker selloff catalyst driving semiconductor weakness is absent. The briefing's global context section requires significant correction before it can be trusted for investment decision-making."
+  }
+}
