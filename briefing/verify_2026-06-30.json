@@ -1,0 +1,211 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-29T21:45:01Z",
+  "verified_at": "2026-06-30T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=52.1 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — The case-by-case licensing regime with 25% tariff was established effective January 15, 2026 (BIS final rule + White House Section 232 announcement), not 'as of late June 2026.' The June 2026 development was narrower: Commerce Dept guidance affirming that chip export restrictions extend to Chinese-headquartered companies' subsidiaries outside China. The briefing misattributes the original January policy shift as a recent late-June development, which overstates the newsworthiness of the current moment.\n    rank=2: inaccurate — The briefing dramatically understates the severity. Iran has largely blocked Hormuz shipping since February 2026 when the US and Israel launched airstrikes against Iran, triggering an active US-Iran war. The IRGC has boarded and attacked merchant vessels and laid sea mines. A second tanker was struck in late June, prompting US military retaliation against Iranian targets. A fragile US-Iran 60-day ceasefire MOU exists but both sides have accused each other of violations. Shipping is only slowly resuming. Describing this as mere 'elevated insurance premiums and naval escort requirements' is a material misrepresentation of an active military conflict.\n    rank=3: inaccurate — No evidence of a combined Google+Microsoft 'AI practices' hearing concluding June 28. The Google antitrust remedies were finalized in April 2026 (not currently in hearings). The case is now in the DC Circuit appeals phase, with a Joint Status Report filed June 17, 2026. Microsoft is not a named defendant in this proceeding. The briefing appears to fabricate a joint Google-Microsoft AI antitrust case that does not exist in the verified record."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Samsung, SK Hynix, Micron hit with DRAM antitrust class-action lawsuit (영향: Directly affects MU: filed June 25 in N.D. California, alleging DRAM supply collusion and 500-700% price inflation via HBM transition manipulation. MU dropped -6.69% on June 26. The briefing recommends MU as a 'buy' with 'euphoric' mood without disclosing this material litigation risk.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: SMH +3.33% and QQQ +2.49% are confirmed accurate. However, the overall market was significantly stronger than the yellow/52.1 score implies: S&P 500 +1.2%, Nasdaq 100 +2.3%, Dow at fresh record high, Tesla soaring, Alphabet +5%. The primary driver was US-Iran ceasefire relief rather than semiconductor tariff optimism as the headline states. Yellow sentiment is defensible given the active Iran war, MU antitrust overhang, and fragile Hormuz ceasefire, but the headline narrative misidentifies the actual market catalyst."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Semiconductor leadership (SMH +3.33%) and broad tech outperformance (QQQ +2.49%) are verified. Capital rotating out of commodities into semis/AI infrastructure is consistent with confirmed June 29 price action. The sector direction call is correct even if the underlying narrative (tariff-driven vs. geopolitical-relief-driven) is partially off."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSLA: Closing price appears incorrect. Briefing states $411.84 but historical data sources place the June 29 close near $382.79, a ~7.5% discrepancy. Additionally, the briefing states 'Price below EMA21 at $399.36' which is internally inconsistent: if EMA21 is $399.36 and the stated close is $411.84, the price would be above EMA21, contradicting the DOWNTREND rationale. Price data appears to be from a prior session.\n    MU: Mood assessed as 'euphoric' with action=buy, but Micron faced a major DRAM antitrust class-action lawsuit filed June 25 (alongside Samsung and SK Hynix), causing a -6.69% drop on June 26. The 'euphoric' characterization and uncaveated buy recommendation omit a material litigation risk that is already moving the stock. The stated price of $1,145.28 is plausible within the June 29 trading range ($1,121-$1,199) but the sentiment label is wrong.\n    MSFT: Briefing notes a data inconsistency flag (Stage2=0 vs UPTREND from API), but separately the DOJ AI antitrust case description incorrectly names Microsoft as a co-defendant alongside Google in AI practices remedies hearings — no such case exists in the verified record."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-29T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China semis tariff talks shift to case-by-case licensing",
+        "accuracy": "outdated",
+        "note": "The case-by-case licensing regime with 25% tariff was established effective January 15, 2026 (BIS final rule + White House Section 232 announcement), not 'as of late June 2026.' The June 2026 development was narrower: Commerce Dept guidance affirming that chip export restrictions extend to Chinese-headquartered companies' subsidiaries outside China. The briefing misattributes the original January policy shift as a recent late-June development, which overstates the newsworthiness of the current moment."
+      },
+      {
+        "rank": 2,
+        "title": "Iran-Hormuz shipping risk remains elevated after June incidents",
+        "accuracy": "inaccurate",
+        "note": "The briefing dramatically understates the severity. Iran has largely blocked Hormuz shipping since February 2026 when the US and Israel launched airstrikes against Iran, triggering an active US-Iran war. The IRGC has boarded and attacked merchant vessels and laid sea mines. A second tanker was struck in late June, prompting US military retaliation against Iranian targets. A fragile US-Iran 60-day ceasefire MOU exists but both sides have accused each other of violations. Shipping is only slowly resuming. Describing this as mere 'elevated insurance premiums and naval escort requirements' is a material misrepresentation of an active military conflict."
+      },
+      {
+        "rank": 3,
+        "title": "DOJ AI antitrust remedies hearing enters final phase",
+        "accuracy": "inaccurate",
+        "note": "No evidence of a combined Google+Microsoft 'AI practices' hearing concluding June 28. The Google antitrust remedies were finalized in April 2026 (not currently in hearings). The case is now in the DC Circuit appeals phase, with a Joint Status Report filed June 17, 2026. Microsoft is not a named defendant in this proceeding. The briefing appears to fabricate a joint Google-Microsoft AI antitrust case that does not exist in the verified record."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Samsung, SK Hynix, Micron hit with DRAM antitrust class-action lawsuit",
+        "impact": "Directly affects MU: filed June 25 in N.D. California, alleging DRAM supply collusion and 500-700% price inflation via HBM transition manipulation. MU dropped -6.69% on June 26. The briefing recommends MU as a 'buy' with 'euphoric' mood without disclosing this material litigation risk.",
+        "severity": "critical"
+      },
+      {
+        "title": "US-Iran peace talks set to resume Tuesday; ceasefire holding cautiously",
+        "impact": "This was the primary driver of broad market strength on June 29 (S&P 500 +1.2%, Nasdaq +2.3%), not semiconductor tariff narrative. Affects macro backdrop and Hormuz risk assessment for energy names including CL. Briefing attributes market gains to semis/tariff news when geopolitical relief was the dominant catalyst.",
+        "severity": "important"
+      },
+      {
+        "title": "Alphabet joins the Dow Jones Industrial Average",
+        "impact": "GOOGL surged ~5% on June 29 as its first day as a Dow component. While GOOGL is not in the watchlist, it anchors the AI/mega-cap tech rotation narrative and is directly adjacent to META, MSFT, and AMZN watchlist names.",
+        "severity": "important"
+      },
+      {
+        "title": "Supreme Court blocks Trump's firing of Fed Governor Lisa Cook",
+        "impact": "Removes a tail risk of executive interference with Fed independence. Supports risk-on sentiment broadly; relevant to macro rate outlook which underpins valuations for all growth/tech watchlist names.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "SMH +3.33% and QQQ +2.49% are confirmed accurate. However, the overall market was significantly stronger than the yellow/52.1 score implies: S&P 500 +1.2%, Nasdaq 100 +2.3%, Dow at fresh record high, Tesla soaring, Alphabet +5%. The primary driver was US-Iran ceasefire relief rather than semiconductor tariff optimism as the headline states. Yellow sentiment is defensible given the active Iran war, MU antitrust overhang, and fragile Hormuz ceasefire, but the headline narrative misidentifies the actual market catalyst."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Semiconductor leadership (SMH +3.33%) and broad tech outperformance (QQQ +2.49%) are verified. Capital rotating out of commodities into semis/AI infrastructure is consistent with confirmed June 29 price action. The sector direction call is correct even if the underlying narrative (tariff-driven vs. geopolitical-relief-driven) is partially off."
+    },
+    "stock_errors": [
+      {
+        "symbol": "TSLA",
+        "error": "Closing price appears incorrect. Briefing states $411.84 but historical data sources place the June 29 close near $382.79, a ~7.5% discrepancy. Additionally, the briefing states 'Price below EMA21 at $399.36' which is internally inconsistent: if EMA21 is $399.36 and the stated close is $411.84, the price would be above EMA21, contradicting the DOWNTREND rationale. Price data appears to be from a prior session."
+      },
+      {
+        "symbol": "MU",
+        "error": "Mood assessed as 'euphoric' with action=buy, but Micron faced a major DRAM antitrust class-action lawsuit filed June 25 (alongside Samsung and SK Hynix), causing a -6.69% drop on June 26. The 'euphoric' characterization and uncaveated buy recommendation omit a material litigation risk that is already moving the stock. The stated price of $1,145.28 is plausible within the June 29 trading range ($1,121-$1,199) but the sentiment label is wrong."
+      },
+      {
+        "symbol": "MSFT",
+        "error": "Briefing notes a data inconsistency flag (Stage2=0 vs UPTREND from API), but separately the DOJ AI antitrust case description incorrectly names Microsoft as a co-defendant alongside Google in AI practices remedies hearings — no such case exists in the verified record."
+      }
+    ],
+    "overall_score": 55,
+    "summary": "The briefing scores 55/100. Sector ETF performance figures (SMH, QQQ) are accurate and the semiconductor leadership call is directionally correct, but all three global macro issues contain material inaccuracies: the semis licensing shift is misdated by six months, the Iran-Hormuz situation is dramatically understated (active US-Iran war, not just elevated premiums), and the Google-Microsoft AI antitrust case as described does not exist. Critically, the briefing omits the June 25 DRAM antitrust class-action against MU while simultaneously issuing a buy recommendation with 'euphoric' mood — a significant oversight. TSLA pricing also appears stale. The June 29 market was primarily driven by US-Iran ceasefire relief, not semiconductor tariff developments as the briefing asserts."
+  }
+}
