@@ -1,0 +1,215 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-06-30T21:45:01Z",
+  "verified_at": "2026-07-01T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MSFT: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=55.6 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — The briefing describes NVDA and TSM applications as 'pending review' under case-by-case licensing, but this is outdated. Trump announced H200 approval in December 2025; the Commerce Department approved ~10 Chinese firms (Alibaba, Tencent, ByteDance) for up to 75,000 H200 units each with a 25% revenue payment to the US government. NVDA CEO confirmed license receipt on March 17, 2026. No deliveries have been made as of May 2026 due to Beijing's supply chain regulations, but the characterization of NVDA/TSM applications as 'pending review with no blanket approvals' is factually stale. TSM separately received an annual license to import US chipmaking tools to its Nanjing facility. The 25% figure is correct but describes a revenue-sharing arrangement, not a conventional tariff.\n    rank=2: inaccurate — The briefing's framing — 'elevated premiums, no new incidents, no withdrawal of naval assets' — is a severe understatement of an active geopolitical crisis. Key facts omitted or wrong: (1) The US and Israel struck Iran on February 28, 2026, assassinating Supreme Leader Khamenei; Iran declared the Strait 'closed' and began attacking ships in March 2026. (2) Insurance premiums rose 4,000x (not merely 'elevated'); Lloyd's expanded its high-risk zone to the entire Persian Gulf. (3) Shipping traffic dropped ~95%; Maersk, MSC, CMA CGM, and Hapag-Lloyd all suspended transits. (4) A US-Iran ceasefire MOU was signed June 17, 2026, reopening the Strait briefly — but Iran re-closed it on June 20, citing Israeli ceasefire violations, an event 10 days before this briefing was generated. Saying 'no new incidents' is factually wrong given Iran's June 20 re-closure. The US Treasury established a $40B DFC reinsurance facility in response. This is the single largest factual failure in the briefing.\n    rank=3: inaccurate — The briefing says all three cases are in 'document production with no consent decrees or trial dates set.' This is wrong for Google: the DOJ already won the liability ruling in 2024; Judge Mehta imposed significant behavioral remedies in September 2025 (data-sharing, syndication mandate, ban on exclusive distribution contracts — the most aggressive remedies since the Microsoft consent decree). Google filed its appeal notice on April 25, 2026, and filed its DC Circuit opening brief May 22, 2026. The case is now in appellate review, not document production. Microsoft FTC probe is accurately described as active. Meta's status is less clear — the FTC appealed a dismissal, so the case is contested but not straightforwardly 'active with document production.'"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Iran re-closes Strait of Hormuz on June 20, 2026 citing ceasefire violations (영향: Directly affects OIL/energy commodity pricing. Energy names CEG, VST face elevated power-cost uncertainty. Broader macro risk affects all watchlist names via oil supply shock. The June 17 ceasefire and June 20 re-closure is the single most material macro event of the past two weeks and is entirely absent from the briefing.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The yellow/55.6 score is likely too cautious given actual June 29-30 market performance. The Dow closed above 52,000 for the first time (52,182, +0.59%), S&P 500 at 7,440 (+1.18%), Nasdaq at 25,820 (+2.07%), and SMH gained 3%+. Semiconductor breadth is improving and the market appears risk-on, not mixed. The Hormuz crisis cited as a macro risk is real but has been priced in since March 2026 — it is not a new headwind as of June 30. A green or high-yellow reading would better reflect the actual tape."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Semiconductor leadership (SMH +3%, Astera Labs +16%, KLA +12%, Applied Materials +11%) is confirmed and accurately described. However, the 'OIL in RED with deteriorating structure' claim is counterintuitive: the Hormuz crisis has disrupted ~20% of global oil supply since March 2026, which should be structurally supportive for oil prices and energy names. If OIL is showing a deteriorating technical structure, it may reflect demand-side concerns overriding supply disruption, but this tension deserves explicit mention. GLD behavior in a wartime macro environment also warrants scrutiny. The rotation narrative toward AI infrastructure and away from rate-sensitive defensives is broadly consistent with the June 29-30 tape."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSM: Reported close of $477.57 (+4.94%) does not match available data. June 30 market data shows TSM trading around $468.80 with prior close ~$455.10, implying a gain of approximately 3.0%, not 4.94%. The price discrepancy is ~$9 (~1.9%). May reflect a data sourcing error or stale pre-close snapshot.\n    CRWD: Reported close of $763.14 (+2.72%) does not match available data. CRWD closed June 29 at $742.91 (+5.96%) and traded in the $736–$745 range on June 30. The briefing's $763.14 is ~$20 above reported levels (~2.7% overstatement). Additionally, the briefing omits the 4-for-1 stock split effective July 2, 2026, which is critical context for any buy signal on CRWD.\n    MU: Reported close of $1,154.29 is slightly above available data showing MU around $1,146.12 on June 30 (prior close $1,145.28). Minor discrepancy of ~$8 (~0.7%); could be intraday vs. closing price sourcing difference rather than a clear error.\n    NVDA: The global context section states 'NVDA applications continue pending review' — this is factually incorrect as of March 2026. NVDA received US government licenses to sell H200 chips to approved Chinese customers. The watchlist action=avoid based on DOWNTREND structure may be technically valid, but the macro rationale citing pending applications is stale."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-06-30T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip export licensing",
+        "accuracy": "outdated",
+        "note": "The briefing describes NVDA and TSM applications as 'pending review' under case-by-case licensing, but this is outdated. Trump announced H200 approval in December 2025; the Commerce Department approved ~10 Chinese firms (Alibaba, Tencent, ByteDance) for up to 75,000 H200 units each with a 25% revenue payment to the US government. NVDA CEO confirmed license receipt on March 17, 2026. No deliveries have been made as of May 2026 due to Beijing's supply chain regulations, but the characterization of NVDA/TSM applications as 'pending review with no blanket approvals' is factually stale. TSM separately received an annual license to import US chipmaking tools to its Nanjing facility. The 25% figure is correct but describes a revenue-sharing arrangement, not a conventional tariff."
+      },
+      {
+        "rank": 2,
+        "title": "Iran-Hormuz shipping risk",
+        "accuracy": "inaccurate",
+        "note": "The briefing's framing — 'elevated premiums, no new incidents, no withdrawal of naval assets' — is a severe understatement of an active geopolitical crisis. Key facts omitted or wrong: (1) The US and Israel struck Iran on February 28, 2026, assassinating Supreme Leader Khamenei; Iran declared the Strait 'closed' and began attacking ships in March 2026. (2) Insurance premiums rose 4,000x (not merely 'elevated'); Lloyd's expanded its high-risk zone to the entire Persian Gulf. (3) Shipping traffic dropped ~95%; Maersk, MSC, CMA CGM, and Hapag-Lloyd all suspended transits. (4) A US-Iran ceasefire MOU was signed June 17, 2026, reopening the Strait briefly — but Iran re-closed it on June 20, citing Israeli ceasefire violations, an event 10 days before this briefing was generated. Saying 'no new incidents' is factually wrong given Iran's June 20 re-closure. The US Treasury established a $40B DFC reinsurance facility in response. This is the single largest factual failure in the briefing."
+      },
+      {
+        "rank": 3,
+        "title": "US AI antitrust probes",
+        "accuracy": "inaccurate",
+        "note": "The briefing says all three cases are in 'document production with no consent decrees or trial dates set.' This is wrong for Google: the DOJ already won the liability ruling in 2024; Judge Mehta imposed significant behavioral remedies in September 2025 (data-sharing, syndication mandate, ban on exclusive distribution contracts — the most aggressive remedies since the Microsoft consent decree). Google filed its appeal notice on April 25, 2026, and filed its DC Circuit opening brief May 22, 2026. The case is now in appellate review, not document production. Microsoft FTC probe is accurately described as active. Meta's status is less clear — the FTC appealed a dismissal, so the case is contested but not straightforwardly 'active with document production.'"
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Iran re-closes Strait of Hormuz on June 20, 2026 citing ceasefire violations",
+        "impact": "Directly affects OIL/energy commodity pricing. Energy names CEG, VST face elevated power-cost uncertainty. Broader macro risk affects all watchlist names via oil supply shock. The June 17 ceasefire and June 20 re-closure is the single most material macro event of the past two weeks and is entirely absent from the briefing.",
+        "severity": "critical"
+      },
+      {
+        "title": "CrowdStrike (CRWD) announces 4-for-1 stock split effective July 2, 2026",
+        "impact": "CRWD closed June 29 up 5.96% on split announcement momentum, trading ~$742 pre-split. The briefing shows CRWD at $763.14 which does not match reported June 29/30 prices and omits the split entirely. Post-split CRWD will trade ~$185/share on July 2. Investors tracking CRWD buy signal need this context.",
+        "severity": "important"
+      },
+      {
+        "title": "Google antitrust appeal filed at DC Circuit (May 22, 2026)",
+        "impact": "Affects GOOGL directly. The case is in appellate review of September 2025 behavioral remedies, not discovery phase. DC Circuit outcome determines whether syndication mandates and data-sharing obligations are stayed or enforced, materially affecting GOOGL's ad business moat.",
+        "severity": "important"
+      },
+      {
+        "title": "DOJ Antitrust Division loses second chief in five months (reported June 28, 2026)",
+        "impact": "Leadership instability at DOJ affects enforcement trajectory on GOOGL, MSFT, AAPL cases. Creates uncertainty about appeal strategy and whether existing remedy orders will be vigorously defended.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "The yellow/55.6 score is likely too cautious given actual June 29-30 market performance. The Dow closed above 52,000 for the first time (52,182, +0.59%), S&P 500 at 7,440 (+1.18%), Nasdaq at 25,820 (+2.07%), and SMH gained 3%+. Semiconductor breadth is improving and the market appears risk-on, not mixed. The Hormuz crisis cited as a macro risk is real but has been priced in since March 2026 — it is not a new headwind as of June 30. A green or high-yellow reading would better reflect the actual tape."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Semiconductor leadership (SMH +3%, Astera Labs +16%, KLA +12%, Applied Materials +11%) is confirmed and accurately described. However, the 'OIL in RED with deteriorating structure' claim is counterintuitive: the Hormuz crisis has disrupted ~20% of global oil supply since March 2026, which should be structurally supportive for oil prices and energy names. If OIL is showing a deteriorating technical structure, it may reflect demand-side concerns overriding supply disruption, but this tension deserves explicit mention. GLD behavior in a wartime macro environment also warrants scrutiny. The rotation narrative toward AI infrastructure and away from rate-sensitive defensives is broadly consistent with the June 29-30 tape."
+    },
+    "stock_errors": [
+      {
+        "symbol": "TSM",
+        "error": "Reported close of $477.57 (+4.94%) does not match available data. June 30 market data shows TSM trading around $468.80 with prior close ~$455.10, implying a gain of approximately 3.0%, not 4.94%. The price discrepancy is ~$9 (~1.9%). May reflect a data sourcing error or stale pre-close snapshot."
+      },
+      {
+        "symbol": "CRWD",
+        "error": "Reported close of $763.14 (+2.72%) does not match available data. CRWD closed June 29 at $742.91 (+5.96%) and traded in the $736–$745 range on June 30. The briefing's $763.14 is ~$20 above reported levels (~2.7% overstatement). Additionally, the briefing omits the 4-for-1 stock split effective July 2, 2026, which is critical context for any buy signal on CRWD."
+      },
+      {
+        "symbol": "MU",
+        "error": "Reported close of $1,154.29 is slightly above available data showing MU around $1,146.12 on June 30 (prior close $1,145.28). Minor discrepancy of ~$8 (~0.7%); could be intraday vs. closing price sourcing difference rather than a clear error."
+      },
+      {
+        "symbol": "NVDA",
+        "error": "The global context section states 'NVDA applications continue pending review' — this is factually incorrect as of March 2026. NVDA received US government licenses to sell H200 chips to approved Chinese customers. The watchlist action=avoid based on DOWNTREND structure may be technically valid, but the macro rationale citing pending applications is stale."
+      }
+    ],
+    "overall_score": 32,
+    "summary": "The briefing contains a critical factual failure on the Iran-Hormuz situation: it describes the Strait as having 'no new incidents' when in reality an active US-Iran war has been disrupting global shipping since February 2026, Iran re-closed the Strait on June 20 (10 days before this briefing), and insurance premiums are 4,000x pre-crisis levels — not merely 'elevated.' The US-China chip export characterization is outdated (NVDA received licenses in March 2026, not pending review), and the Google antitrust case is in DC Circuit appeals — not document production. Sector analysis and semiconductor leadership claims are broadly confirmed by June 29-30 market data, but stock prices for TSM and CRWD contain material discrepancies and the CRWD split is unmentioned. The macro context is dangerously incomplete and should not be relied upon for trading decisions."
+  }
+}
