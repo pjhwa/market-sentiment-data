@@ -1,0 +1,211 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-07-01T21:45:01Z",
+  "verified_at": "2026-07-02T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MSFT: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=58.1 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: TSM earnings expected Jul 16 (est. EPS $3.8))"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — Core framing (case-by-case licensing + 25% tariff regime) is broadly accurate, but the May 6 source is 57 days old and the situation has materially evolved. TSMC secured a new one-year US export license for its Nanjing plant in January 2026. More significantly, in June 2026 the US issued an enforcement notice extending AI chip restrictions to subsidiaries of Chinese companies located *outside* China — closing a major loophole. The 'no full blockade' framing understates the tightening trajectory. NVDA is also reportedly seeking new H200 orders through TSMC amid surging Chinese demand."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    CrowdStrike 4-for-1 stock split effective July 2, 2026 (영향: CRWD is on the watchlist with action=buy. The 4-for-1 split distributes after July 1 market close; shares begin trading split-adjusted on July 2. Any reader acting on the $772.74 price in the briefing will see CRWD open around $193 on July 2 — a 75% price reduction that is mechanical, not a crash. Briefing's CRWD entry is unusable without this context.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Yellow/58.1 is defensible for the overall tone — July 1 saw SPY down ~0.22-0.33% and Nasdaq down ~0.66% on the session, consistent with mild caution. However the briefing underweights a significant cross-current: META's 11%+ surge on its AI cloud announcement was a major positive event for a core watchlist name. A yellow light that emphasizes semis pressure while omitting META's rally gives a skewed picture. Warsh's hawkish Sintra remarks (inflation 'too high') also represent a macro risk signal not reflected in the mood framing."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The SMH -5.40% single-day decline is not well supported by available data. SMH traded in a range of $634.60–$659.74 on July 1 from a prior close near $655.89; pre-market indicated only -0.95%. A 5.40% daily crash on July 1 is not confirmed and appears overstated — possibly conflating a prior session's move or a different time window. The rotation narrative toward commodities/defensives amid credit weakness is plausible but the semiconductor laggard magnitude needs correction. SMH's Q2 performance was actually +3.78%, and its YTD return through June was +75.49%, making a sudden 5.4% one-day drop on July 1 anomalous without a clear catalyst on that date."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CRWD: The $772.74 closing price is the pre-split price. CrowdStrike's 4-for-1 stock split distributes after July 1 market close, meaning July 2 opening price will be approximately $193, not $772. The briefing's buy recommendation and price level are unusable for July 2 trading without this critical context. The 10.22% gain figure also does not match single-day performance (close-to-close on July 1 was approximately +1.3% based on prior close $763.14).\n    MU: Price discrepancy: briefing states $1,032.28 while available July 1 data shows approximately $1,049.33 — a $17 (~1.6%) difference. More significantly, available data shows MU down approximately 9.09% on July 1, directly contradicting the briefing's claim of a +10.57% gain. If the -9.09% daily figure is accurate, the mood=optimistic and action=watch characterization may be based on an incorrect price direction.\n    META: Briefing reports an 8.81% single-day gain, but multiple sources (Motley Fool, FinanceCharts) indicate META surged approximately 11.3% on the AI cloud business announcement, adding ~$179B in market cap. The magnitude understatement is minor but the action=avoid and mood=optimistic combination is incongruent with a double-digit surge on a major structural catalyst."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-07-01T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Trump renews US-China trade war with export controls focus",
+        "accuracy": "outdated",
+        "note": "Core framing (case-by-case licensing + 25% tariff regime) is broadly accurate, but the May 6 source is 57 days old and the situation has materially evolved. TSMC secured a new one-year US export license for its Nanjing plant in January 2026. More significantly, in June 2026 the US issued an enforcement notice extending AI chip restrictions to subsidiaries of Chinese companies located *outside* China — closing a major loophole. The 'no full blockade' framing understates the tightening trajectory. NVDA is also reportedly seeking new H200 orders through TSMC amid surging Chinese demand."
+      },
+      {
+        "rank": 2,
+        "title": "US blocks 16-year North American trade deal renewal",
+        "accuracy": "accurate",
+        "note": "Well-confirmed by CNBC, Bloomberg, Washington Post, NBC News, Fox Business and others. The US declined to renew USMCA in its current form by the July 1 deadline, opting for annual rolling reviews rather than a 16-year extension. One minor nuance: USMCA does NOT immediately expire — it remains in force and can continue under existing terms until 2036 if no party exits. The 'blocking' language in the briefing is slightly stronger than the actual outcome (which is non-renewal, not termination)."
+      },
+      {
+        "rank": 3,
+        "title": "Ukraine charged in Germany over Nord Stream blasts",
+        "accuracy": "accurate",
+        "note": "Confirmed by Euronews, The National, and NATO News (all July 1 datelines). German prosecutors formally charged Serhii K., a Ukrainian national arrested in Italy in summer 2025 and extradited to Germany in November 2025. Charges include attacks on civilian energy infrastructure, causing an explosives detonation, and war crimes. Ukraine's Zelenskyy and presidential advisor Podolyak both denied involvement. Briefing summary matches reported facts accurately."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "CrowdStrike 4-for-1 stock split effective July 2, 2026",
+        "impact": "CRWD is on the watchlist with action=buy. The 4-for-1 split distributes after July 1 market close; shares begin trading split-adjusted on July 2. Any reader acting on the $772.74 price in the briefing will see CRWD open around $193 on July 2 — a 75% price reduction that is mechanical, not a crash. Briefing's CRWD entry is unusable without this context.",
+        "severity": "critical"
+      },
+      {
+        "title": "Fed Chair Kevin Warsh hawkish speech at ECB Forum in Sintra",
+        "impact": "Warsh said on July 1 that inflation is 'too high' and declined to hint at a July rate cut, dampening rate-cut expectations. This is a macro headwind for rate-sensitive growth stocks across the entire watchlist (NVDA, META, MSFT, AMZN, AAPL, PLTR).",
+        "severity": "important"
+      },
+      {
+        "title": "META surges on AI cloud business announcement",
+        "impact": "META announced plans to build a cloud business selling excess AI compute capacity. Shares surged ~11% (Motley Fool) adding ~$179B in market cap. The briefing captures an 8.81% gain but assigns action=avoid with DOWNTREND — the magnitude of the move and the catalyst may warrant reassessment of the near-term directional call.",
+        "severity": "important"
+      },
+      {
+        "title": "ADP June jobs report miss — 98K vs ~140K estimates",
+        "impact": "Soft private hiring data released July 1 morning signaled labor market weakness and weighed on early market sentiment. Relevant macro context for defensive rotation narrative and Fed policy expectations. Affects broad market mood and watchlist names sensitive to economic slowdown.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow/58.1 is defensible for the overall tone — July 1 saw SPY down ~0.22-0.33% and Nasdaq down ~0.66% on the session, consistent with mild caution. However the briefing underweights a significant cross-current: META's 11%+ surge on its AI cloud announcement was a major positive event for a core watchlist name. A yellow light that emphasizes semis pressure while omitting META's rally gives a skewed picture. Warsh's hawkish Sintra remarks (inflation 'too high') also represent a macro risk signal not reflected in the mood framing."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "The SMH -5.40% single-day decline is not well supported by available data. SMH traded in a range of $634.60–$659.74 on July 1 from a prior close near $655.89; pre-market indicated only -0.95%. A 5.40% daily crash on July 1 is not confirmed and appears overstated — possibly conflating a prior session's move or a different time window. The rotation narrative toward commodities/defensives amid credit weakness is plausible but the semiconductor laggard magnitude needs correction. SMH's Q2 performance was actually +3.78%, and its YTD return through June was +75.49%, making a sudden 5.4% one-day drop on July 1 anomalous without a clear catalyst on that date."
+    },
+    "stock_errors": [
+      {
+        "symbol": "CRWD",
+        "error": "The $772.74 closing price is the pre-split price. CrowdStrike's 4-for-1 stock split distributes after July 1 market close, meaning July 2 opening price will be approximately $193, not $772. The briefing's buy recommendation and price level are unusable for July 2 trading without this critical context. The 10.22% gain figure also does not match single-day performance (close-to-close on July 1 was approximately +1.3% based on prior close $763.14)."
+      },
+      {
+        "symbol": "MU",
+        "error": "Price discrepancy: briefing states $1,032.28 while available July 1 data shows approximately $1,049.33 — a $17 (~1.6%) difference. More significantly, available data shows MU down approximately 9.09% on July 1, directly contradicting the briefing's claim of a +10.57% gain. If the -9.09% daily figure is accurate, the mood=optimistic and action=watch characterization may be based on an incorrect price direction."
+      },
+      {
+        "symbol": "META",
+        "error": "Briefing reports an 8.81% single-day gain, but multiple sources (Motley Fool, FinanceCharts) indicate META surged approximately 11.3% on the AI cloud business announcement, adding ~$179B in market cap. The magnitude understatement is minor but the action=avoid and mood=optimistic combination is incongruent with a double-digit surge on a major structural catalyst."
+      }
+    ],
+    "overall_score": 68,
+    "summary": "The three global context items are broadly verified (Nord Stream and USMCA confirmed; chip controls accurate but dated), and most stock prices are in the right range for TSM, AAPL, MSFT, and TSLA. However, the briefing has two significant reliability problems: the CRWD entry is misleading without disclosure of the 4-for-1 split effective July 2 (readers will see ~$193, not $772), and the SMH -5.40% daily decline claim is not supported by available price data for July 1. The omission of the Warsh hawkish speech and the META AI cloud surge — both major July 1 market movers affecting watchlist names — also reduces the briefing's utility for actionable decision-making."
+  }
+}
