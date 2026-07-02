@@ -1,0 +1,217 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-07-02T21:45:01Z",
+  "verified_at": "2026-07-03T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 2건:\n    MSFT: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    APP: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "VST: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=61.7 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: TSM reporting July 16 (est. EPS $3.8 — verify actual at brok)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: inaccurate — CRITICALLY INACCURATE. Iran attacked the Panama-flagged tanker M/T Kiku with a one-way attack drone on June 27, 2026 — one day before the briefing's cited Bloomberg source date. The US responded with strikes on Iranian radar, air defense, and drone storage sites; this was the third such exchange in three weeks. UK Maritime Trade Operations raised threat level to 'substantial.' The strait has been in an active conflict zone since February 28, 2026 when the US-Israel air war on Iran began. Describing traffic as 'at normal levels with no new closures or attacks in the last 48 hours' is factually wrong for the period in question.\n    rank=3: outdated — The remedy phase concluded months ago. Judge Mehta issued formal remedies in September 2025 (rejecting Chrome divestiture but mandating data-sharing and default distribution restrictions). DOJ declared a remedies victory in April 2026. Google filed its Notice of Appeal January 16, 2026; DOJ cross-appealed February 3, 2026. As of July 2026 the case is in the DC Circuit appeals phase, with oral arguments expected late 2026 or early 2027. The briefing's framing of 'remedy phase in final arguments with ruling expected within weeks' is months out of date."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    June jobs report severe miss: 57,000 jobs added vs 110,000-115,000 expected (영향: Major macro signal affecting all watchlist names. Softer labor may boost rate-cut expectations (bullish for rate-sensitive growth: MSFT, AMZN, META, NVDA) but also raises slowdown fears (bearish for consumer-facing: TSLA, AMZN). Unemployment ticked down to 4.2% providing partial offset. This was the dominant macro event of the day and is entirely absent from the briefing.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Yellow/61.7 is broadly defensible given Nasdaq weakness and SMH's ~4.4% decline, but the briefing omits the Dow's all-time high close and the jobs miss — two events that materially shift the macro read. The 'Low VIX masks tech weakness' headline is plausible but incomplete: Dow strength indicates the weakness is sector-specific (chips/growth tech), not a broad risk-off move. A yellow signal is still defensible, but the explanatory narrative understates both the Dow resilience and the macro uncertainty injected by the jobs miss."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: SMH decline (~4.4% per search data vs briefing's -4.54%) and broad tech underperformance are directionally confirmed. However, QQQ -1.73% appears overstated relative to Nasdaq Composite's reported -0.8% on July 2; QQQ can diverge from the Composite but a 2x gap is notable. The energy/Hormuz narrative is built on a false premise — the strait is NOT stable (active tanker attacks, US strikes, UK raising threat level) — making the elevated-insurance-premium framing technically true but severely understating the risk. Rotation toward AI infra/security (CRWD) and away from semiconductors is consistent with observable market action."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MU: Briefing close price of $975.56 vs search-confirmed ~$978.56 on July 2, 2026 — minor ~$3 (~0.3%) discrepancy, likely a timing artifact between intraday snapshot and final settlement. Not a material error for decision-making.\n    TSLA: The briefing's truncated note ('Sharp 7...') appears to reference the 7% single-day decline but the analysis is cut off. Mood is listed as 'fearful' and action as 'avoid', which is correct directionally, but the reason (strong Q2 delivery beat yet still -7% — classic sell-the-news on a deteriorating fundamental backdrop) is not articulated. The close price of $393.45 is plausible given the -7% move but could not be independently verified from available search results."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-07-02T22:16:00Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip export licensing now case-by-case +25% tariff",
+        "accuracy": "accurate",
+        "note": "Confirmed. BIS revised policy effective January 15, 2026 applies case-by-case review for H200, MI325X and comparable chips destined for China. 25% Section 232 tariff implemented January 14, 2026. June 2026 update extended restrictions to subsidiaries of Chinese companies headquartered outside China. Briefing claim is current and accurate."
+      },
+      {
+        "rank": 2,
+        "title": "Strait of Hormuz traffic stable but insurance premiums elevated",
+        "accuracy": "inaccurate",
+        "note": "CRITICALLY INACCURATE. Iran attacked the Panama-flagged tanker M/T Kiku with a one-way attack drone on June 27, 2026 — one day before the briefing's cited Bloomberg source date. The US responded with strikes on Iranian radar, air defense, and drone storage sites; this was the third such exchange in three weeks. UK Maritime Trade Operations raised threat level to 'substantial.' The strait has been in an active conflict zone since February 28, 2026 when the US-Israel air war on Iran began. Describing traffic as 'at normal levels with no new closures or attacks in the last 48 hours' is factually wrong for the period in question."
+      },
+      {
+        "rank": 3,
+        "title": "DOJ Google antitrust remedy hearing in final arguments",
+        "accuracy": "outdated",
+        "note": "The remedy phase concluded months ago. Judge Mehta issued formal remedies in September 2025 (rejecting Chrome divestiture but mandating data-sharing and default distribution restrictions). DOJ declared a remedies victory in April 2026. Google filed its Notice of Appeal January 16, 2026; DOJ cross-appealed February 3, 2026. As of July 2026 the case is in the DC Circuit appeals phase, with oral arguments expected late 2026 or early 2027. The briefing's framing of 'remedy phase in final arguments with ruling expected within weeks' is months out of date."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "June jobs report severe miss: 57,000 jobs added vs 110,000-115,000 expected",
+        "impact": "Major macro signal affecting all watchlist names. Softer labor may boost rate-cut expectations (bullish for rate-sensitive growth: MSFT, AMZN, META, NVDA) but also raises slowdown fears (bearish for consumer-facing: TSLA, AMZN). Unemployment ticked down to 4.2% providing partial offset. This was the dominant macro event of the day and is entirely absent from the briefing.",
+        "severity": "critical"
+      },
+      {
+        "title": "Tesla (TSLA) drops 7% on July 2 despite Q2 delivery beat",
+        "impact": "TSLA is directly on the watchlist. A 7% single-session decline is material for positioning. The briefing lists TSLA at $393.45 with action=avoid/mood=fearful but the truncated analysis ('Sharp 7...') does not explain the 'sell the news' dynamic — strong deliveries yet large price drop — which is critical context for the avoid call.",
+        "severity": "important"
+      },
+      {
+        "title": "Dow Jones Industrial Average closes at all-time high while Nasdaq falls 0.8%",
+        "impact": "Significant Dow/Nasdaq divergence reinforces the rotation thesis (value/cyclical vs growth/tech). Relevant backdrop for interpreting the yellow traffic light — broad market is not distressed, the weakness is tech-specific. Affects framing for CRWD, ALAB (AI infra beneficiaries of rotation) vs NVDA, META, MSFT.",
+        "severity": "important"
+      },
+      {
+        "title": "US equity markets CLOSED Friday July 3 for Independence Day holiday",
+        "impact": "All watchlist names (TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL) are untradeable today. Next live session is Monday July 6. Any 'buy' or 'watch' actions from this briefing cannot be executed until then, and weekend news flow (Hormuz, macro) may shift the picture.",
+        "severity": "important"
+      },
+      {
+        "title": "Fed Chair Warsh: 'inflation risks have come down'; cites declining energy prices post Iran MOU",
+        "impact": "Dovish signal supportive of rate-sensitive growth names broadly (MSFT, AMZN, META). Also confirms the Iran ceasefire MOU is partially credited by the Fed for the disinflationary energy move — relevant context for interpreting energy sector mood in the briefing.",
+        "severity": "minor"
+      },
+      {
+        "title": "Rivian (RVIAN) surges 13% on raised delivery guidance",
+        "impact": "Not a watchlist name directly, but the EV sector context is relevant to TSLA positioning — Rivian strength while TSLA fell 7% highlights TSLA-specific, not sector-wide, weakness.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow/61.7 is broadly defensible given Nasdaq weakness and SMH's ~4.4% decline, but the briefing omits the Dow's all-time high close and the jobs miss — two events that materially shift the macro read. The 'Low VIX masks tech weakness' headline is plausible but incomplete: Dow strength indicates the weakness is sector-specific (chips/growth tech), not a broad risk-off move. A yellow signal is still defensible, but the explanatory narrative understates both the Dow resilience and the macro uncertainty injected by the jobs miss."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "SMH decline (~4.4% per search data vs briefing's -4.54%) and broad tech underperformance are directionally confirmed. However, QQQ -1.73% appears overstated relative to Nasdaq Composite's reported -0.8% on July 2; QQQ can diverge from the Composite but a 2x gap is notable. The energy/Hormuz narrative is built on a false premise — the strait is NOT stable (active tanker attacks, US strikes, UK raising threat level) — making the elevated-insurance-premium framing technically true but severely understating the risk. Rotation toward AI infra/security (CRWD) and away from semiconductors is consistent with observable market action."
+    },
+    "stock_errors": [
+      {
+        "symbol": "MU",
+        "error": "Briefing close price of $975.56 vs search-confirmed ~$978.56 on July 2, 2026 — minor ~$3 (~0.3%) discrepancy, likely a timing artifact between intraday snapshot and final settlement. Not a material error for decision-making."
+      },
+      {
+        "symbol": "TSLA",
+        "error": "The briefing's truncated note ('Sharp 7...') appears to reference the 7% single-day decline but the analysis is cut off. Mood is listed as 'fearful' and action as 'avoid', which is correct directionally, but the reason (strong Q2 delivery beat yet still -7% — classic sell-the-news on a deteriorating fundamental backdrop) is not articulated. The close price of $393.45 is plausible given the -7% move but could not be independently verified from available search results."
+      }
+    ],
+    "overall_score": 52,
+    "summary": "The briefing's most serious failure is the Strait of Hormuz assessment, which is factually inverted — describing an active conflict zone with a tanker attack and US military strikes as 'stable with no new incidents' is a material error that could mislead energy sector positioning. The Google antitrust framing is months stale (the case is in appeals, not final arguments). The chip export controls are accurately described. Two critical events are absent: the June jobs miss (57k vs 110-115k) which reshapes the macro outlook, and the fact that US markets are closed today (July 3) making all watchlist actions moot until Monday July 6. Individual stock prices are broadly accurate. Do not act on the Hormuz narrative or the Google legal framing without updated sourcing."
+  }
+}
