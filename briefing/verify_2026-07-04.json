@@ -1,0 +1,211 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-07-03T21:45:01Z",
+  "verified_at": "2026-07-04T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 2건:\n    MSFT: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    APP: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "VST: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=62.1 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: TSM reports in 12 days (est. EPS $3.8 — verify actual at bro)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — Core facts are accurate — BIS did implement 25% tariffs plus case-by-case licensing for advanced nodes (H200, MI325X, etc.) with selective approvals and multi-week review cycles. However, the BIS final rule took effect January 15, 2026, not 'June 2026' as stated. This policy shift has been operational for six months and is not a recent development. The Reuters/Commerce Dept sourcing also conflicts with the Jan 2026 effective date.\n    rank=2: inaccurate — Critically misleading framing. The briefing describes 'live missile drills' with tanker traffic continuing and +12% war-risk premiums since June 28. Reality: the US and Israel launched a full-scale air war against Iran on February 28, 2026 (Operation Epic Fury), killing Supreme Leader Khamenei. The IRGC fully blockaded the strait — tanker traffic dropped to near zero, not a minor premium increase. A ceasefire was reached ~April 7-8 after five-plus weeks of combat. As of July 2, Iran is warning all oil tankers to use 'approved routes or face a forceful response,' reflecting active post-war reopening negotiations, not routine drills. The strait closure is now a top-tier geopolitical ceasefire condition."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 2건:\n    June 2026 nonfarm payrolls massive miss: +57K vs +115K consensus (영향: This was the dominant market driver on July 2. Nasdaq dropped 0.8%, rate hike expectations shifted dovish (2Y yield -3.5bps to 4.13%), and Dow hit record 52,900 on the rate relief. Directly affects all rate-sensitive growth names in the watchlist: NVDA, META, AMZN, MSFT, TSLA, AAPL. The weak labor market print also changes the macro narrative away from the 'constructive regime' framing in the briefing.)\n    Iran issues active tanker routing threat in Hormuz (July 2) (영향: Iran's joint military command warned all oil tankers on July 2 to use approved Hormuz routes or face a 'forceful response' — an active threat in the context of an ongoing post-war negotiation, not background geopolitical noise. Materially elevates risk premium for energy and logistics. Affects XLE, crude-linked commodity plays, and shipping insurance costs beyond what the briefing implies.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Yellow/62.1 score is directionally defensible given semi weakness, but the underlying inputs are compromised: the June jobs miss (+57K vs +115K) is a macro shock not factored in at all, the Hormuz situation is framed as a contained drill rather than an active post-war disruption, and the Dow's record close introduces a strongly bullish contradiction. The score reflects stale framing rather than the full picture available on July 2 close."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: SMH -4.54% is confirmed accurate for July 2 (search data shows ~4.5% drop, led by Teradyne -13.6% and KLA -11.5%), though the primary driver was a combination of chip tariff concerns and jobs-driven risk-off in semis — not tariffs alone. Credit and commodity green signals are plausible given the dovish rate shift on the jobs miss. Energy sector (XLE) characterization as merely 'yellow/lagging' appears understated given Iran war context. Rates (TLT/TNX deteriorating) is consistent with the jobs data."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "ALL WATCHLIST: All closing prices are presented as July 3, 2026 closes. July 3 was a US market holiday (Independence Day observed — July 4 falls on Saturday). No trading occurred. All prices are actually July 2, 2026 closes. The briefing generated at 21:45 UTC July 3 was already citing stale July 2 prices with an incorrect date.\n    NVDA: Price of $194.83 is numerically confirmed correct for the July 2 close. No numerical error, but date attribution is wrong per above.\n    MU: Price of $975.56 is unusually high relative to MU's known trading range; could not be independently confirmed. Warrants verification — may reflect a post-split price or data error."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-07-03T22:16:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip tariffs shift to case-by-case licensing",
+        "accuracy": "outdated",
+        "note": "Core facts are accurate — BIS did implement 25% tariffs plus case-by-case licensing for advanced nodes (H200, MI325X, etc.) with selective approvals and multi-week review cycles. However, the BIS final rule took effect January 15, 2026, not 'June 2026' as stated. This policy shift has been operational for six months and is not a recent development. The Reuters/Commerce Dept sourcing also conflicts with the Jan 2026 effective date."
+      },
+      {
+        "rank": 2,
+        "title": "Iran Strait of Hormuz risk remains elevated",
+        "accuracy": "inaccurate",
+        "note": "Critically misleading framing. The briefing describes 'live missile drills' with tanker traffic continuing and +12% war-risk premiums since June 28. Reality: the US and Israel launched a full-scale air war against Iran on February 28, 2026 (Operation Epic Fury), killing Supreme Leader Khamenei. The IRGC fully blockaded the strait — tanker traffic dropped to near zero, not a minor premium increase. A ceasefire was reached ~April 7-8 after five-plus weeks of combat. As of July 2, Iran is warning all oil tankers to use 'approved routes or face a forceful response,' reflecting active post-war reopening negotiations, not routine drills. The strait closure is now a top-tier geopolitical ceasefire condition."
+      },
+      {
+        "rank": 3,
+        "title": "DOJ AI partnership probe advances to depositions",
+        "accuracy": "unverifiable",
+        "note": "Active DOJ and FTC antitrust investigations into AI cloud partnerships involving Google, Microsoft-OpenAI, and others are confirmed by multiple sources including Congressional inquiries (Warren/Wyden) and FTC civil investigative demands. However, the specific claims — 'expanded civil discovery filed June 30,' GOOGL-META-MSFT cloud and model-sharing targets, executive depositions scheduled July 8-10 — could not be independently confirmed from available search results. Plausible as an extension of existing probes but the precise timeline and scope remain unverified."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "June 2026 nonfarm payrolls massive miss: +57K vs +115K consensus",
+        "impact": "This was the dominant market driver on July 2. Nasdaq dropped 0.8%, rate hike expectations shifted dovish (2Y yield -3.5bps to 4.13%), and Dow hit record 52,900 on the rate relief. Directly affects all rate-sensitive growth names in the watchlist: NVDA, META, AMZN, MSFT, TSLA, AAPL. The weak labor market print also changes the macro narrative away from the 'constructive regime' framing in the briefing.",
+        "severity": "critical"
+      },
+      {
+        "title": "US equity markets were closed on July 3, 2026 — Independence Day observed",
+        "impact": "July 4 falls on a Saturday in 2026; July 3 was the official NYSE/Nasdaq holiday. There were no closing prices on July 3. Every stock price in the watchlist (TSM $434.16, NVDA $194.83, META $582.90, TSLA $393.45, PLTR $129.30, MU $975.56, CRWD $193.98, AMZN $242.67, MSFT $390.49, AAPL $308.63) is a July 2 close mislabeled as July 3. Next trading session is Monday July 6.",
+        "severity": "important"
+      },
+      {
+        "title": "Dow Jones Industrial Average hit record close of 52,900 on July 2",
+        "impact": "Contradicts the yellow/cautious market mood framing. DOW record at 52,900 (+1.14%, +595pts) signals significant underlying breadth strength. Affects overall market mood score credibility and the sector analysis characterizing breadth (SPY/RSP green) without acknowledging the record.",
+        "severity": "important"
+      },
+      {
+        "title": "Iran issues active tanker routing threat in Hormuz (July 2)",
+        "impact": "Iran's joint military command warned all oil tankers on July 2 to use approved Hormuz routes or face a 'forceful response' — an active threat in the context of an ongoing post-war negotiation, not background geopolitical noise. Materially elevates risk premium for energy and logistics. Affects XLE, crude-linked commodity plays, and shipping insurance costs beyond what the briefing implies.",
+        "severity": "critical"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow/62.1 score is directionally defensible given semi weakness, but the underlying inputs are compromised: the June jobs miss (+57K vs +115K) is a macro shock not factored in at all, the Hormuz situation is framed as a contained drill rather than an active post-war disruption, and the Dow's record close introduces a strongly bullish contradiction. The score reflects stale framing rather than the full picture available on July 2 close."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "SMH -4.54% is confirmed accurate for July 2 (search data shows ~4.5% drop, led by Teradyne -13.6% and KLA -11.5%), though the primary driver was a combination of chip tariff concerns and jobs-driven risk-off in semis — not tariffs alone. Credit and commodity green signals are plausible given the dovish rate shift on the jobs miss. Energy sector (XLE) characterization as merely 'yellow/lagging' appears understated given Iran war context. Rates (TLT/TNX deteriorating) is consistent with the jobs data."
+    },
+    "stock_errors": [
+      {
+        "symbol": "ALL WATCHLIST",
+        "error": "All closing prices are presented as July 3, 2026 closes. July 3 was a US market holiday (Independence Day observed — July 4 falls on Saturday). No trading occurred. All prices are actually July 2, 2026 closes. The briefing generated at 21:45 UTC July 3 was already citing stale July 2 prices with an incorrect date."
+      },
+      {
+        "symbol": "NVDA",
+        "error": "Price of $194.83 is numerically confirmed correct for the July 2 close. No numerical error, but date attribution is wrong per above."
+      },
+      {
+        "symbol": "MU",
+        "error": "Price of $975.56 is unusually high relative to MU's known trading range; could not be independently confirmed. Warrants verification — may reflect a post-split price or data error."
+      }
+    ],
+    "overall_score": 38,
+    "summary": "The briefing's most serious failure is the Iran/Hormuz item: it describes contained missile drills with minor risk premium increases when the actual situation is a post-war active dispute — the US and Israel fought a multi-week air war against Iran starting February 28, 2026, the strait was nearly fully blocked, and as of July 2 Iran is issuing active routing threats to tankers. This is a material mischaracterization, not a nuance. Compounding this, the briefing omits the day's single most important market event: the June NFP print came in at 57K versus 115K expected, driving Nasdaq lower and shifting rate expectations — this affects nearly every stock in the watchlist. All stock price dates are also wrong (July 3 was a market holiday; these are July 2 closes)."
+  }
+}
