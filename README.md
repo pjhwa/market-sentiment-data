@@ -29,10 +29,12 @@ market-sentiment-data/
 │   ├── collect_macro_insight.py     # Collector 4: Macro Insight
 │   ├── collect_morning_briefing.py  # Collector 5: Morning Briefing (2-stage Grok pipeline, global_context)
 │   ├── collect_prediction.py        # Collector 6: Prediction Market (Kalshi FOMC 확률, no Grok)
+│   ├── xquik_social_mentions.py     # Optional Xquik export normalizer for mention volume research
 │   ├── probe_mention_volume.py      # Symbol selection probe — mention volume scanner (169 candidates)
 │   ├── price_context.py             # Neutral price-context fetcher (for sentiment)
 │   ├── git_utils.py                 # Shared git commit/push helper
 │   ├── test_collect_sentiment.py
+│   ├── test_xquik_social_mentions.py
 │   ├── test_collect_brief.py
 │   ├── test_collect_brief_context.py
 │   └── test_price_context.py
@@ -83,7 +85,7 @@ market-sentiment-data/
 
 ---
 
-## The Five Collectors
+## The Six Collectors
 
 ### 1. Social Sentiment (`collect/collect_sentiment.py`)
 
@@ -104,6 +106,15 @@ RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI
 Each symbol entry includes a `"tier": 1|2` field. TIER2 entries omit `price_context` (batch mode).
 
 **Output: `sentiment/latest.json` and `sentiment/history/YYYY-MM-DD_<slot>.json`**
+
+**Optional Xquik export research:** Use `collect/xquik_social_mentions.py` to
+normalize Xquik CSV, JSON, or JSONL tweet exports into per-symbol
+`mention_count`, `mention_volume`, and sample rows before adjusting watchlists or
+prompt inputs.
+
+```bash
+python -m collect.xquik_social_mentions xquik-export.jsonl TSLA NVDA AAPL
+```
 
 ### 2. AI Daily Brief (`collect/collect_brief.py`)
 

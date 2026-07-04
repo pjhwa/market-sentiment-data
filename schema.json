@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/pjhwa/market-sentiment-data/schema.json",
   "title": "MarketSentimentSnapshot",
-  "description": "SniperBoard 소셜 심리 파이프라인 데이터 계약 v1.1",
+  "description": "SniperBoard 소셜 심리 파이프라인 데이터 계약 v2.0",
   "type": "object",
   "required": ["generated_at", "market", "symbols", "schema_version"],
   "additionalProperties": false,
