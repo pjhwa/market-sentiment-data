@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-06-13 health-monitor -->
+<!-- AUTO-GENERATED: 2026-07-13 P0-5 schema+health-enum -->
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 

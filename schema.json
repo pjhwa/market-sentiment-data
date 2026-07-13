@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/pjhwa/market-sentiment-data/schema.json",
-  "title": "MarketSentimentSnapshot",
-  "description": "SniperBoard 소셜 심리 파이프라인 데이터 계약 v1.1",
+  "title": "MarketSentimentSnapshot v2.0",
+  "description": "SniperBoard 소셜 심리 파이프라인 데이터 계약 v2.0 — TIER1/TIER2, bilingual _en/_ko, composite_score −2..+2, optional tier field. pre_open: up to 12 TIER1; post_close: up to 22 (TIER1+TIER2).",
   "type": "object",
   "required": ["generated_at", "market", "symbols", "schema_version"],
   "additionalProperties": false,
@@ -15,12 +15,12 @@
     "schema_version": {
       "type": "string",
       "enum": ["1.0", "1.1", "1.2", "1.3", "1.4", "2.0"],
-      "description": "1.0: 기본. 1.1: price_context+divergence. 1.2: slot+intraday_shift. 1.3: composite_score. 1.4: top_news 추가. 2.0: bilingual _en/_ko fields."
+      "description": "1.0: 기본. 1.1: price_context+divergence. 1.2: slot+intraday_shift. 1.3: composite_score. 1.4: top_news 추가. 2.0: bilingual _en/_ko fields + tier."
     },
     "slot": {
       "type": "string",
       "enum": ["pre_open", "post_close"],
-      "description": "수집 슬롯. pre_open: 미국 장 개장 전(13:00 UTC). post_close: 미국 장 마감 후(21:00 UTC)."
+      "description": "수집 슬롯. pre_open: 미국 장 개장 전(~13:30 UTC). post_close: 미국 장 마감 후(~20:30 UTC)."
     },
     "market": {
       "$ref": "#/definitions/MarketSentiment"
@@ -29,7 +29,8 @@
       "type": "array",
       "items": { "$ref": "#/definitions/SymbolSentiment" },
       "minItems": 0,
-      "maxItems": 20
+      "maxItems": 30,
+      "description": "TIER1 (12) pre_open/post_close; TIER2 (10) post_close only. Capacity ≥22 for full universe."
     }
   },
   "definitions": {
@@ -86,6 +87,11 @@
         "symbol": {
           "type": "string",
           "description": "종목 티커"
+        },
+        "tier": {
+          "type": "integer",
+          "enum": [1, 2],
+          "description": "TIER1=개별 심층(하루 2회), TIER2=배치(post_close only). optional on legacy snapshots."
         },
         "as_of": {
           "type": "string",

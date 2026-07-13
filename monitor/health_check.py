@@ -60,7 +60,8 @@ CRON_LOGS = [
     (REPO_PATH / "briefing/auto_improve.log",  26, "auto_improve cron"),
 ]
 
-VALID_SENTIMENTS  = {"euphoric", "optimistic", "neutral", "fearful", "panic"}
+# Must match collect_sentiment.SENTIMENT_SCORE_MAP / schema SentimentEnum
+VALID_SENTIMENTS  = {"very_fearful", "fearful", "neutral", "optimistic", "euphoric"}
 VALID_CONFIDENCE  = {"high", "med", "low"}
 VALID_DIVERGENCE  = {"aligned", "bullish_divergence", "bearish_divergence", "none"}
 DOCKER_CONTAINERS = ["sniperboard-backend", "sniperboard-frontend"]
@@ -132,14 +133,16 @@ def check_data_quality():
         data = json.loads(path.read_text())
         symbols_data = {s["symbol"]: s for s in data.get("symbols", []) if "symbol" in s}
         present = set(symbols_data.keys())
-        expected = set(TIER1 + TIER2)
+        # Slot-aware coverage: pre_open is TIER1-only (12); post_close is TIER1+TIER2 (22)
+        slot = data.get("slot") or "post_close"
+        expected = set(TIER1) if slot == "pre_open" else set(TIER1 + TIER2)
 
         # 심볼 커버리지
         missing = expected - present
         if missing:
-            fail(cat, f"심볼 누락: {sorted(missing)}")
+            fail(cat, f"심볼 누락 (slot={slot}): {sorted(missing)}")
         else:
-            ok(cat, f"심볼 커버리지: {len(present)}/{len(expected)} 완전")
+            ok(cat, f"심볼 커버리지 (slot={slot}): {len(present)}/{len(expected)} 완전")
 
         # 필드 및 값 유효성 (SPCX는 최근 IPO라 price_context 없을 수 있음)
         invalid = []
@@ -149,7 +152,8 @@ def check_data_quality():
                 invalid.append(f"{sym}.sentiment={s.get('sentiment')!r}")
             if s.get("confidence") not in VALID_CONFIDENCE:
                 invalid.append(f"{sym}.confidence={s.get('confidence')!r}")
-            if s.get("divergence") not in VALID_DIVERGENCE:
+            # divergence optional on some legacy entries — only validate when present
+            if "divergence" in s and s.get("divergence") not in VALID_DIVERGENCE:
                 invalid.append(f"{sym}.divergence={s.get('divergence')!r}")
             for field in required_fields:
                 if not s.get(field):
