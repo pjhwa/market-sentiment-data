@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-13T21:30:01Z",
+  "generated_at": "2026-07-13T21:47:56Z",
   "schema_version": "2.0",
   "upcoming_earnings": [
     {
@@ -8,7 +8,7 @@
       "days_until": 3,
       "relevance_tier": "imminent",
       "eps_estimate": 3.83,
-      "revenue_estimate_b": 1263.57,
+      "revenue_estimate_b": 39.28,
       "historical_beat_rate": 1.0,
       "ai_summary_en": "TSM reports in 3 days with a perfect 100% historical beat rate. This imminent print carries high event risk with likely sharp IV expansion. Direct position exposure must be minimized ahead of the release.",
       "ai_summary_ko": "TSM이 3일 후 실적 발표를 앞두고 있으며 100% 완벽한 비트율을 기록 중입니다. 임박한 이벤트로 옵션 IV 급등 위험이 높습니다. 발표 전 직접 포지션 노출을 최소화해야 합니다.",

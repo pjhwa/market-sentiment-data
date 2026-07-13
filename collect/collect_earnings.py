@@ -41,6 +41,161 @@ EARNINGS_DATE_OVERRIDES: dict[str, str] = {
     "MU": "2026-06-24",  # yfinance가 6/25로 반환하나 실제 FQ3 콜은 6/24 (Micron IR 확인)
 }
 
+# P0-6: 단일 분기 매출 추정(USD billions) 합리 상한.
+# AMZN/AAPL 등 초대형도 분기 ~$100–250B 수준. 이를 넘으면 단위/통화 오류로 본다.
+MAX_QUARTERLY_REVENUE_USD_B = 300.0
+MIN_QUARTERLY_REVENUE_USD_B = 0.01
+
+# 네트워크 실패 시 fallback (local currency units per 1 USD). 근사치 — 수집 정확도는 live FX 우선.
+_FX_FALLBACK_LOCAL_PER_USD: dict[str, float] = {
+    "USD": 1.0,
+    "TWD": 32.0,
+    "JPY": 150.0,
+    "KRW": 1350.0,
+    "CNY": 7.2,
+    "EUR": 0.92,
+    "GBP": 0.79,
+    "CHF": 0.88,
+    "DKK": 6.9,
+    "SEK": 10.5,
+    "INR": 83.0,
+    "BRL": 5.0,
+    "CAD": 1.35,
+    "AUD": 1.5,
+    "HKD": 7.8,
+    "SGD": 1.35,
+}
+
+_fx_cache: dict[str, float] = {}
+
+
+def local_currency_units_per_usd(currency: str | None) -> float:
+    """1 USD 당 현지 통화 단위 수. USD → 1.0.
+
+    yfinance `TWD=X` / `USDTWD=X` ≈ 32 (TWD per USD).
+    `TWDUSD=X` ≈ 0.031 (USD per TWD) → 역수 사용.
+    """
+    ccy = (currency or "USD").upper().strip()
+    if ccy in ("USD", ""):
+        return 1.0
+    if ccy in _fx_cache:
+        return _fx_cache[ccy]
+
+    rate: float | None = None
+    for symbol in (f"{ccy}=X", f"USD{ccy}=X", f"{ccy}USD=X"):
+        try:
+            hist = yf.Ticker(symbol).history(period="5d")
+            if hist is None or hist.empty:
+                continue
+            raw_rate = float(hist["Close"].iloc[-1])
+            if raw_rate <= 0:
+                continue
+            # > 1.5 → 현지/USD (TWD≈32). ≤ 1.5 → USD/현지 (≈0.03) → invert
+            rate = raw_rate if raw_rate > 1.5 else (1.0 / raw_rate)
+            break
+        except Exception:
+            continue
+
+    if rate is None:
+        rate = _FX_FALLBACK_LOCAL_PER_USD.get(ccy)
+        if rate is None:
+            print(
+                f"[WARN] FX unavailable for {ccy}; revenue conversion may be wrong",
+                file=sys.stderr,
+            )
+            rate = 1.0  # last resort — treat as USD (may still fail sanity)
+
+    _fx_cache[ccy] = rate
+    return rate
+
+
+def revenue_raw_to_billions_usd(
+    raw: float | int | None,
+    financial_currency: str | None = "USD",
+    *,
+    max_b: float = MAX_QUARTERLY_REVENUE_USD_B,
+    min_b: float = MIN_QUARTERLY_REVENUE_USD_B,
+) -> float | None:
+    """yfinance calendar Revenue* 원시값을 USD 십억 단위로 정규화 (P0-6).
+
+    근본 원인: TSM 등은 financialCurrency=TWD 인데 코드가 무조건 /1e9 하여
+    1.26e12 TWD → 1263.57 'B' 로 표기됨 (실제 ≈ $39B).
+
+    처리:
+    1) 현지 통화 → USD (FX)
+    2) /1e9 → billions
+    3) 이미 billions처럼 보이는 작은 값(0.01–max_b)은 통화만 보정 후 통과
+    4) 분기 매출 상한 초과 시 None (AI/UI 오염 방지)
+    """
+    if raw is None:
+        return None
+    try:
+        v = float(raw)
+    except (TypeError, ValueError):
+        return None
+    if v != v:  # NaN
+        return None
+
+    ccy = (financial_currency or "USD").upper().strip() or "USD"
+    av = abs(v)
+
+    # Case A: already looks like USD (or local) billions reported as a small number
+    if min_b <= av <= max_b:
+        if ccy == "USD":
+            return round(v, 2)
+        # Local-currency "billions" label is rare; convert as absolute local * 1e9 first
+        # e.g. if someone stored 1263 meaning 1263B TWD — convert via FX
+        local_abs = v * 1e9
+        usd = local_abs / local_currency_units_per_usd(ccy)
+        billions = usd / 1e9
+        if min_b <= abs(billions) <= max_b:
+            return round(billions, 2)
+        return None
+
+    # Case B: absolute currency units (typical yfinance: 2.58e10 USD, 1.26e12 TWD)
+    if av >= 1e6:
+        usd = v / local_currency_units_per_usd(ccy)
+        billions = usd / 1e9
+        if abs(billions) > max_b:
+            print(
+                f"[WARN] revenue {v} {ccy} → {billions:.2f}B USD exceeds max "
+                f"{max_b}B — dropping (unit/currency error)",
+                file=sys.stderr,
+            )
+            return None
+        if abs(billions) < min_b:
+            return None
+        return round(billions, 2)
+
+    # Case C: mid-scale (max_b < |v| < 1e6)
+    # After a blind /1e9 on TWD absolute, TSM became ~1263.57 — that is "billions of TWD".
+    # Recover: local_billions / FX → USD billions.
+    if max_b < av < 1e6:
+        if ccy != "USD":
+            billions = v / local_currency_units_per_usd(ccy)
+            if min_b <= abs(billions) <= max_b:
+                return round(billions, 2)
+        # USD mid-scale is ambiguous (not valid quarterly B) — drop
+        print(
+            f"[WARN] revenue mid-range {v} {ccy} not convertible to sane USD B — drop",
+            file=sys.stderr,
+        )
+        return None
+
+    return None
+
+
+def get_financial_currency(ticker: "yf.Ticker", symbol: str = "") -> str:
+    """ticker.info financialCurrency (fallback currency, then USD)."""
+    try:
+        info = ticker.info or {}
+        ccy = info.get("financialCurrency") or info.get("currency") or "USD"
+        if isinstance(ccy, str) and ccy.strip():
+            return ccy.strip().upper()
+    except Exception as e:
+        print(f"[DEBUG] {symbol}: financialCurrency fetch failed ({e})", file=sys.stderr)
+    return "USD"
+
 
 def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict], list[dict], list[str]]:
     """워치리스트 전체 어닝 데이터 수집 (강화된 폴백/검증/로깅).
@@ -95,11 +250,13 @@ def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict]
 
             eps_estimate = None
             rev_estimate_b = None
+            fin_ccy = get_financial_currency(ticker, sym)
             if cal is not None:
                 try:
                     # Strengthened key fallbacks (yf version variance: EPS Estimate / Earnings Average / avg etc.)
                     eps_keys = ["EPS Estimate", "Earnings Average", "Earnings Mean", "avg", "mean"]
                     rev_keys = ["Revenue Estimate", "Revenue Average", "Revenue Mean"]
+                    rev_raw = None
                     if hasattr(cal, 'columns'):
                         for k in eps_keys:
                             if k in cal.columns:
@@ -107,7 +264,7 @@ def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict]
                                 break
                         for k in rev_keys:
                             if k in cal.columns:
-                                rev_estimate_b = round(float(cal[k].iloc[0]) / 1e9, 2)
+                                rev_raw = float(cal[k].iloc[0])
                                 break
                     elif isinstance(cal, dict):
                         for k in eps_keys:
@@ -119,8 +276,14 @@ def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict]
                             if k in cal:
                                 val = cal[k]
                                 rev_raw = float(val[0] if isinstance(val, list) else val)
-                                rev_estimate_b = round(rev_raw / 1e9, 2)
                                 break
+                    # P0-6: FX-aware USD billions (never blind /1e9)
+                    if rev_raw is not None:
+                        rev_estimate_b = revenue_raw_to_billions_usd(rev_raw, fin_ccy)
+                        print(
+                            f"[DEBUG] {sym}: revenue raw={rev_raw} ccy={fin_ccy} → "
+                            f"{rev_estimate_b}B USD"
+                        )
                 except Exception:
                     pass
 
@@ -263,7 +426,11 @@ def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict]
                 recent_raw.append(last_result)
 
             # Clear per-symbol success path with key facts
-            print(f"[OK]   {sym}: earnings_date={earnings_date}, eps_est={eps_estimate}, beat_rate={beat_rate}, days_until={(earnings_date - today.date()).days if earnings_date else None}")
+            print(
+                f"[OK]   {sym}: earnings_date={earnings_date}, eps_est={eps_estimate}, "
+                f"rev_b_usd={rev_estimate_b}, ccy={fin_ccy}, beat_rate={beat_rate}, "
+                f"days_until={(earnings_date - today.date()).days if earnings_date else None}"
+            )
 
         except Exception as e:
             print(f"[FAIL] {sym}: 수집 실패 — {e}", file=sys.stderr)
