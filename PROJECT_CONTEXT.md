@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-07-13 P0-6 earnings-revenue-fx -->
+<!-- AUTO-GENERATED: 2026-07-13 P0-4 polymarket-prediction
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 

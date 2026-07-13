@@ -8,7 +8,11 @@ import pytest
 
 from collect.collect_prediction import (
     _parse_outcome,
+    _parse_polymarket_outcome,
+    _yes_probability,
     build_snapshot,
+    build_snapshot_kalshi,
+    build_snapshot_polymarket,
     detect_slot,
     fetch_fomc_probabilities,
     fetch_next_fomc_event,
@@ -198,7 +202,8 @@ class TestFetchFomcProbabilities:
 class TestBuildSnapshot:
     @patch("collect.collect_prediction.fetch_fomc_probabilities")
     @patch("collect.collect_prediction.fetch_next_fomc_event")
-    def test_full_snapshot_structure(self, mock_event, mock_probs):
+    def test_full_snapshot_structure(self, mock_event, mock_probs, monkeypatch):
+        monkeypatch.setattr("collect.collect_prediction.PREDICTION_SOURCE", "kalshi")
         mock_event.return_value = {
             "event_ticker": "FOMC-26JUL29",
             "end_date": "2026-07-29",
@@ -212,8 +217,9 @@ class TestBuildSnapshot:
         now = datetime(2026, 6, 29, 6, 30, tzinfo=timezone.utc)
         snap = build_snapshot("pre_open", now)
 
-        assert snap["schema_version"] == "1.0"
+        assert snap["schema_version"] == "1.1"
         assert snap["source"] == "kalshi"
+        assert snap["usage"] == "reference_only"
         assert snap["slot"] == "pre_open"
         assert snap["next_fomc"]["event_ticker"] == "FOMC-26JUL29"
         assert snap["next_fomc"]["meeting_date"] == "2026-07-29"
@@ -221,16 +227,18 @@ class TestBuildSnapshot:
         assert snap["next_fomc"]["dominant_probability"] == pytest.approx(0.72)
 
     @patch("collect.collect_prediction.fetch_next_fomc_event")
-    def test_null_next_fomc_when_no_event(self, mock_event):
+    def test_null_next_fomc_when_no_event(self, mock_event, monkeypatch):
+        monkeypatch.setattr("collect.collect_prediction.PREDICTION_SOURCE", "kalshi")
         mock_event.return_value = None
         now = datetime(2026, 6, 29, 6, 30, tzinfo=timezone.utc)
         snap = build_snapshot("pre_open", now)
         assert snap["next_fomc"] is None
-        assert snap["schema_version"] == "1.0"
+        assert snap["schema_version"] == "1.1"
 
     @patch("collect.collect_prediction.fetch_fomc_probabilities")
     @patch("collect.collect_prediction.fetch_next_fomc_event")
-    def test_snapshot_is_json_serializable(self, mock_event, mock_probs):
+    def test_snapshot_is_json_serializable(self, mock_event, mock_probs, monkeypatch):
+        monkeypatch.setattr("collect.collect_prediction.PREDICTION_SOURCE", "kalshi")
         mock_event.return_value = {
             "event_ticker": "FOMC-26JUL29",
             "end_date": "2026-07-29",
@@ -243,7 +251,8 @@ class TestBuildSnapshot:
 
     @patch("collect.collect_prediction.fetch_fomc_probabilities")
     @patch("collect.collect_prediction.fetch_next_fomc_event")
-    def test_dominant_outcome_is_highest_probability(self, mock_event, mock_probs):
+    def test_dominant_outcome_is_highest_probability(self, mock_event, mock_probs, monkeypatch):
+        monkeypatch.setattr("collect.collect_prediction.PREDICTION_SOURCE", "kalshi")
         mock_event.return_value = {"event_ticker": "FOMC-26JUL29", "end_date": "2026-07-29"}
         mock_probs.return_value = {
             "no_change": 0.20,
@@ -257,10 +266,85 @@ class TestBuildSnapshot:
 
     @patch("collect.collect_prediction.fetch_fomc_probabilities")
     @patch("collect.collect_prediction.fetch_next_fomc_event")
-    def test_empty_probabilities_yields_none_dominant(self, mock_event, mock_probs):
+    def test_empty_probabilities_yields_none_dominant(self, mock_event, mock_probs, monkeypatch):
+        monkeypatch.setattr("collect.collect_prediction.PREDICTION_SOURCE", "kalshi")
         mock_event.return_value = {"event_ticker": "FOMC-26JUL29", "end_date": "2026-07-29"}
         mock_probs.return_value = {}
         now = datetime(2026, 6, 29, 6, 30, tzinfo=timezone.utc)
         snap = build_snapshot("pre_open", now)
         assert snap["next_fomc"]["dominant_outcome"] is None
         assert snap["next_fomc"]["dominant_probability"] is None
+
+
+# ---------------------------------------------------------------------------
+# Polymarket helpers + snapshot
+# ---------------------------------------------------------------------------
+
+class TestPolymarketParse:
+    def test_cut_50(self):
+        assert _parse_polymarket_outcome(
+            "Will the Fed decrease interest rates by 50+ bps after the July 2026 meeting?"
+        ) == "cut_50bps"
+
+    def test_cut_25(self):
+        assert _parse_polymarket_outcome(
+            "Will the Fed decrease interest rates by 25 bps after the July 2026 meeting?"
+        ) == "cut_25bps"
+
+    def test_no_change(self):
+        assert _parse_polymarket_outcome(
+            "Will there be no change in Fed interest rates after the July 2026 meeting?"
+        ) == "no_change"
+
+    def test_hike_25(self):
+        assert _parse_polymarket_outcome(
+            "Will the Fed increase interest rates by 25 bps after the July 2026 meeting?"
+        ) == "hike_25bps"
+
+    def test_hike_50(self):
+        assert _parse_polymarket_outcome(
+            "Will the Fed increase interest rates by 50+ bps after the July 2026 meeting?"
+        ) == "hike_50bps"
+
+    def test_yes_probability_from_lists(self):
+        m = {"outcomes": ["Yes", "No"], "outcomePrices": ["0.625", "0.375"]}
+        assert _yes_probability(m) == pytest.approx(0.625)
+
+    def test_yes_probability_from_json_strings(self):
+        m = {"outcomes": '["Yes", "No"]', "outcomePrices": '["0.353", "0.647"]'}
+        assert _yes_probability(m) == pytest.approx(0.353)
+
+
+class TestPolymarketSnapshot:
+    @patch("collect.collect_prediction.fetch_polymarket_next_fomc")
+    def test_polymarket_snapshot_reference_fields(self, mock_fetch):
+        mock_fetch.return_value = {
+            "event_ticker": "fed-decision-in-july-181",
+            "event_title": "Fed Decision in July?",
+            "meeting_date": "2026-07-29",
+            "as_of": "2026-07-13T22:00:00Z",
+            "probabilities": {"no_change": 0.625, "hike_25bps": 0.353, "cut_25bps": 0.0045},
+            "outcomes": [],
+            "dominant_outcome": "no_change",
+            "dominant_probability": 0.625,
+            "volume_usd": 52_000_000,
+            "liquidity_usd": 3_000_000,
+            "url": "https://polymarket.com/event/fed-decision-in-july-181",
+        }
+        now = datetime(2026, 7, 13, 22, 0, tzinfo=timezone.utc)
+        snap = build_snapshot_polymarket("post_close", now)
+        assert snap["source"] == "polymarket"
+        assert snap["usage"] == "reference_only"
+        assert "reference" in snap["disclaimer_en"].lower()
+        assert snap["disclaimer_ko"]
+        assert snap["next_fomc"]["dominant_outcome"] == "no_change"
+        assert snap["schema_version"] == "1.1"
+
+    @patch("collect.collect_prediction.fetch_polymarket_next_fomc")
+    def test_build_snapshot_default_polymarket(self, mock_fetch, monkeypatch):
+        monkeypatch.setattr("collect.collect_prediction.PREDICTION_SOURCE", "polymarket")
+        mock_fetch.return_value = None
+        now = datetime(2026, 7, 13, 22, 0, tzinfo=timezone.utc)
+        snap = build_snapshot("post_close", now)
+        assert snap["source"] == "polymarket"
+        assert snap["next_fomc"] is None

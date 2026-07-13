@@ -1,7 +1,59 @@
 {
-  "generated_at": "2026-07-13T20:45:01Z",
-  "schema_version": "1.0",
+  "generated_at": "2026-07-13T23:42:58Z",
+  "schema_version": "1.1",
   "slot": "post_close",
-  "source": "kalshi",
-  "next_fomc": null
+  "source": "polymarket",
+  "usage": "reference_only",
+  "disclaimer_en": "Crypto prediction-market odds (Polymarket) — reference only. Not official Fed guidance; participant base differs from regulated US prediction markets.",
+  "disclaimer_ko": "암호화폐 예측시장(Polymarket) 시세 기반 함의 확률 — 참고용입니다. 연준 공식 전망이 아니며, 규제 시장(Kalshi 등)과 참여자 구성이 다릅니다.",
+  "next_fomc": {
+    "event_ticker": "fed-decision-in-july-181",
+    "event_title": "Fed Decision in July?",
+    "meeting_date": "2026-07-29",
+    "as_of": "2026-07-13T23:42:58Z",
+    "probabilities": {
+      "cut_50bps": 0.0015,
+      "cut_25bps": 0.0045,
+      "no_change": 0.625,
+      "hike_25bps": 0.353,
+      "hike_50bps": 0.0075
+    },
+    "outcomes": [
+      {
+        "label": "cut_50bps",
+        "probability": 0.0015,
+        "question": "Will the Fed decrease interest rates by 50+ bps after the July 2026 meeting?",
+        "volume_usd": 8803255.69
+      },
+      {
+        "label": "cut_25bps",
+        "probability": 0.0045,
+        "question": "Will the Fed decrease interest rates by 25 bps after the July 2026 meeting?",
+        "volume_usd": 8222471.4
+      },
+      {
+        "label": "no_change",
+        "probability": 0.625,
+        "question": "Will there be no change in Fed interest rates after the July 2026 meeting?",
+        "volume_usd": 14602782.29
+      },
+      {
+        "label": "hike_25bps",
+        "probability": 0.353,
+        "question": "Will the Fed increase interest rates by 25 bps after the July 2026 meeting?",
+        "volume_usd": 12007668.83
+      },
+      {
+        "label": "hike_50bps",
+        "probability": 0.0075,
+        "question": "Will the Fed increase interest rates by 50+ bps after the July 2026 meeting?",
+        "volume_usd": 9192937.69
+      }
+    ],
+    "dominant_outcome": "no_change",
+    "dominant_probability": 0.625,
+    "volume_usd": 52829028.04,
+    "liquidity_usd": 3316596.31,
+    "url": "https://polymarket.com/event/fed-decision-in-july-181"
+  }
 }
