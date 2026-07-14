@@ -91,17 +91,26 @@ def _load_json(rel_path: str) -> dict:
         return {}
 
 
-def _build_earnings_lookup(earnings_data: dict, now_kst_date=None) -> dict:
+def _build_earnings_lookup(earnings_data: dict, now_date=None) -> dict:
     """종목별 실적 발표일·EPS 예상치 조회 dict. upcoming_earnings 기준.
 
-    days_until은 파일 저장 시점이 아닌 브리핑 실행 시점 KST 날짜로 재계산한다.
-    earnings_date == today KST 이면 미국 장 마감 후 이미 발표됐을 가능성이 높으므로
-    already_reported_possible=True 플래그를 세운다.
-    (US after-hours ~9PM ET = KST 익일 06:00, 브리핑은 06:45 KST 실행)
+    Absolute earnings_date is SoT. days_until is recomputed at collect time using
+    **US/Eastern** calendar day (US equity after-close timing), NOT KST.
+    Mixing KST "today" with ET earnings_date produced contradictory phrases like
+    "already reported after US close" vs "in 3 days" in the same briefing.
+
+    already_reported_possible: only when days_until < 0 (calendar date fully past
+    in ET). Same calendar day (days_until==0) is "reports today / after close" —
+    not "already reported" until the next ET day.
     """
     import datetime as _dt
-    if now_kst_date is None:
-        now_kst_date = (datetime.now(timezone.utc) + _dt.timedelta(hours=9)).date()
+    try:
+        from zoneinfo import ZoneInfo
+        et = ZoneInfo("America/New_York")
+    except Exception:
+        et = timezone.utc
+    if now_date is None:
+        now_date = datetime.now(et).date()
 
     lookup: dict = {}
     for e in earnings_data.get("upcoming_earnings", []):
@@ -112,12 +121,13 @@ def _build_earnings_lookup(earnings_data: dict, now_kst_date=None) -> dict:
                 earn_date = _dt.date.fromisoformat(earn_date_str) if earn_date_str else None
             except ValueError:
                 earn_date = None
-            days_until = (earn_date - now_kst_date).days if earn_date else None
+            days_until = (earn_date - now_date).days if earn_date else None
             lookup[sym] = {
                 "earnings_date":           earn_date_str,
                 "days_until":              days_until,
                 "eps_estimate":            e.get("eps_estimate"),
-                "already_reported_possible": (days_until is not None and days_until <= 0),
+                # Past calendar day only — do NOT flag days_until==0 as already done
+                "already_reported_possible": (days_until is not None and days_until < 0),
             }
     return lookup
 
@@ -418,10 +428,18 @@ def _format_symbol_block(data: dict) -> str:
                 f"【실적발표=⚠이미발표됨({earn_date}) / EPS예상=${eps_est}】\n"
                 f"  ⛔ HARD RULE: analysis에 'beat','miss','상회','하회','exceeded','missed',"
                 f"'split','분할','exceeded estimates' 절대 금지. 실제 결과는 데이터에 없음.\n"
-                f"  ✅ 허용 표현: '오늘 장 마감 후 실적 발표됨 — EPS 추정 ${eps_est}, 실제 결과 확인 필요'"
+                f"  ✅ 허용 표현: '{earn_date} 실적 발표됨 — EPS 추정 ${eps_est}, 실제 결과 확인 필요'"
+            )
+        elif earn_date and days_earn is not None and days_earn == 0:
+            earn_str = (
+                f"【실적발표={earn_date} (오늘·미국 장 마감 후 예정) / EPS예상=${eps_est}】\n"
+                f"  ✅ 허용: '오늘({earn_date}) 장 마감 후 실적 예정'. ⛔ '이미 발표됨' 금지(아직 마감 전일 수 있음)."
             )
         elif earn_date and days_earn is not None and days_earn <= 14:
-            earn_str = f"【실적발표={earn_date} ({days_earn}일후) / EPS예상=${eps_est}】"
+            earn_str = (
+                f"【실적발표={earn_date} ({days_earn}일후) / EPS예상=${eps_est}】\n"
+                f"  ✅ 상대일({days_earn}일후)과 절대일({earn_date})을 함께 쓸 것. 다른 섹션과 다른 상대일 금지."
+            )
         else:
             earn_str = ""
         sent_reason = sent.get('key_reason_en') or sent.get('key_reason', '')

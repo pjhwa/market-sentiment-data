@@ -80,10 +80,19 @@ def _load_json(rel_path: str) -> dict:
         return {}
 
 
-def _build_earnings_lookup(earnings_data: dict, now_kst_date=None) -> dict:
-    """종목별 실적 발표일 조회 dict. days_until은 KST 날짜로 재계산."""
-    if now_kst_date is None:
-        now_kst_date = (datetime.now(timezone.utc) + dt.timedelta(hours=9)).date()
+def _build_earnings_lookup(earnings_data: dict, now_date=None) -> dict:
+    """종목별 실적 발표일 조회 dict.
+
+    days_until uses **US/Eastern** calendar day (US equity event timing), not KST.
+    already_reported_possible only when days_until < 0 (date fully past in ET).
+    """
+    try:
+        from zoneinfo import ZoneInfo
+        et = ZoneInfo("America/New_York")
+    except Exception:
+        et = timezone.utc
+    if now_date is None:
+        now_date = datetime.now(et).date()
 
     lookup: dict = {}
     for e in earnings_data.get("upcoming_earnings", []):
@@ -94,12 +103,12 @@ def _build_earnings_lookup(earnings_data: dict, now_kst_date=None) -> dict:
                 earn_date = dt.date.fromisoformat(earn_date_str) if earn_date_str else None
             except ValueError:
                 earn_date = None
-            days_until = (earn_date - now_kst_date).days if earn_date else None
+            days_until = (earn_date - now_date).days if earn_date else None
             lookup[sym] = {
                 "earnings_date":              earn_date_str,
                 "days_until":                 days_until,
                 "eps_estimate":               e.get("eps_estimate"),
-                "already_reported_possible":  (days_until is not None and days_until <= 0),
+                "already_reported_possible":  (days_until is not None and days_until < 0),
             }
     return lookup
 
