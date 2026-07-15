@@ -1037,6 +1037,28 @@ def main():
     check_global_sources(brief, report)
     check_confidence_language(brief, report)
 
+    # ── C-B1: Phase B mechanical integrity (relative day / mood / price) ──
+    try:
+        from collect.phase_b_integrity import verify_briefing_integrity
+        import json as _json
+        earnings_path = REPO_PATH / "earnings" / "latest.json"
+        upcoming = []
+        if earnings_path.exists():
+            with open(earnings_path, encoding="utf-8") as _ef:
+                upcoming = (_json.load(_ef) or {}).get("upcoming_earnings") or []
+        b1 = verify_briefing_integrity(brief, upcoming_earnings=upcoming)
+        if b1.passed:
+            report.add(CheckResult("B1-integrity", True, "relative-day/mood/price mechanical checks OK"))
+        else:
+            for iss in b1.issues:
+                report.add(CheckResult(
+                    f"B1-{iss.code}",
+                    False,
+                    iss.message,
+                ))
+    except Exception as e:
+        report.add(CheckResult("B1-integrity", False, f"B1 verify error: {e}"))
+
     # ── D: 완결성 ──
     print("[D] 완결성 확인 중...")
     check_watchlist_completeness(brief, report)
