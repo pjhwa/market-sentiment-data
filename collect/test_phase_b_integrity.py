@@ -27,3 +27,19 @@ def test_good_alert_passes():
         as_of=date(2026, 7, 13),
     )
     assert r.passed is True
+
+
+def test_price_table_required_for_price_bind_fail():
+    """Without price_table, absurd $999 cannot be flagged; with table it fails."""
+    brief = {
+        "watchlist": [
+            {"symbol": "NVDA", "sentiment_mood": "neutral", "analysis_ko": "NVDA $999.00"},
+        ],
+    }
+    no_table = verify_briefing_integrity(brief, as_of=date(2026, 7, 13))
+    assert no_table.passed is True  # cannot judge without table
+    with_table = verify_briefing_integrity(
+        brief, price_table={"NVDA": 200.0}, as_of=date(2026, 7, 13)
+    )
+    assert with_table.passed is False
+    assert any(i.code == "B1-price-bind" for i in with_table.issues)

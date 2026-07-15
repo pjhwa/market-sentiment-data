@@ -1046,9 +1046,47 @@ def main():
         if earnings_path.exists():
             with open(earnings_path, encoding="utf-8") as _ef:
                 upcoming = (_json.load(_ef) or {}).get("upcoming_earnings") or []
-        b1 = verify_briefing_integrity(brief, upcoming_earnings=upcoming)
+        # Price binding table: structured watchlist.price, then live SniperBoard closes
+        price_table: dict = {}
+        for w in brief.get("watchlist") or []:
+            if not isinstance(w, dict):
+                continue
+            sym = str(w.get("symbol") or "").upper()
+            if not sym:
+                continue
+            if w.get("price") is not None:
+                try:
+                    price_table[sym] = float(w["price"])
+                except (TypeError, ValueError):
+                    pass
+        missing = [
+            str(w.get("symbol") or "").upper()
+            for w in (brief.get("watchlist") or [])
+            if isinstance(w, dict) and w.get("symbol")
+            and str(w.get("symbol") or "").upper() not in price_table
+        ]
+        for sym in missing:
+            try:
+                row = _api_get("/daily", {"symbol": sym}) or {}
+                # daily response: stage2.latest_close or candles
+                s2 = row.get("stage2") or {}
+                close = s2.get("latest_close")
+                if close is None and row.get("candles"):
+                    close = row["candles"][-1].get("close")
+                if close is not None:
+                    price_table[sym] = float(close)
+            except Exception:
+                pass
+        b1 = verify_briefing_integrity(
+            brief,
+            upcoming_earnings=upcoming,
+            price_table=price_table or None,
+        )
         if b1.passed:
-            report.add(CheckResult("B1-integrity", True, "relative-day/mood/price mechanical checks OK"))
+            report.add(CheckResult(
+                "B1-integrity", True,
+                f"relative-day/mood/price checks OK (price_table n={len(price_table)})",
+            ))
         else:
             for iss in b1.issues:
                 report.add(CheckResult(
