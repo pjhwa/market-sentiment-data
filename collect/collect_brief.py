@@ -227,6 +227,49 @@ def load_sentiment() -> dict:
     return _load_json("sentiment/latest.json")
 
 
+def load_sentiment_for_slot(slot: str, *, max_wait_sec: int = 180, poll_sec: int = 15) -> dict:
+    """Load sentiment/latest.json, waiting briefly if slot mismatches brief slot.
+
+    Phase A2: avoid pairing a pre_open brief with leftover post_close sentiment
+    (or vice versa). If same-slot never arrives within max_wait_sec, return the
+    best available snapshot with slot_mismatch=True for downstream warnings.
+    """
+    import time as _time
+
+    deadline = _time.monotonic() + max(0, max_wait_sec)
+    last: dict = {}
+    while True:
+        last = load_sentiment() or {}
+        s_slot = last.get("slot")
+        if last.get("generated_at") and (not s_slot or s_slot == slot):
+            if s_slot == slot:
+                print(f"[INFO] sentiment slot match: {slot}")
+            else:
+                print(f"[WARN] sentiment has no slot field — proceeding with available data")
+            last = dict(last)
+            last["slot_mismatch"] = False
+            return last
+        remaining = deadline - _time.monotonic()
+        if remaining <= 0:
+            break
+        print(
+            f"[WARN] sentiment slot={s_slot!r} != brief slot={slot!r} — "
+            f"waiting up to {int(remaining)}s for same-slot update...",
+            file=sys.stderr,
+        )
+        _time.sleep(min(poll_sec, max(1, int(remaining))))
+
+    print(
+        f"[WARN] proceeding with mismatched/empty sentiment "
+        f"(want={slot}, got={last.get('slot')})",
+        file=sys.stderr,
+    )
+    out = dict(last) if last else {}
+    out["slot_mismatch"] = True
+    out["expected_slot"] = slot
+    return out
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 프롬프트 포매터
 # ─────────────────────────────────────────────────────────────────────────────
@@ -853,8 +896,10 @@ def main():
     print("[INFO] 기술적 데이터 수집 중...")
     tech = fetch_technical_context()
 
-    print("[INFO] 심리 데이터 로드 중...")
-    sentiment = load_sentiment()
+    print("[INFO] 심리 데이터 로드 중 (same-slot wait)...")
+    # Env override for tests / offline: BRIEF_SENTIMENT_WAIT_SEC=0 skips wait
+    _wait = int(os.environ.get("BRIEF_SENTIMENT_WAIT_SEC", "180"))
+    sentiment = load_sentiment_for_slot(slot, max_wait_sec=_wait)
 
     prompt = build_brief_prompt(tech, sentiment, slot)
     print("[INFO] Grok 호출 중...")

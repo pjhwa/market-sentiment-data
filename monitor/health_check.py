@@ -33,7 +33,14 @@ from pathlib import Path
 REPO_PATH = Path(__file__).parent.parent
 SNIPERBOARD_API = "http://localhost:5001"
 FRONTEND_URL = "http://localhost:4000"
-SIGNAL_DB = Path.home() / "dev/sniperboard/backend/data/signal_log.db"
+# Must match sniperboard docker-compose volume: ./backend/data:/app/data
+# Override with SNIPERBOARD_SIGNAL_DB for non-default layouts.
+SIGNAL_DB = Path(
+    os.environ.get(
+        "SNIPERBOARD_SIGNAL_DB",
+        str(Path.home() / "dev/sniperboard/backend/data/signal_log.db"),
+    )
+).expanduser()
 
 # ── 심볼 목록 ─────────────────────────────────────────────────────────────────
 TIER1 = ["TSM", "NVDA", "META", "TSLA", "PLTR", "MU", "CRWD",
