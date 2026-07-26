@@ -442,7 +442,7 @@ def fetch_earnings_data(symbols: list[str], today: datetime) -> tuple[list[dict]
 
 def build_earnings_prompt(upcoming_raw: list[dict], recent_raw: list[dict]) -> str:
     upcoming_block = "\n".join([
-        f"- {u['symbol']}: {u['days_until']}일 후 ({u['earnings_date']}) "
+        f"- {u['symbol']}: earnings_date={u['earnings_date']} (days_until={u['days_until']} for tier only) "
         f"[tier={u['relevance_tier']}], "
         f"EPS estimate={u['eps_estimate']}, revenue_estimate={u['revenue_estimate_b']}B, "
         f"historical_beat_rate={u['historical_beat_rate']}"
@@ -480,11 +480,11 @@ Generate ONE JSON object with this EXACT schema (no prose, no code fences):
       "eps_estimate": null,
       "revenue_estimate_b": null,
       "historical_beat_rate": null,
-      "ai_summary_en": "2-3 sentence earnings context in English, tier-appropriate urgency",
-      "ai_summary_ko": "2-3문장 어닝 맥락 설명 (한국어), tier에 맞는 시의성 강조",
+      "ai_summary_en": "2-3 sentence earnings context in English. ALWAYS use absolute earnings_date YYYY-MM-DD (e.g. 2026-07-30). NEVER write relative timing: no 'in N days', 'tomorrow', 'next week', 'soon'.",
+      "ai_summary_ko": "2-3문장 어닝 맥락 (한국어). 실적일은 반드시 YYYY-MM-DD 절대일만 사용. 'N일 후'/'내일'/'다음 주'/'곧' 등 상대일 표현 금지.",
       "risk_level": "high|med|low",
-      "action_note_en": "One-line trader action guidance in English (tier-specific)",
-      "action_note_ko": "트레이더를 위한 한 줄 조언 (한국어), tier별 구체적 행동 지침"
+      "action_note_en": "One-line trader action; absolute date only if mentioning timing (YYYY-MM-DD).",
+      "action_note_ko": "한 줄 조언; 시점 언급 시 YYYY-MM-DD 절대일만 사용 (상대일 금지)."
     }}
   ],
   "recent_results": [

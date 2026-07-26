@@ -1033,8 +1033,8 @@ MARKET DATA ({now_kst}):
       "symbol": "TICKER",
       "company": "Company Name",
       "tier": 1,
-      "analysis_en": "3-5 sentences flowing paragraph. (1) recent price level using EXACT 전일종가 from table; if 프리마켓 is available, mention today's pre-market direction with that exact value, (2) strength or vulnerability in plain language using market_structure and stage2 data, (3) upside or downside using EMA/ATR anchors from 가격앵커, (4) social sentiment. All $ values must match table. Mention earnings ONLY if ≤14 days away with exact date; otherwise omit earnings entirely.",
-      "analysis_ko": "같은 내용 한국어 3-5문장. 전일종가는 테이블 값 그대로. 프리마켓 값이 있으면 '오늘 개장 전 $X(+Y%)' 형태로 사용. 없으면 오늘 방향 언급 금지. 실적은 14일 이내일 때만 정확한 날짜와 함께 언급, 그 외 완전 생략. 소셜 반응 자연스럽게 포함.",
+      "analysis_en": "3-5 sentences flowing paragraph. (1) recent price level using EXACT 전일종가 from table; if 프리마켓 is available, mention today's pre-market direction with that exact value, (2) strength or vulnerability in plain language using market_structure and stage2 data, (3) upside or downside using EMA/ATR anchors from 가격앵커, (4) social sentiment. All $ values must match table. Mention earnings ONLY if ≤14 days away using ABSOLUTE YYYY-MM-DD date only — NEVER 'in N days'/'tomorrow'/'next week'; otherwise omit earnings entirely.",
+      "analysis_ko": "같은 내용 한국어 3-5문장. 전일종가는 테이블 값 그대로. 프리마켓 값이 있으면 '오늘 개장 전 $X(+Y%)' 형태로 사용. 없으면 오늘 방향 언급 금지. 실적은 14일 이내일 때만 YYYY-MM-DD 절대일로 언급('N일 후'/'내일' 금지), 그 외 완전 생략. 소셜 반응 자연스럽게 포함.",
       "sentiment_mood": "optimistic|cautious|neutral|fearful|euphoric — from the social data above",
       "sentiment_score": 0.0,
       "action": "buy|hold|watch|avoid"
@@ -1046,8 +1046,8 @@ MARKET DATA ({now_kst}):
   "today_checkpoints_ko": [
     "오늘 주시할 포인트 — 가격은 테이블 기준, 실적일은 테이블 기준 정확한 날짜 명시"
   ],
-  "earnings_alert_en": "List ONLY: (1) ⚠이미발표됨 stocks: '[SYM] already reported after US close (est. EPS $X — verify actual at broker)'; (2) stocks where the authoritative table shows earnings_date within 14 CALENDAR DAYS from today. Count days_until from the table — if days_until > 14 or N/A, the stock is EXCLUDED from this field entirely. If no qualifying stocks exist, write empty string. Never 'next week'/'soon'/'no earnings'. MU earnings on June 24 = 18 days away = EXCLUDED (>14 days).",
-  "earnings_alert_ko": "다음 종목만 나열: (1) ⚠이미발표됨: '[심볼] 오늘 미국 장 마감 후 실적 발표됨 (EPS 추정 $X — 실제 결과는 증권사 확인)'; (2) 테이블상 실적일이 오늘 기준 14일 이내인 종목만 — days_until > 14이면 이 필드에서 완전 제외. 해당 종목이 없으면 빈 문자열. '다음 주'/'곧'/'실적 없음' 금지. 14일 초과 종목(예: MU 6/24 = 18일후)은 표기 금지."
+  "earnings_alert_en": "List ONLY: (1) already-reported stocks with ABSOLUTE date: '[SYM] reported after US close on YYYY-MM-DD (est. EPS $X — verify actual)'; (2) stocks with earnings_date within 14 CALENDAR DAYS — format '[SYM] earnings YYYY-MM-DD'. NEVER relative timing ('in N days', 'tomorrow', 'next week', 'soon', 'D-n'). If days_until > 14 or N/A, EXCLUDE. Empty string if none.",
+  "earnings_alert_ko": "다음만 나열: (1) 이미발표: '[심볼] YYYY-MM-DD 미국 장 마감 후 실적 발표됨 (EPS 추정 $X)'; (2) 실적일 14일 이내: '[심볼] 실적 YYYY-MM-DD'. 상대일 금지('N일 후'/'내일'/'다음 주'/'곧'/'D-n'). days_until>14이면 제외. 없으면 빈 문자열."
 }}
 
 REQUIREMENTS:
