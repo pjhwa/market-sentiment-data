@@ -1,0 +1,199 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-07-27T21:45:01Z",
+  "verified_at": "2026-07-28T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 5건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    MU: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AMZN: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AAPL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    SOFI: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=72.6 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: META earnings 2026-07-30; MSFT earnings 2026-07-30; AMZN ear)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "relative-day/mood/price checks OK (price_table n=21)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": false,
+      "severity": "warning",
+      "detail": "headline_ko 길이 초과: 35자 (≤30 기준)"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: inaccurate — Materially understates reality and is missing the single biggest overnight development. Since a US-Israel air war on Iran began Feb 28, 2026, the Strait has been effectively CLOSED at times (transits down to ~8 ships/day vs ~20M bbl/day pre-war baseline), with ships attacked, mines laid, and war-risk insurance up 4-5x — this is not merely 'elevated premiums with no closure.' Critically, the briefing omits that the US and Iran have paused hostilities for a 3rd straight day as of July 27, which is the actual reason oil is plunging and risk sentiment is easing — the opposite framing from 'risk lingering.'\n    rank=3: outdated — Partially stale. Meta's FTC monopoly case was already dismissed by the district court (Nov 18, 2025) — not 'no final rulings' — and FTC filed a notice of appeal in Jan 2026, so it's now in appellate limbo, not active discovery. Google's DOJ search/ad-tech cases also reached rulings (no breakup, but behavioral remedies imposed). The FTC's Microsoft cloud/AI-bundling probe escalating is accurately characterized as ongoing."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 2건:\n    Nvidia/SK Group $500B AI deal and OpenAI $250B financing talks trigger 'AI circular financing' sell-off across chip stocks (영향: This is the actual primary driver of today's NVDA (-5%), MU, and broader semiconductor weakness — not chip export rules. Investors are worried about circular/vendor financing structures (Nvidia guaranteeing OpenAI's $250B Ohio data-center lease, SK Group's $500B tie-up) inflating 'artificial' AI demand. Directly affects NVDA, MU, TSM in the watchlist.)\n    US-Iran pause in hostilities holds for 3rd straight day, easing Strait of Hormuz fears and sending oil down ~7-8% (영향: Directly explains today's oil plunge cited in the briefing's sector analysis, but the briefing frames Hormuz/Iran risk as still 'lingering' rather than de-escalating — a materially misleading causal story for energy names and the overall risk-on tone.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: VIX level (18.67) and yellow/72.6 score are accurate, but the headline's causal story (chip export rules + Hormuz risk 'lingering') misidentifies the day's actual driver, which was AI-infrastructure circular-financing anxiety following the Nvidia-SK Group/OpenAI mega-deals, compounded by an easing (not worsening) Iran situation."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The individual data points (semis/credit red, oil down ~8%) are directionally accurate, but the analysis attributes weakness to 'earnings caution' and geopolitical risk rather than the actual proximate cause — AI capex/financing sustainability fears triggered by the Nvidia/SK/OpenAI deal news — which is a mischaracterization of causality, not just an omission."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-07-27T22:17:42Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US expands case-by-case chip export licensing to China",
+        "accuracy": "accurate",
+        "note": "Confirmed. BIS shifted to case-by-case review of advanced chips (H200, MI325X, etc.) to China starting Jan 15, 2026, and Commerce is now focused on closing loopholes for Rubin/Blackwell/MI350x sales to Chinese entities outside China rather than issuing new blanket rules, consistent with 'developing/selective approvals' framing."
+      },
+      {
+        "rank": 2,
+        "title": "Iran Strait of Hormuz shipping risk remains elevated",
+        "accuracy": "inaccurate",
+        "note": "Materially understates reality and is missing the single biggest overnight development. Since a US-Israel air war on Iran began Feb 28, 2026, the Strait has been effectively CLOSED at times (transits down to ~8 ships/day vs ~20M bbl/day pre-war baseline), with ships attacked, mines laid, and war-risk insurance up 4-5x — this is not merely 'elevated premiums with no closure.' Critically, the briefing omits that the US and Iran have paused hostilities for a 3rd straight day as of July 27, which is the actual reason oil is plunging and risk sentiment is easing — the opposite framing from 'risk lingering.'"
+      },
+      {
+        "rank": 3,
+        "title": "US DOJ continues antitrust scrutiny on AI partnerships",
+        "accuracy": "outdated",
+        "note": "Partially stale. Meta's FTC monopoly case was already dismissed by the district court (Nov 18, 2025) — not 'no final rulings' — and FTC filed a notice of appeal in Jan 2026, so it's now in appellate limbo, not active discovery. Google's DOJ search/ad-tech cases also reached rulings (no breakup, but behavioral remedies imposed). The FTC's Microsoft cloud/AI-bundling probe escalating is accurately characterized as ongoing."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Nvidia/SK Group $500B AI deal and OpenAI $250B financing talks trigger 'AI circular financing' sell-off across chip stocks",
+        "impact": "This is the actual primary driver of today's NVDA (-5%), MU, and broader semiconductor weakness — not chip export rules. Investors are worried about circular/vendor financing structures (Nvidia guaranteeing OpenAI's $250B Ohio data-center lease, SK Group's $500B tie-up) inflating 'artificial' AI demand. Directly affects NVDA, MU, TSM in the watchlist.",
+        "severity": "critical"
+      },
+      {
+        "title": "US-Iran pause in hostilities holds for 3rd straight day, easing Strait of Hormuz fears and sending oil down ~7-8%",
+        "impact": "Directly explains today's oil plunge cited in the briefing's sector analysis, but the briefing frames Hormuz/Iran risk as still 'lingering' rather than de-escalating — a materially misleading causal story for energy names and the overall risk-on tone.",
+        "severity": "critical"
+      },
+      {
+        "title": "Busiest week of the quarter: multiple Big Tech earnings plus a Fed rate decision this week",
+        "impact": "Sets up elevated volatility risk for MSFT, META, AMZN, AAPL and the broader watchlist heading into the next few sessions; not mentioned anywhere in the briefing.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "VIX level (18.67) and yellow/72.6 score are accurate, but the headline's causal story (chip export rules + Hormuz risk 'lingering') misidentifies the day's actual driver, which was AI-infrastructure circular-financing anxiety following the Nvidia-SK Group/OpenAI mega-deals, compounded by an easing (not worsening) Iran situation."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "The individual data points (semis/credit red, oil down ~8%) are directionally accurate, but the analysis attributes weakness to 'earnings caution' and geopolitical risk rather than the actual proximate cause — AI capex/financing sustainability fears triggered by the Nvidia/SK/OpenAI deal news — which is a mischaracterization of causality, not just an omission."
+    },
+    "stock_errors": [],
+    "overall_score": 58,
+    "summary": "Price/percentage figures for individual watchlist names (AAPL, PLTR, NVDA) check out against real data, and the chip-licensing item is accurate. However, the briefing significantly mischaracterizes the Hormuz/Iran situation (downplaying an active war and omitting today's ceasefire pause, which is the actual reason oil is plunging) and misses the dominant market story of the day — AI infrastructure 'circular financing' fears from the Nvidia-SK Group/OpenAI mega-deals driving the chip-sector sell-off. These are not minor omissions; they invert or obscure the actual causal narrative behind today's market mood."
+  }
+}

@@ -952,7 +952,7 @@ WRITING RULES — follow strictly:
    - Earnings: mention ONLY if within 14 days AND the date appears in the provided data. If N/A or >14 days, omit earnings entirely — do NOT write "30일 이내 실적 발표 없음" or any equivalent phrase. This applies to ALL sections including spotlight.
    - Support/resistance levels: must be within ±25% of 전일종가. EMA21/50/200 from 가격앵커 section.
    - If 프리마켓=N/A: do NOT write "오늘 상승 중" or any today direction claim.
-   - market_structure: use the EXACT value from '구조=' field — 'UPTREND', 'DOWNTREND', or 'DISTRIBUTION'. Never write DOWNTREND for a stock whose data shows DISTRIBUTION. They are fundamentally different conditions.
+   - market_structure: use the EXACT value from '구조=' field — 'UPTREND', 'DOWNTREND', 'DISTRIBUTION', 'ACCUMULATION', 'NEUTRAL', or 'UNKNOWN'. This label MUST be explicitly written in every ticker's analysis, including ACCUMULATION/NEUTRAL/UNKNOWN — omitting it is a critical error. Never write DOWNTREND for a stock whose data shows DISTRIBUTION, or omit the label for ACCUMULATION. They are fundamentally different conditions.
    - Sentiment context (key_reason): use ONLY the 투자자반응/투자자반응(KO) field values from the provided data. Do NOT inject specific financial metrics (ARR%, EPS numbers, revenue figures, product names) from training memory.
 
 MARKET DATA ({now_kst}):
