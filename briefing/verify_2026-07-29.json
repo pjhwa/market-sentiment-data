@@ -1,0 +1,224 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-07-28T21:45:01Z",
+  "verified_at": "2026-07-29T07:15",
+  "overall_passed": false,
+  "error_count": 5,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 16건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    PLTR: 브리핑에 구조 표기 없음 (API=DISTRIBUTION)\n    MU: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=UPTREND)\n    AMZN: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    MSFT: 브리핑에 구조 표기 없음 (API=UPTREND)\n    AAPL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=UPTREND)\n    RKLB: 브리핑에 구조 표기 없음 (API=DISTRIBUTION)\n    CEG: 브리핑에 구조 표기 없음 (API=DISTRIBUTION)\n    VST: 브리핑에 구조 표기 없음 (API=DOWNTREND)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    OKLO: 브리핑에 구조 표기 없음 (API=DOWNTREND)\n    APP: 브리핑에 구조 표기 없음 (API=DOWNTREND)\n    ANET: 브리핑에 구조 표기 없음 (API=UPTREND)\n    NVO: 브리핑에 구조 표기 없음 (API=UPTREND)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    SOFI: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 7건:\n    PLTR: Rule1 → avoid 필요 (struct=DISTRIBUTION,S2=2,RS=16), 실제=watch\n    MSFT: Rule1 → avoid 필요 (struct=UPTREND,S2=2,RS=25), 실제=watch\n    RKLB: Rule1 → avoid 필요 (struct=DISTRIBUTION,S2=2,RS=4), 실제=watch\n    CEG: Rule1 → avoid 필요 (struct=DISTRIBUTION,S2=2,RS=12), 실제=watch\n    VST: Rule1 → avoid 필요 (struct=DOWNTREND,S2=2,RS=26), 실제=watch\n    OKLO: Rule1 → avoid 필요 (struct=DOWNTREND,S2=0,RS=0), 실제=watch\n    APP: Rule1 → avoid 필요 (struct=DOWNTREND,S2=0,RS=28), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=71.4 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": false,
+      "severity": "error",
+      "detail": "VST (DOWNTREND) caveat 없이 leaders에 언급됨"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: META earnings 2026-07-30)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": false,
+      "severity": "error",
+      "detail": "rank=2: confidence=confirmed이지만 인정 소스 없음 (source='csis 2026-04-27 / cnbc 2026-05-12 / atlantic council 2026-05-11')\n    rank=3: confidence=confirmed이지만 인정 소스 없음 (source='council on foreign relations 2026-03-13 / stimson center 2026-05-15')"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "relative-day/mood/price checks OK (price_table n=21)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=3: outdated — China ran two days of live-fire drills in the western Taiwan Strait starting 2026-07-23 (Epoch Times, chinaglobalsouth.com), timed near a Rubio-Wang Yi call touching on Taiwan. That is more than 48h before this briefing but the briefing's cited sources (CFR 2026-03, Stimson 2026-05) are stale by months; the 'no new drills in last 48h' claim is technically true but omits the more recent July 23 drill cycle, understating recent PLA activity."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Severe AI/semiconductor stock selloff driven by Chinese memory competitor CXMT's 466% Shanghai IPO surge and memory price-war fears (영향: MU (Micron) fell ~8.85%, AMD fell ~8.15%, SMH/PHLX Semiconductor Index fell >3% for a 4th straight day; directly affects watchlist names MU (listed in watchlist but blandly tagged 'Recent IPO, no technical data'), TSM (down 3.6%), NVDA. This is arguably the single biggest market-moving story of the day and is essentially absent from the briefing's sector/watchlist narrative, which instead attributes chip weakness only to generic 'supply chain uncertainty and elevated rates.')"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Directionally reasonable (yellow/cautious) given the semiconductor rout and red credit spreads, but the headline undersells the day: oil didn't just 'slide,' it plunged (Brent -8.7%), and the dominant driver of tech weakness was a Chinese memory-chip competitive shock (CXMT), not Hormuz-linked supply chain pressure as implied."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Semiconductor (SMH) and tech (QQQ) downtrend calls are directionally correct and if anything understated (MU -8.85%, AMD -8.15%, SMH -3%+ for a 4th straight day), but the stated cause ('supply chain uncertainty and elevated rates') is wrong/incomplete — the actual driver reported across multiple sources is CXMT's blowout IPO stoking DRAM price-war and AI-valuation fears. Rotation-to-staples description matches Sherwin-Williams/Coca-Cola-led rally reasonably well."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MU: Micron is a decades-old NASDAQ-listed company, not a 'Recent IPO' with '5 trading days' of history. On the actual date in question MU fell ~8.85% on CXMT competition fears — a materially different and more important story than the placeholder text implies.\n    AMZN: Amazon has been public since 1997; labeling it a 'Recent IPO — technical data not yet available' is a clear data/labeling error, likely a pipeline bug misclassifying established large-caps.\n    MSFT: Microsoft has been public since 1986; same 'Recent IPO' mislabeling error as AMZN/AAPL/MU.\n    AAPL: Apple has been public since 1980; same 'Recent IPO' mislabeling error.\n    CRWD: CrowdStrike IPO'd in 2019, not within the last 5 trading days; mislabeling suggests a systemic bug affecting the 'Recent IPO' classification logic across the watchlist."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-07-28T22:16:00Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-Iran strikes paused for diplomacy as Hormuz talks advance",
+        "accuracy": "accurate",
+        "note": "Confirmed by CBS News, NPR, Al Jazeera, Japan Times (2026-07-26/27): US and Iran extended pause in strikes for a second/third straight day, Oman mediating talks on reopening Hormuz with fewer transit restrictions. Consistent with briefing."
+      },
+      {
+        "rank": 2,
+        "title": "US-China semiconductor controls shift to case-by-case licensing",
+        "accuracy": "accurate",
+        "note": "BIS rule effective 2026-01-15 shifted H200/MI325X-class licensing from presumption-of-denial to case-by-case review; VEU status expired, requiring new annual licenses for TSMC/Samsung/SK Hynix. However this framing is now overshadowed by a much larger and unrelated story: a severe chip-stock selloff on 2026-07-28 driven by Chinese memory competitor CXMT's 466% Shanghai debut and AI-valuation fears, not export-control policy. See missing_major_news."
+      },
+      {
+        "rank": 3,
+        "title": "Taiwan Strait tension stable amid US-China summit diplomacy",
+        "accuracy": "outdated",
+        "note": "China ran two days of live-fire drills in the western Taiwan Strait starting 2026-07-23 (Epoch Times, chinaglobalsouth.com), timed near a Rubio-Wang Yi call touching on Taiwan. That is more than 48h before this briefing but the briefing's cited sources (CFR 2026-03, Stimson 2026-05) are stale by months; the 'no new drills in last 48h' claim is technically true but omits the more recent July 23 drill cycle, understating recent PLA activity."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Severe AI/semiconductor stock selloff driven by Chinese memory competitor CXMT's 466% Shanghai IPO surge and memory price-war fears",
+        "impact": "MU (Micron) fell ~8.85%, AMD fell ~8.15%, SMH/PHLX Semiconductor Index fell >3% for a 4th straight day; directly affects watchlist names MU (listed in watchlist but blandly tagged 'Recent IPO, no technical data'), TSM (down 3.6%), NVDA. This is arguably the single biggest market-moving story of the day and is essentially absent from the briefing's sector/watchlist narrative, which instead attributes chip weakness only to generic 'supply chain uncertainty and elevated rates.'",
+        "severity": "critical"
+      },
+      {
+        "title": "Broad market rally led by non-tech earnings beats (Sherwin-Williams +8%, Coca-Cola +5% with raised guidance) while Nasdaq lagged",
+        "impact": "Dow +1.03% to 52,747.32, S&P500 +0.21%, Nasdaq -0.22% on 2026-07-28 — confirms defensive/value rotation described in briefing, but the specific catalysts (industrials/staples earnings beats) are not named, weakening the 'rotation' narrative's specificity.",
+        "severity": "minor"
+      },
+      {
+        "title": "Oil prices fell sharply (Brent -8.7% to $88.36, WTI -7.5% to $82.61), not merely 'sliding'",
+        "impact": "Energy-linked names CEG/VST narrative may be overstated if oil is actually falling this fast; the magnitude understates downside risk to the 'sustained closure risk should support energy names' thesis in the briefing.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Directionally reasonable (yellow/cautious) given the semiconductor rout and red credit spreads, but the headline undersells the day: oil didn't just 'slide,' it plunged (Brent -8.7%), and the dominant driver of tech weakness was a Chinese memory-chip competitive shock (CXMT), not Hormuz-linked supply chain pressure as implied."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Semiconductor (SMH) and tech (QQQ) downtrend calls are directionally correct and if anything understated (MU -8.85%, AMD -8.15%, SMH -3%+ for a 4th straight day), but the stated cause ('supply chain uncertainty and elevated rates') is wrong/incomplete — the actual driver reported across multiple sources is CXMT's blowout IPO stoking DRAM price-war and AI-valuation fears. Rotation-to-staples description matches Sherwin-Williams/Coca-Cola-led rally reasonably well."
+    },
+    "stock_errors": [
+      {
+        "symbol": "MU",
+        "error": "Micron is a decades-old NASDAQ-listed company, not a 'Recent IPO' with '5 trading days' of history. On the actual date in question MU fell ~8.85% on CXMT competition fears — a materially different and more important story than the placeholder text implies."
+      },
+      {
+        "symbol": "AMZN",
+        "error": "Amazon has been public since 1997; labeling it a 'Recent IPO — technical data not yet available' is a clear data/labeling error, likely a pipeline bug misclassifying established large-caps."
+      },
+      {
+        "symbol": "MSFT",
+        "error": "Microsoft has been public since 1986; same 'Recent IPO' mislabeling error as AMZN/AAPL/MU."
+      },
+      {
+        "symbol": "AAPL",
+        "error": "Apple has been public since 1980; same 'Recent IPO' mislabeling error."
+      },
+      {
+        "symbol": "CRWD",
+        "error": "CrowdStrike IPO'd in 2019, not within the last 5 trading days; mislabeling suggests a systemic bug affecting the 'Recent IPO' classification logic across the watchlist."
+      },
+      {
+        "symbol": "TSM",
+        "error": "Briefing states TSM closed at $392.31 with pre-market $394.32 (+0.51%). Independent sources report a prior close near $399.09 and a ~3.61% decline on 2026-07-28 (implying a close nearer ~$384-387), which does not reconcile with the briefing's $392.31 figure or its implied flat/positive pre-market move."
+      }
+    ],
+    "overall_score": 55,
+    "summary": "The three global macro items (Hormuz, chip export licensing, Taiwan Strait) are each individually accurate but stale or incomplete in framing, and the briefing misses the day's dominant market story — a sharp AI/semiconductor selloff triggered by Chinese memory competitor CXMT's IPO, which better explains the SMH/QQQ downtrend than the cited 'supply chain/rates' rationale. More seriously, five watchlist tickers (MU, AMZN, MSFT, AAPL, CRWD) are erroneously tagged as untracked 'Recent IPOs' despite being long-established stocks, and TSM's quoted price conflicts with independently reported figures — these look like underlying data-pipeline defects rather than narrative judgment calls."
+  }
+}
