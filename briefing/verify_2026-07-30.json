@@ -1,0 +1,226 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-07-29T21:45:01Z",
+  "verified_at": "2026-07-30T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 6건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    MU: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AMZN: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AAPL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    MSFT: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    SOFI: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=66.4 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: META earnings 2026-07-30; MSFT earnings 2026-07-30; AMZN ear)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "relative-day/mood/price checks OK (price_table n=21)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: outdated — The claim of 'no new incidents in 72h' is false as of 2026-07-30 07:16 KST. Overnight (US time July 28-29), Iran launched a ballistic missile attack on US forces (intercepted by CENTCOM), the US and Saudi forces struck Iranian-linked sites in Iraq in retaliation, Iranian Revolutionary Guard forces halted/struck three oil tankers in the Strait of Hormuz, and Brent crude spiked 6.6% to $89.61. Trump publicly vowed further strikes ('they're going to get a beating'). This is a material escalation the briefing missed."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 3건:\n    Fed holds rates steady in a hawkish decision, triggering broad selloff (영향: Market-wide: Dow -2.19% (-1,153 pts) to 51,594.14, S&P 500 -1.52% to 7,316.15, Nasdaq -1.74% to 24,442.94 — the single largest driver of the 'yellow/tech selloff' mood described in the briefing, entirely omitted from global context and mood summary.)\n    Iran launches missile attack on US forces overnight; US/Saudi retaliatory strikes; tankers halted in Hormuz; oil spikes (영향: Directly contradicts the briefing's Hormuz item ('no new incidents in 72h'). Raises geopolitical/energy risk materially; relevant to broad market risk-off tone affecting the entire watchlist, and energy-linked names.)\n    Meta (META) Q2 earnings miss, stock falls ~10% in after-hours trading (영향: META: EPS $6.18 missed estimates by $1.04, Q3 revenue guidance light, expenses up 55% while net income fell 14%. Briefing lists META earnings as still-upcoming ('Earnings 2026-07-30') and doesn't reflect the miss or the ~10% AH drop — a materially stale characterization for a stock already flagged 'avoid'.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Directionally the 'yellow/tech selloff' call is reasonable given a broad-based decline, but the VIX figure is wrong: VIX actually closed down ~2.46% to 18.21 on 2026-07-29, not 'spikes 13%' as the headline states. The stated causes (chip curbs, antitrust probes) also understate the two dominant drivers reported in the press: the Fed's hawkish rate hold and the Iran escalation/oil spike."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Semiconductors/software leading the decline is well-supported (Micron -5.4% to -8.8% depending on session cited, AMD -8.1%, Intel -5.9%, Sandisk -14.2%), consistent with SMH -4.79%. Rotation into defensives with 'lack of conviction' amid red/yellow macro signals is a reasonable characterization given the Fed and Iran overhangs, though the briefing doesn't name the Fed decision as a contributing factor."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Listed with 'Earnings 2026-07-30' as if upcoming; Meta actually reported Q2 results after the close on 2026-07-29 (before this briefing's 21:45 UTC generation time), missed EPS by $1.04, and fell ~10% in after-hours trading. The briefing's mood/action call doesn't reflect the earnings miss.\n    MSFT: Listed with 'Earnings 2026-07-30' as if upcoming; Microsoft actually reported Q4 results after the close on 2026-07-29 and beat on EPS/revenue/Azure growth, rising ~2.4% after-hours. The date and 'still to come' framing are stale.\n    AMZN: Listed with 'Earnings 2026-07-31'; multiple sources confirm Amazon reports Q2 2026 results on 2026-07-30, one day earlier than stated.\n    NVDA: Listed as closing at $190.01; a same-day source places NVDA around $196.72-$197.70 (last ~$196.92) on 2026-07-29, a ~3.5% discrepancy that may reflect a stale or mistimed price snapshot."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-07-29T22:18:07Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip export controls shift to case-by-case licensing",
+        "accuracy": "accurate",
+        "note": "Confirmed: BIS moved to case-by-case licensing (from presumption of denial) with a 25% Section 232 tariff on advanced semiconductors, effective mid-January 2026, still in force. However, framing this as the primary driver of today's tech selloff is misleading — the dominant driver on 2026-07-29 was a hawkish Fed rate hold plus AI-capex sustainability doubts and Chinese memory/AI-chip competition (CXMT, DeepSeek), not new export-control news."
+      },
+      {
+        "rank": 2,
+        "title": "Iran Strait of Hormuz shipping risk remains elevated",
+        "accuracy": "outdated",
+        "note": "The claim of 'no new incidents in 72h' is false as of 2026-07-30 07:16 KST. Overnight (US time July 28-29), Iran launched a ballistic missile attack on US forces (intercepted by CENTCOM), the US and Saudi forces struck Iranian-linked sites in Iraq in retaliation, Iranian Revolutionary Guard forces halted/struck three oil tankers in the Strait of Hormuz, and Brent crude spiked 6.6% to $89.61. Trump publicly vowed further strikes ('they're going to get a beating'). This is a material escalation the briefing missed."
+      },
+      {
+        "rank": 3,
+        "title": "US DOJ signals renewed AI antitrust scrutiny on big tech",
+        "accuracy": "accurate",
+        "note": "Consistent with ongoing DOJ/Senate scrutiny of Google-Anthropic and Microsoft-OpenAI partnerships and the broader Google antitrust remedies case extending into GenAI products. No contradicting news found in the last 24h, though this was not a major market mover today relative to the Fed decision and Iran escalation."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Fed holds rates steady in a hawkish decision, triggering broad selloff",
+        "impact": "Market-wide: Dow -2.19% (-1,153 pts) to 51,594.14, S&P 500 -1.52% to 7,316.15, Nasdaq -1.74% to 24,442.94 — the single largest driver of the 'yellow/tech selloff' mood described in the briefing, entirely omitted from global context and mood summary.",
+        "severity": "critical"
+      },
+      {
+        "title": "Iran launches missile attack on US forces overnight; US/Saudi retaliatory strikes; tankers halted in Hormuz; oil spikes",
+        "impact": "Directly contradicts the briefing's Hormuz item ('no new incidents in 72h'). Raises geopolitical/energy risk materially; relevant to broad market risk-off tone affecting the entire watchlist, and energy-linked names.",
+        "severity": "critical"
+      },
+      {
+        "title": "Meta (META) Q2 earnings miss, stock falls ~10% in after-hours trading",
+        "impact": "META: EPS $6.18 missed estimates by $1.04, Q3 revenue guidance light, expenses up 55% while net income fell 14%. Briefing lists META earnings as still-upcoming ('Earnings 2026-07-30') and doesn't reflect the miss or the ~10% AH drop — a materially stale characterization for a stock already flagged 'avoid'.",
+        "severity": "critical"
+      },
+      {
+        "title": "Microsoft (MSFT) Q4 earnings beat, stock rises ~2.4% in after-hours trading",
+        "impact": "MSFT: EPS $4.74 beat $4.33 estimate, revenue $90.01B beat, Azure growth 43% beat estimates. Briefing lists MSFT earnings as still-upcoming ('Earnings 2026-07-30') when it had already reported and beaten by the time this briefing was generated (21:45 UTC July 29) — stale and potentially misleading for the 'avoid' call.",
+        "severity": "important"
+      },
+      {
+        "title": "AI capex sustainability doubts and Chinese memory/chip competition (CXMT, DeepSeek in-house AI chip) driving the semiconductor rout",
+        "impact": "MU, AMD, INTC, SMH and broader chip complex — briefing attributes the selloff mainly to 'chip curbs and antitrust probes,' but reporting attributes the rout primarily to AI infrastructure spending doubts, memory oversupply concerns, and rising Chinese competition (Samsung preliminary results also cited as a trigger).",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Directionally the 'yellow/tech selloff' call is reasonable given a broad-based decline, but the VIX figure is wrong: VIX actually closed down ~2.46% to 18.21 on 2026-07-29, not 'spikes 13%' as the headline states. The stated causes (chip curbs, antitrust probes) also understate the two dominant drivers reported in the press: the Fed's hawkish rate hold and the Iran escalation/oil spike."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Semiconductors/software leading the decline is well-supported (Micron -5.4% to -8.8% depending on session cited, AMD -8.1%, Intel -5.9%, Sandisk -14.2%), consistent with SMH -4.79%. Rotation into defensives with 'lack of conviction' amid red/yellow macro signals is a reasonable characterization given the Fed and Iran overhangs, though the briefing doesn't name the Fed decision as a contributing factor."
+    },
+    "stock_errors": [
+      {
+        "symbol": "META",
+        "error": "Listed with 'Earnings 2026-07-30' as if upcoming; Meta actually reported Q2 results after the close on 2026-07-29 (before this briefing's 21:45 UTC generation time), missed EPS by $1.04, and fell ~10% in after-hours trading. The briefing's mood/action call doesn't reflect the earnings miss."
+      },
+      {
+        "symbol": "MSFT",
+        "error": "Listed with 'Earnings 2026-07-30' as if upcoming; Microsoft actually reported Q4 results after the close on 2026-07-29 and beat on EPS/revenue/Azure growth, rising ~2.4% after-hours. The date and 'still to come' framing are stale."
+      },
+      {
+        "symbol": "AMZN",
+        "error": "Listed with 'Earnings 2026-07-31'; multiple sources confirm Amazon reports Q2 2026 results on 2026-07-30, one day earlier than stated."
+      },
+      {
+        "symbol": "NVDA",
+        "error": "Listed as closing at $190.01; a same-day source places NVDA around $196.72-$197.70 (last ~$196.92) on 2026-07-29, a ~3.5% discrepancy that may reflect a stale or mistimed price snapshot."
+      }
+    ],
+    "overall_score": 42,
+    "summary": "The briefing's individual global-context items are mostly factually grounded but omit the two dominant market-moving events of the day — the Fed's hawkish rate hold and an overnight Iran-US military escalation that directly contradicts its own Hormuz 'no new incidents' claim. It also mischaracterizes VIX behavior (claims a 13% spike vs. an actual ~2.5% decline) and carries stale earnings dates/prices for META, MSFT, AMZN, and NVDA, including missing that META and MSFT had already reported (with META missing badly) by the time the briefing was generated. Sector-level analysis is reasonably accurate, but the overall narrative causality is skewed and several data points need correction."
+  }
+}
