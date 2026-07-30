@@ -1,0 +1,209 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-07-30T21:45:01Z",
+  "verified_at": "2026-07-31T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 4건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AMZN: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    SOFI: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=77.3 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: AMZN reported after US close on 2026-07-30 (est. EPS $1.82 —)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "relative-day/mood/price checks OK (price_table n=21)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=3: outdated — Understated. This was not just 'fresh strikes within 8-27 days' — a major overnight barrage (70+ missiles, 280+ drones) hit Ukraine within the last 24h (night of July 29-30), killing at least 8-10 civilians including children, with a Russian missile/cruise missile entering Polish airspace and NATO scrambling fighter jets. This is a materially larger escalation (NATO airspace incident) than the briefing's generic description conveys."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Microsoft (MSFT) Q4 FY26 earnings blowout — stock surged ~14-15%, best single-day value gain on record (영향: Directly contradicts the briefing's MSFT entry (closed $451.10, pre-market $446.47, -1.03%, mood='euphoric' but flat price). Real data: EPS $4.81 vs $4.24 est, Azure +43% (crossed $100B annualized), Microsoft Cloud +27%, RPO +84% to $678B — stock reportedly jumped to ~$390-400+ after earnings dropped July 30 post-close. The briefing's MSFT price/change figures appear stale or wrong; this was the single biggest tech story of the day and is the main driver of the Nasdaq's ~2.8-3% single-day rally.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The Iran/Hormuz oil-risk narrative is accurate, but the 'yellow, tech mixed pre-open' framing undersells the actual prior session, which closed strongly risk-on (Nasdaq +2.78-3.2%, S&P +1.66%) on mega-cap earnings beats (MSFT, AMZN). The mood score/traffic light reads more cautious than the tape supports, largely because the briefing appears to be missing the MSFT earnings surge entirely."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Commodities/VIX-as-leader framing is roughly fine (VIX did rise to 20.66 on July 29 before falling back to ~18 on July 30 — 'no meaningful spike' is a fair characterization). However, calling growth/tech 'pressured' and 'under distribution pressure' conflicts with the real move: mega-cap tech (MSFT +14-15%, AMZN +9%) drove a broad Nasdaq rally that day. The sector narrative appears to reflect only part of the tape (AAPL weakness, tariff overhang) while missing the larger bullish counter-signal from MSFT/AMZN earnings."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MSFT: Briefing shows MSFT closed $451.10, pre-market $446.47 (-1.03%), essentially flat/down. Real-world reporting indicates MSFT surged ~14-15% after Q4 earnings (beat on EPS/revenue, Azure +43%) released July 30 after close — a materially different and much more bullish move than what the briefing captures. Price/change data for MSFT appears stale or mismatched with the actual earnings reaction."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-07-31T00:16:00Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-Iran conflict escalates with Hormuz tanker attacks, oil surges",
+        "accuracy": "accurate",
+        "note": "Confirmed ongoing: UAE tankers hit by Iranian missiles in Omani waters, US conducting repeated strikes on Iranian targets (including a dozen targets overnight July 29-30). WTI trading $83-85 range, off a 6.6% single-day surge, now consolidating/slightly down (-0.7%) on July 30 as some reports of improving Hormuz transit flow emerge. Briefing's 'closed recently amid partial de-escalation' framing is roughly right but risk remains acute, not de-escalating cleanly — a 10-day ceasefire proposal has been floated but not confirmed adopted."
+      },
+      {
+        "rank": 2,
+        "title": "Trump 25% tariff on NVDA chips to China remains in force",
+        "accuracy": "accurate",
+        "note": "Confirmed: 25% tariff on Nvidia H200 (and AMD MI325X) chips exported to China signed January 14, 2026, remains active. Case-by-case licensing continues; Chinese customs has reportedly been blocking some shipments and Beijing has pushed back on the tariff collection mechanism, an added friction point not mentioned in the briefing."
+      },
+      {
+        "rank": 3,
+        "title": "Russia-Ukraine war continues with fresh strikes on Kyiv infrastructure",
+        "accuracy": "outdated",
+        "note": "Understated. This was not just 'fresh strikes within 8-27 days' — a major overnight barrage (70+ missiles, 280+ drones) hit Ukraine within the last 24h (night of July 29-30), killing at least 8-10 civilians including children, with a Russian missile/cruise missile entering Polish airspace and NATO scrambling fighter jets. This is a materially larger escalation (NATO airspace incident) than the briefing's generic description conveys."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Microsoft (MSFT) Q4 FY26 earnings blowout — stock surged ~14-15%, best single-day value gain on record",
+        "impact": "Directly contradicts the briefing's MSFT entry (closed $451.10, pre-market $446.47, -1.03%, mood='euphoric' but flat price). Real data: EPS $4.81 vs $4.24 est, Azure +43% (crossed $100B annualized), Microsoft Cloud +27%, RPO +84% to $678B — stock reportedly jumped to ~$390-400+ after earnings dropped July 30 post-close. The briefing's MSFT price/change figures appear stale or wrong; this was the single biggest tech story of the day and is the main driver of the Nasdaq's ~2.8-3% single-day rally.",
+        "severity": "critical"
+      },
+      {
+        "title": "Fed holds rates steady at 3.5-3.75%; 30-year Treasury yield spikes to ~5.24%, a multi-decade high",
+        "impact": "Not mentioned anywhere in the briefing's macro/mood/sector sections despite being a major cross-asset driver. Rising long-end yields directly bears on the briefing's own credit-weakness thesis (HYG/JNK laggards) and should have been cited as the cause rather than left implicit.",
+        "severity": "important"
+      },
+      {
+        "title": "S&P 500 +1.66%, Nasdaq +2.78-3.2%, Dow +1.19% — strong risk-on close on July 30, driven by MSFT/AMZN earnings beats",
+        "impact": "The briefing's 'yellow/mixed' market mood and cautious tone (score 77.3, tech 'mixed pre-open') undersells that the prior session actually closed with a broad, sharp rally across major indices led by mega-cap tech (MSFT, AMZN), despite the Iran/oil overhang. This is a mismatch between the briefing's framing and the actual tape.",
+        "severity": "important"
+      },
+      {
+        "title": "Amazon (AMZN) and Apple (AAPL) earnings context missing",
+        "impact": "AMZN's +9.26% pre-market move (briefing) is real and driven by a Q2 beat (EPS $5.75 vs $1.82 est, AWS +37%) — briefing states the price move but never mentions the earnings catalyst. AAPL's -7.11% pre-market matches real news (weak guidance, China/services miss) but again omits the earnings catalyst that actually explains the number.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "The Iran/Hormuz oil-risk narrative is accurate, but the 'yellow, tech mixed pre-open' framing undersells the actual prior session, which closed strongly risk-on (Nasdaq +2.78-3.2%, S&P +1.66%) on mega-cap earnings beats (MSFT, AMZN). The mood score/traffic light reads more cautious than the tape supports, largely because the briefing appears to be missing the MSFT earnings surge entirely."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Commodities/VIX-as-leader framing is roughly fine (VIX did rise to 20.66 on July 29 before falling back to ~18 on July 30 — 'no meaningful spike' is a fair characterization). However, calling growth/tech 'pressured' and 'under distribution pressure' conflicts with the real move: mega-cap tech (MSFT +14-15%, AMZN +9%) drove a broad Nasdaq rally that day. The sector narrative appears to reflect only part of the tape (AAPL weakness, tariff overhang) while missing the larger bullish counter-signal from MSFT/AMZN earnings."
+    },
+    "stock_errors": [
+      {
+        "symbol": "MSFT",
+        "error": "Briefing shows MSFT closed $451.10, pre-market $446.47 (-1.03%), essentially flat/down. Real-world reporting indicates MSFT surged ~14-15% after Q4 earnings (beat on EPS/revenue, Azure +43%) released July 30 after close — a materially different and much more bullish move than what the briefing captures. Price/change data for MSFT appears stale or mismatched with the actual earnings reaction."
+      }
+    ],
+    "overall_score": 62,
+    "summary": "The geopolitical narrative (Iran/Hormuz, NVDA tariffs, Russia-Ukraine) is largely accurate but somewhat understates the severity of the overnight Ukraine escalation (NATO airspace incident). The critical flaw is on the market side: the briefing appears to be missing Microsoft's blowout Q4 earnings and the resulting ~14-15% stock surge that drove a broad tech rally, causing its MSFT price data, overall market mood ('yellow, mixed'), and sector narrative (tech 'pressured') to conflict with the actual, more bullish close on July 30. AAPL and AMZN price moves do check out against their real earnings-driven catalysts, though the briefing omits the earnings context for both."
+  }
+}
