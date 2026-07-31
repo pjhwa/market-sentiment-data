@@ -611,7 +611,7 @@ def _format_macro_insight_block(macro_insight: dict) -> str:
         emoji = signal_emoji.get(signal, "❓")
         lines.append(f"  {emoji} {label}: {signal.upper()} | {direction}")
 
-    lines.append("(위 신호는 yfinance 실시간 계산값. sector_analysis 작성 시 이 신호 기반으로 작성할 것.)")
+    lines.append("(위 신호는 yfinance 실시간 계산값. sector_analysis 작성 시 이 신호 기반으로 작성할 것. 단, 그룹 신호(RED/GREEN)를 원자재/금리 등 하위 구성 종목 전체에 동일하게 적용하지 말 것 — 'all flash RED'처럼 구성 종목 전원이 같은 방향이라고 단정하기 전에 MACRO BINDING TABLE에서 GLD/CL=F/BTC-USD 등 각 심볼의 실제 1D/5D 값을 개별 확인하고, 방향이 엇갈리면 반드시 그 차이를 명시할 것 — 혼합 신호를 단일 방향으로 뭉뚱그리는 것은 사실 오류임.)")
     return "\n".join(lines)
 
 
@@ -1035,7 +1035,7 @@ MARKET DATA ({now_kst}):
       "tier": 1,
       "analysis_en": "3-5 sentences flowing paragraph. (1) recent price level using EXACT 전일종가 from table; if 프리마켓 is available, mention today's pre-market direction with that exact value, (2) strength or vulnerability in plain language using market_structure and stage2 data, (3) upside or downside using EMA/ATR anchors from 가격앵커, (4) social sentiment. All $ values must match table. Mention earnings ONLY if ≤14 days away using ABSOLUTE YYYY-MM-DD date only — NEVER 'in N days'/'tomorrow'/'next week'; otherwise omit earnings entirely.",
       "analysis_ko": "같은 내용 한국어 3-5문장. 전일종가는 테이블 값 그대로. 프리마켓 값이 있으면 '오늘 개장 전 $X(+Y%)' 형태로 사용. 없으면 오늘 방향 언급 금지. 실적은 14일 이내일 때만 YYYY-MM-DD 절대일로 언급('N일 후'/'내일' 금지), 그 외 완전 생략. 소셜 반응 자연스럽게 포함.",
-      "sentiment_mood": "optimistic|cautious|neutral|fearful|euphoric — from the social data above",
+      "sentiment_mood": "optimistic|cautious|neutral|fearful|euphoric — from the social data above. MUST be consistent with this ticker's same-session price change: if 전일등락 or 프리마켓 shows a decline ≥3%, mood MUST NOT be 'optimistic' or 'euphoric' unless a specific forward-looking catalyst (earnings beat, analyst upgrade) is explicitly stated in analysis_en/ko — assigning an upbeat mood to a sharply declining ticker without a stated catalyst is a critical error.",
       "sentiment_score": 0.0,
       "action": "buy|hold|watch|avoid"
     }}
@@ -1158,6 +1158,7 @@ SELF-CHECK before outputting JSON (fix any violation before output):
   □ For each stock in watchlist/spotlight: does the written market_structure match 구조= field?
      DISTRIBUTION ≠ DOWNTREND ≠ ACCUMULATION — mixing them is a factual error. Fix before output.
      Is market_structure EXPLICITLY WRITTEN in the analysis text (not omitted)? Mandatory even for ACCUMULATION, NEUTRAL, and UNKNOWN tickers — omission is a critical error.
+     Go through ALL 22 watchlist symbols one by one (TSM,NVDA,META,TSLA,PLTR,MU,CRWD,AMZN,MSFT,AAPL,GOOGL,SPCX,RKLB,CEG,VST,ALAB,OKLO,APP,ANET,NVO,QBTS,SOFI) and confirm each analysis_en/ko contains the literal token 'market_structure: [VALUE]' — ACCUMULATION is the value most often silently dropped; do not skip it just because it is not alarming. Add any missing token now before output.
   □ For every ticker where Stage2≤2 AND market_structure=UPTREND: is the explicit inline inconsistency flag present as the FIRST line of that ticker's block? (e.g. '[TICKER]: Stage2=[N]≤2 but API returns market_structure=UPTREND — data inconsistency flagged') If not, add it now.
   □ In every section (watchlist, spotlight, sector_analysis, big_picture) that uses 'RS': is RS defined parenthetically as 'RS (Relative Strength)' on first use in that section? Bare 'RS' without inline definition is a verification error.
   □ For any global_context issue where the policy or event effective date is more than 60 days before today: is it described as 'established' or 'in effect since [month/year]' rather than 'new development', 'recent change', or 'fresh shift'?
