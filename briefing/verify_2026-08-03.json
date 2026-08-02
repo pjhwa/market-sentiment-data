@@ -1,0 +1,199 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-02T21:45:01Z",
+  "verified_at": "2026-08-03T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 5건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AMZN: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    VST: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    SOFI: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=81.6 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: PLTR earnings 2026-08-04)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "relative-day/mood/price checks OK (price_table n=21)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: inaccurate — Severely understates the situation. This is not a new/developing 72-hour story — a full-blown '2026 Strait of Hormuz crisis' has been underway since Feb 28, 2026, including prior Iranian closures/restrictions (a Pakistan-brokered ceasefire in April reopened it partially before Iran restricted passage again on Apr 19), mine-laying, and vessel boardings, with Brent oil surging well above $80-100+/bbl at points this year. The Aug 1 incident cited was not a generic 'tanker-related incident' — a Qatari LNG tanker was struck by a land-attack cruise missile in the strait (Bloomberg, Aug 1), a materially more severe event than implied. The briefing's framing ('developing,' 'no Iranian closure declared') is misleading given the crisis has already included closures/near-closures for months.\n    rank=3: inaccurate — Conflates/misdates the case. Judge Mehta already issued the remedies ruling in September 2025 (data-sharing/syndication remedies, no Chrome/Android divestiture ordered). Both DOJ/states and Google appealed to the DC Circuit (Google's appeal filed ~May 22, 2026; DOJ/states cross-appeal Feb 3, 2026). As of early August 2026, Google's reply brief is due Sept 29, 2026, and oral arguments have NOT been scheduled — expected late 2026/early 2027, with a decision likely in 2027. There is no 'final arguments concluded July 31' event or 'ruling by early September' on the table; the briefing appears to fabricate or misattribute a hearing timeline."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 2건 (critical 없음): [\"Micron's slide driven by ChangXin Memory Technologies (CXMT) Shanghai IPO and Apple's Tim Cook signaling Apple is 'evaluating all options' on alternative memory suppliers\", 'Ongoing Strait of Hormuz crisis and oil price impact on energy markets']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: VIX ~16 and a 'green/contained' framing sit awkwardly next to a literal missile strike on a tanker in the Strait of Hormuz and a well-established months-long Hormuz crisis, plus a 7.35% single-day drop in AAPL and continued MU weakness. The 'contained, not systemic' read may still be directionally fine given broad index strength (AMZN, MSFT, NVDA, META all up), but the underlying Hormuz risk is materially understated in the mood commentary itself, not just in the global-issues section."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Directionally reasonable (CRWD/cyber strength, SMH/semis downtrend, rotation away from rate-sensitive growth) but incomplete: the memory/semiconductor laggard narrative is attributed to 'chip licensing uncertainty' and 'higher yields' rather than the more proximate and material driver — CXMT's Shanghai IPO threatening to undercut memory pricing and Apple's supplier-diversification comments."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MU: Listed mood is 'optimistic' despite MU closing down 5.9% on the day (down 10.6% for the week) in a DOWNTREND structure on negative competitive news (CXMT IPO, Apple supplier diversification) — the mood tag appears inconsistent with the price action and news backdrop described in the same entry."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-03T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-China chip export licensing tightens on advanced nodes",
+        "accuracy": "accurate",
+        "note": "Case-by-case licensing regime for sub-7nm chips and the 25% tariff layer remain in force per BIS final rule (effective Jan 15, 2026) and Jan 14, 2026 tariff announcement. Slowed approvals since late July are consistent with ongoing reporting. Note: major foundries (TSMC, Samsung, SK Hynix) have also shifted from blanket waivers to annual license approvals for chipmaking tool imports into China — a related but distinct development not mentioned."
+      },
+      {
+        "rank": 2,
+        "title": "Strait of Hormuz transit risk elevated after tanker incidents",
+        "accuracy": "inaccurate",
+        "note": "Severely understates the situation. This is not a new/developing 72-hour story — a full-blown '2026 Strait of Hormuz crisis' has been underway since Feb 28, 2026, including prior Iranian closures/restrictions (a Pakistan-brokered ceasefire in April reopened it partially before Iran restricted passage again on Apr 19), mine-laying, and vessel boardings, with Brent oil surging well above $80-100+/bbl at points this year. The Aug 1 incident cited was not a generic 'tanker-related incident' — a Qatari LNG tanker was struck by a land-attack cruise missile in the strait (Bloomberg, Aug 1), a materially more severe event than implied. The briefing's framing ('developing,' 'no Iranian closure declared') is misleading given the crisis has already included closures/near-closures for months."
+      },
+      {
+        "rank": 3,
+        "title": "DOJ Google antitrust remedy hearing enters final phase",
+        "accuracy": "inaccurate",
+        "note": "Conflates/misdates the case. Judge Mehta already issued the remedies ruling in September 2025 (data-sharing/syndication remedies, no Chrome/Android divestiture ordered). Both DOJ/states and Google appealed to the DC Circuit (Google's appeal filed ~May 22, 2026; DOJ/states cross-appeal Feb 3, 2026). As of early August 2026, Google's reply brief is due Sept 29, 2026, and oral arguments have NOT been scheduled — expected late 2026/early 2027, with a decision likely in 2027. There is no 'final arguments concluded July 31' event or 'ruling by early September' on the table; the briefing appears to fabricate or misattribute a hearing timeline."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Micron's slide driven by ChangXin Memory Technologies (CXMT) Shanghai IPO and Apple's Tim Cook signaling Apple is 'evaluating all options' on alternative memory suppliers",
+        "impact": "MU (-5.9% day, -10.6% week) and read-through to SK Hynix (-3.6%) and Sandisk (-5.2%); the briefing attributes MU/semiconductor weakness generically to 'chip licensing uncertainty' and 'higher yields,' omitting the specific competitive threat (Chinese memory maker undercutting pricing) and customer-diversification risk (Apple) that are the actual drivers cited in current reporting.",
+        "severity": "important"
+      },
+      {
+        "title": "Ongoing Strait of Hormuz crisis and oil price impact on energy markets",
+        "impact": "Energy-sector names and inflation/rate expectations; briefing's sector section calls out energy only for 'AI power demand' narrative interest without connecting to the much larger, months-long Hormuz supply-shock story already reflected in oil prices.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "VIX ~16 and a 'green/contained' framing sit awkwardly next to a literal missile strike on a tanker in the Strait of Hormuz and a well-established months-long Hormuz crisis, plus a 7.35% single-day drop in AAPL and continued MU weakness. The 'contained, not systemic' read may still be directionally fine given broad index strength (AMZN, MSFT, NVDA, META all up), but the underlying Hormuz risk is materially understated in the mood commentary itself, not just in the global-issues section."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Directionally reasonable (CRWD/cyber strength, SMH/semis downtrend, rotation away from rate-sensitive growth) but incomplete: the memory/semiconductor laggard narrative is attributed to 'chip licensing uncertainty' and 'higher yields' rather than the more proximate and material driver — CXMT's Shanghai IPO threatening to undercut memory pricing and Apple's supplier-diversification comments."
+    },
+    "stock_errors": [
+      {
+        "symbol": "MU",
+        "error": "Listed mood is 'optimistic' despite MU closing down 5.9% on the day (down 10.6% for the week) in a DOWNTREND structure on negative competitive news (CXMT IPO, Apple supplier diversification) — the mood tag appears inconsistent with the price action and news backdrop described in the same entry."
+      }
+    ],
+    "overall_score": 62,
+    "summary": "The chip-licensing item checks out, but the briefing materially misrepresents both the Strait of Hormuz situation (framing an established, months-long crisis with a cruise-missile tanker strike as a routine 'developing' 72-hour story with no closures) and the DOJ/Google antitrust timeline (the actual remedies ruling was issued in Sept 2025 and the case is now in DC Circuit appeal with no scheduled oral arguments, not a 'final phase' hearing concluding July 31 with a September ruling). MU's mood tag also looks inconsistent with its price action, and the memory-sector narrative omits the CXMT/Apple-driven competitive story that's actually moving the stock."
+  }
+}
