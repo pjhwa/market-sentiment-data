@@ -1010,7 +1010,7 @@ MARKET DATA ({now_kst}):
     "btc_note_ko": "{btc_anchor_ko} [뒤에 1문장만 추가: 위험 선호도에 무엇을 의미하는지. 추가 수치 금지.]"
   }},
   "sector_analysis": {{
-    "leaders_en": "Based on MACRO SIGNAL GROUPS (🟢 green = technically strong). HARD RULE: Stocks with DOWNTREND market_structure are NEVER technical leaders. If a DOWNTREND stock benefits from a news theme (e.g. oil spike), write: '[sector]: narrative interest from [theme], but technically in DOWNTREND — not a structural leader.' Only stocks with UPTREND or neutral structure can be called leaders.",
+    "leaders_en": "Based on MACRO SIGNAL GROUPS (🟢 green = technically strong). HARD RULE: Stocks with DOWNTREND market_structure are NEVER technical leaders. If a DOWNTREND stock benefits from a news theme (e.g. oil spike), write: '[sector]: narrative interest from [theme], but technically in DOWNTREND — not a structural leader.' Only stocks with UPTREND or neutral structure can be called leaders. FORMAT: every named ticker in this field MUST be immediately followed by its structure in parentheses, e.g. 'MU (DOWNTREND)' — naming a ticker as a leader with no parenthetical structure tag is itself a violation, since it hides a possible DOWNTREND stock being miscast as a leader.",
     "leaders_ko": "MACRO SIGNAL GROUPS의 🟢 녹색 신호 기반. 핵심 규칙: DOWNTREND 종목은 절대 기술적 리더가 아님. 뉴스 테마 수혜라도 '해당 섹터: [테마] 수혜 내러티브, 단 기술적 구조는 DOWNTREND — 진정한 섹터 리더 아님'으로 작성할 것.",
     "laggards_en": "Which are lagging and the simple reason why",
     "laggards_ko": "어떤 업종이 힘을 못 쓰고 있는지, 왜 그런지.",
@@ -1037,6 +1037,7 @@ MARKET DATA ({now_kst}):
       "analysis_ko": "같은 내용 한국어 3-5문장. 전일종가는 테이블 값 그대로. 프리마켓 값이 있으면 '오늘 개장 전 $X(+Y%)' 형태로 사용. 없으면 오늘 방향 언급 금지. 실적은 14일 이내일 때만 YYYY-MM-DD 절대일로 언급('N일 후'/'내일' 금지), 그 외 완전 생략. 소셜 반응 자연스럽게 포함.",
       "sentiment_mood": "optimistic|cautious|neutral|fearful|euphoric — from the social data above. MUST be consistent with this ticker's same-session price change: if 전일등락 or 프리마켓 shows a decline ≥3%, mood MUST NOT be 'optimistic' or 'euphoric' unless a specific forward-looking catalyst (earnings beat, analyst upgrade) is explicitly stated in analysis_en/ko — assigning an upbeat mood to a sharply declining ticker without a stated catalyst is a critical error.",
       "sentiment_score": 0.0,
+      "market_structure": "Copy the EXACT 구조= value verbatim (UPTREND|DOWNTREND|DISTRIBUTION|ACCUMULATION|NEUTRAL|UNKNOWN) for this ticker. This field is MANDATORY for all 22 watchlist tickers, including ACCUMULATION — a missing or blank value for a ticker whose table row has a 구조= value is a critical omission error.",
       "action": "buy|hold|watch|avoid"
     }}
   ],
