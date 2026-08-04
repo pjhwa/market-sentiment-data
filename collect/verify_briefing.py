@@ -1077,23 +1077,52 @@ def main():
                     price_table[sym] = float(close)
             except Exception:
                 pass
+        # Prior history for B2 theme-recurrence (oldest → newest, exclude current file)
+        history: list = []
+        try:
+            hist_dir = REPO_PATH / "briefing" / "history"
+            if hist_dir.is_dir():
+                hist_files = sorted(hist_dir.glob("*.json"))
+                # Prefer files strictly before brief.generated_at date when available
+                gen = str((brief.get("generated_at") or ""))[:10]
+                for hf in hist_files:
+                    if gen and hf.stem >= gen:
+                        continue
+                    try:
+                        with open(hf, encoding="utf-8") as _hf:
+                            history.append(_json.load(_hf))
+                    except Exception:
+                        pass
+                # Cap to last 21 prior days for performance
+                history = history[-21:]
+        except Exception:
+            history = []
         b1 = verify_briefing_integrity(
             brief,
             upcoming_earnings=upcoming,
             price_table=price_table or None,
+            history=history or None,
         )
         if b1.passed:
+            warn_n = sum(1 for i in b1.issues if getattr(i, "severity", "fail") == "warn")
             report.add(CheckResult(
                 "B1-integrity", True,
-                f"relative-day/mood/price checks OK (price_table n={len(price_table)})",
+                f"B1/B2 checks OK (price_table n={len(price_table)}, history n={len(history)}, warns={warn_n})",
             ))
+            for iss in b1.issues:
+                if getattr(iss, "severity", "fail") == "warn":
+                    report.add(CheckResult(
+                        f"B2-warn-{iss.code}",
+                        True,
+                        f"[warn] {iss.message}",
+                    ))
         else:
             for iss in b1.issues:
-                report.add(CheckResult(
-                    f"B1-{iss.code}",
-                    False,
-                    iss.message,
-                ))
+                # Preserve B1-* / B2-* codes as report names (codes already include prefix)
+                code = str(iss.code)
+                ok = getattr(iss, "severity", "fail") != "fail"
+                msg = iss.message if not ok else f"[{getattr(iss, 'severity', 'warn')}] {iss.message}"
+                report.add(CheckResult(code, ok, msg))
     except Exception as e:
         report.add(CheckResult("B1-integrity", False, f"B1 verify error: {e}"))
 

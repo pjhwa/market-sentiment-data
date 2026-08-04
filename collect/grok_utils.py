@@ -42,13 +42,24 @@ JSON_PARSE_RETRY = int(os.environ.get("JSON_PARSE_RETRY", "2"))
 JSON_RETRY_DELAY = float(os.environ.get("JSON_RETRY_DELAY", "2.0"))
 
 
-def call_hermes(prompt: str, timeout: int | None = None) -> str | None:
+def call_hermes(
+    prompt: str,
+    timeout: int | None = None,
+    *,
+    toolsets: str | None = None,
+) -> str | None:
     """Call hermes CLI subprocess. Retries on timeout (HERMES_RETRY). Returns stdout or None.
 
     Does NOT retry on empty stdout — that is handled by call_hermes_json.
     Does NOT retry on non-zero exit (auth/config error, won't self-heal).
+
+    toolsets: optional comma-separated hermes toolsets (e.g. "web") passed as -t.
+              Falls back to HERMES_TOOLSETS env when not provided.
     """
     cmd = [HERMES_CMD, "-z", prompt]
+    ts = toolsets if toolsets is not None else os.environ.get("HERMES_TOOLSETS", "")
+    if ts:
+        cmd += ["-t", ts]
     if HERMES_PROVIDER:
         cmd += ["--provider", HERMES_PROVIDER]
     env = {**os.environ, "PATH": os.environ.get("PATH", "") + ":/usr/local/bin:/opt/homebrew/bin"}
@@ -122,6 +133,8 @@ def call_hermes_json(
     json_retry: int = JSON_PARSE_RETRY,
     delay: float = JSON_RETRY_DELAY,
     validator: "callable | None" = None,
+    *,
+    toolsets: str | None = None,
 ) -> tuple[str | None, dict | None]:
     """Call hermes and parse JSON dict. Retries the full hermes call on:
       - empty response
@@ -136,6 +149,7 @@ def call_hermes_json(
         delay: Seconds to sleep between retries (default: JSON_RETRY_DELAY).
         validator: Optional callable(dict) -> bool. If provided and returns False,
                    the response is considered invalid and a retry is attempted.
+        toolsets: Optional hermes -t toolsets (e.g. "web") for this call only.
 
     Returns:
         (raw_text, parsed_dict): raw_text is the last hermes stdout (may be empty string),
@@ -144,7 +158,7 @@ def call_hermes_json(
     """
     raw = None
     for attempt in range(1 + json_retry):
-        raw = call_hermes(prompt, timeout=timeout)
+        raw = call_hermes(prompt, timeout=timeout, toolsets=toolsets)
 
         if raw is None:
             # hermes failed (non-zero exit, timeout exhausted, FileNotFoundError)

@@ -21,9 +21,15 @@ Grok(hermes)으로 일반인 친화적 종합 브리핑을 생성한다.
 
 import json
 import os
+import re
 import sys
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
+from html import unescape
 from pathlib import Path
+from typing import Any, Optional
+from urllib.parse import urlparse
 
 import requests
 import yfinance as yf
@@ -35,13 +41,63 @@ REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.par
 # morning briefing has longer timeouts than other collectors
 CALL_TIMEOUT        = int(os.environ.get("HERMES_TIMEOUT", "180"))
 CALL_TIMEOUT_GLOBAL = int(os.environ.get("HERMES_TIMEOUT_GLOBAL", "150"))
+# Stage-1 must be able to use hermes web toolset for live search
+HERMES_STAGE1_TOOLSETS = os.environ.get("HERMES_STAGE1_TOOLSETS", "web")
 SNIPERBOARD_API = os.environ.get("SNIPERBOARD_API_BASE", "http://localhost:5001")
 
-_VALID_GC_CATEGORIES = {"trade_tariff", "geopolitical", "central_bank", "ai_regulation"}
+_VALID_GC_CATEGORIES = {
+    "trade_tariff", "geopolitical", "central_bank", "ai_regulation",
+    # earnings/market_structure: session-material non-geo catalysts (no daily quota)
+    "earnings", "market_move",
+}
 _VALID_GC_TIERS = {"breaking", "ongoing"}
 _VALID_GC_CONFIDENCE = {"confirmed", "developing", "unverified"}
 _VALID_GC_IMPACT = {"positive", "negative", "neutral", "watch"}
 _VALID_GC_DIRECTION = {"escalating", "de-escalating", "stable_elevated", "stable_fading"}
+
+# Accepted-outlet RSS used as *mechanical* Stage-1 evidence (not LLM memory).
+# First principles: rank from real headlines; do not invent category filler.
+_STAGE1_RSS_FEEDS = (
+    # US-equity-focused first (Google News RSS is reliable and not outlet-DNS-fragile)
+    (
+        "gnews_us_markets",
+        "https://news.google.com/rss/search?q=US+stock+market+OR+Wall+Street+when:2d&hl=en-US&gl=US&ceid=US:en",
+    ),
+    (
+        "gnews_fed",
+        "https://news.google.com/rss/search?q=Federal+Reserve+OR+FOMC+OR+Treasury+yields+when:2d&hl=en-US&gl=US&ceid=US:en",
+    ),
+    (
+        "gnews_oil_geo",
+        "https://news.google.com/rss/search?q=oil+OR+crude+OR+OPEC+OR+Middle+East+markets+when:2d&hl=en-US&gl=US&ceid=US:en",
+    ),
+    (
+        "gnews_semis_trade",
+        "https://news.google.com/rss/search?q=semiconductor+OR+chip+export+OR+tariffs+when:2d&hl=en-US&gl=US&ceid=US:en",
+    ),
+    ("bbc_business", "https://feeds.bbci.co.uk/news/business/rss.xml"),
+    ("cnbc_top", "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114"),
+    ("cnbc_world", "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362"),
+    ("marketwatch_top", "https://feeds.marketwatch.com/marketwatch/topstories/"),
+    # Reuters host is intermittently unresolvable in some networks — keep last
+    ("reuters_business", "https://feeds.reuters.com/reuters/businessNews"),
+    ("reuters_markets", "https://feeds.reuters.com/reuters/marketsNews"),
+)
+
+_MARKET_TITLE_HINT = re.compile(
+    r"\b(stock|stocks|market|markets|fed|fomc|cpi|oil|crude|tariff|tariffs|"
+    r"semiconductor|chip|nvidia|earnings|treasury|yield|yields|dow|nasdaq|"
+    r"s&p|wall street|equity|equities|rate\s*cut|rate\s*hike|inflation|"
+    r"antitrust|export|opec|iran|hormuz)\b",
+    re.I,
+)
+
+_ACCEPTED_SOURCE_HINTS = (
+    "reuters", "bloomberg", "ap ", "associated press", "bbc", "ft.com", "financial times",
+    "wsj", "wall street journal", "nyt", "new york times", "cnbc", "marketwatch",
+    "white house", "bis", "sec", "fed", "doj", "ftc", "court", "commerce",
+    "treasury", "ecb", "boj", "imf", "oecd",
+)
 
 ALL_SYMBOLS = [
     ("TSM",   "TSMC",                  1),
@@ -629,15 +685,19 @@ def _format_earnings_block(earnings_data: dict) -> str:
 
 
 def _format_global_context_block(global_ctx: dict) -> str:
-    """글로벌 컨텍스트를 2차 Grok 프롬프트 주입용 텍스트로 변환."""
+    """글로벌 컨텍스트를 2차 Grok 프롬프트 주입용 텍스트로 변환.
+
+    First principles: inject evidence + short structural rules only.
+    No event-specific MUST catalogs (named chokepoints, Fed anecdotes, IPO checklists).
+    """
     issues = global_ctx.get("issues", [])
     if not issues:
         return "GLOBAL CONTEXT: No verified global issues retrieved (search failed or no significant events)."
 
     lines = [
         "━━━ GLOBAL MACRO & GEOPOLITICAL CONTEXT ━━━",
-        f"(Verified within 48h as of {global_ctx.get('fetched_at', 'unknown')})",
-        "Use this context to enrich your briefing. Each issue includes current state, direction, and per-ticker impact. CRITICAL: the 'Current State' field is authoritative real-world ground truth as of the fetch timestamp — do NOT contradict, soften, or override it with training-data knowledge of the same event; if your training data predates this fetch timestamp, defer entirely to the provided Current State. ABSOLUTE OVERRIDE: if the Current State asserts a specific fact (e.g., 'strait is closed', 'case is at appeals court'), writing the factual opposite ('no closure', 'district court oral arguments') is a critical briefing error — you MUST reproduce the provided Current State verbatim and MUST NOT substitute training-data recollection for it under any circumstances. FABRICATION PROHIBITION: Do not introduce named legal cases, regulatory actions, co-defendants, or geopolitical events that are not explicitly listed in the provided context issues — if training data recalls a case by name, verify it appears in the provided list before referencing it; merging separate cases, inventing co-defendants, or conflating distinct regulatory proceedings into a single fabricated case is a critical hallucination error. TIMING PROHIBITION: When the provided context describes a recent development that relates to a pre-existing policy, preserve the accurate timeline — do not re-present a policy established in a prior quarter as a current or late-period development; if the current development is narrower in scope than the original policy, describe both accurately with their respective dates and scope. DATE ACCURACY OVERRIDE: if the Current State or Summary fields supply an explicit effective date or enactment date for a policy or rule (e.g., 'rule took effect January 15, 2026'), that date is authoritative and MUST be reproduced verbatim — do not substitute a different month, quarter, or year derived from training-data recollection; writing 'June 2026' when the provided context states 'January 2026 effective date' is a critical timeline fabrication error equivalent to contradicting the Current State field. MANDATORY SELF-CHECK: Before finalizing any briefing section, scan your draft for phrases that soften, negate, or replace a provided Current State value — examples of prohibited substitutions: writing 'shipping lanes remain open / no closure threats' or 'elevated insurance premiums' or 'naval escort requirements' or 'no new closures or attacks in the last 48 hours' or 'traffic at normal levels' or 'no incidents reported' when Current State says 'strait is closed or closure declared' or describes active military conflict, vessel seizures, drone attacks on vessels, naval exchanges, sea mines, or US/allied military retaliation — do NOT downgrade an active armed conflict to routine maritime-risk language, writing 'remedies or appeals phase' when Current State says 'case dismissed', writing 'document production' or 'district court proceedings' or 'no consent decrees set' or 'remedy phase in final arguments' or 'ruling expected within weeks' or 'district court oral arguments' when Current State says 'appellate brief filed' or 'appeal argued' or 'remedies imposed' or describes case at circuit/appellate court, writing 'ceasefire holding' when Current State says 'closure re-declared'. For each global issue in the provided context, find the exact sentence in your draft that covers it and confirm it does not contradict the Current State field. If a contradiction is found, delete the contradicting phrase and substitute the verbatim Current State language before proceeding. Skipping this self-check when a contradiction exists is itself a critical structural error and makes the briefing analytically unreliable.\n",
+        f"(Fetched as of {global_ctx.get('fetched_at', 'unknown')}; search_window={global_ctx.get('search_window', '48h')})",
+        "Each issue below is INPUT EVIDENCE for this run only — not a daily topic quota.",
     ]
     for iss in issues:
         conf = iss.get("confidence", "confirmed")
@@ -659,176 +719,342 @@ def _format_global_context_block(global_ctx: dict) -> str:
 
     no_update = global_ctx.get("ongoing_no_update", [])
     if no_update:
-        lines.append(f"\nDormant background (no near-term market impact): {', '.join(no_update)}")
+        lines.append(
+            f"\nNo material 48h delta (do not invent filler issues): {', '.join(str(x) for x in no_update)}"
+        )
 
     lines.append("""
-INSTRUCTIONS for using this context in your briefing:
-- stock_analysis internal consistency: before finalizing any ticker entry, verify numeric consistency — if you write 'price below EMA21', the stated close price MUST be numerically less than the stated EMA21 value; if you write 'price above EMA21', the stated close price MUST be numerically greater than the stated EMA21 value; a price-vs-indicator contradiction (e.g., close=$411 while EMA21=$399 yet stating 'price below EMA21') invalidates the trend direction call and is a critical factual error. STRUCTURE TAG COMPLETENESS: if the provided ticker data includes a market_structure field (e.g., ACCUMULATION, UPTREND, DOWNTREND, DISTRIBUTION), your briefing text for that ticker MUST explicitly state that structure label verbatim somewhere in the entry — discussing trend only in informal prose without reproducing the supplied structure tag is a critical structural omission error. MOOD CONSISTENCY CHECK: the mood/sentiment tag assigned to a ticker (e.g., optimistic, bearish, neutral) MUST be consistent with the stated price action and news content in that same entry — do not label a ticker 'optimistic' when its stated daily/weekly change is sharply negative and the cited news is negative; the mood tag must reflect the net direction implied by the entry's own price and news data. GAIN/LOSS SIGN CHECK: if the provided ticker data includes a daily_change, pct_change, or equivalent numeric field, the sign (positive/negative) of your stated single-session gain/loss MUST match — writing '+10.57%' when input data shows a negative daily change is a critical directional error that inverts mood and action signals; when your stated percentage contradicts the input sign, output '[TICKER]: stated gain [X%] contradicts input daily_change [Y%] — data conflict; mood and action provisional'.
-- abbreviation first-use rule: any financial or technical abbreviation used in the briefing (e.g., RS, EMA, VWAP, ATH, YoY, QoQ, OI, IV, RR, SMA) MUST be expanded in full on its first appearance in the document with the abbreviation in parentheses after the full term; subsequent uses may use the abbreviation alone; omitting the expansion of a non-universal abbreviation is a D4 clarity error
-- trading-day date attribution: before labeling any closing price with a date, confirm that date was a valid US equity trading session — US markets are closed on all federal holidays (New Year's Day, MLK Day, Presidents Day, Good Friday, Memorial Day, Juneteenth, Independence Day July 4, Labor Day, Thanksgiving, Christmas) and on weekends; when July 4 falls on a Saturday, the observed holiday is Friday July 3 and markets are closed that day; a briefing generated on a holiday or in after-hours must attribute all closing prices to the last actual trading session date, not to the holiday or the generation date; writing 'July 3 close' when July 3 was a market holiday and the most recent trade occurred July 2 is a critical date-attribution error
-- market_structure MANDATORY DISCLOSURE: if API data provides a market_structure classification for any ticker (e.g., ACCUMULATION, DISTRIBUTION, UPTREND, DOWNTREND), that exact classification MUST be explicitly stated by name in the briefing entry for that ticker (reproduce the API label verbatim, e.g., 'Structure: ACCUMULATION' or 'market structure: DISTRIBUTION'); writing only a generic trend word such as 'accumulating' or 'uptrending' without reproducing the API-provided label constitutes a structure-binding omission error and makes the entry non-verifiable — omitting a provided market_structure label (e.g., API=ACCUMULATION yet no structure notation appears in the briefing entry) is a critical omission error.
-- DATA CONFLICT NOTATION: if Stage2 score and market_structure fields contradict each other (e.g., Stage2≤2 yet market_structure=UPTREND, or Stage2≥4 yet market_structure=DOWNTREND), explicitly flag '[DATA CONFLICT: Stage2 vs market_structure]' in that ticker's entry; do not silently resolve the contradiction by favoring one signal over the other.
-- MACRO RELEASE MANDATORY INCLUSION: if training knowledge or provided context indicates a major scheduled macro release occurred on the briefing date (NFP/payrolls/jobs report, CPI, Fed rate decision, GDP flash), that release result MUST appear in the briefing — omitting the dominant macro event of the day (e.g., NFP miss exceeding 30% vs consensus) is a critical omission error; state actual vs consensus figure and note the directional implication for rate-sensitive names on the watchlist.
-- TERMINOLOGY FIRST-USE DEFINITION: any technical abbreviation must be defined parenthetically on first use — required definitions include RS (Relative Strength vs S&P 500), EMA (Exponential Moving Average), ATH (All-Time High), RSI (Relative Strength Index), SMA (Simple Moving Average) — writing 'RS' or any other abbreviation without a parenthetical definition is a terminology error.
-- COMPLETENESS CHECK: no ticker analysis may be truncated or cut off mid-sentence — each ticker entry must include a complete explanation of the mood and action call including the specific reason; a truncated entry (e.g., 'Sharp 7...') is a structural error and the full sentence must be completed before output.
-- material_litigation disclosure: if the provided context or any ticker-level data references a lawsuit, antitrust filing, class-action, or regulatory enforcement action against a ticker filed within the past 30 days, that litigation MUST be disclosed when assigning mood or action for that ticker — labeling mood as 'euphoric' or recommending 'buy' without disclosing same-period material litigation is a critical omission error; append a risk note: 'Note: [lawsuit description] filed [date] — verify litigation impact before acting'.
-- corporate_action disclosure: if any ticker-level data or global context references a stock split, reverse split, rights offering, special dividend, or other capital structure change effective within 14 days of the briefing date, that event MUST be disclosed prominently before any action or price recommendation for that ticker — assigning action='buy' or stating a price target without disclosing an imminent capital structure event is a critical omission error; append: 'Note: [event description] effective [date] — adjust price targets and position sizing accordingly'. TRAINING KNOWLEDGE FALLBACK: if training knowledge confirms a pending stock split, reverse split, or capital restructuring for any watchlist ticker effective within 14 days of the briefing date AND the event is absent from the provided input data, you MUST apply this rule from training knowledge — state the split ratio and effective date, show both pre-split and estimated post-split price (pre-split ÷ ratio), and append '[DATA GAP]: corporate action not in provided input — verify against official filing before acting'; presenting a pre-split price as an actionable price level without disclosure when training knowledge confirms an imminent split is a critical factual error equivalent to misquoting the price by the full split ratio.
-- legal_stage accuracy: when describing the procedural stage of legal or regulatory proceedings involving a ticker, the stage (discovery, document production, trial, liability ruling, remedies phase, consent decree, appellate brief filed, appeal argued) MUST exactly match what the provided global context's Current State field specifies — do not substitute an earlier procedural stage from training-data memory when Current State describes a more advanced stage; if Current State says 'appellate brief filed' or 'DC Circuit' or 'remedies imposed', writing 'document production' or 'no consent decrees set' or 'no trial dates set' is a critical factual substitution error that invalidates the litigation risk disclosure for that ticker.
-- big_picture.summary: incorporate the highest-ranked issue naturally (1 sentence); flag the market_paradox if present; if any global issue has confidence='developing', the big_picture summary MUST include explicit hedging language (e.g., 'situation remains fluid', 'outcome uncertain') — omitting uncertainty markers when ≥1 developing-confidence issues are present is a structural error; ALL issues with rank≤3 or tier=HIGH in the provided global context MUST be explicitly addressed in the briefing — silently omitting a top-ranked issue (geopolitical breakthrough, major commodity price shift, broad index selloff) is a critical error regardless of whether it conflicts with the briefing's current narrative; if the session showed any major index (S&P 500, Nasdaq, Dow) declining ≥1% but no clear triggering event appears in the provided global context, prepend a WARNING line: 'Major session decline detected — triggering event absent from provided context; briefing may be incomplete'; furthermore, if a major same-session monetary policy catalyst — especially ANY named Fed official, Fed president, or FOMC voter explicitly calling for a rate hike within the current calendar year, or reversing from a prior rate-cut position — is absent from the provided global context issues but is consistent with training knowledge, INCORPORATE it directly into the briefing analysis (do NOT merely append a footnote): revise all rate-sensitive ticker action calls accordingly and note 'Unlisted catalyst applied: [description] — verify before acting'; if the absent catalyst explicitly contradicts the briefing's implied stable-rate backdrop (e.g., a named FOMC member pencils in a rate hike for the current year, multiple Fed officials shift to a rate-hike projection), this is a CRITICAL unlisted catalyst — omitting it entirely when it directly pressures growth/tech valuations (NVDA, META, MSFT, TSLA, PLTR, AMZN, CRWD) is a factual error equivalent to omitting an FOMC rate decision; if 5 or more FOMC officials are on record projecting a rate hike in the current year, state this as the primary rate-path context, not as a footnote; market_mood composite_score and traffic_light must use the API-provided score verbatim — do not independently calculate, estimate, round, or adjust the score in any direction; transcribe the exact decimal value from the API response (e.g., API=63.8 → briefing must show 63.8, not 65.6); any deviation from the API value is a critical scoring error; traffic_light must be derived from the API score value only using these exact numeric thresholds: green ≥80, yellow 40–79, red <40 (example: composite_score=65.1 → yellow, not green; composite_score=80.0 → green); furthermore, if any major index (S&P 500, Nasdaq, Dow) declined ≥1% in the same session, traffic_light MUST NOT be green regardless of composite_score — downgrade to yellow and note the index-score divergence; a traffic_light that requires a score ≥1.5 points higher than the API value to justify its color is a critical classification error
-- sector_analysis: reflect the direction and asymmetric impact on sectors — use the direction field, not vague "remains a risk"; also cover any single-session move ≥10% in sector-relevant stocks even if not on the watchlist, when it materially shifts the sector narrative (e.g., a major competitor surge that overshadows the day's primary watchlist story); when same-session weakness of ≥5% in any sector cluster (semiconductors, energy, financials, etc.) is traceable to a named company's earnings miss, guidance cut, or macro event documented in the global context or verified news, that specific company name and the nature of the guidance/miss MUST appear explicitly in the sector_analysis — describing the sector move as general weakness or vague macro pressure without naming the documented primary catalyst is an incomplete analysis error (example: if Samsung and SK Hynix guidance misses triggered a global chipmaker selloff that pressured MU/NVDA/TSM, the briefing MUST name Samsung and SK Hynix, not merely describe 'semiconductor weakness'); before finalizing any sector rotation call (e.g., 'rotate toward X, reduce Y'), cross-check: if actual same-session index moves (Nasdaq direction, S&P 500) or sector ETF performance contradict the recommended rotation, revise the call to match observed session reality — presenting a rotation call that is directionally opposite to the actual session outcome is a critical factual error equivalent to inverting a buy/sell signal; this cross-check extends to market_mood traffic_light: if the Nasdaq declined ≥0.5% in the same session, do not designate market_mood as GREEN — use yellow and explain the index divergence; sector leaders named in sector_analysis must reflect actual same-session performance — a sector whose primary ETF or major representative names all declined ≥1% cannot be labeled a 'leader' for that session; if training knowledge indicates a same-session semiconductor sector decline ≥2% (multiple large-cap names negative), revise any 'semiconductors lead' call and note the actual performance
-- spotlight/watchlist: for each watchlist ticker, the market_structure label from the API (e.g., ACCUMULATION, DISTRIBUTION, UPTREND, DOWNTREND) MUST be explicitly stated in the briefing — omitting a market_structure tag when the API provides one is a structural binding error; the mood descriptor for each ticker must be consistent with same-session price performance — a ticker that declined ≥3% in the session MUST NOT carry an 'optimistic' mood label unless a specific forward-looking catalyst (earnings beat, analyst upgrade) is explicitly stated in the briefing; assigning 'optimistic' to a sharply declining ticker without such a catalyst is a pipeline error that must be detected and corrected; for any ticker named in asymmetric_impact, reference the specific directional implication; for any watchlist ticker with a single-session price move ≥5% (up or down), the briefing MUST explicitly state the catalyst driving that move — if the catalyst does not appear in the provided global context, include a flagged note '[TICKER] ±X% — catalyst absent from provided context; verify before acting'; a ≥5% move with neither a stated catalyst nor a flag is a critical error of omission; define ALL technical abbreviations on first use — RS MUST be written as 'RS (Relative Strength vs S&P 500)' at its first occurrence in the briefing; failure to expand RS or any other non-universal financial abbreviation on first use is a structural binding error; for any watchlist ticker with a confirmed earnings release scheduled within 24 hours after the briefing date, the action rating MUST include an explicit binary-event risk caveat — never issue a directional buy/sell rating without flagging imminent earnings risk (e.g., '[TICKER]: earnings [date] — binary event risk; rating is pre-earnings only'); all prices reported must use the official CLOSING price (4:00 PM ET) for the most recent trading day immediately before the briefing date — never intraday figures, and never a close from 2+ trading days prior; if a provided price appears to match the day's intraday extreme rather than the close, flag it as 'price unconfirmed — may reflect intraday figure'; if a reported closing price is numerically below the session's reported intraday low, this is physically impossible — flag as '[TICKER]: reported close $X below intraday low $Y — price data unreliable; omit directional rating'; when a ticker's Stage2 score is ≤2 but market_structure is UPTREND (or Stage2 ≥7 but market_structure is DOWNTREND), flag explicitly: '[TICKER]: internal data inconsistency — Stage2 contradicts market_structure; action is provisional pending reconciliation'; if a close appears to pre-date the most recent trading day by 2+ days, flag it as '[TICKER]: Price $X.XX may be stale — confirm against most recent close before acting'; for any ticker price that is implausible relative to its known historical trading range (e.g., a stock widely known to trade at $300–$500 reported at $900+, or any reported close that exceeds 2× the highest credible analyst price target), you MUST output the exact string '[TICKER]: Reported close $X.XX appears implausible vs known trading range — MANUAL VERIFICATION REQUIRED' and do NOT present that price as a confirmed fact anywhere in the briefing; a hallucinated or erroneous price that generates a false buy/sell signal is a critical error equivalent to inverting a trade recommendation; Stage2 score and trend label must be internally consistent — Stage2≤2 (explicitly: Stage2=0, 1, or 2 all qualify as ≤2) cannot coexist with an UPTREND designation; if input data conflicts, you MUST write the inconsistency inline, e.g. '[TICKER]: Stage2=[N]≤2 but API returns market_structure=UPTREND — data inconsistency flagged; treating as more conservative signal'; never silently resolve the conflict by picking one field over the other; action rating rule: if market_structure=DOWNTREND OR market_structure=DISTRIBUTION, the action field MUST be 'avoid' — assigning 'watch' or 'buy' to any ticker whose market_structure is DOWNTREND or DISTRIBUTION is a critical action error; furthermore, market_structure MUST be explicitly shown in every ticker's analysis block — this applies to ALL market_structure values including ACCUMULATION, DISTRIBUTION, UPTREND, and DOWNTREND; omitting the market_structure field for any ticker is a critical structural error — this applies to ALL market_structure values including ACCUMULATION, DISTRIBUTION, UPTREND, DOWNTREND, MARKUP, and NEUTRAL — omitting the market_structure label entirely (not writing it at all) is itself a critical error independent of any Stage2 conflict; this Stage2/market_structure consistency check is MANDATORY for EVERY ticker in the watchlist — do not suppress the inconsistency flag because other inputs (RS, price action, sector trend) appear bullish; CRITICAL ENFORCEMENT: before writing each ticker's analysis block, run this two-step self-check: (1) confirm 'market_structure: [VALUE]' appears verbatim in the block — if missing, add it before any other content; (2) if Stage2≤2 (i.e., Stage2=0, 1, or 2), confirm the inconsistency flag appears as the FIRST line of that ticker's block — not buried after the analysis, not omitted; writing a bullish market_structure label for a ticker with Stage2≤2 without the explicit inline flag is itself a verification error; a ticker block with no market_structure label is a critical omission error regardless of whether Stage2 conflicts; market_structure label must be reproduced verbatim from input data — do not substitute synonyms (DISTRIBUTION ≠ DOWNTREND; DOWNTREND ≠ DISTRIBUTION; MARKUP ≠ UPTREND; UPTREND ≠ MARKUP; these are distinct Wyckoff phase labels with different trading implications — writing DOWNTREND when the API field says DISTRIBUTION, or vice versa, is a critical labeling error regardless of apparent directional similarity; before finalizing, copy the market_structure string character-for-character from the input data); technical abbreviations (RS, EMA, SMA, ATR, RS Rating, etc.) must be defined parenthetically on first use within each section — write 'RS (Relative Strength) 95' not bare 'RS 95'; never use a specialist abbreviation without an inline definition; 'first use in the document' is not sufficient — define on first use per section (watchlist, sector_analysis, big_picture, spotlight are each independent scopes); a bare undefined abbreviation in any section is a verification error; CRITICAL ENFORCEMENT for action labels: the assigned action (buy/watch/avoid) must satisfy ALL applicable Rule conditions — if any defined Rule maps a combination of market_structure/Stage2/RS to 'avoid', that label is mandatory and cannot be overridden by bullish signals in other fields; before assigning 'watch' or 'buy' to a ticker, explicitly verify no defined Rule condition triggers 'avoid' for that ticker's market_structure, Stage2, and RS values; writing 'watch' for a ticker that meets an 'avoid' rule condition is a critical action error equivalent to a false buy signal; when action=avoid or action=reduce is assigned to a ticker whose market_structure is UPTREND, ACCUMULATION, or MARKUP, the briefing MUST explicitly name the specific bearish override signal that justifies the bearish action call (e.g., bearish options flow, confirmed distribution within uptrend, Stage2 deterioration, approaching major resistance, executive insider selling) — assigning 'avoid' to a ticker in a bullish market_structure without naming the override signal is an internal consistency error; a reader must never be left to infer why a bullish-structure ticker has an avoid rating; for any watchlist ticker where a major earnings event within the past 7 calendar days produced a single-session move ≥5%, that earnings outcome (beat/miss, EPS vs consensus, revenue guidance) MUST be disclosed in the ticker's analysis block and MUST be the primary fundamental context for the action signal — omitting a recent major earnings catalyst while featuring a secondary negative catalyst (e.g., an import restriction or sector headwind) as the lead narrative is a factual framing error; the briefing cannot characterize a catalyst as 'hits [TICKER] hardest' if an opposing catalyst (e.g., a record earnings beat) was the dominant recent driver without explicitly reconciling both; for any watchlist ticker with a material corporate action, regulatory filing, or policy development (lobbying win, antitrust ruling, major contract, government approval) published within 48 hours of the briefing date that is consistent with training knowledge, it MUST be reflected in the mood/action designation — a neutral mood label for a ticker with an active favorable catalyst published within 48h is a material omission error
-- Do NOT write "monitoring continues" or "situation ongoing" — state the direction and implication; when confidence is 'developing', do not anchor on the original uncertainty framing if the current_state or source_hint implies the situation has since advanced — write the most current known state (e.g., 'largely confirmed, formal signing pending') and note that final steps remain, rather than repeating earlier uncertainty as if nothing has changed; when a policy, rule, or regulation's effective date is more than 60 days before the briefing date, do not describe it as a 'fresh shift', 'new development', or 'recent change' — describe it as 'established' or 'in effect since [month/year]'; do not add effective date language ('effective immediately', 'takes effect today', 'in force as of [date]', 'beginning [date]') beyond what is explicitly stated in the Current State field — inferring or asserting a specific implementation timeline from training knowledge when Current State does not state it is a factual overreach; SOURCE AGE: if a global issue's source_hint date is more than 30 days before today's briefing date, (a) qualify the issue's framing as 'as of [source date]' rather than presenting it as definitively current, and (b) cross-check training knowledge for any subsequent developments on the same topic (new licenses, enforcement changes, policy reversals) — if material developments exist, disclose them inline: '[CONTEXT GAP — source is [N] days old]: [known development]; verify before acting'; failing to flag material post-source developments when training knowledge confirms them is a critical currency error; similarly, do not characterize the scope of a regulatory action (e.g., the number of named targets, the geographic reach) beyond what is explicitly stated — do not reduce a 5-company action to 2 companies, or expand a targeted restriction into a blanket ban, unless Current State explicitly states it; when an ongoing geopolitical situation (blockade, strait closure, sanctions) has evolved materially since the source date, current_state must reflect the latest known operational reality, not the initial announcement framing
-- upcoming_catalysts: always include next-session scheduled macro releases (CPI, NFP, FOMC, PCE, GDP) even if absent from the global_context data — if a major economic print is scheduled within 24 hours of the briefing date, it is mandatory content regardless of what the search returned; name the release, the time (ET), and its rate/growth sensitivity impact on watchlist names; EQUALLY MANDATORY: same-day macro releases published ON the briefing date (CPI, NFP, PCE, GDP, FOMC decisions) are primary independent market drivers — include the headline figure (MoM and YoY), beat/miss vs consensus, and directional impact on rate-sensitive watchlist names (growth tech, financials); omitting a same-day macro print that moved markets is a critical factual error equivalent to missing a major earnings report; EQUALLY MANDATORY: any TIER1 watchlist ticker that IPOs or begins first-day trading on the briefing date is a primary market event — include offering price, implied valuation, and sector capital-flow implications; if live data is unavailable due to API failure, write '[TICKER]: IPO debut today — live data pending' rather than omitting the event entirely; an IPO debut by a TIER1 stock that is absent from the briefing entirely is a critical factual omission; EQUALLY MANDATORY: any major IPO (implied valuation ≥$10B or first-day gain ≥10%) occurring within 72h of the briefing date must be covered even when the IPO company is not on the watchlist — include offering price, first-day return, and sector capital-flow implications for same-sector watchlist names (e.g., a record AI-infrastructure IPO affects sentiment for NVDA, PLTR, CRWD); a landmark non-watchlist IPO that materially shifts watchlist-sector sentiment and is absent from the briefing entirely is a critical factual omission; EQUALLY MANDATORY: if a major geopolitical resolution (peace deal signed, ceasefire formalized, key strait or waterway reopened) occurs within 7 days before or on the briefing date and has caused a commodity price move ≥3% at any point since the event, it MUST appear in big_picture.summary and in every affected sector block with its directional impact (e.g., oil -4% on Hormuz reopening → energy ETF headwind, not tailwind); if the resolution occurred more than 24h before the briefing date, describe the cumulative directional impact since the event (e.g., 'oil -X% over 3 sessions since ceasefire signed June 15'); designating an energy ETF as a sector 'leader' or 'green' while oil declined materially on a recent geopolitical resolution is a critical factual error; SELF-CHECK before finalizing: scan training knowledge for (a) any ceasefire, peace deal, strait closure/reopening, or sanctions change, AND (b) any active military strike, armed escalation, country-level conflict escalation (including drone attacks on commercial shipping, naval incidents, US/allied military action, or retaliatory strikes), or any threat to major oil transit chokepoints (Strait of Hormuz, Red Sea, Suez Canal, Black Sea) within the past 7 days that is absent from the provided global context — for EACH event found: write '[CONTEXT GAP — not in provided data]: [event] on [date]; apply to affected tickers/sectors'; for any absent military escalation involving a major oil transit chokepoint, ALSO revise the energy sector direction (risk-on for energy/defense names, risk-off pressure for growth tech) and flag it as a primary macro risk even if not in the provided context; if two or more absent critical events are identified (geopolitical + monetary, or two geopolitical events), prepend a WARNING to the briefing: 'Multiple critical catalysts absent from provided context — all directional calls should be treated with heightened caution pending manual verification'
-- For regulatory or policy actions: name the PRIMARY target entity accurately; do not conflate distinct legal mechanisms (e.g., government equity-stake proposal ≠ antitrust action); do not elevate peripheral companies as central targets when reporting is clear on the lead entity; describe each case at its CURRENT procedural posture — a dismissed case must be labeled dismissed (not active or ongoing); a ruling under appeal must be labeled under appeal with the structural outcome from the trial court stated accurately; a remedies phase exists only after a liability finding, not after a dismissal; do not group multiple companies under a shared legal narrative when their cases are at different procedural stages or involve distinct legal theories; do not state 'no final ruling yet' or 'pending ruling' for a case that has already reached a final judgment — if the trial court issued a final ruling (even if under appeal), state the trial-court outcome and current appeal status; do not describe a case as 'in remedy phase' unless a liability finding was issued at trial (a case where the plaintiff lost at trial has no remedy phase); when training knowledge indicates a case has concluded but global_context is silent on it, describe the known outcome rather than defaulting to 'no ruling yet'
-
-CONFIDENCE → LANGUAGE MAPPING (mandatory — apply in big_picture.summary and executive_bullets):
-  [confirmed]  → State as fact. No hedge needed. e.g. "The BIS tightened chip export rules..."
-                 EXCEPTION: If the confirmed event is fragile, partially violated, or contested (e.g., ceasefire with active breaches, halt unacknowledged by a party), state the fragility explicitly — do NOT present a tenuous situation as fully resolved. For active conflict zones (military strikes, blockades, ceasefires), always use hedged language even when confidence=confirmed — battlefield conditions change within hours. For active military conflicts: report BOTH parties' actions — framing a bilateral exchange (e.g., strike + retaliation) as one-directional is a factual error; if global_context describes only one side's action without mentioning a counter-strike or retaliation, explicitly note that adversary response may be ongoing or absent from search data, and treat as [developing]. If same-day index or sector moves imply re-escalation that contradicts a [confirmed] de-escalation in the global_context, override the confidence tag and treat as [developing] with explicit divergence note. EQUALLY: if a [confirmed] escalation OR an ongoing geopolitical risk scenario in global_context (including risks characterized as 'unchanged', 'elevated', or 'continuing') has been publicly reversed or materially altered by a subsequent announcement (peace deal signed, ceasefire brokered, strikes canceled, sanctions lifted, diplomatic breakthrough announced) that postdates the global_context fetch timestamp, reframe as '[DEVELOPING — pivoted post-fetch: {reversal summary}]' and describe the reversal and its market implication (risk-on vs risk-off, commodity/shipping price impact); never present the original risk framing as the current state when a documented public reversal exists; this rule applies even when the global_context entry uses direction=NEUTRAL or current_state implies risk is unchanged — if your training knowledge includes a significant diplomatic development postdating the fetch timestamp, you MUST apply this pivot rule and describe the market implications.
-  [developing] → Use hedge: "Reports indicate...", "Early developments suggest...", "According to initial reports, ... — situation still evolving."
-                 NEVER state a [developing] issue as established fact anywhere in the briefing — this includes big_picture.summary, executive_bullets, sector_analysis, and individual ticker commentary.
-  [unverified] → "Unconfirmed reports suggest..." or "Unverified: ..."
-                 NEVER present in executive_bullets as a primary market-moving driver.
-VIOLATION: Writing "[developing issue X] is driving markets" without hedge language = factual error.
+INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
+1. SCOPE — You may cite only: (a) issues listed above, (b) SniperBoard/authoritative tables in this prompt,
+   (c) earnings block. Do NOT inject training-memory events (named wars, Fed speakers, non-listed IPOs,
+   product metrics) that are absent from those inputs. If something material seems missing, write a short
+   '[CONTEXT GAP]' note — do not fabricate the fact.
+2. CURRENT STATE BINDING — For any listed issue, do not contradict or soften Current State with older
+   training recollection. Prefer the provided state, dates, and scope verbatim.
+3. ASYMMETRIC IMPACT — When discussing a ticker, if that ticker appears in Asymmetric Impact, use that
+   direction. If it says unaffected/영향 없음, do NOT use the issue as the cause of that ticker's move.
+4. big_picture.summary — At most 1–2 sentences on the highest-ranked issue that has real novelty;
+   include market_paradox if present. Do not restate every quiet ongoing risk.
+5. CONFIDENCE LANGUAGE (apply in big_picture.summary / executive_bullets):
+   [confirmed]  → may state as fact (still hedge if Current State itself is fragile/contested)
+   [developing] → "Reports indicate…" / "Early reports suggest…" — never as settled fact
+   [unverified] → "Unconfirmed…" — never as a primary executive bullet driver
+6. NO FILLER — Do not write "monitoring continues" / "situation ongoing" without a direction and implication.
+   Do not promote an issue that has no 48h delta into the headline or lead bullet.
 """)
     return "\n".join(lines)
 
 
-def validate_global_context(data: dict) -> bool:
-    """1차 Grok 응답 글로벌 컨텍스트 검증. 0개 이슈는 fallback으로 유효."""
-    if not isinstance(data, dict):
+def _strip_html(text: str) -> str:
+    t = re.sub(r"<[^>]+>", " ", text or "")
+    t = unescape(t)
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def _rss_local(tag: str) -> str:
+    if "}" in tag:
+        return tag.rsplit("}", 1)[-1]
+    return tag
+
+
+def _parse_rss_items(xml_text: str, *, feed_id: str, max_items: int = 12) -> list[dict]:
+    """Parse RSS/Atom XML into {title, link, published, source, feed_id} dicts."""
+    out: list[dict] = []
+    try:
+        root = ET.fromstring(xml_text)
+    except ET.ParseError:
+        return out
+
+    # RSS 2.0
+    for item in root.iter():
+        if _rss_local(item.tag) != "item":
+            continue
+        fields = {_rss_local(c.tag): (c.text or "") for c in list(item)}
+        title = _strip_html(fields.get("title", ""))
+        if not title:
+            continue
+        link = (fields.get("link") or "").strip()
+        pub = fields.get("pubDate") or fields.get("date") or ""
+        pub_iso = ""
+        if pub:
+            try:
+                pub_iso = parsedate_to_datetime(pub).astimezone(timezone.utc).strftime(
+                    "%Y-%m-%dT%H:%M:%SZ"
+                )
+            except (TypeError, ValueError, IndexError):
+                pub_iso = pub[:32]
+        host = urlparse(link).netloc.replace("www.", "") if link else feed_id
+        out.append({
+            "title": title[:240],
+            "link": link[:400],
+            "published": pub_iso,
+            "source": host or feed_id,
+            "feed_id": feed_id,
+        })
+        if len(out) >= max_items:
+            break
+
+    if out:
+        return out
+
+    # Atom
+    for entry in root.iter():
+        if _rss_local(entry.tag) != "entry":
+            continue
+        title = ""
+        link = ""
+        pub = ""
+        for c in list(entry):
+            loc = _rss_local(c.tag)
+            if loc == "title":
+                title = _strip_html(c.text or "")
+            elif loc == "link":
+                link = (c.attrib.get("href") or c.text or "").strip()
+            elif loc in ("updated", "published"):
+                pub = (c.text or "").strip()
+        if not title:
+            continue
+        host = urlparse(link).netloc.replace("www.", "") if link else feed_id
+        out.append({
+            "title": title[:240],
+            "link": link[:400],
+            "published": pub[:32],
+            "source": host or feed_id,
+            "feed_id": feed_id,
+        })
+        if len(out) >= max_items:
+            break
+    return out
+
+
+def fetch_stage1_search_evidence(
+    *,
+    max_total: int = 28,
+    per_feed: int = 8,
+    timeout: float = 8.0,
+) -> list[dict]:
+    """Mechanically fetch recent headlines from accepted-outlet RSS feeds.
+
+    Returns list of {title, link, published, source, feed_id}.
+    Empty list on total failure — Stage-1 then relies on hermes web only.
+    """
+    items: list[dict] = []
+    seen_titles: set[str] = set()
+    headers = {
+        "User-Agent": "SniperBoardMorningBriefing/1.1 (+local collector; RSS evidence)",
+        "Accept": "application/rss+xml, application/xml, text/xml, */*",
+    }
+    for feed_id, url in _STAGE1_RSS_FEEDS:
+        try:
+            resp = requests.get(url, headers=headers, timeout=timeout)
+            resp.raise_for_status()
+            batch = _parse_rss_items(resp.text, feed_id=feed_id, max_items=per_feed)
+        except Exception as e:
+            print(f"[WARN] Stage-1 RSS {feed_id} 실패: {e}", file=sys.stderr)
+            continue
+        for it in batch:
+            key = it["title"].lower()
+            if key in seen_titles:
+                continue
+            seen_titles.add(key)
+            items.append(it)
+    # Prefer titles with market transmission keywords (no hard topic quotas — ranking only)
+    items.sort(
+        key=lambda it: (
+            0 if _MARKET_TITLE_HINT.search(it.get("title") or "") else 1,
+            it.get("published") or "",
+        ),
+    )
+    return items[:max_total]
+
+
+def format_stage1_evidence_block(evidence: list[dict]) -> str:
+    """Render mechanical headlines for injection into Stage-1 prompt."""
+    if not evidence:
+        return (
+            "━━━ MECHANICAL SEARCH EVIDENCE ━━━\n"
+            "(No RSS headlines retrieved — you MUST use live web search tools now.)\n"
+        )
+    lines = [
+        "━━━ MECHANICAL SEARCH EVIDENCE (accepted-outlet RSS, pre-fetched) ━━━",
+        f"n={len(evidence)}. Rank US-equity market impact from THESE items first.",
+        "You may run additional live web search to verify dates/details — do not invent events absent here "
+        "unless live search confirms them with an accepted source.",
+        "",
+    ]
+    for i, it in enumerate(evidence, 1):
+        pub = it.get("published") or "?"
+        src = it.get("source") or it.get("feed_id") or "?"
+        title = it.get("title") or ""
+        link = it.get("link") or ""
+        lines.append(f"[{i}] ({src} | {pub}) {title}")
+        if link:
+            lines.append(f"    {link}")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def _issue_is_valid(iss: dict) -> bool:
+    """Soft per-issue check — drop bad items instead of rejecting the whole payload."""
+    if not isinstance(iss, dict):
         return False
-    issues = data.get("issues")
-    if not isinstance(issues, list):
+    if iss.get("category") not in _VALID_GC_CATEGORIES:
+        print(f"[WARN] global_context drop: category={iss.get('category')!r}", file=sys.stderr)
         return False
-    if len(issues) == 0:
-        return True
-    if len(issues) > 3:
-        print(f"[WARN] global_context: 이슈 {len(issues)}개 — 3개 초과", file=sys.stderr)
+    if iss.get("tier") not in _VALID_GC_TIERS:
+        print(f"[WARN] global_context drop: tier={iss.get('tier')!r}", file=sys.stderr)
         return False
-    for iss in issues:
-        if not isinstance(iss, dict):
+    if iss.get("confidence") not in _VALID_GC_CONFIDENCE:
+        print(f"[WARN] global_context drop: confidence={iss.get('confidence')!r}", file=sys.stderr)
+        return False
+    if iss.get("impact_direction") not in _VALID_GC_IMPACT:
+        print(f"[WARN] global_context drop: impact_direction={iss.get('impact_direction')!r}", file=sys.stderr)
+        return False
+    if iss.get("direction") not in _VALID_GC_DIRECTION:
+        print(f"[WARN] global_context drop: direction={iss.get('direction')!r}", file=sys.stderr)
+        return False
+    for field in (
+        "title_en", "title_ko", "current_state_en", "current_state_ko",
+        "summary_en", "summary_ko", "asymmetric_impact_en", "asymmetric_impact_ko",
+        "market_insight_en", "market_insight_ko",
+    ):
+        if not isinstance(iss.get(field), str) or not str(iss.get(field)).strip():
+            print(f"[WARN] global_context drop: {field} 누락", file=sys.stderr)
             return False
-        if iss.get("category") not in _VALID_GC_CATEGORIES:
-            print(f"[WARN] global_context: category={iss.get('category')!r}", file=sys.stderr)
-            return False
-        if iss.get("tier") not in _VALID_GC_TIERS:
-            print(f"[WARN] global_context: tier={iss.get('tier')!r}", file=sys.stderr)
-            return False
-        if iss.get("confidence") not in _VALID_GC_CONFIDENCE:
-            print(f"[WARN] global_context: confidence={iss.get('confidence')!r}", file=sys.stderr)
-            return False
-        if iss.get("impact_direction") not in _VALID_GC_IMPACT:
-            print(f"[WARN] global_context: impact_direction={iss.get('impact_direction')!r}", file=sys.stderr)
-            return False
-        if iss.get("direction") not in _VALID_GC_DIRECTION:
-            print(f"[WARN] global_context: direction={iss.get('direction')!r}", file=sys.stderr)
-            return False
-        for field in ("title_en", "title_ko", "current_state_en", "current_state_ko",
-                      "summary_en", "summary_ko", "asymmetric_impact_en", "asymmetric_impact_ko",
-                      "market_insight_en", "market_insight_ko"):
-            if not isinstance(iss.get(field), str) or not iss[field]:
-                print(f"[WARN] global_context: {field} 누락", file=sys.stderr)
-                return False
-        # 소셜미디어 소스 감지: Twitter/X/@handle/Reddit 등이 source_hint에 있으면 거부
-        src = (iss.get("source_hint") or "").lower()
-        _SOCIAL_PATTERNS = ("twitter", "x post", "x discussion", " @", "reddit", "telegram",
-                            "discord", "4chan", "/@", "warhorizon", "me_observer_", "globalflash")
-        social_hit = next((p for p in _SOCIAL_PATTERNS if p in src), None)
-        if social_hit:
-            print(f"[WARN] global_context: 소셜미디어 소스 감지 ({social_hit!r} in source_hint={src!r}) — 거부",
-                  file=sys.stderr)
-            return False
-        # confirmed 신뢰도인데 소스가 없거나 날짜 없으면 경고 (soft — don't reject)
-        if iss.get("confidence") == "confirmed" and not any(
-            outlet in src for outlet in ("reuters", "bloomberg", "ap ", "bbc", "ft.", "wsj", "nyt",
-                                         "white house", "bis", "sec", "fed", "doj", "ftc", "court")
-        ):
-            print(f"[WARN] global_context: confidence=confirmed이지만 알려진 기관 소스 없음 (source={src!r})",
-                  file=sys.stderr)
+    src = (iss.get("source_hint") or "").lower()
+    social = (
+        "twitter", "x post", "x discussion", "reddit", "telegram",
+        "discord", "4chan", "warhorizon", "me_observer_", "globalflash",
+    )
+    social_hit = next((p for p in social if p in src), None)
+    if social_hit:
+        print(
+            f"[WARN] global_context drop: 소셜 소스 ({social_hit!r} in source_hint={src!r})",
+            file=sys.stderr,
+        )
+        return False
+    if iss.get("confidence") == "confirmed" and not any(o in src for o in _ACCEPTED_SOURCE_HINTS):
+        # Downgrade rather than drop — keep signal, honest confidence
+        print(
+            f"[WARN] global_context: confirmed→developing (source={src!r})",
+            file=sys.stderr,
+        )
+        iss["confidence"] = "developing"
     return True
 
 
-def build_global_context_prompt(now_kst: str, now_iso: str) -> str:
-    return f"""You are a professional financial intelligence analyst with live web search access.
+def sanitize_global_context(data: dict) -> Optional[dict]:
+    """Normalize Stage-1 payload: keep 0–3 valid issues; never invent filler."""
+    if not isinstance(data, dict):
+        return None
+    raw_issues = data.get("issues")
+    if not isinstance(raw_issues, list):
+        return None
+    cleaned: list[dict] = []
+    for iss in raw_issues:
+        if _issue_is_valid(iss):
+            cleaned.append(iss)
+        if len(cleaned) >= 3:
+            break
+    # Had issues but every item invalid → fail closed (retry), not silent empty success
+    if len(raw_issues) > 0 and len(cleaned) == 0:
+        print("[WARN] global_context: 모든 이슈 항목 검증 실패", file=sys.stderr)
+        return None
+    # Re-rank 1..n
+    for i, iss in enumerate(cleaned, 1):
+        iss["rank"] = i
+    out = dict(data)
+    out["issues"] = cleaned
+    onu = out.get("ongoing_no_update")
+    if onu is None:
+        out["ongoing_no_update"] = []
+    elif not isinstance(onu, list):
+        out["ongoing_no_update"] = [str(onu)]
+    if not isinstance(out.get("market_paradox_en"), str):
+        out["market_paradox_en"] = str(out.get("market_paradox_en") or "")
+    if not isinstance(out.get("market_paradox_ko"), str):
+        out["market_paradox_ko"] = str(out.get("market_paradox_ko") or "")
+    return out
+
+
+def validate_global_context(data: dict) -> bool:
+    """1차 Grok 응답 검증. Soft: invalid items dropped; empty issues allowed."""
+    cleaned = sanitize_global_context(data)
+    if cleaned is None:
+        return False
+    # Mutate in place so call_hermes_json keeps sanitized issues
+    if isinstance(data, dict):
+        data.clear()
+        data.update(cleaned)
+    return True
+
+
+def build_global_context_prompt(
+    now_kst: str,
+    now_iso: str,
+    evidence: list[dict] | None = None,
+) -> str:
+    evidence_block = format_stage1_evidence_block(list(evidence or []))
+    n_ev = len(evidence or [])
+    empty_rule = (
+        "Returning issues=[] is allowed ONLY if the mechanical evidence list is empty AND "
+        "live web search finds no market-moving item with an accepted source. "
+        "If mechanical evidence has items, you SHOULD produce at least 1 issue grounded in them "
+        "(or in live search confirmation of them). Dumping everything into ongoing_no_update "
+        "while ignoring material headlines is a search-quality failure."
+        if n_ev == 0
+        else
+        f"Mechanical evidence has {n_ev} headlines. Prefer 1–3 issues ranked by US-equity impact "
+        "from that list (plus live search verification). issues=[] is a last resort and requires "
+        "market_paradox_en explaining why none of the headlines re-price US equities."
+    )
+    return f"""You are a professional financial intelligence analyst with LIVE WEB SEARCH tools enabled.
 Today is {now_kst} (KST) / {now_iso} (UTC).
 
+{evidence_block}
+
 ━━━ TASK ━━━
-Search the web for the top 3 global macro and geopolitical issues that carry the HIGHEST market-moving
-potential for US stocks TODAY. These can be new (last 48h) or ongoing situations with active risk.
+Produce the top 1–3 global/macro/session issues that re-price (or are about to re-price) US equities
+for THIS session. Rank by market impact evidence — NOT by a fixed topic checklist.
 
-For each issue you MUST provide:
-(a) Current state — where things stand RIGHT NOW, not historical background
-(b) Direction — is the situation escalating, de-escalating, or stable?
-(c) Asymmetric ticker impact — which watchlist stocks benefit vs. which are hurt, and WHY
-(d) Market insight — the actionable implication for an investor today
+SEARCH PROCEDURE (do this before writing JSON):
+1. Read MECHANICAL SEARCH EVIDENCE above.
+2. Use web search tools to verify the top candidates and fill current_state / dates / sources.
+   Suggested queries (adapt as needed; do not treat as mandatory slots):
+   · "US stock market news last 48 hours"
+   · "Federal Reserve OR FOMC OR yields OR CPI last 48 hours"
+   · "oil OR energy markets last 48 hours"
+   · "semiconductor OR export controls OR tariffs last 48 hours"
+   · major watchlist earnings headlines if present in evidence
+3. Rank candidates by: accepted-source recency + clear transmission to US equities.
+4. Output JSON only.
 
-MANDATORY CHECK LIST — search and assess each even if quiet:
-  · US-China semiconductor export controls / tariffs (NVDA, TSM, MU)
-  · Taiwan Strait tension (TSM, NVDA supply chain)
-  · Middle East / Iran / Strait of Hormuz (oil price, energy, macro VIX)
-  · Russia-Ukraine war (energy, European equities)
-  · ECB / BOJ / BOE policy (USD direction, rate-sensitive tech)
-  · US AI / antitrust regulation (GOOGL, META, MSFT, AAPL)
-  · US tariff / trade deal negotiations
+For each issue provide:
+(a) current_state — live state NOW
+(b) direction — escalating | de-escalating | stable_elevated | stable_fading
+(c) asymmetric_impact — only tickers with a clear mechanism (omit others)
+(d) market_insight — what to watch today
+(e) novelty_en/ko — what is new vs prior session; if ongoing with no delta but STILL market-relevant,
+    write e.g. "No new delta; still priced risk because [mechanism + level]" — that is valid for tier=ongoing
 
-━━━ ANALYSIS STANDARDS — READ CAREFULLY ━━━
-✓ State the CURRENT STATUS and DIRECTION for every issue, not just that it exists.
-  BAD: "US-China export controls remain in place — impact unclear"
-  GOOD: "US-China export controls shifted Jan 2026 to case-by-case licensing + 25% tariff —
-         direction: transactional (not pure blockade); NVDA: asymmetric upside on approval news"
-✓ For geopolitical situations: distinguish between BACKGROUND NOISE and ACTIVE RISK.
-  An ongoing war with a closed strait IS active risk regardless of 48h news silence.
-✓ Flag market paradoxes: if VIX or rates seem inconsistent with actual risk level, call it out.
-✓ SOURCE REQUIREMENTS — READ BEFORE ASSIGNING CONFIDENCE:
-  Accepted sources (may use "confirmed"): Reuters, Bloomberg, AP, BBC, Financial Times, WSJ, NYT,
-  White House / official government press releases, official agency announcements (BIS, SEC, Fed,
-  CFTC, DOJ, FTC), exchange announcements, verified court docket entries.
-  Provisional sources (use "developing", never "confirmed"): Local news outlets, trade press,
-  single-outlet reporting not yet corroborated.
-  ✗ PROHIBITED sources — NEVER cite as ANY confidence level:
-    Twitter / X posts (even from verified accounts or journalists)
-    Reddit, Telegram, Discord, 4chan, anonymous blogs, personal opinion pieces, social media of ANY kind.
-  If your only source is social media: either omit the item or source it from an accepted outlet.
-  If you cannot find an accepted source → mark as "developing" with the last accepted-source date.
-✓ Prefix genuinely unconfirmed facts with "unconfirmed:"
-✓ CONFIDENCE ASSIGNMENT RULES (strict):
-  "confirmed" = at least one accepted-source article with a specific date you can cite.
-  "developing" = credible accepted source exists but situation is still evolving, partial info.
-  "unverified" = only social media or rumor-level information — use with maximum caution.
-  NEVER assign "confirmed" to information sourced only from social media or unverified accounts.
+SELECTION (first principles — no category quotas):
+  · No daily reserved slot for any region/policy area.
+  · Do not invent issues not supported by mechanical evidence or live search.
+  · Prefer fewer strong issues over three weak rewrites.
+  · {empty_rule}
 
-✗ FORBIDDEN PHRASES — these are analysis avoidance, not analysis:
-  "impact unclear", "direction uncertain", "no new developments — impact unclear",
-  "monitoring continues", "situation ongoing". Every issue must have a direction and ticker mapping.
-✗ DO NOT list a stock as impacted without stating the direction (positive / negative / conditional).
-✗ DO NOT use ongoing_no_update for any situation with active market risk (e.g. hot wars, open policy uncertainty).
-  ongoing_no_update is ONLY for truly dormant background items with negligible near-term market impact.
-✗ DO NOT fabricate figures, names, or dates you cannot verify.
-✗ DO NOT include historical context as if it were a new development.
-✗ DO NOT use specific military exercise or operation names (e.g., "Joint Sword-2026A", "Thunder-XXXX",
-  "Operation X") unless you can cite a verifiable source with an exact date. Use general descriptions:
-  "PLA conducted live-fire drills in the Taiwan Strait" is safe; inventing an exercise name is not.
-✗ DO NOT mention corporate actions (stock splits, buybacks, M&A, IPO dates) for individual companies
-  without a verifiable source. If uncertain, omit entirely rather than risk fabrication.
-✗ CONFIDENCE SELF-CHECK: Before including any specific named event, ask yourself:
-  "Can I cite a specific news outlet and date for this?" If no → mark as "unconfirmed:" or omit.
+SOURCE RULES:
+  Accepted (may be confirmed): Reuters, Bloomberg, AP, BBC, FT, WSJ, NYT, CNBC, MarketWatch,
+  White House / official agencies (BIS, SEC, Fed, DOJ, FTC), exchanges, court dockets.
+  Developing: single credible outlet, still evolving.
+  Never cite Twitter/X, Reddit, Telegram, Discord, anonymous blogs as source_hint.
+  If only social: omit or find an accepted outlet.
 
-━━━ WATCHLIST TICKERS FOR IMPACT MAPPING ━━━
+WATCHLIST (impact mapping only when mechanism is clear):
 TSM NVDA META TSLA PLTR MU CRWD AMZN MSFT AAPL GOOGL SPCX
 RKLB CEG VST ALAB OKLO APP ANET NVO QBTS SOFI
 
-━━━ KNOWN AMBIGUOUS SITUATIONS — PICK ONE DIRECTION AND COMMIT ━━━
-These topics have genuine two-sided debate. Do NOT flip between runs. Pick the dominant current view,
-state the opposing risk, and commit. Do not write both sides as equal without resolving the direction.
-· SpaceX IPO impact on RKLB: The DOMINANT current view is NEGATIVE for RKLB (liquidity absorption —
-  large IPO historically draws capital away from similar-theme smaller names). The alternative view
-  (halo effect / space theme lifting) is secondary. If you address SpaceX IPO, default to:
-  "RKLB: negative near-term (liquidity competition from SpaceX IPO) / conditional positive if
-  space sector re-rating follows post-IPO."
-  DO NOT say SpaceX IPO is simply positive for RKLB without acknowledging the liquidity risk.
-
-Output raw JSON only (no markdown, no prose before or after).
-CRITICAL: The "issues" array must contain EXACTLY 3 items.
+Output raw JSON only (no markdown, no prose).
 {{
   "fetched_at": "{now_iso}",
   "search_window": "48h",
@@ -836,26 +1062,28 @@ CRITICAL: The "issues" array must contain EXACTLY 3 items.
     {{
       "rank": 1,
       "tier": "breaking|ongoing",
-      "category": "trade_tariff|geopolitical|central_bank|ai_regulation",
-      "title_en": "factual headline stating current status ≤80 chars",
+      "category": "trade_tariff|geopolitical|central_bank|ai_regulation|earnings|market_move",
+      "title_en": "factual status headline ≤80 chars",
       "title_ko": "현재 상태 중심 30자 이내",
-      "current_state_en": "1-2 sentences: WHERE DOES THIS STAND RIGHT NOW? Not history — the live state as of today.",
-      "current_state_ko": "지금 이 이슈의 현재 상태 1-2문장. 배경 설명 아님.",
+      "current_state_en": "1-2 sentences: live state now",
+      "current_state_ko": "지금 상태 1-2문장",
       "direction": "escalating|de-escalating|stable_elevated|stable_fading",
-      "summary_en": "2-3 sentences: what changed recently, source, why it moves markets. Prefix unconfirmed with 'unconfirmed:'",
-      "summary_ko": "같은 내용 한국어 2-3문장.",
-      "source_hint": "e.g. Reuters 2026-06-03 / White House statement / BIS rule update",
+      "novelty_en": "what is new vs prior session (or why still market-relevant with no delta)",
+      "novelty_ko": "전일 대비 새로움 또는 변화 없어도 시장 관련인 이유",
+      "summary_en": "2-3 sentences: change, source, why it moves US equities",
+      "summary_ko": "같은 내용 한국어",
+      "source_hint": "Outlet + date, e.g. Reuters 2026-08-03",
       "confidence": "confirmed|developing|unverified",
-      "asymmetric_impact_en": "Per-ticker directional mapping. Format: 'NVDA: positive if X / negative if Y; TSM: neutral (demand-driven); MU: unaffected'. No 'unclear' without conditional direction.",
-      "asymmetric_impact_ko": "종목별 방향 분석. 'NVDA: X 시 상방 / Y 시 하방; TSM: 중립(수요 주도)' 형태.",
+      "asymmetric_impact_en": "TICKER: direction/reason; omit unrelated names",
+      "asymmetric_impact_ko": "종목: 방향/이유",
       "impact_direction": "positive|negative|neutral|watch",
-      "market_insight_en": "1 sentence: what should an investor watch or how to position given this issue RIGHT NOW.",
-      "market_insight_ko": "지금 이 이슈를 보고 투자자가 취해야 할 행동 또는 주시할 트리거 한 문장."
+      "market_insight_en": "1 sentence investor action/watch trigger",
+      "market_insight_ko": "투자자 행동/주시 1문장"
     }}
   ],
-  "market_paradox_en": "If VIX, rates, or market pricing appears inconsistent with the actual risk environment described above, flag it in 1-2 sentences. Empty string if no paradox.",
-  "market_paradox_ko": "위에서 기술한 실제 리스크 수준과 VIX·금리·시장 가격 간 명백한 괴리가 있으면 1-2문장으로 기술. 없으면 빈 문자열.",
-  "ongoing_no_update": ["ONLY truly dormant categories with negligible near-term market impact"]
+  "market_paradox_en": "VIX/rates vs risk mismatch if any; else empty string",
+  "market_paradox_ko": "괴리 설명 또는 빈 문자열",
+  "ongoing_no_update": ["short labels for quiet areas — not a substitute for ignoring material headlines"]
 }}"""
 
 
@@ -977,17 +1205,17 @@ MARKET DATA ({now_kst}):
 아래 JSON 스키마 그대로 출력하라 (raw JSON only, no markdown):
 
 {{
-  "headline_en": "One sentence — the most important market story today (≤120 chars)",
-  "headline_ko": "오늘 시장에서 가장 중요한 한 줄 (30자 이내, 구어체)",
+  "headline_en": "One sentence — the most important LAST-SESSION / pre-open market story (≤120 chars). CAUSAL BINDING (structural): (1) For any named ticker, the primary clause must match the strongest same-snapshot evidence (large post/pre move, earnings calendar hit, or a global_context issue that maps that ticker with a non-unaffected impact). (2) NEVER attribute a ticker's move to a global_context issue whose asymmetric_impact marks that ticker unaffected/영향 없음. (3) When evidence conflicts, prefer measurable session evidence over narrative macro color; do not invent a causal 'because'.",
+  "headline_ko": "지난 세션·프리마켓 기준 가장 중요한 한 줄 (30자 이내). 구조 규칙: 헤드라인에 나온 종목의 원인 서술은 같은 스냅샷의 강한 증거(큰 애프터/프리 변동, 실적 캘린더, 또는 해당 종목을 unaffected가 아닌 방향으로 매핑한 global 이슈)와 일치해야 함. asymmetric_impact가 영향 없음인 이슈를 급등/급락 원인으로 쓰지 말 것. 원인 불명이면 사실(종목+변동)만 쓰고 원인을 지어내지 말 것.",
   "executive_bullets_en": [
-    "Most important macro/regime context in plain words",
-    "Best opportunity in the watchlist right now",
-    "Biggest risk to be aware of today"
+    "Most important last-session / regime context with a concrete number or named move",
+    "Best opportunity in the watchlist right now (session-anchored)",
+    "Biggest risk today — only if material; if an ongoing risk has no delta, say so or omit"
   ],
   "executive_bullets_ko": [
-    "시장 환경 핵심 (쉬운 말로)",
-    "지금 가장 주목할 기회 (구체적 종목 언급 가능)",
-    "오늘 가장 조심해야 할 리스크"
+    "지난 세션·레짐 핵심 (숫자 또는 구체 종목 움직임 포함)",
+    "지금 가장 주목할 기회 (세션 앵커 포함, 구체 종목 가능)",
+    "오늘 실질 리스크 — 반복 테마에 변화 없으면 '변화 없음' 또는 생략"
   ],
   "market_mood": {{
     "traffic_light": "green|yellow|red",
@@ -1051,126 +1279,51 @@ MARKET DATA ({now_kst}):
   "earnings_alert_ko": "다음만 나열: (1) 이미발표: '[심볼] YYYY-MM-DD 미국 장 마감 후 실적 발표됨 (EPS 추정 $X)'; (2) 실적일 14일 이내: '[심볼] 실적 YYYY-MM-DD'. 상대일 금지('N일 후'/'내일'/'다음 주'/'곧'/'D-n'). days_until>14이면 제외. 없으면 빈 문자열."
 }}
 
-REQUIREMENTS:
-- spotlight: 2-4 most interesting from the 22 (mix of opportunities and risks)
+REQUIREMENTS (first principles — evidence from THIS prompt only; no ticker/theme exception catalogs):
+
+A. COVERAGE
+- spotlight: 2–4 symbols from the 22 (mix of opportunity and risk)
 - watchlist: ALL 22 in order TSM,NVDA,META,TSLA,PLTR,MU,CRWD,AMZN,MSFT,AAPL,GOOGL,SPCX,RKLB,CEG,VST,ALAB,OKLO,APP,ANET,NVO,QBTS,SOFI
-  ⚠ RECENT IPO RULE: If a watchlist ticker shows ⚠RECENT IPO in the authoritative table (insufficient Stage2/RS data), write the entry as: action='watch', market_structure='UNKNOWN', analysis='[TICKER]: Recent IPO — technical data not yet available (N trading days). Price: $X.XX (prev chg Y%). Fundamental assessment: [1-2 sentences on business/sector fit within TIER]. No Stage2/RS signal possible until sufficient history accumulates.' Do NOT assign buy/avoid based on missing data.
-ACTION RULES — apply in this EXACT priority order (first rule that applies wins):
-  RULE 1 (HARD): action=avoid  IF: market_structure=DOWNTREND AND Stage2≤6
-                               OR  Stage2≤2 (regardless of structure)
-                               OR  (⚠이미발표됨 AND post-market drop>10%)
-  RULE 1 EXCEPTION: Stage2=7 AND RS≥70 even with DOWNTREND → 'watch' not 'avoid'
+- ⚠RECENT IPO rows: action=watch, market_structure=UNKNOWN, state data insufficiency; no buy/avoid from missing Stage2/RS
 
-  RULE 2: action=buy   IF: Stage2≥6 AND RS≥70 AND market_structure≠DOWNTREND AND (mood=optimistic OR euphoric)
-  RULE 3: action=hold  IF: Stage2≥5 AND in solid technical position (near entry, recent breakout, EMA support)
-  RULE 4: action=watch IF: any other case — interesting setup but mixed signals
+B. ACTION RULES (first match wins; driven only by table fields)
+  1. avoid IF: (구조=DOWNTREND AND Stage2≤6) OR Stage2≤2 OR (⚠이미발표됨 AND post-market drop>10%)
+     EXCEPTION: Stage2=7 AND RS≥70 with DOWNTREND → watch
+  2. buy  IF: Stage2≥6 AND RS≥70 AND 구조≠DOWNTREND AND mood in (optimistic, euphoric)
+  3. hold IF: Stage2≥5 and solid technical position (near entry / breakout / EMA support)
+  4. watch otherwise
+  DISTRIBUTION ≠ DOWNTREND: DISTRIBUTION + Stage2≥4 → typically watch; Stage2≤2 still avoid (rule 1).
+  ⚠이미발표됨 post-market drop 5–10%: max action=watch; >10%: avoid.
+  RS<30: downgrade one level but never force avoid by RS alone.
 
-  ⚠ DISTRIBUTION ≠ DOWNTREND (important distinction):
-    DISTRIBUTION = high area with institutional selling pressure → use 'watch' not 'avoid' (ONLY if Stage2≥4)
-    DOWNTREND = confirmed lower highs + lower lows pattern → use 'avoid' (per RULE 1)
-    A stock with DISTRIBUTION structure and Stage2≥5 should be 'watch', not 'avoid'.
-    ⚠ CRITICAL: DISTRIBUTION does NOT override RULE 1. If Stage2≤2, action=avoid regardless of market_structure — the Stage2≥4 exception above does not apply. A DISTRIBUTION+Stage2≤2 stock is avoid, not watch.
+C. BINDING / ANTI-HALLUCINATION
+  1. Prices, EMAs, ATR, %: only authoritative table / 가격앵커 / MACRO BINDING TABLE. No invented levels.
+     Support/resistance within ±25% of 전일종가; prefer EMA21/50/200; no moves beyond ~3×ATR14.
+  2. 전일등락 is YESTERDAY — not "오늘". TODAY direction only from 프리마켓; if N/A, do not invent direction.
+  3. 구조= value: copy EXACT label into analysis (and market_structure field). Never swap DISTRIBUTION↔DOWNTREND.
+     Korean gloss: UPTREND=상승 추세, DOWNTREND=하락 추세, DISTRIBUTION=분배 구간, ACCUMULATION=집적 구간.
+  4. Stage2≤2 with 구조=UPTREND (or Stage2≥7 with DOWNTREND): first line must flag data conflict; do not silently pick one.
+  5. Earnings: only table dates; ≤14 calendar days in analysis/spotlight/earnings_alert. No relative "N days".
+     For ⚠이미발표됨: do NOT claim beat/miss/상회/하회/split — only post-market reaction + est. EPS verify note.
+  6. sentiment_score: copy composite_score from social data; mood consistent with session move (≥3% drop → not optimistic/euphoric unless analysis states a concrete forward catalyst from provided fields).
+  7. External metrics/events (ARR%, product names, contracts, non-listed IPOs, military exercise codenames):
+     FORBIDDEN unless in tables or global_context with source_hint. Use 투자자반응 fields for social context only.
+  8. Sector leaders: MACRO SIGNAL GROUPS + 구조. DOWNTREND is never a technical leader.
+  9. BTC: if table shows 1D≤-5% or 5D≤-10%, include in executive_bullets as macro risk (binding numbers only).
+ 10. Causal binding (any ticker): headline/primary clause must not attribute a ticker move to a global issue
+     that marks that ticker unaffected. Prefer same-snapshot session evidence (pre/post %, earnings alert).
+     Do not invent causal "because/에" without support in this prompt's evidence.
+ 11. Confidence language for any cited global issue must match its confidence tag (developing → hedge).
 
-  RS adjustment (does NOT override the rules above, only shifts borderline cases):
-    RS<30: downgrade one level (buy→hold, hold→watch, but NEVER watch→avoid by RS alone)
-    RS≥70: supports 'buy' if other criteria met
-
-  ⚠이미발표됨 with post-market drop >5% but <10%: max action='watch'
-  ⚠이미발표됨 with post-market drop >10%: action='avoid'
-
-TICKER-SPECIFIC DIRECTION RULES (override training-data defaults):
-  RKLB + SpaceX IPO: SpaceX IPO is NEGATIVE for RKLB near-term (liquidity competition draws capital away).
-    ✅ ALLOWED: "SpaceX IPO creates liquidity competition for RKLB"
-    ❌ FORBIDDEN: "SpaceX IPO beneficiary", "halo effect", "space theme lift" for RKLB without explicit caveat
-
-- sentiment_score: copy from the social data (composite_score field)
-- analysis_ko must integrate sentiment naturally — not as a separate item at the end
-
-ANTI-HALLUCINATION RULES — CRITICAL:
-1. PRICE LEVELS (watch_level_en/ko):
-   - Use ONLY 전일종가 from the authoritative table as the price anchor.
-   - Support/resistance levels MUST be within ±25% of 전일종가.
-   - Prefer EMA21/EMA50/EMA200 values from the 가격앵커 section for specific levels.
-   - ATR14 from 가격앵커 defines the natural daily price range — do not suggest moves beyond 3×ATR14.
-   - NEVER invent a price level not derivable from the provided data.
-
-2. TODAY'S DIRECTION vs YESTERDAY'S CHANGE:
-   - "전일등락(D-2→D-1)" is YESTERDAY's change, not today's. Do NOT write it as "오늘 X% 상승".
-   - To describe TODAY's direction, use 프리마켓 value from the table. If 프리마켓=N/A, do NOT claim a direction.
-   - If 전일등락=0.00%(데이터없음): you do NOT know that day's change — write direction only without a %.
-
-3. EARNINGS HALLUCINATION — HIGHEST PRIORITY RULE:
-   ▶ For ⚠이미발표됨 stocks — BANNED WORDS (automatic fail):
-     beat, miss, exceeded, disappointed, strong beat, strong miss, EPS beat, EPS miss,
-     상회, 하회, 어닝 서프라이즈, 실적 상회, 실적 하회, 어닝 쇼크,
-     split, reverse split, 분할, 주식분할, 배당, buyback, 자사주매입
-   ▶ REASON: We only have estimated EPS and the post-market price reaction.
-     We do NOT know: actual EPS, revenue, guidance, split announcements, or any forward statement.
-   ▶ The price reaction (post-market up/down) does NOT tell you if it was a beat or miss —
-     stocks fall on beats and rise on misses. Do NOT infer result from price direction.
-   ▶ ALLOWED template: "[SYM] reported after close today (est. EPS $X — verify actual at broker)"
-   ▶ EARNINGS DATES: Use ONLY table dates. NEVER write "next week"/"soon" without exact date.
-
-4. SECTOR LEADERS: Use the MACRO SIGNAL GROUPS section as the primary basis for sector_analysis.
-   A "🟢 green" signal = technical strength. A "🔴 red" signal = technical weakness.
-   A stock in DOWNTREND market_structure is NOT a technical leader — label it "narrative interest, DOWNTREND".
-   Do NOT contradict the macro signal group judgments without explicit reasoning.
-
-5. BTC LARGE MOVE ALERT: Check BTC-USD in macro data.
-   If BTC-USD 1D ≤ -5% OR 5D ≤ -10%: MANDATORY include in executive_bullets_ko.
-   BTC crash = macro risk signal, NOT just a crypto story. Do NOT write "증시 차분/안정적" alongside BTC crash.
-
-6. NAMED EVENTS / CORPORATE ACTIONS: DO NOT mention specific military exercise names unless explicitly
-   in the global context with a confirmed source_hint. Use general descriptions only.
-   DO NOT mention stock splits, buybacks, M&A unless explicitly in the global context.
-
-7. MARKET_STRUCTURE EXACT NAMING — CRITICAL:
-   You MUST use the exact market_structure value from the '구조=' field in analysis text.
-   Valid values include: UPTREND, DOWNTREND, DISTRIBUTION, ACCUMULATION, NEUTRAL, UNKNOWN — always reproduce the exact 구조= value from the input data.
-   DISTRIBUTION, DOWNTREND, and ACCUMULATION are DIFFERENT Wyckoff phase labels — never substitute one for another.
-   ✅ CORRECT: "sits in DISTRIBUTION (institutional selling pressure near highs)"
-   ✅ CORRECT: "in ACCUMULATION phase (base-building, watching for breakout)"
-   ❌ FORBIDDEN: writing 'DOWNTREND' when 구조=DISTRIBUTION (even if Stage2 is low)
-   ❌ FORBIDDEN: omitting market_structure label for ANY ticker — ACCUMULATION, NEUTRAL, and UNKNOWN tickers must still show the exact 구조= value in their analysis block
-   In Korean, use: UPTREND→"상승 추세", DOWNTREND→"하락 추세", DISTRIBUTION→"분배 구간", ACCUMULATION→"집적 구간"
-
-8. EXTERNAL FINANCIAL METRICS — STRICTLY FORBIDDEN:
-   Do NOT add specific numbers or events from your training memory (e.g. "250% ARR growth",
-   "Broadcom's AI guidance", "UK firearms contract", "MAI-Thinking-1", "Q1 beat/miss").
-   ONLY use: (a) numbers explicitly in the provided data tables, OR (b) facts from global_context
-   issues with a verified source_hint.
-   For catalyst/sentiment context: use ONLY the 투자자반응/투자자반응(KO) field as provided.
-   Violating this rule = hallucination, even if the fact happens to be true in training data.
-
-SELF-CHECK before outputting JSON (fix any violation before output):
-  □ All prices in analysis/watchlist/spotlight match 전일종가 column in authoritative table?
-  □ All pre-market prices match 프리마켓 column (or N/A if not available)?
-  □ Any ⚠이미발표됨 stock: does analysis contain 'beat','miss','상회','하회','split','분할'? → REMOVE
-  □ Any DOWNTREND stock with action=buy? → change to 'watch' or 'avoid' per rule
-  □ Any Stage2≤2 stock with action='watch' or 'hold'? → change to 'avoid'
-  □ RKLB + SpaceX: is direction framed as negative (liquidity competition)?
-  □ EMA levels in watch_level: do they match EMA21/50/200 from 가격앵커 section?
-  □ All % changes: do they come from 전일등락(D-2→D-1) column, not invented?
-  □ btc_note VIX/TNX/DXY/BTC values match MACRO BINDING TABLE exactly?
-     BTC price, 1D%, 5D% must be the EXACT values from the binding table — no approximation.
-  □ dollar_note_en/ko: does it cite the exact DXY numeric value from MACRO BINDING TABLE? If missing, add it before output.
-  □ BTC price in ALL sections (executive_bullets, sector_analysis, watchlist, etc.): does every mention of BTC price match the MACRO BINDING TABLE value? Training-memory BTC price is forbidden anywhere in the briefing.
-  □ headline_ko: count the characters — must be ≤30. If >30 chars, shorten before output. No exceptions.
-  □ For each stock in watchlist/spotlight: does the written market_structure match 구조= field?
-     DISTRIBUTION ≠ DOWNTREND ≠ ACCUMULATION — mixing them is a factual error. Fix before output.
-     Is market_structure EXPLICITLY WRITTEN in the analysis text (not omitted)? Mandatory even for ACCUMULATION, NEUTRAL, and UNKNOWN tickers — omission is a critical error.
-     Go through ALL 22 watchlist symbols one by one (TSM,NVDA,META,TSLA,PLTR,MU,CRWD,AMZN,MSFT,AAPL,GOOGL,SPCX,RKLB,CEG,VST,ALAB,OKLO,APP,ANET,NVO,QBTS,SOFI) and confirm each analysis_en/ko contains the literal token 'market_structure: [VALUE]' — ACCUMULATION is the value most often silently dropped; do not skip it just because it is not alarming. Add any missing token now before output.
-  □ For every ticker where Stage2≤2 AND market_structure=UPTREND: is the explicit inline inconsistency flag present as the FIRST line of that ticker's block? (e.g. '[TICKER]: Stage2=[N]≤2 but API returns market_structure=UPTREND — data inconsistency flagged') If not, add it now.
-  □ In every section (watchlist, spotlight, sector_analysis, big_picture) that uses 'RS': is RS defined parenthetically as 'RS (Relative Strength)' on first use in that section? Bare 'RS' without inline definition is a verification error.
-  □ For any global_context issue where the policy or event effective date is more than 60 days before today: is it described as 'established' or 'in effect since [month/year]' rather than 'new development', 'recent change', or 'fresh shift'?
-  □ Any spotlight/watchlist analysis mention earnings for a stock with >14 days until earnings? → REMOVE
-  □ Any analysis contain specific financial metrics (ARR%, guidance figures, product names) not
-     in the provided tables or global_context with source_hint? → REMOVE those external facts.
-  □ earnings_alert: does it contain any stock with days_until > 14? → REMOVE (write "" if none remain).
-     Count from today's date. Showing a date in the authoritative table does NOT authorize mentioning it here.
-  □ big_picture.summary: for each referenced global_context issue, does the language match the confidence level?
-     [confirmed] = fact / [developing] = "Reports indicate..." / [unverified] = "Unverified reports..."
-     If ANY referenced issue has confidence='developing', STOP and rewrite that sentence with hedge language ('Reports indicate...' or 'Early reports suggest...') BEFORE finalizing output.
+SELF-CHECK (fix before output):
+  □ Prices / pre-market / EMA / DXY / BTC / VIX / TNX match binding tables exactly?
+  □ ⚠이미발표됨: no beat/miss/상회/하회/split language?
+  □ action rules satisfied (no buy on DOWNTREND; Stage2≤2 → avoid)?
+  □ every watchlist analysis states exact 구조= / market_structure; no synonym swaps?
+  □ Stage2 vs structure conflicts flagged inline when present?
+  □ headline_ko ≤30 chars; causal binding consistent with asymmetric_impact + session evidence?
+  □ earnings only ≤14d and absolute YYYY-MM-DD; no training-memory metrics?
+  □ developing global issues hedged in big_picture / bullets?
 
 - Raw JSON only. No prose before or after."""
 
@@ -1229,24 +1382,67 @@ def main():
 
     data = fetch_all_data()
 
-    # ── 1차 호출: 글로벌 매크로/지정학 컨텍스트 수집 ──────────────────────────
+    # ── 1차 호출: 기계적 RSS 증거 + 웹 검색 Stage-1 ─────────────────────────
     global_ctx: dict = {}
-    global_context_prompt = build_global_context_prompt(now_kst, now_iso)
-    print("[INFO] Grok 1차 호출: 글로벌 컨텍스트 수집 중 (최대 90초)...")
+    print("[INFO] Stage-1 기계적 검색 증거(RSS) 수집 중...")
+    stage1_evidence = fetch_stage1_search_evidence()
+    print(f"[INFO] Stage-1 RSS 헤드라인 {len(stage1_evidence)}건")
+    global_context_prompt = build_global_context_prompt(
+        now_kst, now_iso, evidence=stage1_evidence,
+    )
+    print(
+        f"[INFO] Grok 1차 호출: 글로벌 컨텍스트 (toolsets={HERMES_STAGE1_TOOLSETS!r}, "
+        f"timeout={CALL_TIMEOUT_GLOBAL}s)..."
+    )
     _gc_raw, _gc_parsed = call_hermes_json(
         global_context_prompt,
         timeout=CALL_TIMEOUT_GLOBAL,
         validator=validate_global_context,
+        toolsets=HERMES_STAGE1_TOOLSETS or None,
     )
     if _gc_parsed is not None:
         global_ctx = _gc_parsed
+        # Attach mechanical evidence meta for debugging / downstream verify (not user-facing)
+        global_ctx["_stage1_evidence_n"] = len(stage1_evidence)
+        global_ctx["_stage1_evidence_sources"] = sorted({
+            str(x.get("source") or x.get("feed_id") or "")
+            for x in stage1_evidence
+            if x.get("source") or x.get("feed_id")
+        })
         issues_count = len(global_ctx.get("issues") or [])
         if issues_count > 0:
             print(f"[INFO] 글로벌 이슈 {issues_count}개 수집됨")
+            for iss in global_ctx.get("issues") or []:
+                print(
+                    f"  - [{iss.get('tier')}/{iss.get('category')}] "
+                    f"{iss.get('title_en') or iss.get('title_ko')} "
+                    f"| {iss.get('source_hint')} | {iss.get('confidence')}"
+                )
         else:
-            print("[WARN] 글로벌 컨텍스트: 이슈 없음 — fallback으로 계속 진행", file=sys.stderr)
+            print(
+                "[WARN] 글로벌 컨텍스트: 이슈 0개 "
+                f"(RSS={len(stage1_evidence)}, ongoing_no_update={global_ctx.get('ongoing_no_update')})",
+                file=sys.stderr,
+            )
     else:
         print("[WARN] 글로벌 컨텍스트 최종 실패 — fallback으로 계속 진행", file=sys.stderr)
+        if stage1_evidence:
+            # Minimal non-LLM fallback: surface that evidence existed so Stage-2 is not blind
+            global_ctx = {
+                "fetched_at": now_iso,
+                "search_window": "48h",
+                "issues": [],
+                "market_paradox_en": (
+                    f"Stage-1 model parse failed with {len(stage1_evidence)} RSS headlines available; "
+                    "briefing proceeds without structured global issues."
+                ),
+                "market_paradox_ko": (
+                    f"Stage-1 파싱 실패(RSS {len(stage1_evidence)}건 확보). 구조화 글로벌 이슈 없이 진행."
+                ),
+                "ongoing_no_update": [],
+                "_stage1_evidence_n": len(stage1_evidence),
+                "fallback": True,
+            }
 
     # ── 2차 호출: 아침 브리핑 생성 (글로벌 컨텍스트 주입) ───────────────────
     prompt = build_prompt(data, now_kst, global_ctx)

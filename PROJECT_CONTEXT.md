@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-07-13 P0-4 polymarket-prediction
+<!-- AUTO-GENERATED: 2026-08-04 B2 integrity + Stage-2 prompt diet (no event hardcodes)
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 
@@ -418,15 +418,25 @@ Bullet format rule: "핵심 신호 → 시장 의미" (signal → market meaning
 
 Runs once daily (22:30 UTC = KST 07:30). Generates a global context briefing using a **2-stage Grok pipeline:**
 
-**Stage 1 (Global Context):** Fetch top-3 global macro/geopolitical issues within 48-hour window via Grok live web search.
-- Timeout: `HERMES_TIMEOUT_GLOBAL` (default 90s)
-- Scope: trade/tariff, geopolitical, central bank, AI regulation
-- Output: `global_context` array with 3 issue objects
-- Anti-hallucination: named military exercises only if source-cited; no unverified corporate actions
+**Stage 1 (Global Context):** Rank top **1–3** market-moving issues from **mechanical RSS evidence + hermes web tool**.
+- Pre-fetch: `fetch_stage1_search_evidence()` — Google News / BBC / CNBC / MarketWatch RSS (no category quotas)
+- Hermes: `HERMES_STAGE1_TOOLSETS` default `web`; timeout `HERMES_TIMEOUT_GLOBAL`
+- Soft validate: `sanitize_global_context` drops bad items (keeps 0–3); categories include `earnings`/`market_move`
+- Empty `issues` only as last resort when evidence truly supports no US-equity re-pricing
+- Output: `global_context.issues` + `ongoing_no_update` + `_stage1_evidence_n` meta
 
 **Stage 2 (Full Briefing):** Generate comprehensive morning briefing combining global context + sentiment/technical data.
 - Timeout: `HERMES_TIMEOUT` (default 300s)
 - Output: full JSON with headline, executive_bullets, big_picture, sector_analysis, spotlight, watchlist
+- **Prompt diet (2026-08-04):** `_format_global_context_block` + Stage-2 REQUIREMENTS keep **evidence-binding rules only** (table prices, action rules, structure labels, earnings ≤14d, causal bind vs asymmetric_impact, confidence hedges). Removed event-specific MUST catalogs (Hormuz/Fed speaker/non-watchlist IPO checklists), SpaceX→RKLB forced narrative, and “scan training knowledge” filler pressures. Missing external facts → optional `[CONTEXT GAP]`, never invent.
+- **Causal binding:** same-session evidence outranks global narrative for a named ticker; never attribute a move to an issue that marks the ticker `unaffected` / `영향 없음`
+
+### Integrity gates (B1/B2 — `collect/phase_b_integrity.py`, wired into `verify_briefing`)
+- **B1**: relative earnings day, mood vs hard drop, price binding
+- **B2-false-catalyst**: headline co-mentions ticker + theme while asymmetric_impact says unaffected (fail), especially with post-market/earnings evidence in spotlight/watchlist
+- **B2-theme-recurrence / B2-theme-stale**: multi-day same-category presence / near-duplicate titles (warn; fail when recurring theme owns the headline and direction is stable ongoing)
+- **B2-day-window**: evergreen headline/bullets without last-session anchors (warn)
+- Entry: `verify_briefing_integrity(..., history=)` and `scan_briefing_artifacts()`
 
 ### Key design improvements (2026-06-04)
 
