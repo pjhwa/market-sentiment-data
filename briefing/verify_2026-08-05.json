@@ -1,0 +1,193 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-04T21:45:01Z",
+  "verified_at": "2026-08-05T07:15",
+  "overall_passed": false,
+  "error_count": 3,
+  "warning_count": 3,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 6건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AMZN: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    VST: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    SOFI: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=92.2 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU (DOWNTREND) caveat 없이 leaders에 언급됨"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": false,
+      "severity": "error",
+      "detail": "rank=1: confidence=confirmed이지만 인정 소스 없음 (source='cnbc 2026-08-04, al jazeera 2026-08-04')"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=1)"
+    },
+    {
+      "name": "B2-warn-B2-theme-recurrence",
+      "passed": true,
+      "severity": "error",
+      "detail": "[warn] category=geopolitical present on 21+ consecutive prior days (direction=de-escalating, tier=breaking)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "1개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 2건 (critical 없음): ['Jeff Bezos filed Form 144 to sell ~15 million AMZN shares (~$4.07B)', 'AMD Q2 2026 earnings beat (EPS $1.66 vs $1.55 est, record Data Center revenue) but stock fell >8% on the report']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Dow closing above 54,000, S&P 500 record close, and PLTR's ~29% surge on its earnings beat (EPS $0.41 vs $0.33 est, revenue $1.94B vs $1.80B est) are all independently confirmed by CNBC/CNN coverage of Aug 4, 2026 trading."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: CRWD's accumulation/leadership framing is well supported (3-day rally, multiple analyst price-target hikes, sold-out Fal.Con conference). However, attributing VST (Vistra) and CEG (Constellation Energy) laggard status to 'oil price collapse reduces profitability' is a weak causal link — these are power-generation/nuclear utilities primarily driven by AI-datacenter electricity demand, not crude oil economics. The rationale conflates energy-sector oil exposure with power-generation stocks that have a different demand driver."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSM: Briefing reports TSM closed at $417.17 (+2.72%); independent lookup for Aug 4, 2026 shows TSM trading/closing around $406.11, an ~2.7% discrepancy. Could not fully reconcile — flagging for review rather than confirming as definite error."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-05T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-Iran Deal Hopes Send Oil Plunging, Equities Rallying",
+        "accuracy": "accurate",
+        "note": "Confirmed by multiple outlets (The National, CNBC, Axios) — oil fell on Aug 3-4, 2026 on optimism for a Strait of Hormuz reopening deal after Trump paused a planned strike on Iran, with talks reportedly resuming Monday. WTI fell ~5.7% (briefing's '5%' is a slight rounding but directionally correct). Note: one source shows Brent actually rising ~5% same day, a divergence not mentioned in the briefing but not material to the core claim. The Strait itself reportedly remains largely closed despite the deal optimism — briefing doesn't caveat this, a minor omission."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Jeff Bezos filed Form 144 to sell ~15 million AMZN shares (~$4.07B)",
+        "impact": "Directly explains AMZN's decline (-2.32% close) — the briefing's watchlist entry for AMZN cites no cause, and this insider-sale headline is a materially relevant, specific driver missing from context.",
+        "severity": "important"
+      },
+      {
+        "title": "AMD Q2 2026 earnings beat (EPS $1.66 vs $1.55 est, record Data Center revenue) but stock fell >8% on the report",
+        "impact": "AMD isn't in the watchlist directly, but it's a bellwether for the AI/semiconductor rotation narrative the briefing builds (CRWD, ANET framed as AI infra leaders) — a big post-earnings semiconductor selloff is relevant context that's absent.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "Dow closing above 54,000, S&P 500 record close, and PLTR's ~29% surge on its earnings beat (EPS $0.41 vs $0.33 est, revenue $1.94B vs $1.80B est) are all independently confirmed by CNBC/CNN coverage of Aug 4, 2026 trading."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "CRWD's accumulation/leadership framing is well supported (3-day rally, multiple analyst price-target hikes, sold-out Fal.Con conference). However, attributing VST (Vistra) and CEG (Constellation Energy) laggard status to 'oil price collapse reduces profitability' is a weak causal link — these are power-generation/nuclear utilities primarily driven by AI-datacenter electricity demand, not crude oil economics. The rationale conflates energy-sector oil exposure with power-generation stocks that have a different demand driver."
+    },
+    "stock_errors": [
+      {
+        "symbol": "TSM",
+        "error": "Briefing reports TSM closed at $417.17 (+2.72%); independent lookup for Aug 4, 2026 shows TSM trading/closing around $406.11, an ~2.7% discrepancy. Could not fully reconcile — flagging for review rather than confirming as definite error."
+      }
+    ],
+    "overall_score": 84,
+    "summary": "The briefing's core narrative (Iran/Hormuz deal optimism, oil plunge, record-setting equity rally, PLTR's earnings-driven surge, CRWD sector leadership) is well corroborated by independent sources. Weaknesses: it omits the Bezos insider-sale story that actually explains AMZN's decline, misattributes VST/CEG weakness to oil rather than power-demand dynamics, and has one unresolved price discrepancy on TSM."
+  }
+}

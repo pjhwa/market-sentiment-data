@@ -1049,6 +1049,10 @@ SOURCE RULES:
   Developing: single credible outlet, still evolving.
   Never cite Twitter/X, Reddit, Telegram, Discord, anonymous blogs as source_hint.
   If only social: omit or find an accepted outlet.
+  confidence=confirmed requires EVERY outlet listed in source_hint to be from the Accepted list above —
+  do not mix an accepted outlet with a non-accepted one (e.g. general-news outlets like Al Jazeera) and
+  still mark confirmed. If any cited outlet is outside the Accepted list, either drop it from source_hint
+  (keep only accepted outlets) or downgrade confidence to developing.
 
 WATCHLIST (impact mapping only when mechanism is clear):
 TSM NVDA META TSLA PLTR MU CRWD AMZN MSFT AAPL GOOGL SPCX
@@ -1238,7 +1242,7 @@ MARKET DATA ({now_kst}):
     "btc_note_ko": "{btc_anchor_ko} [뒤에 1문장만 추가: 위험 선호도에 무엇을 의미하는지. 추가 수치 금지.]"
   }},
   "sector_analysis": {{
-    "leaders_en": "Based on MACRO SIGNAL GROUPS (🟢 green = technically strong). HARD RULE: Stocks with DOWNTREND market_structure are NEVER technical leaders. If a DOWNTREND stock benefits from a news theme (e.g. oil spike), write: '[sector]: narrative interest from [theme], but technically in DOWNTREND — not a structural leader.' Only stocks with UPTREND or neutral structure can be called leaders. FORMAT: every named ticker in this field MUST be immediately followed by its structure in parentheses, e.g. 'MU (DOWNTREND)' — naming a ticker as a leader with no parenthetical structure tag is itself a violation, since it hides a possible DOWNTREND stock being miscast as a leader.",
+    "leaders_en": "Based on MACRO SIGNAL GROUPS (🟢 green = technically strong). HARD RULE: Stocks with DOWNTREND market_structure are NEVER technical leaders — do not name a DOWNTREND ticker as a leader even with a parenthetical tag attached; writing 'MU (DOWNTREND)' as if it were a leader is itself a violation, not a valid format. If a DOWNTREND stock benefits from a news theme (e.g. oil spike), it must appear ONLY inside the full caveat sentence: '[sector]: narrative interest from [theme], but technically in DOWNTREND — not a structural leader.' — never as a bare name+tag. Only stocks with UPTREND or neutral structure can be called leaders. FORMAT: every named ticker in this field MUST be immediately followed by its structure in parentheses, e.g. 'AAPL (UPTREND)' — naming a ticker as a leader with no parenthetical structure tag is itself a violation, since it hides a possible DOWNTREND stock being miscast as a leader.",
     "leaders_ko": "MACRO SIGNAL GROUPS의 🟢 녹색 신호 기반. 핵심 규칙: DOWNTREND 종목은 절대 기술적 리더가 아님. 뉴스 테마 수혜라도 '해당 섹터: [테마] 수혜 내러티브, 단 기술적 구조는 DOWNTREND — 진정한 섹터 리더 아님'으로 작성할 것.",
     "laggards_en": "Which are lagging and the simple reason why",
     "laggards_ko": "어떤 업종이 힘을 못 쓰고 있는지, 왜 그런지.",
@@ -1261,7 +1265,7 @@ MARKET DATA ({now_kst}):
       "symbol": "TICKER",
       "company": "Company Name",
       "tier": 1,
-      "analysis_en": "3-5 sentences flowing paragraph. (1) recent price level using EXACT 전일종가 from table; if 프리마켓 is available, mention today's pre-market direction with that exact value, (2) strength or vulnerability in plain language using market_structure and stage2 data, (3) upside or downside using EMA/ATR anchors from 가격앵커, (4) social sentiment. All $ values must match table. Mention earnings ONLY if ≤14 days away using ABSOLUTE YYYY-MM-DD date only — NEVER 'in N days'/'tomorrow'/'next week'; otherwise omit earnings entirely.",
+      "analysis_en": "3-5 sentences flowing paragraph. (1) recent price level using EXACT 전일종가 from table; if 프리마켓 is available, mention today's pre-market direction with that exact value, (2) strength or vulnerability in plain language, explicitly naming market_structure as one of UPTREND/DOWNTREND/DISTRIBUTION/ACCUMULATION/NEUTRAL/UNKNOWN — ACCUMULATION is easy to skip since it sounds neutral, but it is MANDATORY like any other value — and stage2 data, (3) upside or downside using EMA/ATR anchors from 가격앵커, (4) social sentiment. All $ values must match table. Mention earnings ONLY if ≤14 days away using ABSOLUTE YYYY-MM-DD date only — NEVER 'in N days'/'tomorrow'/'next week'; otherwise omit earnings entirely.",
       "analysis_ko": "같은 내용 한국어 3-5문장. 전일종가는 테이블 값 그대로. 프리마켓 값이 있으면 '오늘 개장 전 $X(+Y%)' 형태로 사용. 없으면 오늘 방향 언급 금지. 실적은 14일 이내일 때만 YYYY-MM-DD 절대일로 언급('N일 후'/'내일' 금지), 그 외 완전 생략. 소셜 반응 자연스럽게 포함.",
       "sentiment_mood": "optimistic|cautious|neutral|fearful|euphoric — from the social data above. MUST be consistent with this ticker's same-session price change: if 전일등락 or 프리마켓 shows a decline ≥3%, mood MUST NOT be 'optimistic' or 'euphoric' unless a specific forward-looking catalyst (earnings beat, analyst upgrade) is explicitly stated in analysis_en/ko — assigning an upbeat mood to a sharply declining ticker without a stated catalyst is a critical error.",
       "sentiment_score": 0.0,
@@ -1302,7 +1306,7 @@ C. BINDING / ANTI-HALLUCINATION
   2. 전일등락 is YESTERDAY — not "오늘". TODAY direction only from 프리마켓; if N/A, do not invent direction.
   3. 구조= value: copy EXACT label into analysis (and market_structure field). Never swap DISTRIBUTION↔DOWNTREND.
      Korean gloss: UPTREND=상승 추세, DOWNTREND=하락 추세, DISTRIBUTION=분배 구간, ACCUMULATION=집적 구간.
-  4. Stage2≤2 with 구조=UPTREND (or Stage2≥7 with DOWNTREND): first line must flag data conflict; do not silently pick one.
+  4. Stage2≤2 with 구조=UPTREND (or Stage2≥7 with DOWNTREND): this is a DATA CONFLICT — the analysis's first sentence must explicitly flag it (e.g. '데이터 상충: Stage2=1이지만 구조=UPTREND로 표시됨'); do not silently pick one value and ignore the other. Check this for EVERY one of the 22 tickers, not just the obvious ones.
   5. Earnings: only table dates; ≤14 calendar days in analysis/spotlight/earnings_alert. No relative "N days".
      For ⚠이미발표됨: do NOT claim beat/miss/상회/하회/split — only post-market reaction + est. EPS verify note.
   6. sentiment_score: copy composite_score from social data; mood consistent with session move (≥3% drop → not optimistic/euphoric unless analysis states a concrete forward catalyst from provided fields).
@@ -1319,7 +1323,7 @@ SELF-CHECK (fix before output):
   □ Prices / pre-market / EMA / DXY / BTC / VIX / TNX match binding tables exactly?
   □ ⚠이미발표됨: no beat/miss/상회/하회/split language?
   □ action rules satisfied (no buy on DOWNTREND; Stage2≤2 → avoid)?
-  □ every watchlist analysis states exact 구조= / market_structure; no synonym swaps?
+  □ every watchlist analysis states exact 구조= / market_structure; no synonym swaps? ACCUMULATION is the most commonly skipped value — verify each ACCUMULATION ticker's analysis text literally contains the word 'ACCUMULATION'.
   □ Stage2 vs structure conflicts flagged inline when present?
   □ headline_ko ≤30 chars; causal binding consistent with asymmetric_impact + session evidence?
   □ earnings only ≤14d and absolute YYYY-MM-DD; no training-memory metrics?
