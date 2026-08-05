@@ -733,6 +733,12 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    training recollection. Prefer the provided state, dates, and scope verbatim.
 3. ASYMMETRIC IMPACT — When discussing a ticker, if that ticker appears in Asymmetric Impact, use that
    direction. If it says unaffected/영향 없음, do NOT use the issue as the cause of that ticker's move.
+   ADDITIONALLY: if a ticker highlighted elsewhere in this briefing (leaders/laggards/watchlist/action calls)
+   had a major earnings-driven price move within the prior 3 trading sessions per the earnings block, you MUST
+   reference that catalyst (direction, magnitude, date) even if the ticker is absent from Asymmetric Impact
+   above — omitting a known earnings catalyst for a highlighted ticker is a critical-news omission. Use the
+   exact price-move percentage given in the earnings block source data; do not restate an approximate or
+   partial (e.g., early after-hours) figure when a fuller session figure is available there.
 4. big_picture.summary — At most 1–2 sentences on the highest-ranked issue that has real novelty;
    include market_paradox if present. Do not restate every quiet ongoing risk.
 5. CONFIDENCE LANGUAGE (apply in big_picture.summary / executive_bullets):

@@ -1,0 +1,213 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-05T21:45:01Z",
+  "verified_at": "2026-08-06T07:15",
+  "overall_passed": false,
+  "error_count": 7,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 7건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: API=ACCUMULATION vs 브리핑=DOWNTREND\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    VST: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 1건:\n    RKLB: Rule1 → avoid 필요 (struct=DOWNTREND,S2=3,RS=16), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=91.6 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU (DOWNTREND) caveat 없이 leaders에 언급됨"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 1건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-mood-drop",
+      "passed": false,
+      "severity": "error",
+      "detail": "META: mood=optimistic with drop -25.8%"
+    },
+    {
+      "name": "B1-mood-drop",
+      "passed": false,
+      "severity": "error",
+      "detail": "TSLA: mood=optimistic with drop -35.5%"
+    },
+    {
+      "name": "B1-mood-drop",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU: mood=optimistic with drop -28.8%"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "1개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Palantir (PLTR) Q2 2026 earnings blowout: revenue +93% YoY to $1.94B (beat consensus ~$1.81B), raised 2026 US commercial guidance to $3.42B+; stock surged ~29.8% on 2026-08-04 (영향: PLTR — briefing lists PLTR as action=avoid, DOWNTREND with no mention of the record earnings beat and guidance raise that drove a ~30% single-day rally two sessions prior. The 2026-08-05 close of $158.43 (-2.60%) is a pullback after that spike, but omitting the earnings catalyst entirely is a material gap in context for a stock the briefing flags as a laggard.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: A traffic_light=green with score 91.6 overstates the day's breadth. 2026-08-05 saw the S&P 500 and Dow hit new intraday record highs but close off those highs (S&P -0.17%), while the Nasdaq fell -0.83% amid a broad semiconductor/memory selloff (Samsung prelim results, DeepSeek chip concerns, Micron down sharply). Calling the tape uniformly 'green' glosses over a materially weak tech/semiconductor tape underneath a still-positive broad index."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The 'traditional semiconductor leaders face distribution pressure despite the broader risk-on regime' framing undersells that this was a sector-wide chip/memory selloff (Micron, Western Digital, Applied Materials, Marvell, AMD all hit), not isolated distribution in a handful of names. NVDA's inclusion as merely 'watch' also misses its standout SpaceX-driven outperformance within an otherwise weak chip tape."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "PLTR: Price ($158.43, -2.60% on 2026-08-05) is accurate, but presenting PLTR as a DOWNTREND 'avoid' laggard without any reference to its ~30% earnings-driven surge just one session earlier (2026-08-04) omits critical, highly relevant context for an actionable call.\n    APP: Reported -16.71% post-earnings move is smaller than the ~20-21% decline widely reported by multiple sources (Yahoo Finance, StockStory, Benzinga) for the same earnings reaction; likely reflects an early/partial after-hours snapshot rather than the fuller move."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-06T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Samsung, SK Hynix Test Chinese Chip Tools to Hedge US Export Curbs",
+        "accuracy": "accurate",
+        "note": "Confirmed by Reuters (via Investing.com, Seeking Alpha, DigiTimes, others, 2026-08-04/05). Samsung and SK Hynix are testing AMEC etching tools at their China fabs as a contingency after their 2023 Validated End User status was revoked in 2025. No material change in the last 24h; still current as of 2026-08-06."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Palantir (PLTR) Q2 2026 earnings blowout: revenue +93% YoY to $1.94B (beat consensus ~$1.81B), raised 2026 US commercial guidance to $3.42B+; stock surged ~29.8% on 2026-08-04",
+        "impact": "PLTR — briefing lists PLTR as action=avoid, DOWNTREND with no mention of the record earnings beat and guidance raise that drove a ~30% single-day rally two sessions prior. The 2026-08-05 close of $158.43 (-2.60%) is a pullback after that spike, but omitting the earnings catalyst entirely is a material gap in context for a stock the briefing flags as a laggard.",
+        "severity": "critical"
+      },
+      {
+        "title": "Broad semiconductor/memory sector selloff tied to Samsung's weak preliminary results, AI-valuation worries, and reports that China's DeepSeek is developing its own AI chip",
+        "impact": "MU, NVDA, TSM, ALAB — Micron fell sharply (~6-9% over the prior sessions into Aug 5), Western Digital, Applied Materials, Marvell and AMD also sold off; NVDA dipped on the DeepSeek chip report before recovering on a separate SpaceX deal. The briefing frames MU/ALAB weakness only as isolated 'distribution' names rather than part of a sector-wide memory/chip selloff.",
+        "severity": "important"
+      },
+      {
+        "title": "Nvidia (NVDA) rose ~2-3.5% premarket/intraday on 2026-08-05 after SpaceX (Elon Musk) announced its future AI infrastructure will run exclusively on Nvidia hardware",
+        "impact": "NVDA — a positive, stock-specific catalyst not reflected in the briefing's neutral 'watch' framing.",
+        "severity": "minor"
+      },
+      {
+        "title": "AppLovin (APP) Q2 2026 results: revenue of $1.92B missed the $1.94B estimate despite +53% YoY growth; EPS beat slightly; soft Q3 guidance ($2.06-2.09B vs $2.08B consensus) drove the stock down. Multiple sources report the post-earnings decline at ~20-21%, larger than the briefing's -16.71% figure",
+        "impact": "APP — magnitude discrepancy; briefing's -16.71% appears to be an early after-hours read taken near the 21:45 UTC report time, while the stock continued sliding toward a ~20-21% total decline as more data came in.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "A traffic_light=green with score 91.6 overstates the day's breadth. 2026-08-05 saw the S&P 500 and Dow hit new intraday record highs but close off those highs (S&P -0.17%), while the Nasdaq fell -0.83% amid a broad semiconductor/memory selloff (Samsung prelim results, DeepSeek chip concerns, Micron down sharply). Calling the tape uniformly 'green' glosses over a materially weak tech/semiconductor tape underneath a still-positive broad index."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "The 'traditional semiconductor leaders face distribution pressure despite the broader risk-on regime' framing undersells that this was a sector-wide chip/memory selloff (Micron, Western Digital, Applied Materials, Marvell, AMD all hit), not isolated distribution in a handful of names. NVDA's inclusion as merely 'watch' also misses its standout SpaceX-driven outperformance within an otherwise weak chip tape."
+    },
+    "stock_errors": [
+      {
+        "symbol": "PLTR",
+        "error": "Price ($158.43, -2.60% on 2026-08-05) is accurate, but presenting PLTR as a DOWNTREND 'avoid' laggard without any reference to its ~30% earnings-driven surge just one session earlier (2026-08-04) omits critical, highly relevant context for an actionable call."
+      },
+      {
+        "symbol": "APP",
+        "error": "Reported -16.71% post-earnings move is smaller than the ~20-21% decline widely reported by multiple sources (Yahoo Finance, StockStory, Benzinga) for the same earnings reaction; likely reflects an early/partial after-hours snapshot rather than the fuller move."
+      }
+    ],
+    "overall_score": 68,
+    "summary": "The single global-context item (Samsung/SK Hynix testing Chinese chip tools) is accurately sourced and still current. However, the briefing misses Palantir's blowout Q2 earnings and guidance raise (a critical omission given PLTR is flagged as a laggard), understates the breadth of the semiconductor/memory selloff affecting MU and peers, and likely understates AppLovin's actual post-earnings decline. The 'green'/91.6 mood score and 'risk-on' sector framing are questionable given the Nasdaq's -0.83% session and a genuine sector-wide chip rout."
+  }
+}
