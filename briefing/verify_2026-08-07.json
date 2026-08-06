@@ -1,0 +1,192 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-06T21:45:01Z",
+  "verified_at": "2026-08-07T07:15",
+  "overall_passed": false,
+  "error_count": 4,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 8건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    META: API=ACCUMULATION vs 브리핑=DOWNTREND\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    VST: API=ACCUMULATION vs 브리핑=DOWNTREND\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 4건:\n    PLTR: Rule1 → avoid 필요 (struct=DOWNTREND,S2=4,RS=67), 실제=watch\n    MU: Rule1 → avoid 필요 (struct=DOWNTREND,S2=5,RS=100), 실제=watch\n    RKLB: Rule1 → avoid 필요 (struct=DOWNTREND,S2=3,RS=32), 실제=watch\n    ALAB: Rule1 → avoid 필요 (struct=DOWNTREND,S2=4,RS=100), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=90.9 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU (DOWNTREND) caveat 없이 leaders에 언급됨"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 1건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: questionable — Reuters reported (2026-08-04) that Samsung and SK Hynix have been quietly testing AMEC's Chinese etching tools for ~2 years as a hedge against tightening US export controls at their China fabs. However, both companies officially denied this: Samsung told Reuters it has not tested AMEC equipment and had not considered doing so; SK Hynix declined to comment. Labeling this 'confirmed' overstates certainty — it is an unconfirmed exclusive report actively denied by both named companies. Separately, SK Hynix's ~10% share drop on 2026-08-06 (Kospi, -9.7% to -10.4% intraday) is more directly attributed by CNBC to a broader Asia tech selloff tracking Wall Street AI-name declines, not primarily to this export-curb story, which broke two days earlier on 2026-08-04."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    US July Employment Situation (nonfarm payrolls) report releases 2026-08-07 (영향: Major macro catalyst for the entire watchlist (all tickers) via Fed rate-cut expectations ahead of the Sept 16 FOMC meeting; a hot/cold print will move DXY, VIX, and risk appetite broadly. Not mentioned anywhere in the briefing despite landing the same morning it covers.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: On 2026-08-06 the S&P 500 closed essentially flat (-0.03%), Nasdaq fell -0.47%, and the Dow closed at a record high (+0.13%) — a mixed, not clearly 'green'/bullish session. Calling mood 'green' with a 90.9 score overstates bullishness; a neutral/mixed reading fits the actual tape better. Could not independently verify the stated VIX 15.15 / DXY 99.95 levels."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Framing MU/TSM/NVDA as uniformly 'DOWNTREND' due to policy overhang conflicts with same-day data showing the SMH semiconductor ETF up +0.39% and TSM closing up +0.98% at ~$418. The sharp semiconductor weakness was concentrated in Asia-listed/exposed names (SK Hynix, Samsung) rather than the broader US semis complex, so the sector characterization is at best partial."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSM: Briefing states TSM closed at $418.20 (+1.01%); independently found close was ~$418.06 (+0.98%, +$4.06). Close enough to be immaterial, but not an exact match."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-06T22:17:25Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US export curbs push Samsung, SK Hynix toward Chinese chip tools",
+        "accuracy": "questionable",
+        "note": "Reuters reported (2026-08-04) that Samsung and SK Hynix have been quietly testing AMEC's Chinese etching tools for ~2 years as a hedge against tightening US export controls at their China fabs. However, both companies officially denied this: Samsung told Reuters it has not tested AMEC equipment and had not considered doing so; SK Hynix declined to comment. Labeling this 'confirmed' overstates certainty — it is an unconfirmed exclusive report actively denied by both named companies. Separately, SK Hynix's ~10% share drop on 2026-08-06 (Kospi, -9.7% to -10.4% intraday) is more directly attributed by CNBC to a broader Asia tech selloff tracking Wall Street AI-name declines, not primarily to this export-curb story, which broke two days earlier on 2026-08-04."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "US July Employment Situation (nonfarm payrolls) report releases 2026-08-07",
+        "impact": "Major macro catalyst for the entire watchlist (all tickers) via Fed rate-cut expectations ahead of the Sept 16 FOMC meeting; a hot/cold print will move DXY, VIX, and risk appetite broadly. Not mentioned anywhere in the briefing despite landing the same morning it covers.",
+        "severity": "critical"
+      },
+      {
+        "title": "Broader Wall Street AI-stock selloff drove the Asia tech/semiconductor rout on 2026-08-06, not just the export-curb story",
+        "impact": "SK Hynix, Samsung and other AI-linked chip names fell in Asia trading tracking overnight US AI-stock weakness; briefing frames the move as solely an export-curb/policy story, omitting the broader AI-valuation-jitters angle that also pressures NVDA/MU.",
+        "severity": "important"
+      },
+      {
+        "title": "US semiconductor sector (SMH ETF) actually rebounded +0.39% on 2026-08-06 after the prior week's chip selloff",
+        "impact": "Directly contradicts the briefing's framing of MU/TSM/NVDA as being in a unified 'DOWNTREND' sector move that day — the broader semiconductor complex firmed even as SK Hynix (a foreign-listed name) fell sharply in Asia hours.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "On 2026-08-06 the S&P 500 closed essentially flat (-0.03%), Nasdaq fell -0.47%, and the Dow closed at a record high (+0.13%) — a mixed, not clearly 'green'/bullish session. Calling mood 'green' with a 90.9 score overstates bullishness; a neutral/mixed reading fits the actual tape better. Could not independently verify the stated VIX 15.15 / DXY 99.95 levels."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Framing MU/TSM/NVDA as uniformly 'DOWNTREND' due to policy overhang conflicts with same-day data showing the SMH semiconductor ETF up +0.39% and TSM closing up +0.98% at ~$418. The sharp semiconductor weakness was concentrated in Asia-listed/exposed names (SK Hynix, Samsung) rather than the broader US semis complex, so the sector characterization is at best partial."
+    },
+    "stock_errors": [
+      {
+        "symbol": "TSM",
+        "error": "Briefing states TSM closed at $418.20 (+1.01%); independently found close was ~$418.06 (+0.98%, +$4.06). Close enough to be immaterial, but not an exact match."
+      }
+    ],
+    "overall_score": 58,
+    "summary": "The core Samsung/SK Hynix Chinese-tooling story is a real, currently-circulating Reuters exclusive, but the briefing overstates its certainty (labeled 'confirmed') despite explicit denials from both companies, and conflates it with a broader Wall Street AI-stock selloff as the driver of SK Hynix's ~10% Asia drop. The market mood ('green', 90.9) and sector framing (semis broadly in 'DOWNTREND') don't match the actual mixed US session on 2026-08-06, where the Dow hit a record and the SMH semiconductor ETF was up. Most critically, the briefing entirely omits the July jobs report due out the same morning (2026-08-07), the single biggest scheduled macro catalyst for every watchlist name."
+  }
+}
