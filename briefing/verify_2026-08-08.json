@@ -1,0 +1,198 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-07T21:45:01Z",
+  "verified_at": "2026-08-08T07:15",
+  "overall_passed": false,
+  "error_count": 4,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 10건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    META: API=ACCUMULATION vs 브리핑=DOWNTREND\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AAPL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    RKLB: API=DOWNTREND vs 브리핑=UPTREND\n    VST: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 5건:\n    META: Rule1 → avoid 필요 (struct=ACCUMULATION,S2=2,RS=34), 실제=watch\n    PLTR: Rule1 → avoid 필요 (struct=DOWNTREND,S2=4,RS=89), 실제=watch\n    MU: Rule1 → avoid 필요 (struct=DOWNTREND,S2=5,RS=75), 실제=watch\n    ALAB: Rule1 → avoid 필요 (struct=DOWNTREND,S2=4,RS=100), 실제=watch\n    ANET: Rule1 → avoid 필요 (struct=DOWNTREND,S2=6,RS=100), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=94.7 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU (DOWNTREND) caveat 없이 leaders에 언급됨"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": false,
+      "severity": "warning",
+      "detail": "headline_ko 길이 초과: 33자 (≤30 기준)"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Palantir (PLTR) blowout Q2 2026 earnings (reported Aug 3) driving a multi-day rally (영향: PLTR revenue +93% YoY, EPS beat, guidance raised to $8.15-8.16B from $7.18-7.20B; stock up ~35% since Aug 3, +10.32% on Aug 7 alone, aided by a bullish Bank of America note. This is the actual driver behind PLTR's price move in the watchlist, but the briefing gives no earnings context and instead classifies PLTR as a 'DOWNTREND'/laggard under pressure — directly contradicted by the stock's own +10.32% move and the earnings catalyst.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Green/94.7 risk-on read matches reality: S&P 500 +0.6%, Nasdaq +1.3%, second straight week of gains, weak jobs data interpreted as reducing near-term Fed hike risk. PLTR +10.32% figure is accurate but mischaracterized elsewhere as a laggard (see stock_errors)."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: MU and TSLA correctly placed in laggards/DOWNTREND given real chip-sector selloff and Tesla's bearish technicals (MACD sell signal) despite a daily price gain. However, PLTR's inclusion in 'Laggards ... remain under pressure with weak Stage2 scores' is inconsistent with reality — PLTR is in the middle of its best earnings-driven rally in a year, up ~35% over the past week, and arguably belongs with the leaders/uptrend group, not alongside TSLA/MU/APP/QBTS."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "PLTR: Classified as DOWNTREND / laggard 'under pressure' with weak technical scores, but PLTR is actually rallying hard (+10.32% same-day, ~+35% over the prior week) on blowout Q2 earnings (revenue +93% YoY) and raised guidance plus a bullish BofA note. The technical/trend classification contradicts both the price action shown in the same briefing and the underlying fundamental catalyst."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-08T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "July US Payrolls Contract 23k, Rate Cut Odds Surge",
+        "accuracy": "accurate",
+        "note": "Confirmed by CNBC, NBC News, Yahoo Finance, Fox Business. Payrolls fell 23,000 vs +83,000 expected, with a combined 103,000-job downward revision to May/June. Unemployment rate ticked down to 4.1% but only because labor force participation fell to 61.4% (lowest since Feb 2021) — a weak-labor-market signal, not a strong one. September Fed hike odds fell to ~44% from ~57% pre-report. Note: Aug 12 CPI print is now flagged by economists as the likely deciding factor for the Fed, which the briefing omits."
+      },
+      {
+        "rank": 2,
+        "title": "Trump Imposes 15% Tariff on Key Semiconductor Material",
+        "accuracy": "accurate",
+        "note": "Confirmed by Nikkei Asia, Benzinga, Supply Chain Dive, Yahoo Finance. 15% tariff plus minimum import prices on polysilicon, targeting China's >90% share of global polysilicon supply, invoked under Section 232. One material omission: the tariff does not take effect until Dec. 4, 2026 — the briefing implies immediate market impact, which overstates near-term effect on chip input costs."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Palantir (PLTR) blowout Q2 2026 earnings (reported Aug 3) driving a multi-day rally",
+        "impact": "PLTR revenue +93% YoY, EPS beat, guidance raised to $8.15-8.16B from $7.18-7.20B; stock up ~35% since Aug 3, +10.32% on Aug 7 alone, aided by a bullish Bank of America note. This is the actual driver behind PLTR's price move in the watchlist, but the briefing gives no earnings context and instead classifies PLTR as a 'DOWNTREND'/laggard under pressure — directly contradicted by the stock's own +10.32% move and the earnings catalyst.",
+        "severity": "critical"
+      },
+      {
+        "title": "Oklo (OKLO) Q2 earnings and first-criticality nuclear milestone (Aug 5-7)",
+        "impact": "OKLO is cited in the briefing's own headline (+14.77%) as a rally leader, driven by its Groves facility reaching first criticality and Q2 earnings, but OKLO does not appear anywhere in the sector/watchlist analysis, so readers get no context for why it's mentioned in the headline.",
+        "severity": "important"
+      },
+      {
+        "title": "Broad semiconductor/memory-chip selloff (Micron, SanDisk, Western Digital, AMD, Nvidia) over AI valuation concerns and Samsung/DeepSeek headlines",
+        "impact": "Explains MU's DOWNTREND status and price pressure in more depth (Citigroup cut MU price target 18% to $1,150 despite Buy rating) — briefing's sector note mentions MU is weak but doesn't identify the sector-wide selloff catalyst.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "Green/94.7 risk-on read matches reality: S&P 500 +0.6%, Nasdaq +1.3%, second straight week of gains, weak jobs data interpreted as reducing near-term Fed hike risk. PLTR +10.32% figure is accurate but mischaracterized elsewhere as a laggard (see stock_errors)."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "MU and TSLA correctly placed in laggards/DOWNTREND given real chip-sector selloff and Tesla's bearish technicals (MACD sell signal) despite a daily price gain. However, PLTR's inclusion in 'Laggards ... remain under pressure with weak Stage2 scores' is inconsistent with reality — PLTR is in the middle of its best earnings-driven rally in a year, up ~35% over the past week, and arguably belongs with the leaders/uptrend group, not alongside TSLA/MU/APP/QBTS."
+    },
+    "stock_errors": [
+      {
+        "symbol": "PLTR",
+        "error": "Classified as DOWNTREND / laggard 'under pressure' with weak technical scores, but PLTR is actually rallying hard (+10.32% same-day, ~+35% over the prior week) on blowout Q2 earnings (revenue +93% YoY) and raised guidance plus a bullish BofA note. The technical/trend classification contradicts both the price action shown in the same briefing and the underlying fundamental catalyst."
+      }
+    ],
+    "overall_score": 72,
+    "summary": "Both global macro items (weak July jobs report, 15% polysilicon tariff) are accurately reported, and the overall green/risk-on market mood matches real conditions. The main flaw is a significant stock-classification error: PLTR is grouped with downtrend laggards despite being the standout rally story of the week on strong Q2 earnings, and that earnings catalyst — along with Oklo's earnings/nuclear milestone referenced in the headline — is missing from the narrative entirely."
+  }
+}

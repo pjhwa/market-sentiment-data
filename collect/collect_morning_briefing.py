@@ -1176,7 +1176,7 @@ WRITING RULES — follow strictly:
 1. Write as if explaining to a smart friend who doesn't know stock jargon. Use everyday language.
 2. When a technical term is unavoidable, explain it immediately in plain words.
    Good: "RS(시장 상대강도 — 이 주식이 전체 시장보다 얼마나 더 잘 움직이는지 나타내는 점수) 88점"
-   Bad: "RS=88" alone without explanation.
+   Bad: "RS=88" alone without explanation. This applies to EVERY occurrence of RS (or any technical term) across the entire output, not just the first mention — an earlier explanation elsewhere in the JSON does not excuse a later bare "RS=NN" in a different field.
 3. For each stock: weave together in ONE flowing paragraph — recent price movement, current condition,
    upside potential OR downside risk (choose the more dominant factor), and what social investors are saying.
    Do NOT use section headers like "스퀴즈:", "조정:", "현재상태:" — write as natural prose.
@@ -1216,7 +1216,7 @@ MARKET DATA ({now_kst}):
 
 {{
   "headline_en": "One sentence — the most important LAST-SESSION / pre-open market story (≤120 chars). CAUSAL BINDING (structural): (1) For any named ticker, the primary clause must match the strongest same-snapshot evidence (large post/pre move, earnings calendar hit, or a global_context issue that maps that ticker with a non-unaffected impact). (2) NEVER attribute a ticker's move to a global_context issue whose asymmetric_impact marks that ticker unaffected/영향 없음. (3) When evidence conflicts, prefer measurable session evidence over narrative macro color; do not invent a causal 'because'.",
-  "headline_ko": "지난 세션·프리마켓 기준 가장 중요한 한 줄 (30자 이내). 구조 규칙: 헤드라인에 나온 종목의 원인 서술은 같은 스냅샷의 강한 증거(큰 애프터/프리 변동, 실적 캘린더, 또는 해당 종목을 unaffected가 아닌 방향으로 매핑한 global 이슈)와 일치해야 함. asymmetric_impact가 영향 없음인 이슈를 급등/급락 원인으로 쓰지 말 것. 원인 불명이면 사실(종목+변동)만 쓰고 원인을 지어내지 말 것.",
+  "headline_ko": "지난 세션·프리마켓 기준 가장 중요한 한 줄 (30자 이내 — 하드 제한. 작성 후 실제 글자 수를 직접 세어 30자 초과 시 수식어부터 줄일 것; 핵심 사실은 빼지 말 것). 구조 규칙: 헤드라인에 나온 종목의 원인 서술은 같은 스냅샷의 강한 증거(큰 애프터/프리 변동, 실적 캘린더, 또는 해당 종목을 unaffected가 아닌 방향으로 매핑한 global 이슈)와 일치해야 함. asymmetric_impact가 영향 없음인 이슈를 급등/급락 원인으로 쓰지 말 것. 원인 불명이면 사실(종목+변동)만 쓰고 원인을 지어내지 말 것.",
   "executive_bullets_en": [
     "Most important last-session / regime context with a concrete number or named move",
     "Best opportunity in the watchlist right now (session-anchored)",
@@ -1248,7 +1248,7 @@ MARKET DATA ({now_kst}):
     "btc_note_ko": "{btc_anchor_ko} [뒤에 1문장만 추가: 위험 선호도에 무엇을 의미하는지. 추가 수치 금지.]"
   }},
   "sector_analysis": {{
-    "leaders_en": "Based on MACRO SIGNAL GROUPS (🟢 green = technically strong). HARD RULE: Stocks with DOWNTREND market_structure are NEVER technical leaders — do not name a DOWNTREND ticker as a leader even with a parenthetical tag attached; writing 'MU (DOWNTREND)' as if it were a leader is itself a violation, not a valid format. If a DOWNTREND stock benefits from a news theme (e.g. oil spike), it must appear ONLY inside the full caveat sentence: '[sector]: narrative interest from [theme], but technically in DOWNTREND — not a structural leader.' — never as a bare name+tag. Only stocks with UPTREND or neutral structure can be called leaders. FORMAT: every named ticker in this field MUST be immediately followed by its structure in parentheses, e.g. 'AAPL (UPTREND)' — naming a ticker as a leader with no parenthetical structure tag is itself a violation, since it hides a possible DOWNTREND stock being miscast as a leader.",
+    "leaders_en": "Based on MACRO SIGNAL GROUPS (🟢 green = technically strong). HARD RULE: Stocks with DOWNTREND market_structure are NEVER technical leaders — do not name a DOWNTREND ticker as a leader even with a parenthetical tag attached; writing e.g. '[TICKER] (DOWNTREND)' as if it were a leader is itself a violation, not a valid format — this is a placeholder pattern only; never copy a specific example ticker like this literally into output. If a DOWNTREND stock benefits from a news theme (e.g. oil spike), it must appear ONLY inside the full caveat sentence: '[sector]: narrative interest from [theme], but technically in DOWNTREND — not a structural leader.' — never as a bare name+tag. Only stocks with UPTREND or neutral structure can be called leaders. FORMAT: every named ticker in this field MUST be immediately followed by its structure in parentheses, e.g. 'AAPL (UPTREND)' — naming a ticker as a leader with no parenthetical structure tag is itself a violation, since it hides a possible DOWNTREND stock being miscast as a leader.",
     "leaders_ko": "MACRO SIGNAL GROUPS의 🟢 녹색 신호 기반. 핵심 규칙: DOWNTREND 종목은 절대 기술적 리더가 아님. 뉴스 테마 수혜라도 '해당 섹터: [테마] 수혜 내러티브, 단 기술적 구조는 DOWNTREND — 진정한 섹터 리더 아님'으로 작성할 것.",
     "laggards_en": "Which are lagging and the simple reason why",
     "laggards_ko": "어떤 업종이 힘을 못 쓰고 있는지, 왜 그런지.",
@@ -1295,10 +1295,12 @@ A. COVERAGE
 - spotlight: 2–4 symbols from the 22 (mix of opportunity and risk)
 - watchlist: ALL 22 in order TSM,NVDA,META,TSLA,PLTR,MU,CRWD,AMZN,MSFT,AAPL,GOOGL,SPCX,RKLB,CEG,VST,ALAB,OKLO,APP,ANET,NVO,QBTS,SOFI
 - ⚠RECENT IPO rows: action=watch, market_structure=UNKNOWN, state data insufficiency; no buy/avoid from missing Stage2/RS
+- BEFORE writing any analysis text: build an internal checklist of all 22 tickers paired with their EXACT 구조= value copied verbatim from the table. Use that checklist as the source of truth when writing each analysis paragraph and the market_structure field — tickers have been silently dropped or given an altered structure value in past runs; never paraphrase or infer a structure value from price action.
 
 B. ACTION RULES (first match wins; driven only by table fields)
   1. avoid IF: (구조=DOWNTREND AND Stage2≤6) OR Stage2≤2 OR (⚠이미발표됨 AND post-market drop>10%)
-     EXCEPTION: Stage2=7 AND RS≥70 with DOWNTREND → watch
+     These three OR conditions are INDEPENDENT — apply each on its own regardless of market_structure. Stage2≤2 ALWAYS forces avoid even if 구조=ACCUMULATION/UPTREND/NEUTRAL; a high RS score never overrides this.
+     EXCEPTION (both parts REQUIRED — never apply from RS alone): Stage2 must equal EXACTLY 7 AND RS≥70 with DOWNTREND → watch. RS≥70 with Stage2<7 does NOT qualify; DOWNTREND + Stage2≤6 still avoids no matter how high RS is.
   2. buy  IF: Stage2≥6 AND RS≥70 AND 구조≠DOWNTREND AND mood in (optimistic, euphoric)
   3. hold IF: Stage2≥5 and solid technical position (near entry / breakout / EMA support)
   4. watch otherwise
@@ -1312,7 +1314,7 @@ C. BINDING / ANTI-HALLUCINATION
   2. 전일등락 is YESTERDAY — not "오늘". TODAY direction only from 프리마켓; if N/A, do not invent direction.
   3. 구조= value: copy EXACT label into analysis (and market_structure field). Never swap DISTRIBUTION↔DOWNTREND.
      Korean gloss: UPTREND=상승 추세, DOWNTREND=하락 추세, DISTRIBUTION=분배 구간, ACCUMULATION=집적 구간.
-  4. Stage2≤2 with 구조=UPTREND (or Stage2≥7 with DOWNTREND): this is a DATA CONFLICT — the analysis's first sentence must explicitly flag it (e.g. '데이터 상충: Stage2=1이지만 구조=UPTREND로 표시됨'); do not silently pick one value and ignore the other. Check this for EVERY one of the 22 tickers, not just the obvious ones.
+  4. Stage2≤2 with 구조=UPTREND (or Stage2≥7 with DOWNTREND): this is a DATA CONFLICT — the analysis's first sentence must explicitly flag it (e.g. '데이터 상충: Stage2=1이지만 구조=UPTREND로 표시됨'); do not silently pick one value and ignore the other. Check this for EVERY one of the 22 tickers, not just the obvious ones. Separately: if 프리마켓 or 전일등락 shows a large same-session move (>7%) while 구조=DOWNTREND, and earnings_block shows a report within the prior 5 trading days for that ticker, do NOT describe it as merely 'weak'/'laggard'/'under pressure' — state both the technical structure label AND the earnings-driven price move together rather than letting one silently override the other in the prose framing.
   5. Earnings: only table dates; ≤14 calendar days in analysis/spotlight/earnings_alert. No relative "N days".
      For ⚠이미발표됨: do NOT claim beat/miss/상회/하회/split — only post-market reaction + est. EPS verify note.
   6. sentiment_score: copy composite_score from social data; mood consistent with session move (≥3% drop → not optimistic/euphoric unless analysis states a concrete forward catalyst from provided fields).
