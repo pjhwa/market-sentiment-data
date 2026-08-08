@@ -1,0 +1,182 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-08T21:45:01Z",
+  "verified_at": "2026-08-09T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 9건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AAPL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    VST: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": false,
+      "severity": "warning",
+      "detail": "VIX: 브리핑에 수치 없음 (API=14.9)"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=94.7 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU (DOWNTREND) caveat 없이 leaders에 언급됨"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 1건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": false,
+      "severity": "warning",
+      "detail": "headline_ko 길이 초과: 33자 (≤30 기준)"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "1개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 2건 (critical 없음): [\"Tesla and SpaceX announce $16.8B 'Terafab' semiconductor manufacturing plant in Texas\", 'July jobs report miss and hawkish Fed commentary raising September rate-hike risk']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Directionally consistent with a strong week (S&P 500 at record highs, PLTR +10.3%), but a 94.7/green score seems overly bullish given concurrent headwinds omitted from the briefing: chip-sector volatility (MU/AMD sell-off on AI-valuation worries earlier in the week), tariff escalation, and hawkish Fed rate-hike chatter following a weak jobs report."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Leaders (AMZN, MSFT, CRWD, AAPL) and laggards (TSLA, PLTR, MU, ALAB) broadly match reported technical structures. The DOWNTREND label for TSLA and PLTR despite same-day price pops is a defensible technical/price divergence, though the briefing doesn't explain why (Terafab news for TSLA, AI-momentum reversal for PLTR)."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-09T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Trump extends tariffs to polysilicon and semiconductor inputs",
+        "accuracy": "accurate",
+        "note": "Confirmed: Trump signed a Section 232 proclamation (Aug 6) imposing a 15% tariff plus minimum import prices on polysilicon, ingots/wafers, solar cells and modules. However, tariffs take effect Dec 4, 2026, not immediately, and semiconductor chips are only ~2.4% of polysilicon consumption (solar is the primary target) — the briefing's framing of broad 'semiconductor input' cost pressure overstates near-term chip-sector impact. The NVDA offshore-China-access review (Bloomberg, Aug 7) is a separate, real but distinct issue from the polysilicon tariff and is correctly reported as concurrent, not caused by, the tariff action."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Tesla and SpaceX announce $16.8B 'Terafab' semiconductor manufacturing plant in Texas",
+        "impact": "TSLA shares gained ~2.8-5.6% this week partly on this news; it is a major AI-chip/semiconductor-manufacturing catalyst directly relevant to the briefing's tariff/semiconductor theme, yet TSLA is only described as 'DOWNTREND'/avoid with no mention of the Terafab announcement or its funding debate (Jefferies cut 2026 EBIT estimate by 37% on cost concerns).",
+        "severity": "important"
+      },
+      {
+        "title": "July jobs report miss and hawkish Fed commentary raising September rate-hike risk",
+        "impact": "Nonfarm payrolls fell 23,000 (unexpected), and several Fed officials have floated a rate hike (not cut) as soon as September if inflation doesn't ease; September cut odds fell to 44%. This macro backdrop is not reflected anywhere in the briefing's uniformly bullish (green, 94.7) mood score.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Directionally consistent with a strong week (S&P 500 at record highs, PLTR +10.3%), but a 94.7/green score seems overly bullish given concurrent headwinds omitted from the briefing: chip-sector volatility (MU/AMD sell-off on AI-valuation worries earlier in the week), tariff escalation, and hawkish Fed rate-hike chatter following a weak jobs report."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Leaders (AMZN, MSFT, CRWD, AAPL) and laggards (TSLA, PLTR, MU, ALAB) broadly match reported technical structures. The DOWNTREND label for TSLA and PLTR despite same-day price pops is a defensible technical/price divergence, though the briefing doesn't explain why (Terafab news for TSLA, AI-momentum reversal for PLTR)."
+    },
+    "stock_errors": [],
+    "overall_score": 80,
+    "summary": "Core facts (polysilicon tariffs, NVDA export review, and all sampled watchlist stock prices/moves) check out accurately against current sources. The main gaps are omission of the major Tesla/SpaceX Terafab semiconductor investment news (directly on-theme and TSLA-relevant) and no mention of the weak July jobs report / hawkish Fed rate-hike risk, which makes the very high bullish mood score (94.7) somewhat one-sided."
+  }
+}
