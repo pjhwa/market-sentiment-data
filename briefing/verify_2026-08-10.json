@@ -1,0 +1,199 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-09T21:45:01Z",
+  "verified_at": "2026-08-10T07:15",
+  "overall_passed": false,
+  "error_count": 3,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 9건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AAPL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    VST: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=94.7 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU (DOWNTREND) caveat 없이 leaders에 언급됨"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": false,
+      "severity": "error",
+      "detail": "rank=1: confidence=confirmed이지만 인정 소스 없음 (source='cnbc 2026-08-09, energynow 2026-08-09')"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": false,
+      "severity": "warning",
+      "detail": "headline_ko 길이 초과: 31자 (≤30 기준)"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 3건 (critical 없음): [\"Iran's Supreme National Security Council (Aug 8) declares Strait of Hormuz will not reopen until US 'corrects its behavior,' issuing new demands that complicate the Oman-brokered framework talks\", 'Fed rate-hike odds for September are re-firming (some trackers show ~45-65% hike probability) as Iran-conflict energy shocks revive inflation concerns, partially offsetting the dovish read from the July jobs report', \"Nvidia's fiscal Q2 earnings report is approaching (end of August 2026), with hyperscaler capex raises fueling 'blowout quarter' expectations\"]"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Score 94.7/green is very bullish and roughly consistent with S&P 500 record closes and PLTR's post-earnings surge, but the headline juxtaposes a strongly bullish score with an escalating negative narrative (NVDA China share collapse) without reconciling the tension. Given the re-firming Fed hike risk and unresolved Hormuz hardline stance, a 94.7 'green' score arguably overstates confidence."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Leader/laggard split (CRWD/AMZN/MSFT vs TSLA/PLTR/MU/ALAB) reflects structural Stage2/RS classifications rather than daily price action, which is internally consistent with the data provided but reads as confusing: PLTR (+10.32% same-day) and TSLA (+2.83%) are labeled 'laggards under pressure with weak structures' — true on a technical-structure basis but should be caveated since the raw price moves for the day are strongly positive, not what 'laggard' typically implies to a reader."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-09T22:17:57Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Middle East Uncertainty Persists Over Hormuz and Oil Flows",
+        "accuracy": "accurate",
+        "note": "Confirmed: Houthis claimed Aug 9 drone strike on Saudi Aramco Jazan refinery (fire extinguished, no major damage), Iran FM Araghchi denied direct US talks (CNBC 2026-08-09). However, briefing omits a notable escalation from Aug 8: Iran's Supreme National Security Council stated the Strait will not reopen until the US 'corrects its behavior' and issued new demands — this hardens the outlook slightly beyond what the briefing conveys."
+      },
+      {
+        "rank": 2,
+        "title": "July Job Losses Temper Fed Rate-Hike Expectations",
+        "accuracy": "accurate",
+        "note": "Confirmed: July NFP showed -23,000 jobs vs +80-83k expected, unemployment 4.1%, initially cutting Sept hike odds (57%→44% per some trackers). However, by Aug 9-10 other prediction markets/analysts (Kalshi, Chase) show odds swinging back toward a possible Sept hike (up to ~65% in some readings) on Iran-conflict-driven energy/inflation concerns — the briefing's one-directional 'tempered hike odds' framing is now only partially current."
+      },
+      {
+        "rank": 3,
+        "title": "Nvidia China AI Chip Share Forecast to Fall Sharply to 8%",
+        "accuracy": "accurate",
+        "note": "Confirmed via MarketScale Aug 9 and corroborating outlets (FourWeekMBA, Techloy): Bernstein forecasts Nvidia's China AI chip share collapsing from ~40% to ~8% by end of 2026 as Huawei's Ascend 950 scales, driven by export controls. Note this is a restated/older Bernstein forecast (also covered back in June 2026) rather than new information as of Aug 9."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Iran's Supreme National Security Council (Aug 8) declares Strait of Hormuz will not reopen until US 'corrects its behavior,' issuing new demands that complicate the Oman-brokered framework talks",
+        "impact": "Energy/oil-sensitive names and broad market risk sentiment (indirectly affects all watchlist names via oil price and Fed-policy channel, notably TSM/NVDA supply chain risk premia and macro-sensitive tech)",
+        "severity": "important"
+      },
+      {
+        "title": "Fed rate-hike odds for September are re-firming (some trackers show ~45-65% hike probability) as Iran-conflict energy shocks revive inflation concerns, partially offsetting the dovish read from the July jobs report",
+        "impact": "Rate-sensitive growth/tech names in watchlist (NVDA, MSFT, AMZN, PLTR) could see valuation pressure if hike odds keep rising; briefing's mood/summary leans on the softer-Fed narrative without flagging this reversal risk",
+        "severity": "important"
+      },
+      {
+        "title": "Nvidia's fiscal Q2 earnings report is approaching (end of August 2026), with hyperscaler capex raises fueling 'blowout quarter' expectations",
+        "impact": "NVDA (currently 'hold/optimistic' in watchlist) — upcoming catalyst not mentioned, relevant given the China-share risk narrative already highlighted",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Score 94.7/green is very bullish and roughly consistent with S&P 500 record closes and PLTR's post-earnings surge, but the headline juxtaposes a strongly bullish score with an escalating negative narrative (NVDA China share collapse) without reconciling the tension. Given the re-firming Fed hike risk and unresolved Hormuz hardline stance, a 94.7 'green' score arguably overstates confidence."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Leader/laggard split (CRWD/AMZN/MSFT vs TSLA/PLTR/MU/ALAB) reflects structural Stage2/RS classifications rather than daily price action, which is internally consistent with the data provided but reads as confusing: PLTR (+10.32% same-day) and TSLA (+2.83%) are labeled 'laggards under pressure with weak structures' — true on a technical-structure basis but should be caveated since the raw price moves for the day are strongly positive, not what 'laggard' typically implies to a reader."
+    },
+    "stock_errors": [],
+    "overall_score": 78,
+    "summary": "The three global issues and stock closing prices are factually accurate and traceable to real sources, but the briefing is silent on two developing threads that shifted after it was generated context (Aug 8 Iranian hardline Hormuz statement, and re-firming Fed hike odds from Iran-driven energy inflation), both of which soften the otherwise upbeat framing. Sector/mood characterizations are technically defensible but potentially misleading without clearer distinction between intraday price action and structural trend classification."
+  }
+}

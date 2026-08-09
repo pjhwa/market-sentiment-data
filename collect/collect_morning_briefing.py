@@ -1056,9 +1056,11 @@ SOURCE RULES:
   Never cite Twitter/X, Reddit, Telegram, Discord, anonymous blogs as source_hint.
   If only social: omit or find an accepted outlet.
   confidence=confirmed requires EVERY outlet listed in source_hint to be from the Accepted list above —
-  do not mix an accepted outlet with a non-accepted one (e.g. general-news outlets like Al Jazeera) and
-  still mark confirmed. If any cited outlet is outside the Accepted list, either drop it from source_hint
-  (keep only accepted outlets) or downgrade confidence to developing.
+  do not mix an accepted outlet with a non-accepted one (e.g. general-news outlets like Al Jazeera, or
+  industry/trade sites like EnergyNow) and still mark confirmed. If any cited outlet is outside the Accepted
+  list, either drop it from source_hint (keep only accepted outlets) or downgrade confidence to developing.
+  Example of the exact mistake to avoid: source_hint='cnbc, energynow' marked confirmed is WRONG — energynow
+  is not in the Accepted list, so this must be either source_hint='cnbc' (confirmed) or confidence=developing.
 
 WATCHLIST (impact mapping only when mechanism is clear):
 TSM NVDA META TSLA PLTR MU CRWD AMZN MSFT AAPL GOOGL SPCX
@@ -1176,7 +1178,7 @@ WRITING RULES — follow strictly:
 1. Write as if explaining to a smart friend who doesn't know stock jargon. Use everyday language.
 2. When a technical term is unavoidable, explain it immediately in plain words.
    Good: "RS(시장 상대강도 — 이 주식이 전체 시장보다 얼마나 더 잘 움직이는지 나타내는 점수) 88점"
-   Bad: "RS=88" alone without explanation. This applies to EVERY occurrence of RS (or any technical term) across the entire output, not just the first mention — an earlier explanation elsewhere in the JSON does not excuse a later bare "RS=NN" in a different field.
+   Bad: "RS=88" alone without explanation. This applies to EVERY occurrence of RS (or any technical term) across the entire output, not just the first mention — an earlier explanation elsewhere in the JSON does not excuse a later bare "RS=NN" in a different field. This includes fields outside the per-ticker analysis paragraphs (spotlight, today_checkpoints, sector_analysis leaders) — any bare 'RS' or 'RS=NN' anywhere in the JSON without the plain-language gloss is a violation.
 3. For each stock: weave together in ONE flowing paragraph — recent price movement, current condition,
    upside potential OR downside risk (choose the more dominant factor), and what social investors are saying.
    Do NOT use section headers like "스퀴즈:", "조정:", "현재상태:" — write as natural prose.
@@ -1190,7 +1192,7 @@ WRITING RULES — follow strictly:
    - Earnings: mention ONLY if within 14 days AND the date appears in the provided data. If N/A or >14 days, omit earnings entirely — do NOT write "30일 이내 실적 발표 없음" or any equivalent phrase. This applies to ALL sections including spotlight.
    - Support/resistance levels: must be within ±25% of 전일종가. EMA21/50/200 from 가격앵커 section.
    - If 프리마켓=N/A: do NOT write "오늘 상승 중" or any today direction claim.
-   - market_structure: use the EXACT value from '구조=' field — 'UPTREND', 'DOWNTREND', 'DISTRIBUTION', 'ACCUMULATION', 'NEUTRAL', or 'UNKNOWN'. This label MUST be explicitly written in every ticker's analysis, including ACCUMULATION/NEUTRAL/UNKNOWN — omitting it is a critical error. Never write DOWNTREND for a stock whose data shows DISTRIBUTION, or omit the label for ACCUMULATION. They are fundamentally different conditions.
+   - market_structure: use the EXACT value from '구조=' field — 'UPTREND', 'DOWNTREND', 'DISTRIBUTION', 'ACCUMULATION', 'NEUTRAL', or 'UNKNOWN'. This label MUST be explicitly written in every ticker's analysis, including ACCUMULATION/NEUTRAL/UNKNOWN — omitting it is a critical error. Never write DOWNTREND for a stock whose data shows DISTRIBUTION, or omit the label for ACCUMULATION. They are fundamentally different conditions. A fluent analysis paragraph that never writes the word ACCUMULATION is treated as a missing required field, exactly like leaving market_structure blank — this is the single most common omission and must be checked per ticker, not assumed from earlier tickers.
    - Sentiment context (key_reason): use ONLY the 투자자반응/투자자반응(KO) field values from the provided data. Do NOT inject specific financial metrics (ARR%, EPS numbers, revenue figures, product names) from training memory.
 
 MARKET DATA ({now_kst}):
@@ -1216,7 +1218,7 @@ MARKET DATA ({now_kst}):
 
 {{
   "headline_en": "One sentence — the most important LAST-SESSION / pre-open market story (≤120 chars). CAUSAL BINDING (structural): (1) For any named ticker, the primary clause must match the strongest same-snapshot evidence (large post/pre move, earnings calendar hit, or a global_context issue that maps that ticker with a non-unaffected impact). (2) NEVER attribute a ticker's move to a global_context issue whose asymmetric_impact marks that ticker unaffected/영향 없음. (3) When evidence conflicts, prefer measurable session evidence over narrative macro color; do not invent a causal 'because'.",
-  "headline_ko": "지난 세션·프리마켓 기준 가장 중요한 한 줄 (30자 이내 — 하드 제한. 작성 후 실제 글자 수를 직접 세어 30자 초과 시 수식어부터 줄일 것; 핵심 사실은 빼지 말 것). 구조 규칙: 헤드라인에 나온 종목의 원인 서술은 같은 스냅샷의 강한 증거(큰 애프터/프리 변동, 실적 캘린더, 또는 해당 종목을 unaffected가 아닌 방향으로 매핑한 global 이슈)와 일치해야 함. asymmetric_impact가 영향 없음인 이슈를 급등/급락 원인으로 쓰지 말 것. 원인 불명이면 사실(종목+변동)만 쓰고 원인을 지어내지 말 것.",
+  "headline_ko": "지난 세션·프리마켓 기준 가장 중요한 한 줄 (30자 이내 — 하드 제한. 목표는 26자 이내로 여유를 두고 작성할 것; 작성 후 공백 포함 실제 글자 수를 한 글자씩 세어 30자 초과 시 수식어부터 줄일 것; 핵심 사실은 빼지 말 것). 구조 규칙: 헤드라인에 나온 종목의 원인 서술은 같은 스냅샷의 강한 증거(큰 애프터/프리 변동, 실적 캘린더, 또는 해당 종목을 unaffected가 아닌 방향으로 매핑한 global 이슈)와 일치해야 함. asymmetric_impact가 영향 없음인 이슈를 급등/급락 원인으로 쓰지 말 것. 원인 불명이면 사실(종목+변동)만 쓰고 원인을 지어내지 말 것.",
   "executive_bullets_en": [
     "Most important last-session / regime context with a concrete number or named move",
     "Best opportunity in the watchlist right now (session-anchored)",
@@ -1320,7 +1322,7 @@ C. BINDING / ANTI-HALLUCINATION
   6. sentiment_score: copy composite_score from social data; mood consistent with session move (≥3% drop → not optimistic/euphoric unless analysis states a concrete forward catalyst from provided fields).
   7. External metrics/events (ARR%, product names, contracts, non-listed IPOs, military exercise codenames):
      FORBIDDEN unless in tables or global_context with source_hint. Use 투자자반응 fields for social context only.
-  8. Sector leaders: MACRO SIGNAL GROUPS + 구조. DOWNTREND is never a technical leader.
+  8. Sector leaders: MACRO SIGNAL GROUPS + 구조. DOWNTREND is never a technical leader. Before output, check every ticker named in leaders_en/leaders_ko against its 구조= value: any DOWNTREND ticker must appear ONLY inside the full caveat sentence ('narrative interest ... but technically in DOWNTREND — not a structural leader'), never as a bare name or name+tag alongside other leaders.
   9. BTC: if table shows 1D≤-5% or 5D≤-10%, include in executive_bullets as macro risk (binding numbers only).
  10. Causal binding (any ticker): headline/primary clause must not attribute a ticker move to a global issue
      that marks that ticker unaffected. Prefer same-snapshot session evidence (pre/post %, earnings alert).
@@ -1331,7 +1333,7 @@ SELF-CHECK (fix before output):
   □ Prices / pre-market / EMA / DXY / BTC / VIX / TNX match binding tables exactly?
   □ ⚠이미발표됨: no beat/miss/상회/하회/split language?
   □ action rules satisfied (no buy on DOWNTREND; Stage2≤2 → avoid)?
-  □ every watchlist analysis states exact 구조= / market_structure; no synonym swaps? ACCUMULATION is the most commonly skipped value — verify each ACCUMULATION ticker's analysis text literally contains the word 'ACCUMULATION'.
+  □ every watchlist analysis states exact 구조= / market_structure; no synonym swaps? ACCUMULATION is the most commonly skipped value — verify each ACCUMULATION ticker's analysis text literally contains the word 'ACCUMULATION'. Before finalizing output, re-scan the draft JSON against the checklist built in section A and confirm every ticker's market_structure field is filled with its exact 구조= value (including ACCUMULATION) — do not submit output with this check unresolved.
   □ Stage2 vs structure conflicts flagged inline when present?
   □ headline_ko ≤30 chars; causal binding consistent with asymmetric_impact + session evidence?
   □ earnings only ≤14d and absolute YYYY-MM-DD; no training-memory metrics?
