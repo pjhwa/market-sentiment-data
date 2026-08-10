@@ -747,6 +747,8 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    [unverified] → "Unconfirmed…" — never as a primary executive bullet driver
 6. NO FILLER — Do not write "monitoring continues" / "situation ongoing" without a direction and implication.
    Do not promote an issue that has no 48h delta into the headline or lead bullet.
+7. TICKER STRUCTURE BINDING — For every ticker you name in leaders/laggards/watchlist/action calls or highlight elsewhere, you MUST state its exact market_structure/Stage label as given in the SniperBoard table (e.g., ACCUMULATION, UPTREND, DOWNTREND) verbatim next to the ticker. Do NOT list a ticker as a leader/gainer without this label; if its label is DOWNTREND or otherwise contradicts the framing (e.g., listed among leaders), add an explicit caveat (e.g., "despite DOWNTREND structure") rather than omitting the label.
+8. DEFINE ACRONYMS — The first time you use a technical acronym or abbreviation (e.g., RS, EPS, IV), spell out or briefly define it in parentheses on first use in the output.
 """)
     return "\n".join(lines)
 

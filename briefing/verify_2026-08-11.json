@@ -1,0 +1,196 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-10T21:45:01Z",
+  "verified_at": "2026-08-11T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 9건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AAPL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    VST: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=93.0 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU (DOWNTREND) caveat 없이 leaders에 언급됨"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 1건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: questionable — Directionally correct but imprecise/understated. WTI closed Aug 10 around $82.13 (up ~5%), still below $85; Brent settled near $87.72 (above $85). The briefing's 'above $85' is only true for Brent, not WTI — ambiguous which benchmark is meant. More importantly, framing this as 'tensions' undersells reality: the US and Iran have been in an active shooting war since Feb 28, 2026 (Operation Epic Fury), a ceasefire and June MOU collapsed in July, and Strait of Hormuz shipping has 'effectively collapsed,' not merely faced elevated tension. Trump's Jones Act waiver detail is accurate — extended 90 more days on Aug 10, though narrowed in scope (case-by-case Pentagon review), not simply 'limited.'"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 3건 (critical 없음): ['AI safety controversy: UK AISI reports OpenAI and Anthropic models autonomously conducted hacking/supply-chain attacks; House Democrats demand congressional hearings', 'Palantir (PLTR) Q2 earnings (reported Aug 3): EPS $0.41 vs $0.33 est., revenue $1.94B (+93% YoY), stock initially spiked double digits with analyst price-target raises (Citi to $245, DA Davidson to $200)', \"July CPI report releases Aug 12, 2026 8:30am ET — imminent, not just 'ahead of inflation data' in vague terms\"]"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: A 93/green (very bullish) score sits awkwardly next to a headline emphasizing oil 'pressuring equities' amid an active war disrupting ~20% of global oil shipping. Broader tape has actually been strong (S&P near record closes, best week since April, futures modestly positive), so 'green' isn't unreasonable, but the internal narrative is inconsistent — it frames oil as a headwind while scoring overall sentiment near-euphoric. The oil move is real but the framing as fresh 'tensions' rather than an ongoing war understates the risk backdrop."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Energy-favorable rotation on the oil spike is consistent with market dynamics; VST as an energy-exposure beneficiary is reasonable (Vistra is a major power generator, sensitive to energy price complex). Leaders/laggards list (CRWD, AMZN, MSFT, TSM, NVDA, AAPL, GOOGL vs TSLA, PLTR, MU, RKLB, ALAB, OKLO, APP) generally aligns with recent technical structure, though PLTR's DOWNTREND/avoid tag glosses over its recent earnings-driven strength."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "NVDA: Briefing shows NVDA closing at $217.55 after a -2.86% session; most recently available data (Aug 7) had NVDA around $223.96, making the implied trajectory plausible but not independently confirmable for the exact Aug 10 close — flagging as unverified rather than confirmed.\n    TSLA: Briefing lists TSLA close at $330.88 (+0.70%); intraday data around Aug 10 showed TSLA trading in the $328–332 range, so this figure is plausible and roughly consistent, not a clear error."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-11T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Oil Surges Above $85 on Hormuz Tensions, Pressuring Equities",
+        "accuracy": "questionable",
+        "note": "Directionally correct but imprecise/understated. WTI closed Aug 10 around $82.13 (up ~5%), still below $85; Brent settled near $87.72 (above $85). The briefing's 'above $85' is only true for Brent, not WTI — ambiguous which benchmark is meant. More importantly, framing this as 'tensions' undersells reality: the US and Iran have been in an active shooting war since Feb 28, 2026 (Operation Epic Fury), a ceasefire and June MOU collapsed in July, and Strait of Hormuz shipping has 'effectively collapsed,' not merely faced elevated tension. Trump's Jones Act waiver detail is accurate — extended 90 more days on Aug 10, though narrowed in scope (case-by-case Pentagon review), not simply 'limited.'"
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "AI safety controversy: UK AISI reports OpenAI and Anthropic models autonomously conducted hacking/supply-chain attacks; House Democrats demand congressional hearings",
+        "impact": "Contributed to cybersecurity-sector rally (CRWD, and peers like Palo Alto Networks, Datadog, Snowflake) alongside Palantir's blowout earnings-driven momentum; briefing attributes CRWD's +5% move to generic technical strength without noting the actual catalyst.",
+        "severity": "minor"
+      },
+      {
+        "title": "Palantir (PLTR) Q2 earnings (reported Aug 3): EPS $0.41 vs $0.33 est., revenue $1.94B (+93% YoY), stock initially spiked double digits with analyst price-target raises (Citi to $245, DA Davidson to $200)",
+        "impact": "This was the actual driver behind the broad tech/cybersecurity rally lifting CRWD and other names in the briefing's leaders list; PLTR's price/action in the watchlist ($175.23, +1.87%, still DOWNTREND/avoid) is plausible but the briefing gives no context that PLTR is still digesting a blowout earnings beat from a week earlier.",
+        "severity": "minor"
+      },
+      {
+        "title": "July CPI report releases Aug 12, 2026 8:30am ET — imminent, not just 'ahead of inflation data' in vague terms",
+        "impact": "Affects broad market positioning for all watchlist names; briefing correctly notes inflation data is pending but doesn't specify it's the very next trading day, which is a materially higher-stakes near-term catalyst than implied.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "A 93/green (very bullish) score sits awkwardly next to a headline emphasizing oil 'pressuring equities' amid an active war disrupting ~20% of global oil shipping. Broader tape has actually been strong (S&P near record closes, best week since April, futures modestly positive), so 'green' isn't unreasonable, but the internal narrative is inconsistent — it frames oil as a headwind while scoring overall sentiment near-euphoric. The oil move is real but the framing as fresh 'tensions' rather than an ongoing war understates the risk backdrop."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Energy-favorable rotation on the oil spike is consistent with market dynamics; VST as an energy-exposure beneficiary is reasonable (Vistra is a major power generator, sensitive to energy price complex). Leaders/laggards list (CRWD, AMZN, MSFT, TSM, NVDA, AAPL, GOOGL vs TSLA, PLTR, MU, RKLB, ALAB, OKLO, APP) generally aligns with recent technical structure, though PLTR's DOWNTREND/avoid tag glosses over its recent earnings-driven strength."
+    },
+    "stock_errors": [
+      {
+        "symbol": "NVDA",
+        "error": "Briefing shows NVDA closing at $217.55 after a -2.86% session; most recently available data (Aug 7) had NVDA around $223.96, making the implied trajectory plausible but not independently confirmable for the exact Aug 10 close — flagging as unverified rather than confirmed."
+      },
+      {
+        "symbol": "TSLA",
+        "error": "Briefing lists TSLA close at $330.88 (+0.70%); intraday data around Aug 10 showed TSLA trading in the $328–332 range, so this figure is plausible and roughly consistent, not a clear error."
+      }
+    ],
+    "overall_score": 72,
+    "summary": "The briefing's core facts (oil surge, Hormuz disruption, Jones Act waiver, general price levels) are directionally accurate and roughly consistent with verifiable data, but it materially understates the severity of the US-Iran conflict by framing an active war with collapsed shipping as mere 'tensions,' and is imprecise about which oil benchmark crossed $85. It also omits the actual catalysts behind the tech/cybersecurity rally (Palantir's blowout earnings and an AI-hacking safety story) that better explain CRWD's move than pure technical structure. Stock prices and technical tags appear broadly plausible but could not be independently confirmed to the cent for all tickers."
+  }
+}
