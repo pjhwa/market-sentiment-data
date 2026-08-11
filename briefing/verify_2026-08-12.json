@@ -1,0 +1,194 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-11T21:45:01Z",
+  "verified_at": "2026-08-12T07:15",
+  "overall_passed": false,
+  "error_count": 3,
+  "warning_count": 2,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 9건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AAPL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 4건:\n    PLTR: Rule1 → avoid 필요 (struct=DOWNTREND,S2=4,RS=98), 실제=watch\n    MU: Rule1 → avoid 필요 (struct=DOWNTREND,S2=5,RS=67), 실제=watch\n    CEG: Rule1 → avoid 필요 (struct=UPTREND,S2=1,RS=31), 실제=watch\n    ANET: Rule1 → avoid 필요 (struct=DOWNTREND,S2=6,RS=100), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=91.1 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=1)"
+    },
+    {
+      "name": "B2-warn-B2-day-window",
+      "passed": true,
+      "severity": "error",
+      "detail": "[warn] executive_bullets lack last-session anchors and use evergreen risk phrasing"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Iran keeps Strait of Hormuz closed; oil surges above $83-88/barrel, dragging tech stocks (영향: This was the dominant market driver on 2026-08-11 per Fortune, CNBC, and Bloomberg — larger in immediate impact than the inflation-wait narrative alone. Nasdaq 100 tech shares were the 'biggest drag' on indices (Dow -0.34%, Nasdaq -0.67%) while energy/utilities/industrials rose. Directly relevant to CEG (power/utilities beneficiary already noted) and to the AMZN/MSFT 'leaders' framing, which omits that megacap tech was actually underperforming intraday on this news. Also relevant to TSLA and broader semis given oil-driven risk-off rotation.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Green/91.1 with an 'optimistic' framing understates the risk-off tone actually driving the 2026-08-11 session: major indices closed lower (Dow -0.34%, S&P -0.10%, Nasdaq -0.67%) largely due to the Iran/Hormuz oil shock (crude above $83), which the briefing omits entirely. The headline's framing (inflation wait + chip tariffs) captures only part of the real narrative; a materially larger driver (geopolitical oil shock) is missing, which should lower confidence in the green rating."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: AMZN/MSFT/CEG as technical uptrend leaders and MU/PLTR/VST/APP as downtrend laggards is plausible on a structural (multi-week) basis, but the narrative attributing lagging semis purely to 'tariff headlines' is incomplete — MU specifically has been rallying on AI/memory demand and a new PCIe Gen 6 deal as of 2026-08-07/08-10, not clearly retreating on tariffs. The rotation narrative also omits the same-day Hormuz-driven rotation into energy/utilities, which is the more immediate and better-documented driver of 2026-08-11 sector moves than the tariff narrative given prominence."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-11T22:16:27Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Inflation data and Trump-Fed clash drive rate volatility",
+        "accuracy": "accurate",
+        "note": "Confirmed: 10-year Treasury yield near 4.75% (18-month high), 30-year above 5.20% (highest since 2007). Trump wants rate cuts while Bessent targets lower 10-year yields, creating policy tension. July CPI due Wednesday 2026-08-12, PPI Thursday. This remains current and accurate."
+      },
+      {
+        "rank": 2,
+        "title": "Trump polysilicon tariffs and chip export enforcement escalate",
+        "accuracy": "accurate",
+        "note": "Confirmed: Trump signed Section 232 proclamation on 2026-08-06 imposing 15% tariffs plus minimum import prices on polysilicon/derivatives, though effective date is 2026-12-04 (120 days out), not immediate. Samsung/SK Hynix testing of Chinese (AMEC) etching tools reported by Reuters/Diplomat 2026-08 is accurate, though Samsung has publicly denied the testing claim — briefing should note this denial for balance."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Iran keeps Strait of Hormuz closed; oil surges above $83-88/barrel, dragging tech stocks",
+        "impact": "This was the dominant market driver on 2026-08-11 per Fortune, CNBC, and Bloomberg — larger in immediate impact than the inflation-wait narrative alone. Nasdaq 100 tech shares were the 'biggest drag' on indices (Dow -0.34%, Nasdaq -0.67%) while energy/utilities/industrials rose. Directly relevant to CEG (power/utilities beneficiary already noted) and to the AMZN/MSFT 'leaders' framing, which omits that megacap tech was actually underperforming intraday on this news. Also relevant to TSLA and broader semis given oil-driven risk-off rotation.",
+        "severity": "critical"
+      },
+      {
+        "title": "NVIDIA's $500B+ AI data-center financing consortium (Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs, KKR) announced 2026-08-10",
+        "impact": "Directly bullish for NVDA and TSM (TSMC expanding CoWoS/outsourced packaging capacity to meet demand); TSM shares rose on the news. Not mentioned in briefing despite NVDA and TSM both being top watchlist entries.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Green/91.1 with an 'optimistic' framing understates the risk-off tone actually driving the 2026-08-11 session: major indices closed lower (Dow -0.34%, S&P -0.10%, Nasdaq -0.67%) largely due to the Iran/Hormuz oil shock (crude above $83), which the briefing omits entirely. The headline's framing (inflation wait + chip tariffs) captures only part of the real narrative; a materially larger driver (geopolitical oil shock) is missing, which should lower confidence in the green rating."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "AMZN/MSFT/CEG as technical uptrend leaders and MU/PLTR/VST/APP as downtrend laggards is plausible on a structural (multi-week) basis, but the narrative attributing lagging semis purely to 'tariff headlines' is incomplete — MU specifically has been rallying on AI/memory demand and a new PCIe Gen 6 deal as of 2026-08-07/08-10, not clearly retreating on tariffs. The rotation narrative also omits the same-day Hormuz-driven rotation into energy/utilities, which is the more immediate and better-documented driver of 2026-08-11 sector moves than the tariff narrative given prominence."
+    },
+    "stock_errors": [],
+    "overall_score": 62,
+    "summary": "Core facts checked out: AAPL ($304.91) and TSLA ($332.81) closing prices match reported figures exactly, and both cited global issues (Fed/Treasury yield tension, polysilicon tariffs) are substantively accurate. However, the briefing has a critical omission — the Iran/Strait of Hormuz oil crisis was the dominant driver of the 2026-08-11 session (oil >$83, tech stocks the biggest index drag) and is not mentioned anywhere, which undermines the market mood and sector narratives. NVIDIA's $500B AI financing news, directly relevant to two top watchlist names, is also missing."
+  }
+}
