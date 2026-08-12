@@ -730,7 +730,7 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    product metrics) that are absent from those inputs. If something material seems missing, write a short
    '[CONTEXT GAP]' note — do not fabricate the fact.
 2. CURRENT STATE BINDING — For any listed issue, do not contradict or soften Current State with older
-   training recollection. Prefer the provided state, dates, and scope verbatim.
+   training recollection. Prefer the provided state, dates, and scope verbatim. Do NOT add causal or comparative framing (e.g., "undershot forecasts", "beat expectations", "reinforced cut bets") unless the provided Current State/Summary explicitly states both the actual figure and what it was compared against — if the evidence says a figure matched consensus, report it as in line, not as a beat/miss/undershoot, and do not name a data release as the primary driver of a market reaction unless the evidence explicitly says so.
 3. ASYMMETRIC IMPACT — When discussing a ticker, if that ticker appears in Asymmetric Impact, use that
    direction. If it says unaffected/영향 없음, do NOT use the issue as the cause of that ticker's move.
    ADDITIONALLY: if a ticker highlighted elsewhere in this briefing (leaders/laggards/watchlist/action calls)
@@ -747,8 +747,9 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    [unverified] → "Unconfirmed…" — never as a primary executive bullet driver
 6. NO FILLER — Do not write "monitoring continues" / "situation ongoing" without a direction and implication.
    Do not promote an issue that has no 48h delta into the headline or lead bullet.
-7. TICKER STRUCTURE BINDING — For every ticker you name in leaders/laggards/watchlist/action calls or highlight elsewhere, you MUST state its exact market_structure/Stage label as given in the SniperBoard table (e.g., ACCUMULATION, UPTREND, DOWNTREND) verbatim next to the ticker. Do NOT list a ticker as a leader/gainer without this label; if its label is DOWNTREND or otherwise contradicts the framing (e.g., listed among leaders), add an explicit caveat (e.g., "despite DOWNTREND structure") rather than omitting the label.
-8. DEFINE ACRONYMS — The first time you use a technical acronym or abbreviation (e.g., RS, EPS, IV), spell out or briefly define it in parentheses on first use in the output.
+7. TICKER STRUCTURE BINDING — Every single time you write a ticker symbol anywhere in the output (leaders/laggards/watchlist/action calls, headline, and narrative sentences alike), format it as "TICKER (LABEL)" where LABEL is its exact market_structure/Stage value from the SniperBoard table verbatim (e.g., "TSM (ACCUMULATION)", "MU (DOWNTREND)"). A ticker symbol without "(LABEL)" immediately after it is a format error — there are no exceptions, including tickers only mentioned in prose. If a ticker's label is DOWNTREND and it is being described as a leader/gainer, either drop it from that list or write it as "TICKER (DOWNTREND — despite structure)".
+8. DEFINE ACRONYMS — The first time you use a technical acronym or abbreviation anywhere in the output — including short ones that look like plain words, such as RS, EPS, IV — it must be written as "RS (Relative Strength)", "EPS (Earnings Per Share)", "IV (Implied Volatility)", etc. on that first occurrence.
+9. CROSS-SECTION CONSISTENCY — If the same ticker appears in more than one section (e.g., headline/leaders/laggards vs. watchlist/action calls), the price-move magnitude, mood tag, and action must all agree, and must use the fullest/most accurate session figure available in the source data rather than an earlier partial (e.g., pre-market or early after-hours) figure. Do NOT describe a ticker with a large % move in one section while giving it a neutral mood and an "avoid" action elsewhere without an explicit reconciling note (e.g., "pre-market quote lagged the full-session move").
 """)
     return "\n".join(lines)
 
