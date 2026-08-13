@@ -1,0 +1,193 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-13T21:45:01Z",
+  "verified_at": "2026-08-14T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 3,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 9건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AAPL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ANET: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": false,
+      "severity": "warning",
+      "detail": "VIX: 브리핑에 수치 없음 (API=14.63)"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=98.1 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU (DOWNTREND) caveat 없이 leaders에 언급됨"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: NVDA earnings 2026-08-27. CRWD earnings 2026-08-27.)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 3건 (critical 없음): ['Nvidia lines up $500B+ financing consortium (Apollo, Blackstone, BlackRock, Brookfield, Goldman, KKR) for hyperscaler/AI datacenter buildout', \"Meta's $130-145B 2026 AI capex plan and new Muse Glimmer/Muse Spark AI model releases drove META shares up ~1.8-2% intraday Thursday\", 'Aug 14 economic calendar: July Retail Sales (8:30am), Business Inventories, preliminary Michigan Sentiment (Aug)']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Green/bullish mood is well supported: soft PPI, falling yields, S&P record close, broad AI-infra-led rally. PLTR +4.66% close ($179.01) is confirmed exact; MU +4.23%/$949.83 close is roughly consistent with independently found pricing (~4-5% gain), though exact tick-level match couldn't be fully confirmed."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Leaders (CRWD, ANET, MSFT) align with the AI-infrastructure capex enthusiasm (Nvidia's $500B financing news, Meta's capex guidance) driving the session. Laggards align too: APP's slide follows a Q2 EBITDA/revenue miss and a BofA downgrade to Neutral (Aug 5-11), and VST's downtrend matches reported 'AI-power theme' weakness and softened GAAP guidance despite EBITDA growth. TSLA's inclusion as a laggard is plausible but not independently confirmed with fresh company-specific news in the last 24h."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-14T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Lighter Inflation Data Eases Yields, Lifts Stocks",
+        "accuracy": "accurate",
+        "note": "Confirmed: July PPI came in flat/below expectations (core PPI +0.2% vs +0.3% expected), 10-year yield eased ~1bp to 4.67%, S&P 500 closed at a record high (+0.65%), Nasdaq +0.8%, Dow +0.13% to 53,839.99 on Aug 13. Matches CNBC/NBC News reporting."
+      },
+      {
+        "rank": 2,
+        "title": "Middle East Supply Risks Keep Oil Elevated",
+        "accuracy": "accurate",
+        "note": "Confirmed directionally: Iran/Hormuz talks remain deadlocked (Iran demanding sanctions relief and war reparations before reopening the strait), keeping a geopolitical premium in oil. Nuance the briefing omits: WTI actually fell ~2.4% on Aug 13 to ~$81.25 and Brent ~2% to ~$87 after the U.S. reported Hormuz crude exports near 9M bpd, i.e. a partial pullback from the prior 6-session, 12% run-up rather than straight-line 'elevated' pricing."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Nvidia lines up $500B+ financing consortium (Apollo, Blackstone, BlackRock, Brookfield, Goldman, KKR) for hyperscaler/AI datacenter buildout",
+        "impact": "Directly relevant to NVDA (listed as 'watch') and broader AI-infrastructure names (MSFT, ANET, CRWD in leaders); a major bullish structural catalyst reported Aug 13 that the briefing's NVDA note and sector rotation commentary do not mention at all.",
+        "severity": "important"
+      },
+      {
+        "title": "Meta's $130-145B 2026 AI capex plan and new Muse Glimmer/Muse Spark AI model releases drove META shares up ~1.8-2% intraday Thursday",
+        "impact": "META is in the watchlist marked 'action=avoid' with a -0.35% close cited; the underlying driver (aggressive AI infra spend, well received by investors) is a notable positive catalyst not reflected in the briefing's framing of META.",
+        "severity": "minor"
+      },
+      {
+        "title": "Aug 14 economic calendar: July Retail Sales (8:30am), Business Inventories, preliminary Michigan Sentiment (Aug)",
+        "impact": "Forward-looking data releases that could move the broader market (and rate-sensitive names like TSLA, growth tech) on the morning the briefing covers; not flagged as upcoming catalysts.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "Green/bullish mood is well supported: soft PPI, falling yields, S&P record close, broad AI-infra-led rally. PLTR +4.66% close ($179.01) is confirmed exact; MU +4.23%/$949.83 close is roughly consistent with independently found pricing (~4-5% gain), though exact tick-level match couldn't be fully confirmed."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Leaders (CRWD, ANET, MSFT) align with the AI-infrastructure capex enthusiasm (Nvidia's $500B financing news, Meta's capex guidance) driving the session. Laggards align too: APP's slide follows a Q2 EBITDA/revenue miss and a BofA downgrade to Neutral (Aug 5-11), and VST's downtrend matches reported 'AI-power theme' weakness and softened GAAP guidance despite EBITDA growth. TSLA's inclusion as a laggard is plausible but not independently confirmed with fresh company-specific news in the last 24h."
+    },
+    "stock_errors": [],
+    "overall_score": 87,
+    "summary": "The core inflation/yields/equities narrative and oil/Hormuz framing are both accurate and well-sourced, and the PLTR/MU standout gainers check out against real pricing. The main gap is omission of two market-moving AI-infrastructure stories from Aug 13 — Nvidia's $500B+ financing consortium and Meta's $130-145B capex guidance with new Muse models — both of which are directly relevant to watchlist names (NVDA, META) and would have strengthened the sector-rotation narrative the briefing already gestures at."
+  }
+}
