@@ -1,0 +1,187 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-15T21:45:01Z",
+  "verified_at": "2026-08-16T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 2,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 9건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AAPL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ANET: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 1건:\n    VST: Rule1 → avoid 필요 (struct=DOWNTREND,S2=3,RS=52), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=98.1 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: NVDA earnings 2026-08-27; CRWD earnings 2026-08-27)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 3건 (critical 없음): ['University of Michigan preliminary August consumer sentiment plunged to 51.0 (vs 55.0 expected), an ~8% drop ending two months of improvement, driven by inflation fears tied to the Middle East conflict', 'Nvidia partners with six asset managers (Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs, KKR) to mobilize $500B+ in third-party AI infrastructure financing', 'S&P 500 closed at a fresh record high (7,798.99/7,800+) on Thursday 2026-08-13 before slipping Friday, capping a third straight weekly gain']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: A traffic_light='green' with score 98.1 is hard to reconcile with the actual session: the S&P 500 and Nasdaq both fell on 2026-08-14 amid a sharp UMich consumer sentiment miss, rising yields, and tariff-evasion/supply-chain risk headlines. The briefing's own summary describes two bearish/cautionary catalysts (tariff evasion pressuring semis, rising yields pressuring growth multiples) yet still scores near-maximum bullish — the score and underlying narrative are inconsistent. Individual stock mood tags (e.g., CRWD 'optimistic' despite a -3.8% drop) reinforce that the mood scoring appears disconnected from same-day price action."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Leaders/laggards by trend structure are broadly defensible (MSFT, AMZN uptrends; TSLA, PLTR, SOFI downtrends per technical structure are plausible). However, the stated 'rotation into AI infrastructure names like MSFT and CRWD' sits awkwardly next to CRWD's actual -3.8% same-day move (driven by insider selling/profit-taking ahead of earnings, not rotation away from it), and the framing omits the $500B Nvidia AI-financing news, which is arguably the more significant AI-infrastructure capital-rotation story of the week."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-15T22:17:46Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "White House flags China tariff evasion via 40 countries incl. South Korea",
+        "accuracy": "accurate",
+        "note": "Confirmed by multiple outlets (WaPo, BBC, Al Jazeera, The Hill) reporting the White House Office of Trade and Manufacturing Policy's 'Great Transshipment Scam' report (2026-08-13/14), naming South Korea as a Category 1 transshipment-risk country with exposure estimated at $40B-$303B. No material update in the last 24h."
+      },
+      {
+        "rank": 2,
+        "title": "10-year Treasury yield rises on soft retail sales and Middle East watch",
+        "accuracy": "accurate",
+        "note": "Confirmed: July retail sales fell 0.6% (vs +0.1% expected), and the 10-year yield rose to ~4.69-4.70% on 2026-08-14 amid oil strength and an indefinite US naval blockade of Iranian ports. 30-year at multi-year highs also corroborated."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "University of Michigan preliminary August consumer sentiment plunged to 51.0 (vs 55.0 expected), an ~8% drop ending two months of improvement, driven by inflation fears tied to the Middle East conflict",
+        "impact": "Was the primary driver of the Friday 2026-08-14 broad market pullback (S&P 500 -0.2%, Nasdaq -0.3% off Thursday's record high), directly relevant to growth-multiple names in the watchlist (NVDA, META, MSFT, TSLA, PLTR) and contradicts the briefing's uniformly 'optimistic' mood tags",
+        "severity": "important"
+      },
+      {
+        "title": "Nvidia partners with six asset managers (Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs, KKR) to mobilize $500B+ in third-party AI infrastructure financing",
+        "impact": "Major structural positive for NVDA (and indirectly TSM/MU supply chain), announced 2026-08-10 and still actively cited in market commentary through the week; not mentioned anywhere in briefing despite NVDA being a top watchlist name",
+        "severity": "important"
+      },
+      {
+        "title": "S&P 500 closed at a fresh record high (7,798.99/7,800+) on Thursday 2026-08-13 before slipping Friday, capping a third straight weekly gain",
+        "impact": "General market context missing; relevant backdrop for the 'green/98.1' mood score given briefing frames the day around tariff/yield risk rather than the record-high run",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "A traffic_light='green' with score 98.1 is hard to reconcile with the actual session: the S&P 500 and Nasdaq both fell on 2026-08-14 amid a sharp UMich consumer sentiment miss, rising yields, and tariff-evasion/supply-chain risk headlines. The briefing's own summary describes two bearish/cautionary catalysts (tariff evasion pressuring semis, rising yields pressuring growth multiples) yet still scores near-maximum bullish — the score and underlying narrative are inconsistent. Individual stock mood tags (e.g., CRWD 'optimistic' despite a -3.8% drop) reinforce that the mood scoring appears disconnected from same-day price action."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Leaders/laggards by trend structure are broadly defensible (MSFT, AMZN uptrends; TSLA, PLTR, SOFI downtrends per technical structure are plausible). However, the stated 'rotation into AI infrastructure names like MSFT and CRWD' sits awkwardly next to CRWD's actual -3.8% same-day move (driven by insider selling/profit-taking ahead of earnings, not rotation away from it), and the framing omits the $500B Nvidia AI-financing news, which is arguably the more significant AI-infrastructure capital-rotation story of the week."
+    },
+    "stock_errors": [],
+    "overall_score": 62,
+    "summary": "The two global macro items are accurate and well-sourced, and the watchlist price/percentage data for TSM, NVDA, TSLA, MU, and CRWD checks out against real closing data for 2026-08-14 (the last trading session, since 08-15 was a Saturday). However, the briefing omits two market-moving stories — the sharp University of Michigan consumer sentiment miss that drove Friday's pullback, and Nvidia's $500B AI financing partnership — and its 'green/98.1' bullish mood score is inconsistent with both the actual down session and the briefing's own bearish narrative elements."
+  }
+}
