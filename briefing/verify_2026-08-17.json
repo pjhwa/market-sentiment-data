@@ -1,0 +1,181 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-16T21:45:01Z",
+  "verified_at": "2026-08-17T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 9건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AAPL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ANET: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=98.1 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU (DOWNTREND) caveat 없이 leaders에 언급됨"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: NVDA earnings 2026-08-27; CRWD earnings 2026-08-27)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 1건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": false,
+      "severity": "warning",
+      "detail": "headline_en 길이 초과: 124자 (≤120 기준)"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "1개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 2건 (critical 없음): [\"US ongoing review of Chinese AI firms' offshore/rented access to Nvidia chips\", 'No major new market-moving events in the last 24h — markets closed for the weekend (Aug 15-16 2026 were Sat/Sun)']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The claim 'US equities still hit records on Aug 16' is inaccurate/misleading: Aug 16, 2026 was a Sunday with no trading. The actual last session (Fri Aug 14) saw the S&P 500 slip ~0.2% *away* from its record high (set Aug 12-13) after a weak University of Michigan consumer sentiment reading and a surprise drop in July retail sales — momentum was cooling, not extending to new records. The green/98.1 traffic light and 8 QQQ distribution-day count could not be independently verified, but the 'DANGER' distribution-day flag is at least directionally consistent with the Friday pullback and soft consumer data."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: AMZN/MSFT uptrend leadership and PLTR/VST downtrend laggard framing are plausible, but labeling PLTR a technical 'DOWNTREND' laggard is in tension with its actual recent action — PLTR is up ~30-35% over the past 30-90 days on a strong Q2 beat (EPS $0.41 vs $0.33 est., 93% revenue growth) and a new Mercury Systems defense deal; it is trading near/off recent highs, not broadly weak. Also, calling ANET's strength part of a rotation into 'energy' is a stretch — ANET's Aug 2026 rally is driven by AI/data-center networking demand (raised FY26 guidance to $12.6B, Barclays PT raised to $289) rather than an energy-sector story per se, though AI infra buildout does have power-demand linkages."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "PLTR: Structure labeled DOWNTREND with action=avoid, but real-world data shows PLTR in a strong post-earnings uptrend (+30-35% over 30/90 days) following a Q2 beat and raised guidance — the DOWNTREND/avoid framing looks stale or mismatched to current momentum, though it may reflect a very short-term pullback from intraday highs."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-16T22:17:48Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US Reports Widespread Help for China Tariff Evasion",
+        "accuracy": "accurate",
+        "note": "Confirmed: White House released 'The Great Transshipment Scam' report on Aug 13-14, 2026 naming 40+ countries (EU, Taiwan, Mexico, Canada, India, Japan, South Korea, Vietnam) as routing points for Chinese goods evading tariffs, with plans to use AI for enforcement. No reversal or update found in the last 24h; still current as of Aug 17."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "US ongoing review of Chinese AI firms' offshore/rented access to Nvidia chips",
+        "impact": "NVDA — a separate, still-developing enforcement thread (distinct from the transshipment tariff story) where US agencies are examining how Chinese AI firms access Nvidia chips via overseas compute rental; adds another layer of regulatory overhang beyond what's in the briefing.",
+        "severity": "minor"
+      },
+      {
+        "title": "No major new market-moving events in the last 24h — markets closed for the weekend (Aug 15-16 2026 were Sat/Sun)",
+        "impact": "None; last trading session remains Friday Aug 14. Next catalysts (Fed Jackson Hole, Nvidia earnings, retail earnings from WMT/TGT/HD/LOW/TJX) are still days away.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "The claim 'US equities still hit records on Aug 16' is inaccurate/misleading: Aug 16, 2026 was a Sunday with no trading. The actual last session (Fri Aug 14) saw the S&P 500 slip ~0.2% *away* from its record high (set Aug 12-13) after a weak University of Michigan consumer sentiment reading and a surprise drop in July retail sales — momentum was cooling, not extending to new records. The green/98.1 traffic light and 8 QQQ distribution-day count could not be independently verified, but the 'DANGER' distribution-day flag is at least directionally consistent with the Friday pullback and soft consumer data."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "AMZN/MSFT uptrend leadership and PLTR/VST downtrend laggard framing are plausible, but labeling PLTR a technical 'DOWNTREND' laggard is in tension with its actual recent action — PLTR is up ~30-35% over the past 30-90 days on a strong Q2 beat (EPS $0.41 vs $0.33 est., 93% revenue growth) and a new Mercury Systems defense deal; it is trading near/off recent highs, not broadly weak. Also, calling ANET's strength part of a rotation into 'energy' is a stretch — ANET's Aug 2026 rally is driven by AI/data-center networking demand (raised FY26 guidance to $12.6B, Barclays PT raised to $289) rather than an energy-sector story per se, though AI infra buildout does have power-demand linkages."
+    },
+    "stock_errors": [
+      {
+        "symbol": "PLTR",
+        "error": "Structure labeled DOWNTREND with action=avoid, but real-world data shows PLTR in a strong post-earnings uptrend (+30-35% over 30/90 days) following a Q2 beat and raised guidance — the DOWNTREND/avoid framing looks stale or mismatched to current momentum, though it may reflect a very short-term pullback from intraday highs."
+      }
+    ],
+    "overall_score": 78,
+    "summary": "The core geopolitical item (China tariff-evasion report) is accurately sourced and still current. However, the market mood headline mischaracterizes Aug 16 as a day US equities 'hit records' when markets were closed that Sunday and the actual last session (Fri Aug 14) saw a pullback from records amid weak consumer sentiment and soft retail sales — this is a meaningful temporal/factual slip. Watchlist closing prices (TSM, NVDA, META, TSLA, PLTR, MU, CRWD) all check out accurately against real data, but PLTR's DOWNTREND/avoid tag conflicts with its strong recent earnings-driven rally, and the sector rotation narrative overstates an 'energy' rotation that is more accurately an AI-infrastructure story."
+  }
+}
