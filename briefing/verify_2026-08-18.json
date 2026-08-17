@@ -1,0 +1,193 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-16T21:45:01Z",
+  "verified_at": "2026-08-18T07:15",
+  "overall_passed": false,
+  "error_count": 7,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 9건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    META: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AAPL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ANET: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 1건:\n    NVO: Rule1 → avoid 필요 (struct=ACCUMULATION,S2=2,RS=43), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": false,
+      "severity": "error",
+      "detail": "score: 브리핑=98.1 vs API=92.6 (차이>5.5)"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU (DOWNTREND) caveat 없이 leaders에 언급됨"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: NVDA earnings 2026-08-27; CRWD earnings 2026-08-27)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 1건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "META: $589.85 vs table $568.97"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU: $971.66 vs table $1011.75"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "MSFT: $495.4 vs table $480.35"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": false,
+      "severity": "warning",
+      "detail": "headline_en 길이 초과: 124자 (≤120 기준)"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "1개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 3건 (critical 없음): [\"Big-box retailer earnings week (Walmart, Target, Home Depot, Lowe's, TJX) reporting Aug 17-21, seen as read on consumer health amid inflation/slowing jobs\", \"Nvidia Q2 earnings anticipated the following week, plus market awaiting Fed's Jackson Hole symposium (Aug 22) for rate-cut signals\", 'Broader market pressure from elevated oil prices / Iran war concerns pushing S&P away from record highs, with Monday Aug 17 US majors trading lower (back-to-back negative sessions)']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "Two concrete errors: (1) 'QQQ distribution days hit 8 (DANGER)' is not supported — independent trackers show 0 Nasdaq distribution days as of Aug 16, 2026, with IBD market status 'Confirmed Uptrend,' not a distribution-day warning. (2) 'US equities still hit records on Aug 16' is impossible as stated — Aug 16, 2026 is a Sunday (markets closed); records were more plausibly set the prior week (data as of the Aug 14 Friday close, which is the 'last session' the watchlist itself uses). These two errors undercut the DANGER framing that anchors the whole mood headline."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: AMZN/MSFT as uptrend leaders and PLTR/VST as downtrend laggards are individually plausible technical reads, but the 'rotation toward energy/infrastructure' narrative isn't corroborated — VST (an energy name) is itself listed as a DOWNTREND laggard, which sits awkwardly next to the claim that money is rotating into energy/infrastructure UPTREND names. Also, separate reporting describes PLTR trading near its record highs off strong Q2 growth, in some tension with the flat 'DOWNTREND despite narrative interest' characterization (different snapshots, so not a hard contradiction, but worth flagging)."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-17T22:16:29Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US Reports Widespread Help for China Tariff Evasion",
+        "accuracy": "accurate",
+        "note": "Confirmed by multiple sources (WaPo, Al Jazeera, Fortune, SupplyChainBrain) dated Aug 13-14, 2026: White House/Office of Trade and Manufacturing Policy flagged 40+ countries (EU, Mexico, Canada, India, Japan, South Korea, Vietnam, etc.) for enabling China transshipment (~$75B estimated Feb2025-Feb2026), paired with new AI-based enforcement and Executive Order 14411. No material update or reversal in the following 24h as of 2026-08-18."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Big-box retailer earnings week (Walmart, Target, Home Depot, Lowe's, TJX) reporting Aug 17-21, seen as read on consumer health amid inflation/slowing jobs",
+        "impact": "Indirectly relevant to AMZN (consumer discretionary leader called out as UPTREND) — a soft retail earnings slate this week could contradict the briefing's bullish AMZN framing",
+        "severity": "minor"
+      },
+      {
+        "title": "Nvidia Q2 earnings anticipated the following week, plus market awaiting Fed's Jackson Hole symposium (Aug 22) for rate-cut signals",
+        "impact": "Forward catalyst for NVDA (called ACCUMULATION/watch) not mentioned; not yet materialized in the last 24h but a known near-term risk/catalyst investors are positioning around",
+        "severity": "minor"
+      },
+      {
+        "title": "Broader market pressure from elevated oil prices / Iran war concerns pushing S&P away from record highs, with Monday Aug 17 US majors trading lower (back-to-back negative sessions)",
+        "impact": "General equities headwind not tied to a specific watchlist name but relevant context for the 'green/98.1' mood score and 'records' framing",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "inaccurate",
+      "note": "Two concrete errors: (1) 'QQQ distribution days hit 8 (DANGER)' is not supported — independent trackers show 0 Nasdaq distribution days as of Aug 16, 2026, with IBD market status 'Confirmed Uptrend,' not a distribution-day warning. (2) 'US equities still hit records on Aug 16' is impossible as stated — Aug 16, 2026 is a Sunday (markets closed); records were more plausibly set the prior week (data as of the Aug 14 Friday close, which is the 'last session' the watchlist itself uses). These two errors undercut the DANGER framing that anchors the whole mood headline."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "AMZN/MSFT as uptrend leaders and PLTR/VST as downtrend laggards are individually plausible technical reads, but the 'rotation toward energy/infrastructure' narrative isn't corroborated — VST (an energy name) is itself listed as a DOWNTREND laggard, which sits awkwardly next to the claim that money is rotating into energy/infrastructure UPTREND names. Also, separate reporting describes PLTR trading near its record highs off strong Q2 growth, in some tension with the flat 'DOWNTREND despite narrative interest' characterization (different snapshots, so not a hard contradiction, but worth flagging)."
+    },
+    "stock_errors": [],
+    "overall_score": 58,
+    "summary": "The single global issue (China tariff-evasion enforcement) is well-sourced and accurate, and spot-checked prices (NVDA $225.16, TSM $426.35, MU $971.66) match real closes. However, the Market Mood section contains two clear factual problems — a distribution-day count that contradicts independent trackers (0, not 8) and a claim of new highs on a date the market was closed (Sunday Aug 16) — which is significant since these anchor the 'DANGER'/green-98.1 headline. Sector rotation commentary is internally slightly inconsistent (VST framed as both a rotation beneficiary sector and a laggard)."
+  }
+}

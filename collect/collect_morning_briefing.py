@@ -728,7 +728,11 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
 1. SCOPE — You may cite only: (a) issues listed above, (b) SniperBoard/authoritative tables in this prompt,
    (c) earnings block. Do NOT inject training-memory events (named wars, Fed speakers, non-listed IPOs,
    product metrics) that are absent from those inputs. If something material seems missing, write a short
-   '[CONTEXT GAP]' note — do not fabricate the fact.
+   '[CONTEXT GAP]' note — do not fabricate the fact. This also covers market-internal statistics (e.g.
+   distribution-day counts, breadth readings, 'hit records' claims) and calendar/session claims (e.g. which
+   date was the 'last session') — state these only if a specific figure/date appears in the inputs above; do
+   not recall a number or a trading-day claim from training memory, and do not assert a market event occurred
+   on a date without confirming from the inputs that a session actually occurred that date.
 2. CURRENT STATE BINDING — For any listed issue, do not contradict or soften Current State with older
    training recollection. Prefer the provided state, dates, and scope verbatim. Do NOT add causal or comparative framing (e.g., "undershot forecasts", "beat expectations", "reinforced cut bets") unless the provided Current State/Summary explicitly states both the actual figure and what it was compared against — if the evidence says a figure matched consensus, report it as in line, not as a beat/miss/undershoot, and do not name a data release as the primary driver of a market reaction unless the evidence explicitly says so.
 3. ASYMMETRIC IMPACT — When discussing a ticker, if that ticker appears in Asymmetric Impact, use that
