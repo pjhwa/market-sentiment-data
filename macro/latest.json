@@ -1,45 +1,45 @@
 {
-  "generated_at": "2026-08-18T13:15:00Z",
+  "generated_at": "2026-08-18T21:15:00Z",
   "schema_version": "2.0",
-  "slot": "pre_open",
+  "slot": "post_close",
   "overall": {
-    "summary_en": "Risk-on: VIX low, breadth stable, credit supportive",
-    "summary_ko": "리스크온: VIX 낮고 폭·크레딧 안정",
+    "summary_en": "Risk-on holds as VIX eases to 15.84 with breadth support",
+    "summary_ko": "VIX 15.84 완화, 리스크온 지속",
     "bullets_en": [
-      "VIX 15.75 RSI 47.8 → fear low, risk friendly",
-      "IWM +0.52% RSI 63.6 → small caps supportive",
-      "TNX 4.736% TLT -0.67% → yield pressure watchful"
+      "VIX 15.84, VIX9D-19% → low fear, risk-on friendly",
+      "RSP RSI 57.9 accumulation → participation healthy",
+      "SMH -4.09% downtrend → semis lead sector caution"
     ],
     "bullets_ko": [
-      "VIX 15.75 → 공포 낮아 리스크온 우호적",
-      "IWM 강세 → 중소형주 지지적",
-      "TNX 상승 → 금리 주시 필요"
+      "VIX 15.84 VIX9D 급락 → 공포 낮아 리스크온",
+      "RSP RSI 57.9 → 참여 확대 긍정적",
+      "SMH -4.09% → 반도체 섹터 주의"
     ]
   },
   "groups": {
     "volatility": {
-      "text_en": "VIX 15.75 low accumulation → volatility easing supportive",
-      "text_ko": "VIX 15.75 축적 → 변동성 완화 지지적"
+      "text_en": "VIX9D -19%, VVIX down → vol compression supportive",
+      "text_ko": "VIX9D 급락, 변동성 완화 지지"
     },
     "breadth": {
-      "text_en": "SPY RSI65.7 IWM up → breadth stable constructive",
-      "text_ko": "SPY·IWM 안정 → 시장 폭 건설적"
+      "text_en": "SPY/QQQ above EMA21, RSI>52 → pullback constructive",
+      "text_ko": "SPY/QQQ EMA21 상회, 조정 건전"
     },
     "credit": {
-      "text_en": "HYG RSI62 stable → credit conditions supportive",
-      "text_ko": "HYG 안정 → 크레딧 환경 지지적"
+      "text_en": "HYG stable RSI 55.3 → credit conditions firm",
+      "text_ko": "HYG 안정 RSI 55, 크레딧 지지"
     },
     "rates": {
-      "text_en": "TNX 4.736% up TLT weak → mixed yields, watchful",
-      "text_ko": "TNX 상승 TLT 약세 → 금리 혼조 주시"
+      "text_en": "TNX 4.706% uptrend vs TLT RSI 38.7 → mixed, watch yields",
+      "text_ko": "TNX 상승 vs TLT 약세, 금리 주시"
     },
     "commodities": {
-      "text_en": "GLD +0.63% Oil stable → commodities improving positive",
-      "text_ko": "GLD 상승 Oil 안정 → 원자재 개선 긍정"
+      "text_en": "Oil 84.42, BTC +0.11% → commodities stable near highs",
+      "text_ko": "원유 84.42, BTC 안정 유지"
     },
     "sectors": {
-      "text_en": "XLE +1.39% ITA up → sectors stable supportive",
-      "text_ko": "XLE·ITA 강세 → 섹터 모멘텀 안정적"
+      "text_en": "SMH -4.09% leads red, XHB weak → sector deterioration",
+      "text_ko": "SMH -4.09% 주도, 섹터 약세 신호"
     }
   },
   "computed_signals": {
@@ -49,7 +49,7 @@
     },
     "breadth": {
       "signal": "green",
-      "direction": "stable"
+      "direction": "deteriorating"
     },
     "credit": {
       "signal": "green",
@@ -57,15 +57,15 @@
     },
     "rates": {
       "signal": "yellow",
-      "direction": "deteriorating"
+      "direction": "stable"
     },
     "commodities": {
       "signal": "green",
-      "direction": "improving"
+      "direction": "deteriorating"
     },
     "sectors": {
-      "signal": "green",
-      "direction": "stable"
+      "signal": "red",
+      "direction": "deteriorating"
     }
   },
   "overall_judgment": "RISK_ON"
