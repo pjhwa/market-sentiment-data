@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T04:17:47Z",
+  "generated_at": "2026-08-18T21:30:02Z",
   "schema_version": "2.0",
   "upcoming_earnings": [
     {
@@ -10,11 +10,11 @@
       "eps_estimate": 2.08,
       "revenue_estimate_b": 91.94,
       "historical_beat_rate": 1.0,
-      "ai_summary_en": "NVDA reports earnings on 2026-08-27 with EPS estimate of 2.08 and revenue estimate of 91.94B. Historical beat rate of 1.0 reflects consistent delivery on guidance. Key focus areas include data center demand and AI infrastructure spending trends.",
-      "ai_summary_ko": "NVDA는 2026-08-27에 EPS 추정치 2.08, 매출 추정치 91.94B로 실적을 발표합니다. 1.0의 역사적 비트율은 가이던스 달성력을 보여줍니다. 데이터센터 수요와 AI 인프라 지출 동향이 주요 관전 포인트입니다.",
+      "ai_summary_en": "NVDA reports earnings on 2026-08-27 with EPS estimate of 2.08 and revenue estimate of 91.94B. The company maintains a perfect historical beat rate of 1.0, demonstrating consistent execution strength. Market attention centers on AI infrastructure demand and forward guidance.",
+      "ai_summary_ko": "NVDA는 2026-08-27에 실적을 발표하며 EPS 추정치는 2.08, 매출 추정치는 91.94B입니다. 1.0의 완벽한 역사적 비트율을 유지하며 일관된 실행력을 입증하고 있습니다. AI 인프라 수요와 향후 가이던스에 시장의 관심이 집중됩니다.",
       "risk_level": "med",
-      "action_note_en": "Plan positioning ahead of 2026-08-27 report leveraging perfect execution history.",
-      "action_note_ko": "완벽한 실적 이력을 바탕으로 2026-08-27 이전 포지션 계획을 수립하십시오."
+      "action_note_en": "Review positioning ahead of 2026-08-27; perfect beat record favors constructive stance on strong AI commentary.",
+      "action_note_ko": "2026-08-27 발표 전 포지션 점검; 완벽한 비트 기록은 강력한 AI 코멘트 시 건설적 접근을 선호합니다."
     },
     {
       "symbol": "CRWD",
@@ -24,11 +24,11 @@
       "eps_estimate": 0.29,
       "revenue_estimate_b": 1.44,
       "historical_beat_rate": 1.0,
-      "ai_summary_en": "CRWD reports earnings on 2026-08-27 with EPS estimate of 0.29 and revenue estimate of 1.44B. Historical beat rate of 1.0 demonstrates strong operational execution. Cybersecurity budget trends remain the primary focus for investors.",
-      "ai_summary_ko": "CRWD는 2026-08-27에 EPS 추정치 0.29, 매출 추정치 1.44B로 실적을 발표합니다. 1.0의 역사적 비트율은 탄탄한 실행력을 입증합니다. 사이버보안 예산 동향이 투자자들의 주요 관심사입니다.",
+      "ai_summary_en": "CRWD reports on 2026-08-27 with EPS estimate 0.29 and revenue estimate 1.44B. Historical beat rate of 1.0 reflects reliable outperformance in cybersecurity. Focus remains on platform adoption and enterprise spending trends.",
+      "ai_summary_ko": "CRWD는 2026-08-27 실적 발표 예정이며 EPS 추정 0.29, 매출 추정 1.44B입니다. 1.0의 역사적 비트율은 사이버보안 분야의 안정적 초과 달성을 반영합니다. 플랫폼 채택과 기업 지출 동향에 주목합니다.",
       "risk_level": "med",
-      "action_note_en": "Review exposure before 2026-08-27 given flawless historical beat record.",
-      "action_note_ko": "완벽한 비트 기록을 고려해 2026-08-27 이전 노출도를 검토하십시오."
+      "action_note_en": "Assess exposure before 2026-08-27; flawless beat history supports positive bias on growth confirmation.",
+      "action_note_ko": "2026-08-27 전 노출도 평가; 완벽한 비트 기록은 성장 확인 시 긍정적 편향을 지지합니다."
     }
   ],
   "recent_results": [
@@ -38,8 +38,8 @@
       "eps_actual": 4.31,
       "eps_estimate": 3.89,
       "surprise_pct": 10.9,
-      "ai_reaction_en": "Strong +10.9% beat underscores resilient semiconductor demand and foundry momentum.",
-      "ai_reaction_ko": "+10.9% 강력한 서프라이즈로 반도체 수요와 파운드리 모멘텀을 확인."
+      "ai_reaction_en": "TSM delivered +10.9% surprise, confirming robust foundry demand and supply chain strength.",
+      "ai_reaction_ko": "TSM이 +10.9% 서프라이즈를 기록하며 파운드리 수요와 공급망 강세를 확인했습니다."
     },
     {
       "symbol": "NVDA",
@@ -47,8 +47,8 @@
       "eps_actual": 1.87,
       "eps_estimate": 1.77,
       "surprise_pct": 5.5,
-      "ai_reaction_en": "Modest +5.5% beat reinforces AI infrastructure leadership narrative.",
-      "ai_reaction_ko": "+5.5% 소폭 상회로 AI 인프라 리더십 스토리를 재확인."
+      "ai_reaction_en": "NVDA posted +5.5% beat, reinforcing AI leadership and data center momentum.",
+      "ai_reaction_ko": "NVDA가 +5.5% 비트를 달성하며 AI 리더십과 데이터센터 모멘텀을 강화했습니다."
     },
     {
       "symbol": "META",
@@ -56,8 +56,8 @@
       "eps_actual": 6.18,
       "eps_estimate": 7.22,
       "surprise_pct": -14.4,
-      "ai_reaction_en": "-14.4% miss raises questions on operating efficiency and ad spend outlook.",
-      "ai_reaction_ko": "-14.4% 미스로 운영 효율성과 광고 지출 전망에 의문 제기."
+      "ai_reaction_en": "META missed by -14.4%, raising caution on ad market durability and AI ROI timeline.",
+      "ai_reaction_ko": "META가 -14.4% 미스를 기록하며 광고 시장 지속성과 AI 투자 수익성에 경고등이 켜졌습니다."
     },
     {
       "symbol": "TSLA",
@@ -65,8 +65,8 @@
       "eps_actual": 0.33,
       "eps_estimate": 0.54,
       "surprise_pct": -38.4,
-      "ai_reaction_en": "Sharp -38.4% miss pressures valuation and margin expectations.",
-      "ai_reaction_ko": "-38.4% 대폭 미달로 밸류에이션과 마진 기대치에 압력."
+      "ai_reaction_en": "TSLA's sharp -38.4% miss highlights margin pressure and demand normalization concerns.",
+      "ai_reaction_ko": "TSLA의 -38.4% 대폭 미스는 마진 압력과 수요 정상화 우려를 부각했습니다."
     },
     {
       "symbol": "PLTR",
@@ -74,8 +74,8 @@
       "eps_actual": 0.41,
       "eps_estimate": 0.35,
       "surprise_pct": 18.5,
-      "ai_reaction_en": "Solid +18.5% beat supports accelerating commercial growth trajectory.",
-      "ai_reaction_ko": "+18.5% 양호한 상회로 상업 부문 성장 가속을 뒷받침."
+      "ai_reaction_en": "PLTR achieved +18.5% surprise, signaling accelerating commercial traction and profitability path.",
+      "ai_reaction_ko": "PLTR이 +18.5% 서프라이즈를 기록하며 상업적 모멘텀 가속과 수익성 경로를 시사했습니다."
     },
     {
       "symbol": "MU",
@@ -83,8 +83,8 @@
       "eps_actual": 25.11,
       "eps_estimate": 20.69,
       "surprise_pct": 21.4,
-      "ai_reaction_en": "Strong +21.4% beat signals clear memory cycle recovery underway.",
-      "ai_reaction_ko": "+21.4% 강한 상회로 메모리 사이클 회복 신호를 포착."
+      "ai_reaction_en": "MU's +21.4% beat underscores memory cycle recovery and HBM demand strength.",
+      "ai_reaction_ko": "MU의 +21.4% 비트는 메모리 사이클 회복과 HBM 수요 강세를 강조합니다."
     },
     {
       "symbol": "CRWD",
@@ -92,8 +92,8 @@
       "eps_actual": 0.28,
       "eps_estimate": 0.27,
       "surprise_pct": 3.0,
-      "ai_reaction_en": "Slight +3.0% beat maintains steady cybersecurity momentum.",
-      "ai_reaction_ko": "+3.0% 소폭 상회로 사이버보안 모멘텀을 유지."
+      "ai_reaction_en": "CRWD delivered modest +3.0% beat, supporting steady cybersecurity spending outlook.",
+      "ai_reaction_ko": "CRWD가 +3.0% 소폭 비트를 기록하며 안정적인 사이버보안 지출 전망을 뒷받침했습니다."
     },
     {
       "symbol": "AMZN",
@@ -101,8 +101,8 @@
       "eps_actual": 5.75,
       "eps_estimate": 1.83,
       "surprise_pct": 215.0,
-      "ai_reaction_en": "Exceptional +215.0% surprise driven by robust AWS and advertising growth.",
-      "ai_reaction_ko": "AWS와 광고 성장에 힘입은 +215.0% 이례적 서프라이즈."
+      "ai_reaction_en": "AMZN posted massive +215% surprise, driven by AWS margin expansion and operational leverage.",
+      "ai_reaction_ko": "AMZN이 +215% 대형 서프라이즈를 기록하며 AWS 마진 확대와 운영 레버리지를 입증했습니다."
     },
     {
       "symbol": "MSFT",
@@ -110,8 +110,8 @@
       "eps_actual": 4.74,
       "eps_estimate": 4.24,
       "surprise_pct": 11.8,
-      "ai_reaction_en": "+11.8% beat highlights continued cloud and AI tailwinds.",
-      "ai_reaction_ko": "+11.8% 상회로 클라우드와 AI 모멘텀을 재확인."
+      "ai_reaction_en": "MSFT achieved +11.8% beat, highlighting cloud growth and AI integration progress.",
+      "ai_reaction_ko": "MSFT가 +11.8% 비트를 달성하며 클라우드 성장과 AI 통합 진전을 보여주었습니다."
     },
     {
       "symbol": "AAPL",
@@ -119,8 +119,8 @@
       "eps_actual": 2.02,
       "eps_estimate": 1.89,
       "surprise_pct": 6.7,
-      "ai_reaction_en": "Steady +6.7% beat reflects resilient services and iPhone demand.",
-      "ai_reaction_ko": "+6.7% 안정적 상회로 서비스와 아이폰 수요의 탄력을 입증."
+      "ai_reaction_en": "AAPL delivered +6.7% surprise, reflecting resilient services growth and iPhone stability.",
+      "ai_reaction_ko": "AAPL이 +6.7% 서프라이즈를 기록하며 서비스 성장의 탄력과 아이폰 안정성을 반영했습니다."
     },
     {
       "symbol": "GOOGL",
@@ -128,8 +128,8 @@
       "eps_actual": 9.11,
       "eps_estimate": 2.9,
       "surprise_pct": 214.2,
-      "ai_reaction_en": "Massive +214.2% surprise underscores search monetization and AI progress.",
-      "ai_reaction_ko": "검색 수익화와 AI 진전에 힘입은 +214.2% 대형 서프라이즈."
+      "ai_reaction_en": "GOOGL's extraordinary +214% beat signals Search and cloud outperformance with AI tailwinds.",
+      "ai_reaction_ko": "GOOGL이 +214% 이례적 서프라이즈를 기록하며 검색과 클라우드 초과 달성에 AI 순풍을 시사했습니다."
     },
     {
       "symbol": "SPCX",
@@ -137,8 +137,8 @@
       "eps_actual": -0.09,
       "eps_estimate": -0.29,
       "surprise_pct": 68.9,
-      "ai_reaction_en": "+68.9% beat significantly narrows losses and improves outlook.",
-      "ai_reaction_ko": "+68.9% 상회로 손실 폭을 크게 줄이며 전망을 개선."
+      "ai_reaction_en": "SPCX narrowed loss by +68.9% versus estimate, indicating improving operational efficiency.",
+      "ai_reaction_ko": "SPCX가 추정치 대비 +68.9% 손실 폭을 축소하며 운영 효율 개선을 나타냈습니다."
     }
   ],
   "partial": false
