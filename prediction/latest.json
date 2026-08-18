@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-18T12:45:00Z",
+  "generated_at": "2026-08-18T20:45:01Z",
   "schema_version": "1.1",
-  "slot": "pre_open",
+  "slot": "post_close",
   "source": "polymarket",
   "usage": "reference_only",
   "disclaimer_en": "Crypto prediction-market odds (Polymarket) — reference only. Not official Fed guidance; participant base differs from regulated US prediction markets.",
@@ -10,10 +10,10 @@
     "event_ticker": "fed-decision-in-september-762",
     "event_title": "Fed Decision in September?",
     "meeting_date": "2026-09-16",
-    "as_of": "2026-08-18T12:45:01Z",
+    "as_of": "2026-08-18T20:45:06Z",
     "probabilities": {
       "cut_50bps": 0.0035,
-      "cut_25bps": 0.0075,
+      "cut_25bps": 0.0095,
       "no_change": 0.705,
       "hike_25bps": 0.285,
       "hike_50bps": 0.0035
@@ -23,37 +23,37 @@
         "label": "cut_50bps",
         "probability": 0.0035,
         "question": "Will the Fed decrease interest rates by 50+ bps after the September 2026 meeting?",
-        "volume_usd": 5411148.89
+        "volume_usd": 5441084.25
       },
       {
         "label": "cut_25bps",
-        "probability": 0.0075,
+        "probability": 0.0095,
         "question": "Will the Fed decrease interest rates by 25 bps after the September 2026 meeting?",
-        "volume_usd": 9397568.92
+        "volume_usd": 9476548.98
       },
       {
         "label": "no_change",
         "probability": 0.705,
         "question": "Will there be no change in Fed interest rates after the September 2026 meeting?",
-        "volume_usd": 8266919.33
+        "volume_usd": 8311176.63
       },
       {
         "label": "hike_25bps",
         "probability": 0.285,
         "question": "Will the Fed increase interest rates by 25 bps after the September 2026 meeting?",
-        "volume_usd": 7816014.06
+        "volume_usd": 7882895.7
       },
       {
         "label": "hike_50bps",
         "probability": 0.0035,
         "question": "Will the Fed increase interest rates by 50+ bps after the September 2026 meeting?",
-        "volume_usd": 5717768.79
+        "volume_usd": 5719939.27
       }
     ],
     "dominant_outcome": "no_change",
     "dominant_probability": 0.705,
-    "volume_usd": 36609420.01,
-    "liquidity_usd": 3845795.02,
+    "volume_usd": 36831644.83,
+    "liquidity_usd": 3813233.5,
     "url": "https://polymarket.com/event/fed-decision-in-september-762"
   }
 }
