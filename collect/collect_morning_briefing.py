@@ -1225,7 +1225,7 @@ MARKET DATA ({now_kst}):
 
 {{
   "headline_en": "One sentence — the most important LAST-SESSION / pre-open market story (≤120 chars). CAUSAL BINDING (structural): (1) For any named ticker, the primary clause must match the strongest same-snapshot evidence (large post/pre move, earnings calendar hit, or a global_context issue that maps that ticker with a non-unaffected impact). (2) NEVER attribute a ticker's move to a global_context issue whose asymmetric_impact marks that ticker unaffected/영향 없음. (3) When evidence conflicts, prefer measurable session evidence over narrative macro color; do not invent a causal 'because'.",
-  "headline_ko": "지난 세션·프리마켓 기준 가장 중요한 한 줄 (30자 이내 — 하드 제한. 목표는 26자 이내로 여유를 두고 작성할 것; 작성 후 공백 포함 실제 글자 수를 한 글자씩 세어 30자 초과 시 수식어부터 줄일 것; 핵심 사실은 빼지 말 것). 구조 규칙: 헤드라인에 나온 종목의 원인 서술은 같은 스냅샷의 강한 증거(큰 애프터/프리 변동, 실적 캘린더, 또는 해당 종목을 unaffected가 아닌 방향으로 매핑한 global 이슈)와 일치해야 함. asymmetric_impact가 영향 없음인 이슈를 급등/급락 원인으로 쓰지 말 것. 원인 불명이면 사실(종목+변동)만 쓰고 원인을 지어내지 말 것.",
+  "headline_ko": "지난 세션·프리마켓 기준 가장 중요한 한 줄 (30자 이내 — 하드 제한. 목표는 22자 이내로 여유를 두고 작성할 것 (하드 제한 30자에 임박한 26~30자 초안은 반려 대상이므로 목표부터 더 짧게 잡을 것); 작성 후 공백 포함 실제 글자 수를 한 글자씩 세어 30자 초과 시 수식어부터 줄일 것; 핵심 사실은 빼지 말 것). 구조 규칙: 헤드라인에 나온 종목의 원인 서술은 같은 스냅샷의 강한 증거(큰 애프터/프리 변동, 실적 캘린더, 또는 해당 종목을 unaffected가 아닌 방향으로 매핑한 global 이슈)와 일치해야 함. asymmetric_impact가 영향 없음인 이슈를 급등/급락 원인으로 쓰지 말 것. 원인 불명이면 사실(종목+변동)만 쓰고 원인을 지어내지 말 것.",
   "executive_bullets_en": [
     "Most important last-session / regime context with a concrete number or named move",
     "Best opportunity in the watchlist right now (session-anchored)",
@@ -1237,7 +1237,7 @@ MARKET DATA ({now_kst}):
     "오늘 실질 리스크 — 반복 테마에 변화 없으면 '변화 없음' 또는 생략"
   ],
   "market_mood": {{
-    "traffic_light": "green|yellow|red",
+    "traffic_light": "green|yellow|red" — MUST be derived mechanically from {regime_score}: score≥80 → green, 40≤score<80 → yellow, score<40 → red. Do not use qualitative judgment to override this mapping.,
     "label_en": "e.g. Cautiously Positive",
     "label_ko": "e.g. 조심스럽게 긍정적",
     "score": {regime_score},
@@ -1323,7 +1323,7 @@ C. BINDING / ANTI-HALLUCINATION
   2. 전일등락 is YESTERDAY — not "오늘". TODAY direction only from 프리마켓; if N/A, do not invent direction.
   3. 구조= value: copy EXACT label into analysis (and market_structure field). Never swap DISTRIBUTION↔DOWNTREND.
      Korean gloss: UPTREND=상승 추세, DOWNTREND=하락 추세, DISTRIBUTION=분배 구간, ACCUMULATION=집적 구간.
-  4. Stage2≤2 with 구조=UPTREND (or Stage2≥7 with DOWNTREND): this is a DATA CONFLICT — the analysis's first sentence must explicitly flag it (e.g. '데이터 상충: Stage2=1이지만 구조=UPTREND로 표시됨'); do not silently pick one value and ignore the other. Check this for EVERY one of the 22 tickers, not just the obvious ones. Separately: if 프리마켓 or 전일등락 shows a large same-session move (>7%) while 구조=DOWNTREND, and earnings_block shows a report within the prior 5 trading days for that ticker, do NOT describe it as merely 'weak'/'laggard'/'under pressure' — state both the technical structure label AND the earnings-driven price move together rather than letting one silently override the other in the prose framing.
+  4. Stage2≤2 with 구조=UPTREND (or Stage2≥7 with DOWNTREND): this is a DATA CONFLICT — the analysis's first sentence must explicitly flag it (e.g. '데이터 상충: Stage2=1이지만 구조=UPTREND로 표시됨'); do not silently pick one value and ignore the other. CRITICAL: flagging the conflict does NOT change the action — Section B's rules still apply mechanically to the raw field values (e.g. Stage2≤2 still forces action=avoid per rule B.1 even when 구조=UPTREND is flagged as conflicting); never let the flagged/softer value override the action decision. Check this for EVERY one of the 22 tickers, not just the obvious ones. Separately: if 프리마켓 or 전일등락 shows a large same-session move (>7%) while 구조=DOWNTREND, and earnings_block shows a report within the prior 5 trading days for that ticker, do NOT describe it as merely 'weak'/'laggard'/'under pressure' — state both the technical structure label AND the earnings-driven price move together rather than letting one silently override the other in the prose framing.
   5. Earnings: only table dates; ≤14 calendar days in analysis/spotlight/earnings_alert. No relative "N days".
      For ⚠이미발표됨: do NOT claim beat/miss/상회/하회/split — only post-market reaction + est. EPS verify note.
   6. sentiment_score: copy composite_score from social data; mood consistent with session move (≥3% drop → not optimistic/euphoric unless analysis states a concrete forward catalyst from provided fields).
