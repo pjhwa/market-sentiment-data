@@ -1,10 +1,10 @@
 {
   "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
-  "generated_at": "2026-08-16T21:45:01Z",
-  "verified_at": "2026-08-18T07:15",
+  "generated_at": "2026-08-18T04:19:04Z",
+  "verified_at": "2026-08-18T13:27",
   "overall_passed": false,
-  "error_count": 7,
-  "warning_count": 4,
+  "error_count": 5,
+  "warning_count": 2,
   "checks": [
     {
       "name": "A1-구조 바인딩",
@@ -20,9 +20,9 @@
     },
     {
       "name": "A2-액션 규칙",
-      "passed": false,
+      "passed": true,
       "severity": "error",
-      "detail": "위반 1건:\n    NVO: Rule1 → avoid 필요 (struct=ACCUMULATION,S2=2,RS=43), 실제=watch"
+      "detail": "21/21 종목 규칙 준수"
     },
     {
       "name": "A3-매크로 수치",
@@ -32,9 +32,9 @@
     },
     {
       "name": "A4-시장분위기 분류",
-      "passed": false,
+      "passed": true,
       "severity": "error",
-      "detail": "score: 브리핑=98.1 vs API=92.6 (차이>5.5)"
+      "detail": "score=96.9 → traffic_light=green 정확"
     },
     {
       "name": "A5-프리마켓 바인딩",
@@ -58,13 +58,13 @@
       "name": "C1-earnings_alert",
       "passed": true,
       "severity": "error",
-      "detail": "earnings_alert 규칙 준수 (내용 있음: NVDA earnings 2026-08-27; CRWD earnings 2026-08-27)"
+      "detail": "earnings_alert 규칙 준수 (내용 있음: NVDA earnings 2026-08-27. CRWD earnings 2026-08-27.)"
     },
     {
       "name": "C2-글로벌 소스 품질",
-      "passed": true,
+      "passed": false,
       "severity": "error",
-      "detail": "글로벌 이슈 1건 모두 인정 소스 사용"
+      "detail": "rank=2: confidence=confirmed이지만 인정 소스 없음 (source='marketwatch 2026-08-17')"
     },
     {
       "name": "C3-confidence 언어",
@@ -73,22 +73,10 @@
       "detail": "developing/unverified 이슈 없음 — N/A"
     },
     {
-      "name": "B1-price-bind",
+      "name": "B1-mood-drop",
       "passed": false,
       "severity": "error",
-      "detail": "META: $589.85 vs table $568.97"
-    },
-    {
-      "name": "B1-price-bind",
-      "passed": false,
-      "severity": "error",
-      "detail": "MU: $971.66 vs table $1011.75"
-    },
-    {
-      "name": "B1-price-bind",
-      "passed": false,
-      "severity": "error",
-      "detail": "MSFT: $495.4 vs table $480.35"
+      "detail": "CRWD: mood=optimistic with drop -3.80%"
     },
     {
       "name": "D1-워치리스트 완결성",
@@ -100,7 +88,7 @@
       "name": "D2-spotlight 수",
       "passed": true,
       "severity": "error",
-      "detail": "3개 (정상 범위 2-4)"
+      "detail": "4개 (정상 범위 2-4)"
     },
     {
       "name": "D3-필수 필드",
@@ -110,84 +98,95 @@
     },
     {
       "name": "D4-용어 설명",
-      "passed": false,
-      "severity": "warning",
-      "detail": "설명 없이 사용된 용어: ['RS']"
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
     },
     {
       "name": "D5-공유 본문 품질",
-      "passed": false,
-      "severity": "warning",
-      "detail": "headline_en 길이 초과: 124자 (≤120 기준)"
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
     },
     {
       "name": "E1-글로벌 이슈 현재성",
       "passed": true,
       "severity": "error",
-      "detail": "1개 이슈 모두 정확 또는 검증 불가"
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
     },
     {
       "name": "E2-중요 뉴스 누락",
-      "passed": true,
-      "severity": "info",
-      "detail": "minor/important 누락 3건 (critical 없음): [\"Big-box retailer earnings week (Walmart, Target, Home Depot, Lowe's, TJX) reporting Aug 17-21, seen as read on consumer health amid inflation/slowing jobs\", \"Nvidia Q2 earnings anticipated the following week, plus market awaiting Fed's Jackson Hole symposium (Aug 22) for rate-cut signals\", 'Broader market pressure from elevated oil prices / Iran war concerns pushing S&P away from record highs, with Monday Aug 17 US majors trading lower (back-to-back negative sessions)']"
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    US-Iran tensions reignite, oil prices jump (WTI +0.6% to ~$85/bbl) after Trump signals no interest in extending expiring Iran agreement, plus renewed fighting in Lebanon (영향: Cited by Yahoo Finance/Bloomberg as a primary driver (alongside yields) of the Aug 17 selloff (S&P -0.52%, Nasdaq -0.32%, Dow -0.5%). Energy-sensitive and risk-off flows affect broad watchlist (TSLA, PLTR, growth names); this materially adds to the risk picture the briefing attributes solely to yields/tariffs.)"
     },
     {
       "name": "E3-시장 분위기 정확성",
-      "passed": false,
-      "severity": "warning",
-      "detail": "Two concrete errors: (1) 'QQQ distribution days hit 8 (DANGER)' is not supported — independent trackers show 0 Nasdaq distribution days as of Aug 16, 2026, with IBD market status 'Confirmed Uptrend,' not a distribution-day warning. (2) 'US equities still hit records on Aug 16' is impossible as stated — Aug 16, 2026 is a Sunday (markets closed); records were more plausibly set the prior week (data as of the Aug 14 Friday close, which is the 'last session' the watchlist itself uses). These two errors undercut the DANGER framing that anchors the whole mood headline."
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The 30Y yield surge is real and material, but the briefing omits the US-Iran tension/oil price spike that multiple outlets (Yahoo Finance, Bloomberg) cite as a co-equal driver of the Aug 17 selloff. Attributing the 'green' mood/pressure narrative to yields and tariffs alone is an incomplete picture given the actual index moves were negative (S&P -0.52%, Nasdaq -0.32%, Dow -0.5%) on Aug 17."
     },
     {
       "name": "E4-섹터 동향 정확성",
       "passed": true,
       "severity": "error",
-      "detail": "questionable: AMZN/MSFT as uptrend leaders and PLTR/VST as downtrend laggards are individually plausible technical reads, but the 'rotation toward energy/infrastructure' narrative isn't corroborated — VST (an energy name) is itself listed as a DOWNTREND laggard, which sits awkwardly next to the claim that money is rotating into energy/infrastructure UPTREND names. Also, separate reporting describes PLTR trading near its record highs off strong Q2 growth, in some tension with the flat 'DOWNTREND despite narrative interest' characterization (different snapshots, so not a hard contradiction, but worth flagging)."
+      "detail": "accurate: Rotation toward AI-memory names like MU is directionally consistent with confirmed premarket strength in Micron/Broadcom/Nvidia on Aug 18. Laggard calls on TSLA/PLTR are broadly consistent with a risk-off, high-yield environment, though the briefing doesn't connect this to the oil/Iran risk-off driver."
     },
     {
       "name": "E5-종목 설명 정확성",
-      "passed": true,
-      "severity": "error",
-      "detail": "종목 설명 오류 없음"
+      "passed": false,
+      "severity": "warning",
+      "detail": "CRWD: Briefing states CRWD 'closed at $216.95 with -3.80% session move.' Third-party data shows $216.95 was actually the prior close, with the Aug 17 close around $213.67-$214.42 (roughly -1.2% to -1.5%, not -3.8%). The price and percent-move figures appear mismatched/stale."
     }
   ],
   "grok_report": {
-    "verified_at": "2026-08-17T22:16:29Z",
+    "verified_at": "2026-08-18T04:28:52Z",
     "global_issues": [
       {
         "rank": 1,
-        "title": "US Reports Widespread Help for China Tariff Evasion",
+        "title": "30-Year Treasury Yield Tops 5.31%, Highest Since 2007",
         "accuracy": "accurate",
-        "note": "Confirmed by multiple sources (WaPo, Al Jazeera, Fortune, SupplyChainBrain) dated Aug 13-14, 2026: White House/Office of Trade and Manufacturing Policy flagged 40+ countries (EU, Mexico, Canada, India, Japan, South Korea, Vietnam, etc.) for enabling China transshipment (~$75B estimated Feb2025-Feb2026), paired with new AI-based enforcement and Executive Order 14411. No material update or reversal in the following 24h as of 2026-08-18."
+        "note": "Confirmed by CNBC and Bloomberg: 30-year yield hit 5.311% on August 17, 2026, highest since 2007. Still the dominant fixed-income story as of Aug 18."
+      },
+      {
+        "rank": 2,
+        "title": "50% US Tariffs on Canada Effective Wednesday as Talks Stall",
+        "accuracy": "accurate",
+        "note": "Confirmed: Section 338 proclamations impose 50% tariffs on a broad range of Canadian goods effective August 19, 2026 (Wednesday). As of Aug 15 reports both sides were still discussing a deal to avert the tariffs, consistent with 'talks stalled' framing, though outcome remains fluid until the deadline."
       }
     ],
     "missing_major_news": [
       {
-        "title": "Big-box retailer earnings week (Walmart, Target, Home Depot, Lowe's, TJX) reporting Aug 17-21, seen as read on consumer health amid inflation/slowing jobs",
-        "impact": "Indirectly relevant to AMZN (consumer discretionary leader called out as UPTREND) — a soft retail earnings slate this week could contradict the briefing's bullish AMZN framing",
-        "severity": "minor"
+        "title": "US-Iran tensions reignite, oil prices jump (WTI +0.6% to ~$85/bbl) after Trump signals no interest in extending expiring Iran agreement, plus renewed fighting in Lebanon",
+        "impact": "Cited by Yahoo Finance/Bloomberg as a primary driver (alongside yields) of the Aug 17 selloff (S&P -0.52%, Nasdaq -0.32%, Dow -0.5%). Energy-sensitive and risk-off flows affect broad watchlist (TSLA, PLTR, growth names); this materially adds to the risk picture the briefing attributes solely to yields/tariffs.",
+        "severity": "critical"
       },
       {
-        "title": "Nvidia Q2 earnings anticipated the following week, plus market awaiting Fed's Jackson Hole symposium (Aug 22) for rate-cut signals",
-        "impact": "Forward catalyst for NVDA (called ACCUMULATION/watch) not mentioned; not yet materialized in the last 24h but a known near-term risk/catalyst investors are positioning around",
-        "severity": "minor"
+        "title": "Chip/AI-memory stocks rally in premarket Aug 18 (Micron +2-3%, Broadcom +~1%, Nvidia green) after strong preliminary revenue report (~$11.5B vs $787M prior year)",
+        "impact": "Directly relevant to MU (listed as 'watch' in briefing) and NVDA (listed as 'hold') — premarket strength suggests the briefing's 'watch'/'hold' stance may understate near-term bullish momentum.",
+        "severity": "important"
       },
       {
-        "title": "Broader market pressure from elevated oil prices / Iran war concerns pushing S&P away from record highs, with Monday Aug 17 US majors trading lower (back-to-back negative sessions)",
-        "impact": "General equities headwind not tied to a specific watchlist name but relevant context for the 'green/98.1' mood score and 'records' framing",
+        "title": "Major retail earnings and Fed minutes due this week",
+        "impact": "Broad market driver ahead of open; not mentioned in briefing's macro context, relevant to overall risk sentiment for the watchlist.",
         "severity": "minor"
       }
     ],
     "market_mood_check": {
-      "assessment": "inaccurate",
-      "note": "Two concrete errors: (1) 'QQQ distribution days hit 8 (DANGER)' is not supported — independent trackers show 0 Nasdaq distribution days as of Aug 16, 2026, with IBD market status 'Confirmed Uptrend,' not a distribution-day warning. (2) 'US equities still hit records on Aug 16' is impossible as stated — Aug 16, 2026 is a Sunday (markets closed); records were more plausibly set the prior week (data as of the Aug 14 Friday close, which is the 'last session' the watchlist itself uses). These two errors undercut the DANGER framing that anchors the whole mood headline."
+      "assessment": "questionable",
+      "note": "The 30Y yield surge is real and material, but the briefing omits the US-Iran tension/oil price spike that multiple outlets (Yahoo Finance, Bloomberg) cite as a co-equal driver of the Aug 17 selloff. Attributing the 'green' mood/pressure narrative to yields and tariffs alone is an incomplete picture given the actual index moves were negative (S&P -0.52%, Nasdaq -0.32%, Dow -0.5%) on Aug 17."
     },
     "sector_check": {
-      "assessment": "questionable",
-      "note": "AMZN/MSFT as uptrend leaders and PLTR/VST as downtrend laggards are individually plausible technical reads, but the 'rotation toward energy/infrastructure' narrative isn't corroborated — VST (an energy name) is itself listed as a DOWNTREND laggard, which sits awkwardly next to the claim that money is rotating into energy/infrastructure UPTREND names. Also, separate reporting describes PLTR trading near its record highs off strong Q2 growth, in some tension with the flat 'DOWNTREND despite narrative interest' characterization (different snapshots, so not a hard contradiction, but worth flagging)."
+      "assessment": "accurate",
+      "note": "Rotation toward AI-memory names like MU is directionally consistent with confirmed premarket strength in Micron/Broadcom/Nvidia on Aug 18. Laggard calls on TSLA/PLTR are broadly consistent with a risk-off, high-yield environment, though the briefing doesn't connect this to the oil/Iran risk-off driver."
     },
-    "stock_errors": [],
-    "overall_score": 58,
-    "summary": "The single global issue (China tariff-evasion enforcement) is well-sourced and accurate, and spot-checked prices (NVDA $225.16, TSM $426.35, MU $971.66) match real closes. However, the Market Mood section contains two clear factual problems — a distribution-day count that contradicts independent trackers (0, not 8) and a claim of new highs on a date the market was closed (Sunday Aug 16) — which is significant since these anchor the 'DANGER'/green-98.1 headline. Sector rotation commentary is internally slightly inconsistent (VST framed as both a rotation beneficiary sector and a laggard)."
+    "stock_errors": [
+      {
+        "symbol": "CRWD",
+        "error": "Briefing states CRWD 'closed at $216.95 with -3.80% session move.' Third-party data shows $216.95 was actually the prior close, with the Aug 17 close around $213.67-$214.42 (roughly -1.2% to -1.5%, not -3.8%). The price and percent-move figures appear mismatched/stale."
+      }
+    ],
+    "overall_score": 68,
+    "summary": "The two headline global macro items (30Y yield at 5.31%, Canada tariffs effective Wednesday) are accurate and current, but the briefing misses a critical concurrent driver of the Aug 17 selloff — reignited US-Iran tensions and rising oil prices — which materially affects the completeness of the market mood narrative. A likely data discrepancy in CRWD's closing price/percent move was also found. Sector rotation calls are broadly consistent with confirmed premarket chip-stock strength."
   }
 }

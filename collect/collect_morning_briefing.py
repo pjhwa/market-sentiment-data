@@ -743,7 +743,7 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    above — omitting a known earnings catalyst for a highlighted ticker is a critical-news omission. Use the
    exact price-move percentage given in the earnings block source data; do not restate an approximate or
    partial (e.g., early after-hours) figure when a fuller session figure is available there.
-4. big_picture.summary — At most 1–2 sentences on the highest-ranked issue that has real novelty;
+4. big_picture.summary — If the issue set above has 2 or fewer entries, or the reported index/session moves are larger than what the listed issues plausibly explain, do NOT present a single-cause narrative (e.g., attributing a selloff solely to yields/tariffs) — frame causation as partial ("among the drivers") and add a one-line '[CONTEXT GAP]' note that other unlisted factors may be contributing, rather than asserting a complete explanation. Otherwise: At most 1–2 sentences on the highest-ranked issue that has real novelty;
    include market_paradox if present. Do not restate every quiet ongoing risk.
 5. CONFIDENCE LANGUAGE (apply in big_picture.summary / executive_bullets):
    [confirmed]  → may state as fact (still hedge if Current State itself is fragile/contested)
