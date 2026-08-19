@@ -1,0 +1,199 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-19T21:45:02Z",
+  "verified_at": "2026-08-20T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 8건:\n    TSM: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    META: API=DOWNTREND vs 브리핑=UPTREND\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ANET: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=91.1 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: NVDA earnings 2026-08-27; CRWD earnings 2026-08-27)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=1)"
+    },
+    {
+      "name": "B2-warn-B2-day-window",
+      "passed": true,
+      "severity": "error",
+      "detail": "[warn] executive_bullets lack last-session anchors and use evergreen risk phrasing"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": false,
+      "severity": "warning",
+      "detail": "headline_en 길이 초과: 134자 (≤120 기준)"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: inaccurate — Substance is directionally correct: Hormuz shipping disruption and US-Iran tensions remain elevated with tanker transits down sharply. However, the '$91' figure is wrong for WTI -- WTI closed around $85-86 on 2026-08-19; $91 is the Brent crude price, not WTI. The briefing appears to have conflated the two benchmarks. The '3-week high' framing is also unverified in search results."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 3건 (critical 없음): ['Cybersecurity sector de-rating: CRWD -5.3%, PANW -5% despite analyst price-target hikes', 'Tesla Cybercab Austin wireless-charging hub permit filing', 'US total public debt surpassed $40 trillion']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: S&P 500 rose only +0.21% to 7,707.98 on 2026-08-19, merely ending a three-day losing streak, while the 30-year yield remains near its highest level since 2007 and oil remains elevated on active Hormuz supply disruption. A traffic_light of 'green' with a 91.1 score overstates the strength of the rally -- 'yellow-green' with a lower score would better reflect a modest relief bounce still overshadowed by rates and oil risk."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "The laggards line miscategorizes CRWD, a pure-play cybersecurity name, as a 'semiconductor equipment and software' name lagging on 'momentum slowdown.' The actual driver was a cybersecurity-sector de-rating (CRWD -5.3%, PANW -5%) tied to elevated valuations ahead of CRWD's Aug 26 earnings -- notably occurring despite three sell-side price-target increases, meaning it reflects position-trimming/valuation reset rather than negative momentum or slowing fundamentals."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-19T22:16:28Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Treasury doubles debt buybacks, yields drop sharply",
+        "accuracy": "accurate",
+        "note": "Confirmed by CNBC, Bloomberg, WaPo (2026-08-19). Treasury doubled long-bond (10-30yr) buyback size to at least $4B/operation. Note the upsized operations are forward-dated (effective Sept 9-Nov 4), though the yield reaction was same-day: 30y -9bp to 5.196%, 10y -5.7bp to 4.647%. The briefing's 'immediately' correctly describes the yield move but could mislead on when actual buying starts. Buybacks followed a selloff that pushed 30y yields to their highest since 2007, amid Iran/Israel war escalation fears and total US debt topping $40T."
+      },
+      {
+        "rank": 2,
+        "title": "Oil near 3-week high on Hormuz and Iran tensions",
+        "accuracy": "inaccurate",
+        "note": "Substance is directionally correct: Hormuz shipping disruption and US-Iran tensions remain elevated with tanker transits down sharply. However, the '$91' figure is wrong for WTI -- WTI closed around $85-86 on 2026-08-19; $91 is the Brent crude price, not WTI. The briefing appears to have conflated the two benchmarks. The '3-week high' framing is also unverified in search results."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Cybersecurity sector de-rating: CRWD -5.3%, PANW -5% despite analyst price-target hikes",
+        "impact": "CRWD and PANW dropped on valuation/profit-taking ahead of CrowdStrike's Aug 26 earnings (trading >166x forward P/E), even as Mizuho, Truist, and Cantor Fitzgerald raised price targets ($240-$250). This is a sector-specific de-rating story, not general 'momentum slowdown' as the briefing's sector analysis implies.",
+        "severity": "important"
+      },
+      {
+        "title": "Tesla Cybercab Austin wireless-charging hub permit filing",
+        "impact": "Named as the specific catalyst (via news reports) for TSLA's +4.23% surge on 2026-08-19, alongside the broader yield-driven rally. The briefing attributes TSLA's move only to macro conditions/DOWNTREND-vs-price divergence without mentioning this company-specific catalyst.",
+        "severity": "important"
+      },
+      {
+        "title": "US total public debt surpassed $40 trillion",
+        "impact": "Broader fiscal backdrop to the Treasury buyback story; not stock-specific but relevant context for the rates/yields narrative supporting NVDA, MSFT, AMZN, GOOGL.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "S&P 500 rose only +0.21% to 7,707.98 on 2026-08-19, merely ending a three-day losing streak, while the 30-year yield remains near its highest level since 2007 and oil remains elevated on active Hormuz supply disruption. A traffic_light of 'green' with a 91.1 score overstates the strength of the rally -- 'yellow-green' with a lower score would better reflect a modest relief bounce still overshadowed by rates and oil risk."
+    },
+    "sector_check": {
+      "assessment": "inaccurate",
+      "note": "The laggards line miscategorizes CRWD, a pure-play cybersecurity name, as a 'semiconductor equipment and software' name lagging on 'momentum slowdown.' The actual driver was a cybersecurity-sector de-rating (CRWD -5.3%, PANW -5%) tied to elevated valuations ahead of CRWD's Aug 26 earnings -- notably occurring despite three sell-side price-target increases, meaning it reflects position-trimming/valuation reset rather than negative momentum or slowing fundamentals."
+    },
+    "stock_errors": [],
+    "overall_score": 72,
+    "summary": "The core macro narrative (Treasury buybacks lowering yields) is well-sourced and accurate, and individual watchlist prices/percentages (NVDA, CRWD, TSLA) check out against independent data. However, the oil benchmark is misstated (Brent's $91 print reported as WTI, which was actually ~$85-86), the sector analysis mischaracterizes CRWD's cybersecurity-specific de-rating as generic momentum slowdown, and the 'green'/91.1 mood score overstates a market that only posted a modest +0.21% gain against a backdrop of near-2007-high long yields and active Hormuz supply risk."
+  }
+}
