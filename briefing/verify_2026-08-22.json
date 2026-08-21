@@ -1,0 +1,193 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-21T21:45:01Z",
+  "verified_at": "2026-08-22T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 6건:\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ANET: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=90.8 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: NVDA earnings 2026-08-27. CRWD earnings 2026-08-27.)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": false,
+      "severity": "warning",
+      "detail": "headline_ko 길이 초과: 31자 (≤30 기준)"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 2건 (critical 없음): ['Treasury doubles long-bond buyback size to at least $4B per operation (Bessent announcement, 2026-08-21)', 'Palantir CEO Alex Karp filed to sell ~402,000 shares (~$70.3M) on 2026-08-20, part of a broader ~$3.4B trailing-year AI-insider selling trend flagged by press (Nvidia, Palantir, Alphabet, Meta)']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: SPY +0.41% aligns with reporting that S&P 500 rose ~0.4-0.53% on 2026-08-21 after a rough week, driven by the same yield/oil dynamics cited in the briefing."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "unverifiable: Directional framing (AMZN/MSFT uptrend leaders, META/TSLA/PLTR downtrend laggards, rotation to commodities) is plausible given the macro backdrop but could not be independently confirmed via public sector-rotation data for this specific date."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSLA: Briefing states TSLA closed 2026-08-21 at $362.86 (+5.14%). Web search results show an Aug 20 close of $345.13 and Aug 21 intraday trading range of $348.20-$350.04, which would imply a much smaller move. Note: $345.13 x 1.0514 ≈ $362.85, so the briefing's own math is internally consistent — but this conflicts with the intraday range found via search. Could not fully resolve; recommend a direct price-source cross-check."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-22T00:16:00Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "30y Treasury Yield Reclaims 5% as Buyback Rally Fizzles",
+        "accuracy": "accurate",
+        "note": "Confirmed by multiple sources. 30y yield hit a 19-year high near 5.33% on 2026-08-18, eased somewhat on Treasury's expanded buyback operations (Bessent doubled buyback size to $4B on 2026-08-21), but remained above 5% (~5.25% as of 2026-08-21). Narrative of yields staying elevated despite buyback support is well corroborated."
+      },
+      {
+        "rank": 2,
+        "title": "Oil Extends Rally on Hormuz and Iran Risks Despite Crude Build",
+        "accuracy": "accurate",
+        "note": "Confirmed. Brent near $90/bbl and WTI elevated amid stalled US-Iran negotiations over Strait of Hormuz reopening; talks that produced a June MOU collapsed over shipping-route disputes, keeping risk premium in oil. Consistent with briefing's framing."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Treasury doubles long-bond buyback size to at least $4B per operation (Bessent announcement, 2026-08-21)",
+        "impact": "Directly relevant to the rank-1 global issue (bond yields/discount rates) but not explicitly named in the briefing; affects rate-sensitive growth names like TSLA, NVDA, MSFT",
+        "severity": "important"
+      },
+      {
+        "title": "Palantir CEO Alex Karp filed to sell ~402,000 shares (~$70.3M) on 2026-08-20, part of a broader ~$3.4B trailing-year AI-insider selling trend flagged by press (Nvidia, Palantir, Alphabet, Meta)",
+        "impact": "PLTR — relevant context for its 'watch' action given elevated valuation (~41x NTM EV/Revenue) and insider selling, which briefing omits",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "SPY +0.41% aligns with reporting that S&P 500 rose ~0.4-0.53% on 2026-08-21 after a rough week, driven by the same yield/oil dynamics cited in the briefing."
+    },
+    "sector_check": {
+      "assessment": "unverifiable",
+      "note": "Directional framing (AMZN/MSFT uptrend leaders, META/TSLA/PLTR downtrend laggards, rotation to commodities) is plausible given the macro backdrop but could not be independently confirmed via public sector-rotation data for this specific date."
+    },
+    "stock_errors": [
+      {
+        "symbol": "TSLA",
+        "error": "Briefing states TSLA closed 2026-08-21 at $362.86 (+5.14%). Web search results show an Aug 20 close of $345.13 and Aug 21 intraday trading range of $348.20-$350.04, which would imply a much smaller move. Note: $345.13 x 1.0514 ≈ $362.85, so the briefing's own math is internally consistent — but this conflicts with the intraday range found via search. Could not fully resolve; recommend a direct price-source cross-check."
+      }
+    ],
+    "overall_score": 82,
+    "summary": "The two global issues (30y yield above 5%, oil rally on Iran/Hormuz risk) and the market mood (SPY +0.41%, risk-on) are well-supported by current reporting. The briefing omits the same-day Treasury buyback expansion announcement and PLTR insider-selling context, and one watchlist price (TSLA) couldn't be cleanly reconciled against independently found intraday data, though the briefing's percentage math is self-consistent."
+  }
+}

@@ -1343,8 +1343,11 @@ SELF-CHECK (fix before output):
   □ action rules satisfied (no buy on DOWNTREND; Stage2≤2 → avoid)?
   □ every ticker in leaders_en/leaders_ko re-checked against 구조=: any DOWNTREND ticker present without the full caveat sentence ('narrative interest ... but technically in DOWNTREND — not a structural leader') is a critical error — fix before output?
   □ every watchlist analysis states exact 구조= / market_structure; no synonym swaps? ACCUMULATION is the most commonly skipped value — verify each ACCUMULATION ticker's analysis text literally contains the word 'ACCUMULATION'. Before finalizing output, re-scan the draft JSON against the checklist built in section A and confirm every ticker's market_structure field is filled with its exact 구조= value (including ACCUMULATION) — do not submit output with this check unresolved.
+  □ every ticker symbol appearing ANYWHERE in the JSON output — headline, executive_bullets, spotlight, narrative prose, not only leaders/watchlist fields — carries its "(LABEL)" structure tag per rule 7? List every ticker string present in the draft output and confirm each occurrence is tagged before submitting.
   □ Stage2 vs structure conflicts flagged inline when present?
   □ headline_en ≤120 chars; headline_ko ≤30 chars; causal binding consistent with asymmetric_impact + session evidence?
+  □ headline_ko: count actual characters including spaces one by one right now; if the count exceeds 30, shorten before output — do not submit an uncounted draft.
+  □ every technical acronym/abbreviation (RS, EPS, IV, PPI, etc.) expanded in parentheses on first use per rule 8?
   □ earnings only ≤14d and absolute YYYY-MM-DD; no training-memory metrics?
   □ developing global issues hedged in big_picture / bullets?
 
