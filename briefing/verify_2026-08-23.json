@@ -1,0 +1,213 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-22T21:45:01Z",
+  "verified_at": "2026-08-23T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 6건:\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ANET: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=90.8 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU (DOWNTREND) caveat 없이 leaders에 언급됨"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: NVDA earnings 2026-08-27; CRWD earnings 2026-08-27.)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 4건 (critical 없음): ['US business activity (flash PMI) grew at fastest pace in 4+ years, driving S&P 500 (+0.43%) and Dow (+0.98%) higher on Aug 21', 'Tesla surges 5.14% on Nevada robotaxi permit approval', 'Bitcoin/crypto rally — BTC +22% weekly (biggest weekly gain in ~2 years), financials sector boosted']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The green/90.8 score roughly matches the actual outcome (S&P +0.43%, Dow +0.98% on Aug 21), but the stated rationale is backwards: the briefing attributes mood to Iran/oil pressure while the real driver was strong PMI data and financials/crypto strength, which it doesn't mention. Right score, wrong narrative."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Materials/energy and semis-under-pressure calls are reasonable, but the analysis omits financials and crypto-adjacent names, which were the actual standout leaders on Aug 21. 'Information technology has shed more than 3% over 5 days' also isn't reflected in the leaders/laggards breakdown."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "NVDA: Briefing close $214.72 vs. widely reported $216.17 for Aug 21 — minor data discrepancy (~0.7%), possibly a different quote timestamp/source.\n    META: Briefing close $549.90 vs. widely reported $552.95 for Aug 21 — minor data discrepancy (~0.6%)."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-08-22T22:20:00Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-Israel Strikes on Iran Push Oil Higher, Equity Futures Lower",
+        "accuracy": "accurate",
+        "note": "Directionally correct but imprecise framing. There is no formal ceasefire collapse or fresh 'strikes' reported specifically on Aug 21-22; the active drivers are the reimposed naval blockade/Strait of Hormuz closure (in effect since May), fresh US sanctions threats ('toughest sanctions in history' per Bessent), and an Aug 18-19 Iranian ballistic missile launch toward UAE. Oil was indeed up on the week (Brent +5%) but eased slightly on Aug 21 itself. Also note US equities (S&P/Dow) actually rallied Fri Aug 21 on strong PMI data — 'equity futures lower' doesn't match the cash-market close."
+      },
+      {
+        "rank": 2,
+        "title": "Longer-Dated Treasury Yields Rise as Bond Buyback Rally Fizzles",
+        "accuracy": "accurate",
+        "note": "Confirmed by CNBC 8/21: 30-year yield rose ~3bp to 5.273% despite Bessent's buyback expansion signal; matches briefing exactly."
+      },
+      {
+        "rank": 3,
+        "title": "Nvidia Denies China-Specific Chip Plans Amid Tightening Export Controls",
+        "accuracy": "accurate",
+        "note": "Confirmed: Nvidia denied The Information's report that it planned to ship a China-specific LPU by year-end. Timing (denial landing just before Nvidia's Aug 26 earnings) matches briefing context."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "US business activity (flash PMI) grew at fastest pace in 4+ years, driving S&P 500 (+0.43%) and Dow (+0.98%) higher on Aug 21",
+        "impact": "Broad market — contradicts the briefing's 'equity futures lower' framing; this was the actual dominant catalyst for Friday's session, not the Iran headline",
+        "severity": "important"
+      },
+      {
+        "title": "Tesla surges 5.14% on Nevada robotaxi permit approval",
+        "impact": "TSLA — briefing reports the price move but never explains the actual stock-specific catalyst (robotaxi permit), which materially affects the 'avoid' rationale narrative",
+        "severity": "important"
+      },
+      {
+        "title": "Bitcoin/crypto rally — BTC +22% weekly (biggest weekly gain in ~2 years), financials sector boosted",
+        "impact": "Not a direct watchlist ticker, but financials/crypto-adjacent strength was a real sector leader on Aug 21 that the briefing's sector analysis omits entirely",
+        "severity": "minor"
+      },
+      {
+        "title": "Nvidia Q2 FY27 earnings (Aug 26 after close) and Fed Chair Kevin Warsh's first Jackson Hole keynote (Aug 28)",
+        "impact": "NVDA, SMH, and broad market — both are imminent high-impact catalysts this week; briefing references 'ahead of Nvidia earnings' but doesn't flag Jackson Hole at all",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "The green/90.8 score roughly matches the actual outcome (S&P +0.43%, Dow +0.98% on Aug 21), but the stated rationale is backwards: the briefing attributes mood to Iran/oil pressure while the real driver was strong PMI data and financials/crypto strength, which it doesn't mention. Right score, wrong narrative."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Materials/energy and semis-under-pressure calls are reasonable, but the analysis omits financials and crypto-adjacent names, which were the actual standout leaders on Aug 21. 'Information technology has shed more than 3% over 5 days' also isn't reflected in the leaders/laggards breakdown."
+    },
+    "stock_errors": [
+      {
+        "symbol": "NVDA",
+        "error": "Briefing close $214.72 vs. widely reported $216.17 for Aug 21 — minor data discrepancy (~0.7%), possibly a different quote timestamp/source."
+      },
+      {
+        "symbol": "META",
+        "error": "Briefing close $549.90 vs. widely reported $552.95 for Aug 21 — minor data discrepancy (~0.6%)."
+      }
+    ],
+    "overall_score": 74,
+    "summary": "The three global issues are individually accurate but collectively overweight geopolitical/Iran risk as the session's driver while omitting the actual proximate cause of Friday's rally (strong PMI data) and TSLA's specific catalyst (Nevada robotaxi permit) — this produces a mood/sector narrative that's directionally passable but misattributed. Minor price discrepancies on NVDA/META are immaterial. No major factual errors, but the briefing reads as somewhat stale/incomplete relative to same-day news flow."
+  }
+}
