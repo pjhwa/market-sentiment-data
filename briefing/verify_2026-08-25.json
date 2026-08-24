@@ -1,0 +1,125 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-24T21:45:01Z",
+  "verified_at": "2026-08-25T07:15",
+  "overall_passed": false,
+  "error_count": 4,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 21건:\n    TSM: 브리핑에 구조 표기 없음 (API=DOWNTREND)\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    META: 브리핑에 구조 표기 없음 (API=DOWNTREND)\n    TSLA: 브리핑에 구조 표기 없음 (API=DOWNTREND)\n    PLTR: 브리핑에 구조 표기 없음 (API=DOWNTREND)\n    MU: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    AMZN: 브리핑에 구조 표기 없음 (API=UPTREND)\n    MSFT: 브리핑에 구조 표기 없음 (API=UPTREND)\n    AAPL: 브리핑에 구조 표기 없음 (API=UPTREND)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    RKLB: 브리핑에 구조 표기 없음 (API=DOWNTREND)\n    CEG: 브리핑에 구조 표기 없음 (API=UPTREND)\n    VST: 브리핑에 구조 표기 없음 (API=DOWNTREND)\n    ALAB: 브리핑에 구조 표기 없음 (API=DOWNTREND)\n    OKLO: 브리핑에 구조 표기 없음 (API=DOWNTREND)\n    APP: 브리핑에 구조 표기 없음 (API=DOWNTREND)\n    ANET: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    NVO: 브리핑에 구조 표기 없음 (API=UPTREND)\n    QBTS: 브리핑에 구조 표기 없음 (API=DISTRIBUTION)\n    SOFI: 브리핑에 구조 표기 없음 (API=DOWNTREND)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 11건:\n    TSM: Rule1 → avoid 필요 (struct=DOWNTREND,S2=5,RS=45), 실제=?\n    META: Rule1 → avoid 필요 (struct=DOWNTREND,S2=2,RS=29), 실제=?\n    TSLA: Rule1 → avoid 필요 (struct=DOWNTREND,S2=1,RS=7), 실제=?\n    RKLB: Rule1 → avoid 필요 (struct=DOWNTREND,S2=2,RS=0), 실제=?\n    CEG: Rule1 → avoid 필요 (struct=UPTREND,S2=2,RS=28), 실제=?\n    VST: Rule1 → avoid 필요 (struct=DOWNTREND,S2=2,RS=11), 실제=?\n    ALAB: Rule1 → avoid 필요 (struct=DOWNTREND,S2=3,RS=20), 실제=?\n    OKLO: Rule1 → avoid 필요 (struct=DOWNTREND,S2=1,RS=0), 실제=?\n    APP: Rule1 → avoid 필요 (struct=DOWNTREND,S2=1,RS=0), 실제=?\n    QBTS: Rule1 → avoid 필요 (struct=DISTRIBUTION,S2=2,RS=0), 실제=?\n    SOFI: Rule1 → avoid 필요 (struct=DOWNTREND,S2=3,RS=74), 실제=?"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=88.2 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: NVDA earnings 2026-08-27; CRWD earnings 2026-08-27)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": false,
+      "severity": "error",
+      "detail": "rank=3: confidence=confirmed이지만 인정 소스 없음 (source='cnbc 2026-08-24')"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=0, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": false,
+      "severity": "error",
+      "detail": "누락 종목: ['TSM', 'NVDA', 'META', 'TSLA', 'PLTR', 'MU', 'CRWD', 'AMZN', 'MSFT', 'AAPL', 'GOOGL', 'SPCX', 'RKLB', 'CEG', 'VST', 'ALAB', 'OKLO', 'APP', 'ANET', 'NVO', 'QBTS', 'SOFI'] / 초과 종목: ['TSM (DOWNTREND)', 'NVDA (ACCUMULATION)', 'META (DOWNTREND)', 'TSLA (DOWNTREND)', 'PLTR (DOWNTREND)', 'MU (ACCUMULATION)', 'CRWD (ACCUMULATION)', 'AMZN (UPTREND)', 'MSFT (UPTREND)', 'AAPL (UPTREND)', 'GOOGL (ACCUMULATION)', 'SPCX (UNKNOWN)', 'RKLB (DOWNTREND)', 'CEG (UPTREND)', 'VST (DOWNTREND)', 'ALAB (DOWNTREND)', 'OKLO (DOWNTREND)', 'APP (DOWNTREND)', 'ANET (ACCUMULATION)', 'NVO (UPTREND)', 'QBTS (DISTRIBUTION)', 'SOFI (DOWNTREND)']"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E-Claude 검증",
+      "passed": false,
+      "severity": "warning",
+      "detail": "Claude 호출 실패 또는 타임아웃"
+    }
+  ],
+  "grok_report": {}
+}
