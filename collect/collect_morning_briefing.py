@@ -1341,7 +1341,8 @@ C. BINDING / ANTI-HALLUCINATION
 SELF-CHECK (fix before output):
   □ Prices / pre-market / EMA / DXY / BTC / VIX / TNX match binding tables exactly?
   □ ⚠이미발표됨: no beat/miss/상회/하회/split language?
-  □ action rules satisfied (no buy on DOWNTREND; Stage2≤2 → avoid)?
+  □ every occurrence of 'RS' (or any technical term) anywhere in the JSON — including spotlight, today_checkpoints, sector_analysis leaders — carries its plain-language gloss, not a bare 'RS=NN'?
+  □ action rules satisfied — each action recomputed against rule B.1's three independent OR conditions (구조=DOWNTREND AND Stage2≤6; OR Stage2≤2; OR post-market drop>10%), not just the Stage2≤2 case? For any ticker flagged as a Stage2/구조 DATA CONFLICT (rule C.4), re-verify the action still came from rule B.1's raw field values and was not softened toward 'watch' because the conflict was flagged?
   □ every ticker in leaders_en/leaders_ko re-checked against 구조=: any DOWNTREND ticker present without the full caveat sentence ('narrative interest ... but technically in DOWNTREND — not a structural leader') is a critical error — fix before output?
   □ every watchlist analysis states exact 구조= / market_structure; no synonym swaps? ACCUMULATION is the most commonly skipped value — verify each ACCUMULATION ticker's analysis text literally contains the word 'ACCUMULATION'. Before finalizing output, re-scan the draft JSON against the checklist built in section A and confirm every ticker's market_structure field is filled with its exact 구조= value (including ACCUMULATION) — do not submit output with this check unresolved.
   □ every ticker symbol appearing ANYWHERE in the JSON output — headline, executive_bullets, spotlight, narrative prose, not only leaders/watchlist fields — carries its "(LABEL)" structure tag per rule 7? List every ticker string present in the draft output and confirm each occurrence is tagged before submitting.
