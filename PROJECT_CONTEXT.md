@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-08-04 B2 integrity + Stage-2 prompt diet (no event hardcodes)
+<!-- AUTO-GENERATED: 2026-08-12 B2 integrity, Stage-2 prompt diet, and social mention normalizer -->
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 
@@ -51,10 +51,12 @@ market-sentiment-data/
 │   ├── collect_macro_insight.py       # Collector 4 — python -m collect.collect_macro_insight
 │   ├── collect_morning_briefing.py    # Collector 5 — python -m collect.collect_morning_briefing (morning briefing, daily at KST 07:30)
 │   ├── collect_prediction.py          # Collector 6 — python -m collect.collect_prediction (Kalshi FOMC 예측시장, twice daily)
+│   ├── xquik_social_mentions.py       # Optional Xquik export normalizer for mention volume research
 │   ├── probe_mention_volume.py        # One-shot symbol selection probe — mention volume scanner (169 candidates)
 │   ├── price_context.py               # Neutral price-context fetcher (used by Collector 1)
 │   ├── git_utils.py                   # commit_and_push() shared helper
 │   ├── test_collect_sentiment.py
+│   ├── test_xquik_social_mentions.py
 │   ├── test_collect_brief.py
 │   ├── test_collect_brief_context.py
 │   └── test_price_context.py
@@ -189,6 +191,18 @@ Three functions:
 | `fetch_price_context(symbol)` | Returns volatility / volume_ratio / near_key_level / abnormal_move from SniperBoard `/api/daily`. **No direction.** On failure: `available: False`. |
 | `fetch_market_context()` | Returns VIX level (low/normal/high) only from `/api/macro`. |
 | `fetch_close_direction(symbol)` | Returns `up`/`down`/`flat`. **Post-processing ONLY.** Never flows into prompt builder. |
+
+### Optional Xquik Export Normalizer
+
+`collect/xquik_social_mentions.py` reads Xquik CSV, JSON, or JSONL tweet exports
+and summarizes watchlist mentions before collector prompt or watchlist changes.
+It does not call Grok and does not write repository data.
+
+| Function | Purpose |
+|----------|---------|
+| `load_rows(path)` | Reads CSV, JSON, or JSONL exports into row dictionaries |
+| `mentioned_symbols(row, watchlist)` | Matches explicit ticker fields and cashtags in tweet text |
+| `summarize_mentions(rows, watchlist)` | Returns `mention_count`, `mention_volume`, and up to 3 sample texts per symbol |
 
 ### Divergence Calculation (post-collection)
 
