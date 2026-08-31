@@ -1,0 +1,204 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-08-31T21:45:01Z",
+  "verified_at": "2026-09-01T07:15",
+  "overall_passed": false,
+  "error_count": 3,
+  "warning_count": 3,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 4건:\n    NVDA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    MU: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    GOOGL: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 1건:\n    META: Rule1 → avoid 필요 (struct=DISTRIBUTION,S2=1,RS=38), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=87.5 → traffic_light=green 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=False)"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=1)"
+    },
+    {
+      "name": "B2-warn-B2-theme-recurrence",
+      "passed": true,
+      "severity": "error",
+      "detail": "[warn] category=trade_tariff present on 5+ consecutive prior days (direction=escalating, tier=breaking)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Tim Cook's last day as Apple CEO (leadership transition, effective 2026-08-31) (영향: Directly material to AAPL, which is on the watchlist (action=watch). A CEO transition at Apple is a significant company-specific event omitted entirely from the briefing's stock note for AAPL.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The headline/summary correctly describes a bearish session (oil spike, equities sell off, elevated yields, tariff overhang), but the traffic_light is 'green' with a high score of 87.5, which conventionally signals bullish/favorable conditions. This is internally inconsistent — the narrative content argues for caution, not a green light."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Rotation narrative (money moving from rate-sensitive tech/AI into energy/defensive names amid oil spike and rising yields) is consistent with confirmed market conditions. However, listing MSFT and AMZN as 'leaders in UPTREND' while yields/oil are cited as headwinds for growth tech is a mild internal tension worth noting, though not necessarily inaccurate on the day."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "NVDA: Briefing lists NVDA close at $220.78 (-3.16%); independent search data points to a close nearer $217.55 for 2026-08-31. Difference (~1.5%) is within plausible data-source/timing noise and not confirmed as a hard error, but flagged as a discrepancy worth spot-checking against the source feed."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-01T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US Strikes Iranian Sites, Oil Jumps, Equities Sell Off",
+        "accuracy": "accurate",
+        "note": "Confirmed by multiple outlets (WSJ, Washington Times, Fortune, Al Jazeera): US struck Iranian rocket launchers near Larak Island in the Strait of Hormuz on 2026-08-31, Iran retaliated with missiles toward US targets in Jordan/UAE, Brent rose ~2.8% to ~$90.58, and US equities closed lower (S&P/Nasdaq 100 -0.3%, Dow -0.5%)."
+      },
+      {
+        "rank": 2,
+        "title": "Trump Weighs Broader Chip Tariffs on Laptops and Servers",
+        "accuracy": "accurate",
+        "note": "Confirmed by CNBC, Yahoo Finance, Tom's Hardware, Benzinga (late Aug 2026): administration weighing 'Phase 2' tariffs extending to laptops, servers, gaming consoles, potentially scrapping January's data-center exemptions. Still described as preliminary/undecided as of 2026-08-31, matching the briefing's 'developing' status."
+      },
+      {
+        "rank": 3,
+        "title": "10-Year Yield Tops 4.75% as Warsh Flags Rate-Hike Path",
+        "accuracy": "accurate",
+        "note": "Confirmed: 10-year yield pushed above 4.75% in late August 2026 after Fed Chair Kevin Warsh's hawkish Jackson Hole remarks; September rate-hike probability (CME FedWatch) rose sharply following the comments."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Tim Cook's last day as Apple CEO (leadership transition, effective 2026-08-31)",
+        "impact": "Directly material to AAPL, which is on the watchlist (action=watch). A CEO transition at Apple is a significant company-specific event omitted entirely from the briefing's stock note for AAPL.",
+        "severity": "critical"
+      },
+      {
+        "title": "August US jobs report due this week (Friday), with July's surprise loss of 23,000 jobs as backdrop; Deutsche Bank/Wells Fargo/UBS estimates for August in the 58K-80K range",
+        "impact": "Macro catalyst affecting broad market risk appetite and rate expectations for all watchlist names, especially rate-sensitive tech (NVDA, MU, TSLA); not mentioned alongside the Warsh/yield narrative.",
+        "severity": "important"
+      },
+      {
+        "title": "Broadcom and Dell earnings this week headline the tech earnings calendar; Palo Alto Networks reports Tuesday",
+        "impact": "Semiconductor/AI-hardware earnings (Broadcom) are directly relevant to chip-tariff-sensitive names like TSM, MU, ALAB in the watchlist, and not referenced in the briefing.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "The headline/summary correctly describes a bearish session (oil spike, equities sell off, elevated yields, tariff overhang), but the traffic_light is 'green' with a high score of 87.5, which conventionally signals bullish/favorable conditions. This is internally inconsistent — the narrative content argues for caution, not a green light."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Rotation narrative (money moving from rate-sensitive tech/AI into energy/defensive names amid oil spike and rising yields) is consistent with confirmed market conditions. However, listing MSFT and AMZN as 'leaders in UPTREND' while yields/oil are cited as headwinds for growth tech is a mild internal tension worth noting, though not necessarily inaccurate on the day."
+    },
+    "stock_errors": [
+      {
+        "symbol": "NVDA",
+        "error": "Briefing lists NVDA close at $220.78 (-3.16%); independent search data points to a close nearer $217.55 for 2026-08-31. Difference (~1.5%) is within plausible data-source/timing noise and not confirmed as a hard error, but flagged as a discrepancy worth spot-checking against the source feed."
+      }
+    ],
+    "overall_score": 80,
+    "summary": "The three headline global issues (Iran strikes/oil spike, chip tariff Phase 2, 10-year yield/Warsh) are all independently confirmed accurate and current as of 2026-09-01. The main gap is the omission of Tim Cook's last day as Apple CEO, a material company-specific event for AAPL that should have been surfaced, plus no mention of the upcoming jobs report or Broadcom/Dell earnings this week. The 'green' traffic light sits awkwardly against an otherwise bearish narrative and should be reviewed."
+  }
+}

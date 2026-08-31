@@ -1315,7 +1315,7 @@ B. ACTION RULES (first match wins; driven only by table fields)
   2. buy  IF: Stage2≥6 AND RS≥70 AND 구조≠DOWNTREND AND mood in (optimistic, euphoric)
   3. hold IF: Stage2≥5 and solid technical position (near entry / breakout / EMA support)
   4. watch otherwise
-  DISTRIBUTION ≠ DOWNTREND: DISTRIBUTION + Stage2≥4 → typically watch; Stage2≤2 still avoid (rule 1).
+  DISTRIBUTION ≠ DOWNTREND: DISTRIBUTION + Stage2≥4 → typically watch; Stage2≤2 still avoid (rule 1) — NOT a soft guideline: DISTRIBUTION + Stage2≤2 MUST be action=avoid; do not let the 'DISTRIBUTION typically watch' default silently override the Stage2≤2 avoid trigger for that ticker.
   ⚠이미발표됨 post-market drop 5–10%: max action=watch; >10%: avoid.
   RS<30: downgrade one level but never force avoid by RS alone.
 
