@@ -1,0 +1,197 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-01T21:45:01Z",
+  "verified_at": "2026-09-02T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 2,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 1건:\n    CRWD: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=75.6 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=1)"
+    },
+    {
+      "name": "B2-warn-B2-theme-recurrence",
+      "passed": true,
+      "severity": "error",
+      "detail": "[warn] category=trade_tariff present on 6+ consecutive prior days (direction=escalating, tier=ongoing)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 2건 (critical 없음): [\"Broad market selloff: Dow -0.7% (-374pts), S&P 500 -0.3%, Nasdaq -0.1% on Sept 1 amid global bond selloff and Trump threatening to 'hit Iran hard'\", \"Micron (MU) fell ~2% premarket specifically on chip-tariff uncertainty, despite Trump separately praising Micron's $10B US investment\"]"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Yellow/75.6 with a headline emphasizing oil spike and NVDA pressure is directionally reasonable given the Iran/Hormuz and tariff overhang, but actual Sept 1 market action shows broad index declines (Dow -0.7%, S&P -0.3%) plus a global bond selloff explicitly described in press coverage — this systemic bond-selloff framing is understated relative to source reporting."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: CEG is framed as a beneficiary of the 'oil spike narrative' but CEG is a nuclear/utility company whose relative strength is driven primarily by AI power-demand growth, not oil prices — the causal link to the oil spike is weak/misleading. TSLA/GOOGL/PLTR downtrend framing is broadly consistent with reported tech softness."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MU: Mood tagged 'optimistic' despite contemporaneous reporting that MU fell ~2% premarket specifically due to chip-tariff uncertainty — same tariff risk the briefing itself flags as global issue #2\n    CEG: Sector analysis attributes CEG's relative strength to the 'oil spike narrative,' but CEG is a nuclear/clean-energy utility with no meaningful direct exposure to oil prices; its strength is more plausibly tied to AI/data-center power demand"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-02T07:16:00Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Middle East Strikes Send Oil to $90, Yields to Multi-Decade Highs",
+        "accuracy": "accurate",
+        "note": "WTI confirmed at ~$90.67 on 2026-09-01 (up 5.7%), driven by renewed US-Iran strikes near the Strait of Hormuz. However, '10-year yields to multi-decade highs' overstates it — reporting (CNBC, Forbes) describes the 10-year at ~4.80%, the highest since January 2025 (a ~19-month high), not a multi-decade high. Directionally correct but the magnitude is exaggerated."
+      },
+      {
+        "rank": 2,
+        "title": "Trump Weighs New Chip Tariffs on Servers and Laptops",
+        "accuracy": "accurate",
+        "note": "Confirmed still developing as of Sept 1: Politico/CNBC reported (Aug 27) the administration is weighing extending the 25% chip tariff to laptops, servers, and consoles, potentially scrapping January's data-center exemptions. No final decision has been announced, consistent with 'developing' status."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Broad market selloff: Dow -0.7% (-374pts), S&P 500 -0.3%, Nasdaq -0.1% on Sept 1 amid global bond selloff and Trump threatening to 'hit Iran hard'",
+        "impact": "Confirms broad weakness across watchlist tech names (TSLA, GOOGL, AAPL, META flagged as distribution/downtrend) but briefing doesn't cite the magnitude of the index-level decline or Trump's explicit escalation rhetoric, which raises event risk overnight",
+        "severity": "important"
+      },
+      {
+        "title": "Micron (MU) fell ~2% premarket specifically on chip-tariff uncertainty, despite Trump separately praising Micron's $10B US investment",
+        "impact": "MU — briefing tags MU mood as 'optimistic' in UPTREND, but real-time reporting shows tariff fears are actively pressuring the stock; the optimistic mood tag appears inconsistent with the tariff overhang already noted in the briefing's own global issue #2",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow/75.6 with a headline emphasizing oil spike and NVDA pressure is directionally reasonable given the Iran/Hormuz and tariff overhang, but actual Sept 1 market action shows broad index declines (Dow -0.7%, S&P -0.3%) plus a global bond selloff explicitly described in press coverage — this systemic bond-selloff framing is understated relative to source reporting."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "CEG is framed as a beneficiary of the 'oil spike narrative' but CEG is a nuclear/utility company whose relative strength is driven primarily by AI power-demand growth, not oil prices — the causal link to the oil spike is weak/misleading. TSLA/GOOGL/PLTR downtrend framing is broadly consistent with reported tech softness."
+    },
+    "stock_errors": [
+      {
+        "symbol": "MU",
+        "error": "Mood tagged 'optimistic' despite contemporaneous reporting that MU fell ~2% premarket specifically due to chip-tariff uncertainty — same tariff risk the briefing itself flags as global issue #2"
+      },
+      {
+        "symbol": "CEG",
+        "error": "Sector analysis attributes CEG's relative strength to the 'oil spike narrative,' but CEG is a nuclear/clean-energy utility with no meaningful direct exposure to oil prices; its strength is more plausibly tied to AI/data-center power demand"
+      }
+    ],
+    "overall_score": 72,
+    "summary": "The two headline global issues (Iran/Hormuz oil spike, chip tariff threat) are both accurate and current, though the '10-year yields to multi-decade highs' claim overstates reality (actual: ~19-month/Jan-2025 high). The briefing understates the magnitude of the broad Sept 1 equity selloff and mislabels MU's mood as optimistic despite tariff-driven premarket weakness it itself flagged. The CEG-oil linkage in the sector analysis is a weak causal claim."
+  }
+}
