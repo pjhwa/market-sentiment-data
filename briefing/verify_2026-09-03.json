@@ -1,0 +1,191 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-02T21:45:01Z",
+  "verified_at": "2026-09-03T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 2건:\n    META: Rule1 → avoid 필요 (struct=DISTRIBUTION,S2=2,RS=36), 실제=watch\n    GOOGL: Rule1 → avoid 필요 (struct=DOWNTREND,S2=4,RS=29), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=78.6 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": false,
+      "severity": "warning",
+      "detail": "headline_ko 길이 초과: 31자 (≤30 기준)"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: inaccurate — Multiple independent sources (stock market recaps, TradingEconomics) place WTI around $89-92/bbl and Brent around $95/bbl on 2026-09-01/02, not WTI above $97. The US-Iran escalation and Hormuz disruption narrative is accurate, but the specific $97 WTI figure appears inflated/incorrect — possibly conflating Brent with WTI or an intraday spike not sustained at close."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Nvidia nears ~$14B acquisition of Hugging Face (up from earlier $12.9B reports), per Bloomberg 2026-09-02 (영향: NVDA (in watchlist, action=hold) jumped nearly 5% on the news per market recaps — a materially larger and differently-caused move than the briefing's 3.21%/AI-demand-only framing suggests. This was also a key driver of the Dow/S&P/Nasdaq snapping a three-day losing streak on 9/2, which the briefing's cautious 'yellow' mood does not reflect.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The 10Y-yield and oil narratives are directionally real concerns, but as of market close 2026-09-02, the S&P 500 (+0.46%), Nasdaq (+0.45%), and Dow (+0.56%) all rallied and snapped a 3-day losing streak, with yields pausing their run-up. A 'yellow/cautious, yields pressure tech' headline does not match this same-day recovery, largely fueled by NVDA's Hugging Face acquisition news."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: NVDA and MU strength is real, but the briefing misattributes NVDA's move to generic 'AI demand themes' when the actual catalyst was M&A news (near-$14B Hugging Face acquisition). CRWD's -5.42% drop to ~$203.41 is accurately reported and matches independent data. Energy-name rotation (VST/CEG) framing is reasonable given the oil spike narrative, though the oil figure itself is overstated."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "NVDA: Move to $224.41 (+3.21%) attributed to generic 'AI demand themes,' but the actual driver on 2026-09-02 was Bloomberg's report of Nvidia's near-$14B Hugging Face acquisition, which reportedly drove a near-5% jump — the briefing's causal narrative and possibly the magnitude are off.\n    OIL/MACRO: Global issue #1 states oil surged 'above $97' with WTI near six-week highs; independent sources put WTI near $89-92 and Brent near $95 on 2026-09-01/02, not WTI above $97."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-02T22:16:27Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "US-Iran War Escalation Drives Oil Above $97",
+        "accuracy": "inaccurate",
+        "note": "Multiple independent sources (stock market recaps, TradingEconomics) place WTI around $89-92/bbl and Brent around $95/bbl on 2026-09-01/02, not WTI above $97. The US-Iran escalation and Hormuz disruption narrative is accurate, but the specific $97 WTI figure appears inflated/incorrect — possibly conflating Brent with WTI or an intraday spike not sustained at close."
+      },
+      {
+        "rank": 2,
+        "title": "US 10-Year Yield Hits Highest Since 2023 Amid Bond Rout",
+        "accuracy": "accurate",
+        "note": "Confirmed by CNBC and Yahoo Finance: 10-year Treasury yield hit ~4.814% intraday on 2026-09-02, highest since November 2023, driven by inflation fears tied to oil and expectations of rate hikes. Note: by close on 9/2, yields 'took a breather' and equities rallied, so the rout was easing by end of day rather than accelerating as the briefing implies."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Nvidia nears ~$14B acquisition of Hugging Face (up from earlier $12.9B reports), per Bloomberg 2026-09-02",
+        "impact": "NVDA (in watchlist, action=hold) jumped nearly 5% on the news per market recaps — a materially larger and differently-caused move than the briefing's 3.21%/AI-demand-only framing suggests. This was also a key driver of the Dow/S&P/Nasdaq snapping a three-day losing streak on 9/2, which the briefing's cautious 'yellow' mood does not reflect.",
+        "severity": "critical"
+      },
+      {
+        "title": "S&P 500, Dow, and Nasdaq all rose on 2026-09-02, snapping a three-day losing streak, as Treasury yields paused their climb",
+        "impact": "Broad market (all watchlist names) — contradicts the briefing's cautious 'yellow' framing that oil and yields were 'pressuring tech' on this date; indices actually recovered.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "The 10Y-yield and oil narratives are directionally real concerns, but as of market close 2026-09-02, the S&P 500 (+0.46%), Nasdaq (+0.45%), and Dow (+0.56%) all rallied and snapped a 3-day losing streak, with yields pausing their run-up. A 'yellow/cautious, yields pressure tech' headline does not match this same-day recovery, largely fueled by NVDA's Hugging Face acquisition news."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "NVDA and MU strength is real, but the briefing misattributes NVDA's move to generic 'AI demand themes' when the actual catalyst was M&A news (near-$14B Hugging Face acquisition). CRWD's -5.42% drop to ~$203.41 is accurately reported and matches independent data. Energy-name rotation (VST/CEG) framing is reasonable given the oil spike narrative, though the oil figure itself is overstated."
+    },
+    "stock_errors": [
+      {
+        "symbol": "NVDA",
+        "error": "Move to $224.41 (+3.21%) attributed to generic 'AI demand themes,' but the actual driver on 2026-09-02 was Bloomberg's report of Nvidia's near-$14B Hugging Face acquisition, which reportedly drove a near-5% jump — the briefing's causal narrative and possibly the magnitude are off."
+      },
+      {
+        "symbol": "OIL/MACRO",
+        "error": "Global issue #1 states oil surged 'above $97' with WTI near six-week highs; independent sources put WTI near $89-92 and Brent near $95 on 2026-09-01/02, not WTI above $97."
+      }
+    ],
+    "overall_score": 62,
+    "summary": "The 10-year yield story is accurate and well-sourced, but the oil price figure (WTI >$97) appears materially overstated versus independently reported ~$90 WTI/~$95 Brent. More importantly, the briefing misses the day's biggest NVDA-specific catalyst (near-$14B Hugging Face acquisition report) and its cautious 'yellow' market mood conflicts with the actual same-day rally that snapped a three-day losing streak across major indices."
+  }
+}
