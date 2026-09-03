@@ -1,0 +1,188 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-03T21:45:01Z",
+  "verified_at": "2026-09-04T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 일치"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=79.4 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": false,
+      "severity": "warning",
+      "detail": "headline_ko 길이 초과: 35자 (≤30 기준)"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Iran launches fresh missile/drone strikes on Jordan, Kuwait, UAE, Bahrain overnight; Brent crude spikes above $95/bbl (영향: Major un-covered macro risk event. Rising oil and a live regional war escalation pressure energy costs, input costs, and risk sentiment broadly; contributed to Nasdaq weakness intraday per TheStreet ('Nasdaq edges lower on U.S.-Iran conflict, Treasury yield woes'). Not mentioned anywhere in the briefing's global context or mood summary, despite being arguably the dominant macro driver of the session alongside chip tariffs.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Indices actually closed higher on 2026-09-03 (Dow +0.6%, S&P +0.5%, Nasdaq +0.5%) despite the Iran conflict and tariff headlines, so 'yellow' caution is defensible but the briefing omits the actual geopolitical driver (Iran strikes/oil spike) that was cited by press as the session's overhang, instead attributing risk solely to chip tariffs."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: AI/security leadership (NVDA, MU, CRWD, MSFT) and rotation narrative broadly matches reporting of AI-stock-led gains on 2026-09-03; tariff-driven rotation toward US-production beneficiaries within semis is a reasonable read given the Lutnick news."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-04T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Lutnick confirms targeted chip tariffs on non-US builders",
+        "accuracy": "accurate",
+        "note": "Confirmed by Korea Times, Seoul Economic Daily, and Bloomberg reporting from 2026-09-03. Lutnick described a 'targeted, thoughtful' tariff policy with explicit build-in-US-or-pay language directed at Samsung/SK hynix; administration is also weighing expanding tariffs to finished products (servers, laptops). Still current as of 2026-09-04."
+      },
+      {
+        "rank": 2,
+        "title": "Fed's Waller ties next rate move to inflation data",
+        "accuracy": "accurate",
+        "note": "Confirmed by Bloomberg/CNBC/Benzinga 2026-09-03: Waller said Sept rate decision hinges on August CPI, leans toward holding steady absent a hot inflation surprise, called for 'giving disinflation a chance'. Matches briefing framing."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Iran launches fresh missile/drone strikes on Jordan, Kuwait, UAE, Bahrain overnight; Brent crude spikes above $95/bbl",
+        "impact": "Major un-covered macro risk event. Rising oil and a live regional war escalation pressure energy costs, input costs, and risk sentiment broadly; contributed to Nasdaq weakness intraday per TheStreet ('Nasdaq edges lower on U.S.-Iran conflict, Treasury yield woes'). Not mentioned anywhere in the briefing's global context or mood summary, despite being arguably the dominant macro driver of the session alongside chip tariffs.",
+        "severity": "critical"
+      },
+      {
+        "title": "Broadcom (AVGO) earnings beat but stock falls; Dell +15.8%, GitLab +10% on strong results",
+        "impact": "Not in watchlist directly, but relevant as same-day AI/semis and enterprise-software earnings reactions that could move sentiment on NVDA/MU/CRWD/MSFT peers; briefing's sector commentary on AI/semis rotation would benefit from noting this earnings backdrop.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Indices actually closed higher on 2026-09-03 (Dow +0.6%, S&P +0.5%, Nasdaq +0.5%) despite the Iran conflict and tariff headlines, so 'yellow' caution is defensible but the briefing omits the actual geopolitical driver (Iran strikes/oil spike) that was cited by press as the session's overhang, instead attributing risk solely to chip tariffs."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "AI/security leadership (NVDA, MU, CRWD, MSFT) and rotation narrative broadly matches reporting of AI-stock-led gains on 2026-09-03; tariff-driven rotation toward US-production beneficiaries within semis is a reasonable read given the Lutnick news."
+    },
+    "stock_errors": [],
+    "overall_score": 78,
+    "summary": "Both cited global issues (chip tariffs, Waller's rate comments) are accurately reported and current. However, the briefing omits a critical same-day event — renewed Iranian strikes on Jordan, Kuwait, UAE and Bahrain with Brent crude spiking above $95/bbl — which multiple outlets flagged as a key overhang on the Nasdaq that session. Watchlist price/percentage figures and the PLTR TITAN contract narrative check out against reporting; no factual stock errors found, but the mood/summary section understates geopolitical risk beyond tariffs."
+  }
+}
