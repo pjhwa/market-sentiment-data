@@ -1,0 +1,196 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-04T21:45:01Z",
+  "verified_at": "2026-09-05T07:15",
+  "overall_passed": false,
+  "error_count": 3,
+  "warning_count": 3,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 1건:\n    PLTR: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 1건:\n    GOOGL: Rule1 → avoid 필요 (struct=DOWNTREND,S2=4,RS=27), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=77.8 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": false,
+      "severity": "error",
+      "detail": "rank=1: confidence=confirmed이지만 인정 소스 없음 (source='cnbc 2026-09-04')\n    rank=2: confidence=confirmed이지만 인정 소스 없음 (source='cnbc 2026-09-04')"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": false,
+      "severity": "warning",
+      "detail": "headline_ko 길이 초과: 35자 (≤30 기준)"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 3건 (critical 없음): ['Lululemon (LULU) shares plummet on earnings/guidance', '2-year Treasury yield hits highest level since January 2025 on rate-hike repricing (~65% implied odds of a Sept 15-16 hike)', 'Palantir 7.7% intraday pop on expanded PwC partnership, later erased by market-wide rate fears']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Yellow/cautious mood and headline align with confirmed facts: broad indices down modestly, yields up, TSLA down ~5.9-6%, jobs data reigniting rate concerns. Score of 77.8 and 'yellow' light is a reasonable characterization of a moderate risk-off day, not a crash."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: MU's AI-memory strength (Anthropic supply deal, HBM demand) and CRWD/PLTR relative strength in AI infrastructure are corroborated. TSLA and GOOGL as laggards is consistent, though GOOGL's weakness is described in briefing as 'valuation reset' while search shows GOOGL had actually been recovering pre-market on Berkshire Hathaway stake news days prior — the four-month losing streak framing is more nuanced than a single-day 'valuation reset,' but not contradictory."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MU: Briefing states MU closed up 6.10% on Sept 4; contemporaneous reporting describes a 4.3% intraday gain that Friday with a >6% *weekly* advance. Possible conflation of weekly vs. daily move, though an intraday rally to a 6.10% close is not implausible — flagged as unverifiable rather than confirmed inaccurate.\n    PLTR: Mood labeled 'euphoric' with action=buy despite the stock closing down 4.49%; this is internally inconsistent unless mood reflects social/community sentiment (buoyed by the PwC partnership news) rather than price action — worth clarifying in the data since it reads as contradictory at a glance."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-05T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Strong August jobs data reignites rate-hike fears",
+        "accuracy": "accurate",
+        "note": "Confirmed: August nonfarm payrolls +162k (vs ~53-55k consensus), unemployment steady at 4.1%. Treasury yields rose, Dow fell ~0.51% (~230-260 pts), S&P -0.38%, Nasdaq -0.29%. Sources: CNBC, TheStreet, Yahoo Finance all confirm Sept 4 2026 report."
+      },
+      {
+        "rank": 2,
+        "title": "Tesla shares drop 6% after Cybercab update underwhelms",
+        "accuracy": "accurate",
+        "note": "Confirmed via CNBC, Yahoo Finance, Motley Fool: TSLA fell ~5.9-6% on Sept 4 after the private Austin Cybercab event failed to give deployment timelines/locations, compounded by an NHTSA 'audit query' into self-certification. Musk did not appear at the event."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Lululemon (LULU) shares plummet on earnings/guidance",
+        "impact": "Not a watchlist name; no direct impact on tracked tickers, but contributed to broader retail/consumer-discretionary weakness on the day",
+        "severity": "minor"
+      },
+      {
+        "title": "2-year Treasury yield hits highest level since January 2025 on rate-hike repricing (~65% implied odds of a Sept 15-16 hike)",
+        "impact": "Directly pressures high-multiple growth names in watchlist (PLTR ~144x earnings, TSLA, GOOGL) — briefing captures the general yield-driven pressure but doesn't quantify the ~65% hike probability, which is a materially specific data point",
+        "severity": "important"
+      },
+      {
+        "title": "Palantir 7.7% intraday pop on expanded PwC partnership, later erased by market-wide rate fears",
+        "impact": "PLTR — explains why sentiment/mood could read 'euphoric' despite the stock closing down 4.49%; briefing's watchlist entry omits this partnership catalyst",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "Yellow/cautious mood and headline align with confirmed facts: broad indices down modestly, yields up, TSLA down ~5.9-6%, jobs data reigniting rate concerns. Score of 77.8 and 'yellow' light is a reasonable characterization of a moderate risk-off day, not a crash."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "MU's AI-memory strength (Anthropic supply deal, HBM demand) and CRWD/PLTR relative strength in AI infrastructure are corroborated. TSLA and GOOGL as laggards is consistent, though GOOGL's weakness is described in briefing as 'valuation reset' while search shows GOOGL had actually been recovering pre-market on Berkshire Hathaway stake news days prior — the four-month losing streak framing is more nuanced than a single-day 'valuation reset,' but not contradictory."
+    },
+    "stock_errors": [
+      {
+        "symbol": "MU",
+        "error": "Briefing states MU closed up 6.10% on Sept 4; contemporaneous reporting describes a 4.3% intraday gain that Friday with a >6% *weekly* advance. Possible conflation of weekly vs. daily move, though an intraday rally to a 6.10% close is not implausible — flagged as unverifiable rather than confirmed inaccurate."
+      },
+      {
+        "symbol": "PLTR",
+        "error": "Mood labeled 'euphoric' with action=buy despite the stock closing down 4.49%; this is internally inconsistent unless mood reflects social/community sentiment (buoyed by the PwC partnership news) rather than price action — worth clarifying in the data since it reads as contradictory at a glance."
+      }
+    ],
+    "overall_score": 88,
+    "summary": "Both headline global issues (August jobs beat reigniting rate-hike fears; Tesla's Cybercab-driven 6% drop with NHTSA scrutiny) are accurately and currently reported, and the yellow/cautious market mood fits the day's modest broad-market decline. Sector analysis correctly identifies AI-memory/infrastructure strength (MU, CRWD, PLTR) versus TSLA/GOOGL weakness, though the briefing omits the specific ~65% Fed rate-hike probability now priced in and the PLTR/PwC partnership catalyst that partly explains its 'euphoric' sentiment despite a down day."
+  }
+}
