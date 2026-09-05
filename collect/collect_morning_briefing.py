@@ -737,6 +737,11 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    training recollection. Prefer the provided state, dates, and scope verbatim. Do NOT add causal or comparative framing (e.g., "undershot forecasts", "beat expectations", "reinforced cut bets") unless the provided Current State/Summary explicitly states both the actual figure and what it was compared against — if the evidence says a figure matched consensus, report it as in line, not as a beat/miss/undershoot, and do not name a data release as the primary driver of a market reaction unless the evidence explicitly says so.
 3. ASYMMETRIC IMPACT — When discussing a ticker, if that ticker appears in Asymmetric Impact, use that
    direction. If it says unaffected/영향 없음, do NOT use the issue as the cause of that ticker's move.
+   STRUCTURE BINDING — If a ticker discussed in this briefing has a structural classification (e.g.
+   ACCUMULATION/DISTRIBUTION/NEUTRAL) available from the SniperBoard/API tables in this prompt, you MUST
+   state that exact structural label for that ticker somewhere in the ticker's discussion — omitting an
+   available structural classification is a critical-data omission. If the API call for a ticker's structure
+   failed (no data returned), do not fabricate a structural label — omit the mention instead.
    ADDITIONALLY: if a ticker highlighted elsewhere in this briefing (leaders/laggards/watchlist/action calls)
    had a major earnings-driven price move within the prior 3 trading sessions per the earnings block, you MUST
    reference that catalyst (direction, magnitude, date) even if the ticker is absent from Asymmetric Impact
@@ -747,6 +752,9 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    listed issues or earnings block, do NOT attribute the move to a generic/vague theme (e.g., "AI demand",
    "market sentiment", "tech rally") — state the magnitude only and add a '[CONTEXT GAP]' note that the
    specific driver is unconfirmed, rather than inventing a plausible-sounding cause.
+3b. TERMINOLOGY — The first time you use a technical/jargon abbreviation or term not already defined in this
+   prompt's inputs (e.g., RS, RSI, MACD, VWAP), append a brief parenthetical definition on first use in the
+   output (e.g., "RS (relative strength vs. benchmark)"). Do not use undefined technical abbreviations.
 4. big_picture.summary — If the issue set above has 2 or fewer entries, or the reported index/session moves are larger than what the listed issues plausibly explain, do NOT present a single-cause narrative (e.g., attributing a selloff solely to yields/tariffs) — frame causation as partial ("among the drivers") and add a one-line '[CONTEXT GAP]' note that other unlisted factors may be contributing, rather than asserting a complete explanation. Otherwise: At most 1–2 sentences on the highest-ranked issue that has real novelty;
    include market_paradox if present. Do not restate every quiet ongoing risk.
 5. CONFIDENCE LANGUAGE (apply in big_picture.summary / executive_bullets):
