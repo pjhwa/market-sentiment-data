@@ -1,0 +1,182 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-06T21:45:01Z",
+  "verified_at": "2026-09-07T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 2,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 1건:\n    PLTR: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=77.8 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU: $943.56 vs table $1016.59"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: outdated — Materially incomplete as of briefing time. Commerce Secretary Lutnick's 100% tariff threat is real, but South Korea's top trade envoy Yeo Han-koo (Reuters, early Sept) stated Samsung and SK Hynix specifically will NOT face the full 100% tariff, citing their US fab investments (Samsung Texas, SK Hynix Indiana) under the Seoul-Washington trade deal. The briefing's 'policy overhang widened' framing misses this de-escalation for the two named companies."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 2건 (critical 없음): ['South Korea trade envoy says Samsung/SK Hynix exempt from 100% chip tariff', 'Nvidia confirmed $12.9B acquisition of Hugging Face (announced Sept 2-3)']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Yellow/77.8 with hot-jobs-driven yield spike and TSLA -5.92% is consistent with confirmed market action and reporting around Sept 4-6."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: MU strength aligns with real blowout Q3 results and ~$100B in binding HBM/AI memory contracts sold out through 2026; NVDA/MSFT/CRWD AI-infra leadership and TSLA/GOOGL rate-sensitive laggard framing are consistent with reported conditions. Minor caveat: the tariff 'overhang' framing feeding into rotation logic should reflect the Samsung/SK Hynix exemption noted above."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-06T22:16:42Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Hot US jobs data lifts Fed hike odds, stocks fall",
+        "accuracy": "accurate",
+        "note": "Confirmed: August nonfarm payrolls beat estimates (+162k vs ~55k expected), unemployment steady at 4.1%. CME FedWatch odds of a 25bp hike at the Sept 15-16 meeting rose to ~60-65%. Dow -0.51%, S&P -0.38%, Nasdaq -0.29% on the Sept 4 close, consistent with briefing's framing."
+      },
+      {
+        "rank": 2,
+        "title": "US weighs 100% tariffs on Korean memory chips",
+        "accuracy": "outdated",
+        "note": "Materially incomplete as of briefing time. Commerce Secretary Lutnick's 100% tariff threat is real, but South Korea's top trade envoy Yeo Han-koo (Reuters, early Sept) stated Samsung and SK Hynix specifically will NOT face the full 100% tariff, citing their US fab investments (Samsung Texas, SK Hynix Indiana) under the Seoul-Washington trade deal. The briefing's 'policy overhang widened' framing misses this de-escalation for the two named companies."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "South Korea trade envoy says Samsung/SK Hynix exempt from 100% chip tariff",
+        "impact": "Directly relevant to MU rally narrative and the tariff overhang cited in global issue #2; suggests the Korean-chip tariff risk is more contained than the briefing implies, which is relevant context for MU/NVDA/AI-memory sentiment.",
+        "severity": "important"
+      },
+      {
+        "title": "Nvidia confirmed $12.9B acquisition of Hugging Face (announced Sept 2-3)",
+        "impact": "NVDA — bullish strategic AI-platform deal; already a few days old by the briefing's generation time but not referenced, and relevant to NVDA's watchlist note.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "Yellow/77.8 with hot-jobs-driven yield spike and TSLA -5.92% is consistent with confirmed market action and reporting around Sept 4-6."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "MU strength aligns with real blowout Q3 results and ~$100B in binding HBM/AI memory contracts sold out through 2026; NVDA/MSFT/CRWD AI-infra leadership and TSLA/GOOGL rate-sensitive laggard framing are consistent with reported conditions. Minor caveat: the tariff 'overhang' framing feeding into rotation logic should reflect the Samsung/SK Hynix exemption noted above."
+    },
+    "stock_errors": [],
+    "overall_score": 80,
+    "summary": "The briefing's core narrative (hot jobs data → higher Fed hike odds → equity selloff, AI-memory/infra leadership vs rate-sensitive laggards) is well-supported by current reporting. Its main shortcoming is the tariff issue: it omits South Korea's trade envoy statement that Samsung and SK Hynix will not face the full 100% chip tariff, which meaningfully softens the 'policy overhang' framing used to explain sector rotation."
+  }
+}
