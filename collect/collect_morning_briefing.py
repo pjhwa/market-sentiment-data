@@ -742,6 +742,10 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    state that exact structural label for that ticker somewhere in the ticker's discussion — omitting an
    available structural classification is a critical-data omission. If the API call for a ticker's structure
    failed (no data returned), do not fabricate a structural label — omit the mention instead.
+   SELF-CHECK: Before finalizing output, list every ticker mentioned anywhere in the briefing (leaders,
+   laggards, watchlist, action calls, highlights). For each one that has a structural label available in the
+   SniperBoard/API tables above, confirm that exact label appears in that ticker's own discussion text; if it
+   is missing, add it before submitting the output.
    ADDITIONALLY: if a ticker highlighted elsewhere in this briefing (leaders/laggards/watchlist/action calls)
    had a major earnings-driven price move within the prior 3 trading sessions per the earnings block, you MUST
    reference that catalyst (direction, magnitude, date) even if the ticker is absent from Asymmetric Impact

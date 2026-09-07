@@ -1,0 +1,194 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-07T21:45:01Z",
+  "verified_at": "2026-09-08T07:15",
+  "overall_passed": false,
+  "error_count": 4,
+  "warning_count": 1,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 1건:\n    PLTR: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 1건:\n    GOOGL: Rule1 → avoid 필요 (struct=DOWNTREND,S2=4,RS=28), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=76.9 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-mood-drop",
+      "passed": false,
+      "severity": "error",
+      "detail": "TSLA: mood=optimistic with drop -5.92%"
+    },
+    {
+      "name": "B1-mood-drop",
+      "passed": false,
+      "severity": "error",
+      "detail": "PLTR: mood=optimistic with drop -4.49%"
+    },
+    {
+      "name": "B2-theme-recurrence",
+      "passed": true,
+      "severity": "error",
+      "detail": "[warn] category=central_bank present on 5+ consecutive prior days (direction=escalating, tier=ongoing)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 2건 (critical 없음): ['Iran targeted oil tankers transiting the Strait of Hormuz over the weekend (Sept 6-7) in retaliation for US strikes', \"NVIDIA's ~$12.93B acquisition of Hugging Face\"]"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Yellow/76.9 with hawkish-Fed-odds + oil-driven inflation risk narrative matches confirmed market conditions heading into Sept 8."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Leader/laggard split matches confirmed price action: MU +6.10% (AI memory rally) and modest NVDA gain confirmed; TSLA's ~-6% drop (Cybercab launch disappointment/NHTSA probe) and broader growth-name weakness (GOOGL, RKLB, VST, APP) is consistent with reported rotation into AI infra/energy over high-valuation growth."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-08T07:18:00Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Strong Jobs Data Lifts Sept Fed Hike Odds, Yields Test 4.8%",
+        "accuracy": "accurate",
+        "note": "Confirmed: August jobs report (162k added, unemployment 4.1%) pushed CME FedWatch Sept-hike odds to ~58-65%, and 10-year yield hit 4.79%, effectively testing 4.8%. No material change overnight — US markets were closed Sept 7 for Labor Day, so this remains the live narrative into the Sept 8 open."
+      },
+      {
+        "rank": 2,
+        "title": "Middle East Oil Supply Risks Drive WTI to Six-Week Highs",
+        "accuracy": "accurate",
+        "note": "Confirmed by multiple sources (BNN Bloomberg, FXStreet, Reuters). Escalated further over the weekend: Iran reportedly targeted tankers using an unauthorized route through the Strait of Hormuz plus US-linked vessels in retaliation for US strikes, keeping WTI elevated near six-week/three-month highs. Briefing's framing is accurate but slightly understates the weekend escalation severity."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Iran targeted oil tankers transiting the Strait of Hormuz over the weekend (Sept 6-7) in retaliation for US strikes",
+        "impact": "Amplifies the oil/inflation risk already noted in rank=2; relevant to energy-sensitive names and broader risk sentiment (CEG, macro-sensitive tech). Not explicitly called out beyond generic 'tensions elevated' language.",
+        "severity": "important"
+      },
+      {
+        "title": "NVIDIA's ~$12.93B acquisition of Hugging Face",
+        "impact": "Directly relevant to NVDA, which is listed as a sector leader and top watchlist hold, but the deal isn't mentioned in either the sector or watchlist commentary.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "Yellow/76.9 with hawkish-Fed-odds + oil-driven inflation risk narrative matches confirmed market conditions heading into Sept 8."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Leader/laggard split matches confirmed price action: MU +6.10% (AI memory rally) and modest NVDA gain confirmed; TSLA's ~-6% drop (Cybercab launch disappointment/NHTSA probe) and broader growth-name weakness (GOOGL, RKLB, VST, APP) is consistent with reported rotation into AI infra/energy over high-valuation growth."
+    },
+    "stock_errors": [],
+    "overall_score": 90,
+    "summary": "Both global issues and the market mood/sector framing check out against independently verified sources, and spot-checked watchlist prices (MU, PLTR, TSLA, NVDA) match reported closes almost exactly. The main gap is under-emphasizing the weekend escalation of Iran's Strait of Hormuz tanker attacks, which is the more immediate driver behind the oil/inflation risk already flagged, plus omission of NVIDIA's Hugging Face acquisition."
+  }
+}
