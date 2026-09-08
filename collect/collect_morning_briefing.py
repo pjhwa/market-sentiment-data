@@ -740,7 +740,9 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    STRUCTURE BINDING — If a ticker discussed in this briefing has a structural classification (e.g.
    ACCUMULATION/DISTRIBUTION/NEUTRAL) available from the SniperBoard/API tables in this prompt, you MUST
    state that exact structural label for that ticker somewhere in the ticker's discussion — omitting an
-   available structural classification is a critical-data omission. If the API call for a ticker's structure
+   available structural classification is a critical-data omission. This applies even if the ticker is only
+   named briefly (e.g. in a watchlist line or a single passing sentence) — a brief mention still requires the
+   label; do not skip it just because the ticker isn't a main topic. If the API call for a ticker's structure
    failed (no data returned), do not fabricate a structural label — omit the mention instead.
    SELF-CHECK: Before finalizing output, list every ticker mentioned anywhere in the briefing (leaders,
    laggards, watchlist, action calls, highlights). For each one that has a structural label available in the
