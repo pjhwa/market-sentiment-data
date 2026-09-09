@@ -1,0 +1,198 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-09T21:45:01Z",
+  "verified_at": "2026-09-10T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 1건:\n    PLTR: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=71.3 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": false,
+      "severity": "warning",
+      "detail": "headline_ko 길이 초과: 34자 (≤30 기준)"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 3건 (critical 없음): [\"Meta (META) rallied ~6.5% on Sept 9 while broader market fell, described by outlets as 'decoupling' from macro headwinds with institutional buying\", 'NVIDIA presenting at Goldman Sachs tech conference Sept 10; Apple iPhone 18 event same week', 'S&P 500 -0.48%, Dow -0.77%, Nasdaq -0.64%, Russell 2000 -1.30% on Sept 9 driven by oil spike + yield surge; energy/utilities were the only sector gainers']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Yellow/71.3 with oil-and-yields-driven pressure on growth/tech matches real market action (S&P -0.48%, Nasdaq -0.64%, Russell -1.30%, only energy/utilities positive)."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Energy/commodity leadership (CEG, GLD) vs. tech/long-duration laggards matches confirmed reporting that energy and utilities were the only S&P sector gainers on Sept 9 while industrials/cyclicals/growth tech lagged."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Labeled DISTRIBUTION and grouped with other 'long-duration growth names' under yield pressure in the market mood summary, but real reporting shows META was the outlier gainer (+6.55%, consistent with the briefing's own watchlist price) on institutional buying, decoupled from the macro pressure — the mood narrative doesn't reconcile the contradiction between trend label and price action."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-10T07:16:00Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Brent crude tops $101 on Iran conflict escalation",
+        "accuracy": "accurate",
+        "note": "Confirmed by CNBC, Al Jazeera, TheStreet, OilPrice.com — Brent broke $100 on Sept 9 2026 amid US-Iran strikes on tankers/shipping, reaching intraday levels near/above $101. However, the briefing's 'highest since May' detail is wrong: multiple sources (OilPrice, TradingEconomics, CNBC) say this is the highest level since July 24, 2026, not May. Conflict has since escalated further; Goldman Sachs warns of $120/bbl risk."
+      },
+      {
+        "rank": 2,
+        "title": "Treasury $6B buyback sparks yield spike, disappoints market",
+        "accuracy": "accurate",
+        "note": "Confirmed by CNBC, Reuters, Yahoo Finance, Treasury.gov press release: $6B buyback of 10-20yr debt announced Sept 9 for the Sept 10 operation, triple the normal size. 10-year yield hit 4.85% (highest since Nov 2023), 20-year 5.31%, 30-year 5.31%. Yields rose despite/because of the buyback, matching the briefing's framing."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Meta (META) rallied ~6.5% on Sept 9 while broader market fell, described by outlets as 'decoupling' from macro headwinds with institutional buying",
+        "impact": "META — briefing's watchlist entry captures the price move (+6.55%) and 'optimistic' mood, but the sector/mood summary lists META only as a DISTRIBUTION laggard pressured by yields, without noting it was the standout gainer of the day, which is a notable narrative gap.",
+        "severity": "minor"
+      },
+      {
+        "title": "NVIDIA presenting at Goldman Sachs tech conference Sept 10; Apple iPhone 18 event same week",
+        "impact": "NVDA, AAPL — near-term catalysts not mentioned in briefing; could move both names in the next session.",
+        "severity": "minor"
+      },
+      {
+        "title": "S&P 500 -0.48%, Dow -0.77%, Nasdaq -0.64%, Russell 2000 -1.30% on Sept 9 driven by oil spike + yield surge; energy/utilities were the only sector gainers",
+        "impact": "Broad market decline context missing from briefing — briefing focuses on individual names/sectors but doesn't state the index-level magnitude of the selloff.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "Yellow/71.3 with oil-and-yields-driven pressure on growth/tech matches real market action (S&P -0.48%, Nasdaq -0.64%, Russell -1.30%, only energy/utilities positive)."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Energy/commodity leadership (CEG, GLD) vs. tech/long-duration laggards matches confirmed reporting that energy and utilities were the only S&P sector gainers on Sept 9 while industrials/cyclicals/growth tech lagged."
+    },
+    "stock_errors": [
+      {
+        "symbol": "META",
+        "error": "Labeled DISTRIBUTION and grouped with other 'long-duration growth names' under yield pressure in the market mood summary, but real reporting shows META was the outlier gainer (+6.55%, consistent with the briefing's own watchlist price) on institutional buying, decoupled from the macro pressure — the mood narrative doesn't reconcile the contradiction between trend label and price action."
+      }
+    ],
+    "overall_score": 88,
+    "summary": "The two global issues are directionally accurate and well-sourced (Brent >$100 on Iran escalation, $6B Treasury buyback triggering a yield spike to multi-year highs), but the briefing's claim that oil is at its 'highest since May' is factually wrong — real sources put it at highest since July 24. Market mood and sector rotation calls align well with actual Sept 9 index/sector performance. The main soft spot is an internal inconsistency around META (DISTRIBUTION label vs. its actual outlier rally), and a few minor upcoming catalysts (NVDA at Goldman conference, Apple event) aren't flagged."
+  }
+}
