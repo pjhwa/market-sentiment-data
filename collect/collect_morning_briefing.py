@@ -1295,8 +1295,8 @@ MARKET DATA ({now_kst}):
       "symbol": "TICKER",
       "company": "Company Name",
       "tier": 1,
-      "why_en": "2-3 sentences. Price levels MUST match 전일종가/52주고점 from the AUTHORITATIVE DATA TABLE. If 프리마켓 is available, mention it as 'pre-market at $X (+Y%)'. Mention earnings ONLY if the data shows ≤14 days away — if >14 days, omit earnings entirely even in spotlight. Do NOT add financial metrics (ARR%, EPS results, guidance) from training memory — only use 투자자반응 field for catalyst context.",
-      "why_ko": "오늘 이 종목이 특별히 주목받는 이유 2-3문장. 가격대는 반드시 테이블의 전일종가 기준. 프리마켓 값이 있으면 '개장 전 $X(+Y%)' 형태로 추가. 실적일은 14일 이내일 때만 언급(테이블 기준), 초과 시 완전 생략. ARR%·EPS 실적·가이던스 등 훈련 데이터 기반 수치 추가 금지.",
+      "why_en": "2-3 sentences. MUST open with or otherwise include this symbol's exact 구조=/market_structure label from the table verbatim (e.g., 'TSLA (ACCUMULATION)') — spotlight text is a common place this label gets silently dropped even though the ticker also appears in the watchlist array; do not rely on the watchlist entry alone to satisfy this. Price levels MUST match 전일종가/52주고점 from the AUTHORITATIVE DATA TABLE. If 프리마켓 is available, mention it as 'pre-market at $X (+Y%)'. Mention earnings ONLY if the data shows ≤14 days away — if >14 days, omit earnings entirely even in spotlight. Do NOT add financial metrics (ARR%, EPS results, guidance) from training memory — only use 투자자반응 field for catalyst context.",
+      "why_ko": "오늘 이 종목이 특별히 주목받는 이유 2-3문장. 반드시 테이블의 정확한 구조=/market_structure 라벨을 원문 그대로 포함할 것(예: 'TSLA (ACCUMULATION)') — spotlight 텍스트는 watchlist 배열에 라벨이 있어도 본문에서 라벨이 누락되는 경우가 가장 흔한 지점이므로 별도로 명시해야 함. 가격대는 반드시 테이블의 전일종가 기준. 프리마켓 값이 있으면 '개장 전 $X(+Y%)' 형태로 추가. 실적일은 14일 이내일 때만 언급(테이블 기준), 초과 시 완전 생략. ARR%·EPS 실적·가이던스 등 훈련 데이터 기반 수치 추가 금지.",
       "watch_level_en": "Use 전일종가 as anchor. Support/resistance from EMA21/EMA50/EMA200 or entry in 가격앵커. e.g. 'Break above $X (prev close $Y); EMA21 support at $Z (from data)'",
       "watch_level_ko": "테이블의 전일종가·EMA21/50/200·entry 값 기반. '$X 돌파(전일종가 $Y) / EMA21=$Z 이탈 시 주의' 형태. ±25% 범위 초과 수치 사용 금지."
     }}

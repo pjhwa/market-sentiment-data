@@ -1,0 +1,199 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-11T21:45:01Z",
+  "verified_at": "2026-09-12T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 3,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 3건:\n    TSLA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    PLTR: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=71.3 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=1)"
+    },
+    {
+      "name": "B2-warn-B2-day-window",
+      "passed": true,
+      "severity": "error",
+      "detail": "[warn] headline reads as evergreen/ongoing risk without last-session or premarket anchor"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 2건 (critical 없음): [\"VIX spiked to a 28-session high (~18.8, up from ~17.84 prior close) on Sept 11 amid combined oil/inflation shock, not the 'stable, DOWNTREND, 15.84' level stated in the briefing's sector analysis\", 'NVDA paid/declared a $0.25 cash dividend with ex-date Sept 10, 2026']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Confirmed: S&P 500 +0.86% to 7,656.98, Nasdaq +0.96% to 26,333.04, Dow +0.98% to 52,573.29 on Sept 11 — a rebound after four straight down sessions, occurring alongside the CPI print and oil pipeline news. The 'paradox' framing (stocks up despite higher hike odds and oil risk) matches reporting from CNBC/TheStreet."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: VIX figure/characterization is stale or wrong: briefing states VIX 'DOWNTREND... remains stable' at 15.84, but VIX actually jumped to a 28-session high near 18.8 on Sept 11 on the combined CPI/oil shock. This undercuts the 'limited technical leaders, most signals RED' framing being paired with a 'calm VIX' claim — the vol backdrop was actually turning more stressed, not stable."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "VIX: Listed as 15.84 and DOWNTREND/stable; actual Sept 11 close was ~18.8, a 28-session high, driven by the CPI + oil pipeline shock."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-11T22:17:03Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Fed September 25bp Hike Now All But Guaranteed After August CPI",
+        "accuracy": "accurate",
+        "note": "BLS released August CPI on Sept 11, 2026: +0.4% m/m, 3.4% y/y headline, core +0.4% m/m / 2.4% y/y, driven partly by gasoline (+3.9%). Multiple outlets (CNBC, Kiplinger, Forbes) confirm this raised September 25bp hike odds; prediction markets (Kalshi/Polymarket) show ~80% probability — high but not literally 100%, so 'all but guaranteed' is a fair characterization, not a certainty."
+      },
+      {
+        "rank": 2,
+        "title": "Middle East Escalation Keeps Oil Supply Risk Premium Elevated",
+        "accuracy": "accurate",
+        "note": "Confirmed by CNBC, CNN, NPR: Saudi Arabia's East-West (Petroline) pipeline was struck and shut down as a precaution (Sept 8-11), Houthis have tightened control of Yemen's Red Sea coastline. Brent ~$108.68, WTI ~$103.45, both on track for biggest weekly gain in months as of Sept 11 close of week."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "VIX spiked to a 28-session high (~18.8, up from ~17.84 prior close) on Sept 11 amid combined oil/inflation shock, not the 'stable, DOWNTREND, 15.84' level stated in the briefing's sector analysis",
+        "impact": "Directly contradicts the briefing's sector-leaders narrative that volatility is calm; affects risk-sizing read-through for every watchlist name, especially high-beta AI/growth names (NVDA, PLTR, MU, APP, ALAB, OKLO)",
+        "severity": "important"
+      },
+      {
+        "title": "NVDA paid/declared a $0.25 cash dividend with ex-date Sept 10, 2026",
+        "impact": "Minor mechanical adjustment to NVDA price/comparisons not flagged in briefing; low market-moving significance",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "Confirmed: S&P 500 +0.86% to 7,656.98, Nasdaq +0.96% to 26,333.04, Dow +0.98% to 52,573.29 on Sept 11 — a rebound after four straight down sessions, occurring alongside the CPI print and oil pipeline news. The 'paradox' framing (stocks up despite higher hike odds and oil risk) matches reporting from CNBC/TheStreet."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "VIX figure/characterization is stale or wrong: briefing states VIX 'DOWNTREND... remains stable' at 15.84, but VIX actually jumped to a 28-session high near 18.8 on Sept 11 on the combined CPI/oil shock. This undercuts the 'limited technical leaders, most signals RED' framing being paired with a 'calm VIX' claim — the vol backdrop was actually turning more stressed, not stable."
+    },
+    "stock_errors": [
+      {
+        "symbol": "VIX",
+        "error": "Listed as 15.84 and DOWNTREND/stable; actual Sept 11 close was ~18.8, a 28-session high, driven by the CPI + oil pipeline shock."
+      }
+    ],
+    "overall_score": 78,
+    "summary": "The two global issues (Fed hike odds, Middle East oil risk) and the overall 'stocks up despite rising risk' market mood are well-supported by current reporting. The main flaw is the sector analysis's VIX reading, which appears outdated/wrong — volatility actually spiked to a multi-week high on Sept 11 rather than staying calm, which weakens the 'limited leaders, mixed rotation' framing built around it."
+  }
+}
