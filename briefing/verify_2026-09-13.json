@@ -1,0 +1,193 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-12T21:45:01Z",
+  "verified_at": "2026-09-13T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 3건:\n    TSLA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    PLTR: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=71.3 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": false,
+      "severity": "error",
+      "detail": "rank=2: confidence=confirmed이지만 인정 소스 없음 (source='cnbc 2026-09-11, oilprice.com 2026-09-11, oil & gas journal 2026-09-11')"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: outdated — Directionally correct (Iran/Houthi attacks, Strait of Hormuz tensions, US strikes on Iranian tankers are real and ongoing), but the price level is overstated/stale. Real-time reporting (CBS, CNN, Yahoo Finance, Sept 9-12) puts Brent in the $97-101/bbl range — a 6-7 week high, not near $120. The 'risk of $120/bbl' framing appears to reference an older or more extreme scenario; no current source supports $120 being the market's near-term priced risk as of Sept 11-12."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 3건 (critical 없음): ['FOMC meeting is next week (concludes Wednesday) — this is the actual rate decision, not yet priced in as certain', 'US gasoline prices surged to ~$4.22/gallon, highest since June — direct consumer inflation/spending read-through', 'US-Iran preliminary deal talks over Strait of Hormuz control broke down (control/fees dispute)']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: S&P 500 actually rose 0.86% to 7,656.98 on Sept 11 (Dow +0.98%, Nasdaq +0.96%) despite the CPI print and oil spike — this matches the briefing's 'closed higher despite sticky CPI... and oil spiking' paradox framing. Yellow/cautiously-mixed traffic light with score 71.3 is consistent with a market that's still grinding higher but facing rate and geopolitical headwinds."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Leaders/laggards list is plausible given known trends (NVDA, MU, CRWD, MSFT strength; GOOGL, ANET weakness have some support in recent coverage), but the 'rotation toward energy and utilities' claim could not be independently confirmed via search — no current article specifically documents a rotation into energy/utilities this week tied to power-demand names. Briefing itself flags this as 'tentative,' which is appropriately hedged given the lack of corroboration."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-13T07:16:00Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Sticky August CPI cements Fed rate-hike odds",
+        "accuracy": "accurate",
+        "note": "Confirmed: August CPI rose 0.4% m/m (3.4% y/y), core 0.3% m/m (2.4% y/y), above forecast. CME FedWatch/futures odds of a hike at next week's FOMC meeting jumped from ~70% to 85-90% (CNBC, CBS News, Benzinga, Sept 11). Fed decision itself has not happened yet — briefing correctly frames this as raised odds, not a confirmed hike."
+      },
+      {
+        "rank": 2,
+        "title": "Middle East conflict escalates oil prices",
+        "accuracy": "outdated",
+        "note": "Directionally correct (Iran/Houthi attacks, Strait of Hormuz tensions, US strikes on Iranian tankers are real and ongoing), but the price level is overstated/stale. Real-time reporting (CBS, CNN, Yahoo Finance, Sept 9-12) puts Brent in the $97-101/bbl range — a 6-7 week high, not near $120. The 'risk of $120/bbl' framing appears to reference an older or more extreme scenario; no current source supports $120 being the market's near-term priced risk as of Sept 11-12."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "FOMC meeting is next week (concludes Wednesday) — this is the actual rate decision, not yet priced in as certain",
+        "impact": "All watchlist names, especially rate-sensitive tech (NVDA, MSFT, MU, CRWD) and high-multiple growth names (PLTR, TSLA) — the briefing discusses hike odds but doesn't flag that the decision itself is imminent (within days), which is the dominant near-term catalyst",
+        "severity": "important"
+      },
+      {
+        "title": "US gasoline prices surged to ~$4.22/gallon, highest since June — direct consumer inflation/spending read-through",
+        "impact": "Broader market mood context; relevant to consumer-facing/discretionary sentiment not directly in this watchlist but affects the 'paradox' narrative the briefing describes",
+        "severity": "minor"
+      },
+      {
+        "title": "US-Iran preliminary deal talks over Strait of Hormuz control broke down (control/fees dispute)",
+        "impact": "Underlying driver of the oil spike the briefing cites — omitting the breakdown in negotiations means the briefing understates how fluid/negative the escalation risk is",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "S&P 500 actually rose 0.86% to 7,656.98 on Sept 11 (Dow +0.98%, Nasdaq +0.96%) despite the CPI print and oil spike — this matches the briefing's 'closed higher despite sticky CPI... and oil spiking' paradox framing. Yellow/cautiously-mixed traffic light with score 71.3 is consistent with a market that's still grinding higher but facing rate and geopolitical headwinds."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Leaders/laggards list is plausible given known trends (NVDA, MU, CRWD, MSFT strength; GOOGL, ANET weakness have some support in recent coverage), but the 'rotation toward energy and utilities' claim could not be independently confirmed via search — no current article specifically documents a rotation into energy/utilities this week tied to power-demand names. Briefing itself flags this as 'tentative,' which is appropriately hedged given the lack of corroboration."
+    },
+    "stock_errors": [],
+    "overall_score": 78,
+    "summary": "Core macro narrative (sticky CPI raising Fed hike odds, S&P still closing higher, oil rising on Middle East escalation) is well-supported by current reporting, and the NVDA price point checks out exactly against Sept 11 close data. The main flaw is the oil issue overstating price level/risk ($120 vs. actual ~$97-101/bbl) and omitting that the imminent FOMC decision itself (next week) and the breakdown in US-Iran Hormuz talks are the more material near-term catalysts not surfaced in the briefing."
+  }
+}
