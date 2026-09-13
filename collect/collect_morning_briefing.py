@@ -732,7 +732,10 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    distribution-day counts, breadth readings, 'hit records' claims) and calendar/session claims (e.g. which
    date was the 'last session') — state these only if a specific figure/date appears in the inputs above; do
    not recall a number or a trading-day claim from training memory, and do not assert a market event occurred
-   on a date without confirming from the inputs that a session actually occurred that date.
+   on a date without confirming from the inputs that a session actually occurred that date. Any issue tagged
+   [CRITICAL] in the context above is mandatory input and MUST be explicitly discussed somewhere in the
+   briefing — do not omit a critical-tier issue for brevity, space, or because it doesn't fit the existing
+   section structure.
 2. CURRENT STATE BINDING — For any listed issue, do not contradict or soften Current State with older
    training recollection. Prefer the provided state, dates, and scope verbatim. Do NOT add causal or comparative framing (e.g., "undershot forecasts", "beat expectations", "reinforced cut bets") unless the provided Current State/Summary explicitly states both the actual figure and what it was compared against — if the evidence says a figure matched consensus, report it as in line, not as a beat/miss/undershoot, and do not name a data release as the primary driver of a market reaction unless the evidence explicitly says so.
 3. ASYMMETRIC IMPACT — When discussing a ticker, if that ticker appears in Asymmetric Impact, use that
@@ -740,7 +743,10 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    STRUCTURE BINDING — If a ticker discussed in this briefing has a structural classification (e.g.
    ACCUMULATION/DISTRIBUTION/NEUTRAL) available from the SniperBoard/API tables in this prompt, you MUST
    state that exact structural label for that ticker somewhere in the ticker's discussion — omitting an
-   available structural classification is a critical-data omission. This applies even if the ticker is only
+   available structural classification is a critical-data omission. Use the provided label verbatim — do NOT
+   substitute a different or self-derived structural/trend term (e.g., UPTREND/DOWNTREND inferred from your own
+   price read) in place of the exact ACCUMULATION/DISTRIBUTION/NEUTRAL classification given, even if it seems
+   to conflict with recent price action. This applies even if the ticker is only
    named briefly (e.g. in a watchlist line or a single passing sentence) — a brief mention still requires the
    label; do not skip it just because the ticker isn't a main topic. If the API call for a ticker's structure
    failed (no data returned), do not fabricate a structural label — omit the mention instead.
@@ -753,7 +759,11 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    reference that catalyst (direction, magnitude, date) even if the ticker is absent from Asymmetric Impact
    above — omitting a known earnings catalyst for a highlighted ticker is a critical-news omission. Use the
    exact price-move percentage given in the earnings block source data; do not restate an approximate or
-   partial (e.g., early after-hours) figure when a fuller session figure is available there. If a highlighted
+   partial (e.g., early after-hours) figure when a fuller session figure is available there. Always state the
+   actual date of the underlying catalyst (e.g., the earnings report date) as given in the source data — do not
+   phrase a price move using language that implies a fresh same-day catalyst (e.g., "jumps X% on new guidance")
+   when the source data shows the originating event occurred earlier; describe it as a delayed re-pricing of
+   that earlier event instead. If a highlighted
    ticker (leaders/laggards/watchlist/action calls) moved more than 2% and no specific catalyst appears in the
    listed issues or earnings block, do NOT attribute the move to a generic/vague theme (e.g., "AI demand",
    "market sentiment", "tech rally") — state the magnitude only and add a '[CONTEXT GAP]' note that the
