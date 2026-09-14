@@ -1,0 +1,211 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-14T21:45:01Z",
+  "verified_at": "2026-09-15T07:15",
+  "overall_passed": false,
+  "error_count": 8,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 4건:\n    TSLA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    PLTR: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 2건:\n    GOOGL: Rule1 → avoid 필요 (struct=DOWNTREND,S2=4,RS=37), 실제=watch\n    ANET: Rule1 → avoid 필요 (struct=DOWNTREND,S2=6,RS=70), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=71.8 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": false,
+      "severity": "error",
+      "detail": "rank=1: confidence=confirmed이지만 인정 소스 없음 (source='financial times 2026-09-14, wall street journal 2026-09-14, new york times 2026-09-14, cnbc 2026-09-14')"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-mood-drop",
+      "passed": false,
+      "severity": "error",
+      "detail": "TSM: mood=optimistic with drop -3.52%"
+    },
+    {
+      "name": "B1-mood-drop",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU: mood=optimistic with drop -5.25%"
+    },
+    {
+      "name": "B1-mood-drop",
+      "passed": false,
+      "severity": "error",
+      "detail": "ALAB: mood=optimistic with drop -11.74%"
+    },
+    {
+      "name": "B1-mood-drop",
+      "passed": false,
+      "severity": "error",
+      "detail": "ANET: mood=euphoric with drop -5.90%"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: outdated — Directionally correct but stale framing. The East-West pipeline attack and initial break above $100 happened Sept 8-11 (drone strikes from Iraq/Houthi attacks), not on Sept 14. By Sept 14, Brent had already climbed further to ~$105-109/barrel ('nears $110'), so describing it as just 'surging past $100' understates the current price level and timing."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 2건:\n    AI CEOs (Musk, Amodei, Altman) warn AI development moving too fast; OpenAI reportedly delaying IPO — triggers semiconductor selloff (영향: This is the primary driver cited by CNBC/Bloomberg for the chip selloff (SOXX -5%, semiconductor index -5.9%), not just rising yields/oil as the briefing implies. Directly explains NVDA, MU, TSM, ALAB declines and is a materially different causal narrative than presented.)\n    FOMC meeting Sept 15-16, 2026 with elevated rate-hike odds (~55-83% probability of 25bp hike per CME FedWatch/Kalshi/Polymarket) (영향: Imminent catalyst for all watchlist names (rate-sensitive growth stocks like PLTR, TSLA, MSFT especially); not mentioned anywhere in the briefing despite being the key overhang cited alongside yields/oil in most market coverage.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Yellow/71.8 with yield+oil framing is directionally reasonable, but the headline/summary omits the AI-safety-driven selloff (CEO warnings, OpenAI IPO delay) that multiple sources cite as the proximate cause of the tech/semiconductor decline, making the causal story incomplete."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Rotation direction (semiconductors down, cybersecurity/CRWD up) is confirmed — Palo Alto +4%, CrowdStrike higher. But the briefing attributes the chip weakness to yields/oil rather than the AI-safety-warning selloff that news coverage identifies as the actual trigger, and CRWD's magnitude (+13.85%) is inconsistent with at least one contemporaneous report citing +5.4%."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CRWD: Briefing states CRWD closed +13.85% at $235.38 on a 'new all-time high'; search results show record intraday levels around $233-238 but one CNBC-sourced article from the same day cites CrowdStrike 'advanced 5.4%', a notable discrepancy in the day's percentage move. 'All-time high' also needs a split-adjustment caveat since CRWD's pre-split ATH close was much higher (~$544 in 2019)."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-15T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "10-Year Treasury Yield Hits 5% First Time Since 2023",
+        "accuracy": "accurate",
+        "note": "Confirmed by CNBC, Bloomberg, Yahoo Finance: 10Y touched ~5.01-5.02% intraday on Sept 14, 2026 (highest since 2007-era before GFC, first time since Oct 2023 at this level), then eased to ~4.96%. Driven by oil-linked inflation fears ahead of the Sept 15-16 FOMC meeting."
+      },
+      {
+        "rank": 2,
+        "title": "Oil Surges Past $100/b on Saudi Pipeline Threat",
+        "accuracy": "outdated",
+        "note": "Directionally correct but stale framing. The East-West pipeline attack and initial break above $100 happened Sept 8-11 (drone strikes from Iraq/Houthi attacks), not on Sept 14. By Sept 14, Brent had already climbed further to ~$105-109/barrel ('nears $110'), so describing it as just 'surging past $100' understates the current price level and timing."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "AI CEOs (Musk, Amodei, Altman) warn AI development moving too fast; OpenAI reportedly delaying IPO — triggers semiconductor selloff",
+        "impact": "This is the primary driver cited by CNBC/Bloomberg for the chip selloff (SOXX -5%, semiconductor index -5.9%), not just rising yields/oil as the briefing implies. Directly explains NVDA, MU, TSM, ALAB declines and is a materially different causal narrative than presented.",
+        "severity": "critical"
+      },
+      {
+        "title": "FOMC meeting Sept 15-16, 2026 with elevated rate-hike odds (~55-83% probability of 25bp hike per CME FedWatch/Kalshi/Polymarket)",
+        "impact": "Imminent catalyst for all watchlist names (rate-sensitive growth stocks like PLTR, TSLA, MSFT especially); not mentioned anywhere in the briefing despite being the key overhang cited alongside yields/oil in most market coverage.",
+        "severity": "critical"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow/71.8 with yield+oil framing is directionally reasonable, but the headline/summary omits the AI-safety-driven selloff (CEO warnings, OpenAI IPO delay) that multiple sources cite as the proximate cause of the tech/semiconductor decline, making the causal story incomplete."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "Rotation direction (semiconductors down, cybersecurity/CRWD up) is confirmed — Palo Alto +4%, CrowdStrike higher. But the briefing attributes the chip weakness to yields/oil rather than the AI-safety-warning selloff that news coverage identifies as the actual trigger, and CRWD's magnitude (+13.85%) is inconsistent with at least one contemporaneous report citing +5.4%."
+    },
+    "stock_errors": [
+      {
+        "symbol": "CRWD",
+        "error": "Briefing states CRWD closed +13.85% at $235.38 on a 'new all-time high'; search results show record intraday levels around $233-238 but one CNBC-sourced article from the same day cites CrowdStrike 'advanced 5.4%', a notable discrepancy in the day's percentage move. 'All-time high' also needs a split-adjustment caveat since CRWD's pre-split ATH close was much higher (~$544 in 2019)."
+      }
+    ],
+    "overall_score": 68,
+    "summary": "The two headline macro facts (10Y yield hitting 5%, oil above $100 on the Saudi pipeline attack) are both real and directionally correct, though the oil framing is a few days stale and undersells the current ~$105-109 level. The briefing's bigger gap is missing the AI-safety-warning-driven selloff (Musk/Amodei/Altman, OpenAI IPO delay) that news outlets identify as the actual trigger for the semiconductor rout, plus the imminent Sept 15-16 FOMC meeting with high rate-hike odds — both materially relevant to the watchlist and absent from the briefing."
+  }
+}
