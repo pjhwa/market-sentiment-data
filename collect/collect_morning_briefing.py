@@ -768,9 +768,9 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    listed issues or earnings block, do NOT attribute the move to a generic/vague theme (e.g., "AI demand",
    "market sentiment", "tech rally") — state the magnitude only and add a '[CONTEXT GAP]' note that the
    specific driver is unconfirmed, rather than inventing a plausible-sounding cause.
-3b. TERMINOLOGY — The first time you use a technical/jargon abbreviation or term not already defined in this
-   prompt's inputs (e.g., RS, RSI, MACD, VWAP), append a brief parenthetical definition on first use in the
-   output (e.g., "RS (relative strength vs. benchmark)"). Do not use undefined technical abbreviations.
+3b. TERMINOLOGY — Every time you use a technical/jargon abbreviation or term not already defined in this
+   prompt's inputs (e.g., RS, RSI, MACD, VWAP), append a brief parenthetical definition at EVERY occurrence in the
+   output, not just the first — an earlier gloss elsewhere in the output does not excuse a later bare use (e.g., a bare "RS=88" or "RS 88" without the gloss is a violation even if RS was defined earlier). Do not use undefined technical abbreviations.
 4. big_picture.summary — If the issue set above has 2 or fewer entries, or the reported index/session moves are larger than what the listed issues plausibly explain, do NOT present a single-cause narrative (e.g., attributing a selloff solely to yields/tariffs) — frame causation as partial ("among the drivers") and add a one-line '[CONTEXT GAP]' note that other unlisted factors may be contributing, rather than asserting a complete explanation. Otherwise: At most 1–2 sentences on the highest-ranked issue that has real novelty;
    include market_paradox if present. Do not restate every quiet ongoing risk.
 5. CONFIDENCE LANGUAGE (apply in big_picture.summary / executive_bullets):

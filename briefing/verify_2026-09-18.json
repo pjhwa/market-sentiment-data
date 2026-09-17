@@ -1,0 +1,188 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-17T21:45:01Z",
+  "verified_at": "2026-09-18T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 3,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 3건:\n    TSLA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    VST: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=68.3 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 2건 (critical 없음): ['Generac signs multi-year supply deal tied to Amazon data center buildout (up to $8B order volume)', \"Goldman Sachs reiterates $725 PT on META citing AI agent 'Muse' as potential catalyst\"]"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Matches reporting: S&P 500 up ~1%, semiconductor index up ~3% on 9/17 as falling oil offset hawkish Fed; 'yellow/cautious optimism' framing is reasonable given the Fed also signaled another hike later in 2026."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: AI/semiconductor leadership (chip index +3%) is corroborated by real coverage. Rotation-into-rate-sensitive-growth framing is consistent with the relief rally described in market reports."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-18T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Fed raises rates first time since 2023, hawkish on inflation",
+        "accuracy": "accurate",
+        "note": "Confirmed: FOMC hiked 25bp to 3.75%-4.00% on 2026-09-16, first hike since 2023, Chair Kevin Warsh cited persistent inflation. Markets initially fell on 9/16 then futures/stocks rebounded on 9/17 as briefing states. (CNBC, Bloomberg, Yahoo Finance)"
+      },
+      {
+        "rank": 2,
+        "title": "Oil falls over 3% as Middle East supply fears ease",
+        "accuracy": "accurate",
+        "note": "Confirmed: Brent fell toward $102-105/bbl after Saudi Arabia said it could restore pipeline capacity and rerouted exports via Hormuz/Oman transfers, easing supply fears from the Iran conflict. (Reuters/Arab News, CNBC, Breakwave Advisors)"
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Generac signs multi-year supply deal tied to Amazon data center buildout (up to $8B order volume)",
+        "impact": "AMZN — incremental positive for AWS capex/data center expansion narrative, not material enough to change AMZN's DISTRIBUTION technical read",
+        "severity": "minor"
+      },
+      {
+        "title": "Goldman Sachs reiterates $725 PT on META citing AI agent 'Muse' as potential catalyst",
+        "impact": "META — bullish analyst commentary not reflected in briefing's DISTRIBUTION/watch characterization; minor upside risk to the cautious read",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "Matches reporting: S&P 500 up ~1%, semiconductor index up ~3% on 9/17 as falling oil offset hawkish Fed; 'yellow/cautious optimism' framing is reasonable given the Fed also signaled another hike later in 2026."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "AI/semiconductor leadership (chip index +3%) is corroborated by real coverage. Rotation-into-rate-sensitive-growth framing is consistent with the relief rally described in market reports."
+    },
+    "stock_errors": [],
+    "overall_score": 90,
+    "summary": "Both global context items and the market mood/sector calls are well-supported by real coverage of the 2026-09-16/17 Fed hike and oil pullback. No factual errors found in the watchlist; only minor uncovered items (an AMZN-adjacent supply deal and bullish META analyst note) were omitted, neither materially changing the briefing's conclusions."
+  }
+}
