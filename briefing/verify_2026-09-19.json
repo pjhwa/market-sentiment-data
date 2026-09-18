@@ -1,0 +1,214 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-18T21:45:01Z",
+  "verified_at": "2026-09-19T07:15",
+  "overall_passed": false,
+  "error_count": 3,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 3건:\n    TSLA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    VST: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=65.5 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU: $959.21 vs table $1015.80"
+    },
+    {
+      "name": "B2-day-window",
+      "passed": true,
+      "severity": "error",
+      "detail": "[warn] executive_bullets lack last-session anchors and use evergreen risk phrasing"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — Mischaracterized as 'fears' of a future hike, but the Fed already hiked rates on 2026-09-17 (to 3.75-4%, first hike in three years, 12-0 vote) and Warsh's hawkish comments were about further hikes ahead, not a hypothetical first one. 10-year yield did top 5% and cooled, consistent with briefing, but framing is stale/imprecise. Also, despite yield fears, Sept 18 close showed S&P +0.17% and Nasdaq +0.39% with chipmakers rallying — tech was not broadly 'pressured' as the mood headline claims.\n    rank=3: inaccurate — Actual policy trend as of early 2026 has moved toward loosening, not tightening: in Jan 2026 BIS issued a rule allowing case-by-case approval for chip exports to China after Trump's Dec 2025 announcement permitting some sales. The CNAS report cited is an advocacy call for MORE controls, not evidence controls are being tightened — current headline direction is the opposite of what's stated. 'Developing' tag partially hedges this but the framing is misleading."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Fed hiked rates 2026-09-17 to 3.75%-4% range (first hike in three years, unanimous 12-0), with Warsh signaling additional hikes before year-end (영향: This is the actual driver, not a 'fear' of a hike — materially changes the rate/tech-valuation narrative for NVDA, PLTR, MSFT, AAPL and other high-multiple watchlist names.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Yellow/cautious framing centered on 'Fed hike fears pressuring tech pre-open' conflicts with actual Sept 18 close: S&P 500 +0.17%, Nasdaq +0.39% with chipmakers rallying, even as Dow slipped slightly on yields/oil. The rate-hike event already happened (not a fear), and its net effect on tech was mildly positive, not pressuring — the headline overstates downside risk relative to what actually printed."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: NVDA/PLTR/MU leadership in AI/memory and META/GOOGL/AMZN distribution-phase laggards is broadly consistent with reported chipmaker strength on Sept 18. Rotation-to-commodities/BTC framing is plausible given elevated oil and yield volatility but wasn't independently confirmed via search."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "NVDA: Minor: briefing shows close $222.27 (+1.34%) vs. reported $222.05 (+1.24%) — within normal data-vendor rounding tolerance, not a material error.\n    MU: Possible discrepancy: briefing shows MU closed $1,015.80 (+3.92%) on 9/18, but a same-day Motley Fool piece cited a trading range of $942.80–$986.20 ahead of its Sept 30 earnings. Could reflect a data-source timing gap rather than an outright error; recommend spot-checking against a live quote."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-19T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Warsh comments fuel fresh Fed rate hike fears",
+        "accuracy": "outdated",
+        "note": "Mischaracterized as 'fears' of a future hike, but the Fed already hiked rates on 2026-09-17 (to 3.75-4%, first hike in three years, 12-0 vote) and Warsh's hawkish comments were about further hikes ahead, not a hypothetical first one. 10-year yield did top 5% and cooled, consistent with briefing, but framing is stale/imprecise. Also, despite yield fears, Sept 18 close showed S&P +0.17% and Nasdaq +0.39% with chipmakers rallying — tech was not broadly 'pressured' as the mood headline claims."
+      },
+      {
+        "rank": 2,
+        "title": "Oil slides on Iran outreach but Middle East risks persist",
+        "accuracy": "accurate",
+        "note": "Confirmed: oil fell for a third straight session (WTI ~$101) as the Saudi East-West pipeline outage was seen as less disruptive than feared. However, briefing's '1% slide' and 'risk persists' language significantly understates the situation — this is an active six-month US-Iran war with US strikes on IRGC-linked tankers, oil having spiked toward/near $100 in recent weeks, and Iran having struck Jordan and the UAE. Calling it 'geopolitical premium' undersells an active shooting war."
+      },
+      {
+        "rank": 3,
+        "title": "US tightens AI chip export controls on China",
+        "accuracy": "inaccurate",
+        "note": "Actual policy trend as of early 2026 has moved toward loosening, not tightening: in Jan 2026 BIS issued a rule allowing case-by-case approval for chip exports to China after Trump's Dec 2025 announcement permitting some sales. The CNAS report cited is an advocacy call for MORE controls, not evidence controls are being tightened — current headline direction is the opposite of what's stated. 'Developing' tag partially hedges this but the framing is misleading."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "US-Iran war remains active six-month conflict, not just 'Middle East risk' — includes US strikes on IRGC tankers, Iranian strikes on Jordan/UAE, Houthi threats to Red Sea shipping",
+        "impact": "Broad market volatility risk for energy-sensitive and defense names; the briefing's 'oil slides / risks persist' language significantly understates an active war that has previously driven multi-day equity selloffs.",
+        "severity": "important"
+      },
+      {
+        "title": "Fed hiked rates 2026-09-17 to 3.75%-4% range (first hike in three years, unanimous 12-0), with Warsh signaling additional hikes before year-end",
+        "impact": "This is the actual driver, not a 'fear' of a hike — materially changes the rate/tech-valuation narrative for NVDA, PLTR, MSFT, AAPL and other high-multiple watchlist names.",
+        "severity": "critical"
+      },
+      {
+        "title": "Micron (MU) fiscal Q4 earnings scheduled for 2026-09-30 with guidance of $50B revenue and 86% gross margin; stock up ~488% over trailing year",
+        "impact": "Directly relevant to MU on the watchlist (listed hold/optimistic) — upcoming binary earnings catalyst not mentioned.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow/cautious framing centered on 'Fed hike fears pressuring tech pre-open' conflicts with actual Sept 18 close: S&P 500 +0.17%, Nasdaq +0.39% with chipmakers rallying, even as Dow slipped slightly on yields/oil. The rate-hike event already happened (not a fear), and its net effect on tech was mildly positive, not pressuring — the headline overstates downside risk relative to what actually printed."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "NVDA/PLTR/MU leadership in AI/memory and META/GOOGL/AMZN distribution-phase laggards is broadly consistent with reported chipmaker strength on Sept 18. Rotation-to-commodities/BTC framing is plausible given elevated oil and yield volatility but wasn't independently confirmed via search."
+    },
+    "stock_errors": [
+      {
+        "symbol": "NVDA",
+        "error": "Minor: briefing shows close $222.27 (+1.34%) vs. reported $222.05 (+1.24%) — within normal data-vendor rounding tolerance, not a material error."
+      },
+      {
+        "symbol": "MU",
+        "error": "Possible discrepancy: briefing shows MU closed $1,015.80 (+3.92%) on 9/18, but a same-day Motley Fool piece cited a trading range of $942.80–$986.20 ahead of its Sept 30 earnings. Could reflect a data-source timing gap rather than an outright error; recommend spot-checking against a live quote."
+      }
+    ],
+    "overall_score": 62,
+    "summary": "The briefing's individual facts (oil pullback, elevated yields, chip-sector strength) are largely directionally correct, but the framing is stale and understated: it treats an already-executed Fed rate hike as a mere 'fear,' downplays an active US-Iran war as generic 'Middle East risk,' and mischaracterizes AI chip export policy as tightening when the recent trend has been toward relaxation. The cautious 'yellow' mood also sits awkwardly against a Sept 18 close where major indices, led by chipmakers, actually rose. Sector and most watchlist prices check out reasonably well, with one flagged MU price discrepancy worth a live-quote sanity check."
+  }
+}

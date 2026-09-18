@@ -753,7 +753,7 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    SELF-CHECK: Before finalizing output, list every ticker mentioned anywhere in the briefing (leaders,
    laggards, watchlist, action calls, highlights). For each one that has a structural label available in the
    SniperBoard/API tables above, confirm that exact label appears in that ticker's own discussion text; if it
-   is missing, add it before submitting the output. Format requirement: place the label in parentheses immediately after the ticker's first mention in that ticker's own sentence (e.g., "TSLA (ACCUMULATION)"), not merely somewhere later in the paragraph — this makes compliance checkable while writing the line instead of deferred to a final audit pass.
+   is missing, add it before submitting the output. Format requirement: place the label in parentheses immediately after the ticker's first mention in that ticker's own sentence (e.g., "TSLA (ACCUMULATION)"), not merely somewhere later in the paragraph — this makes compliance checkable while writing the line instead of deferred to a final audit pass. This self-check is mandatory for every ticker named anywhere in the output — including a single mention in a watchlist, leaders/laggards list, or action-call line — do not skip it because the ticker seems minor or peripheral to the main narrative.
    ADDITIONALLY: if a ticker highlighted elsewhere in this briefing (leaders/laggards/watchlist/action calls)
    had a major earnings-driven price move within the prior 3 trading sessions per the earnings block, you MUST
    reference that catalyst (direction, magnitude, date) even if the ticker is absent from Asymmetric Impact
