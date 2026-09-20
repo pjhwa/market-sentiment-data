@@ -1,0 +1,188 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-20T21:45:01Z",
+  "verified_at": "2026-09-21T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 3건:\n    TSLA: API=ACCUMULATION vs 브리핑=DOWNTREND\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    VST: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=65.7 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 1건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-mood-drop",
+      "passed": false,
+      "severity": "error",
+      "detail": "CRWD: mood=optimistic with drop -3.28%"
+    },
+    {
+      "name": "B2-theme-recurrence",
+      "passed": true,
+      "severity": "error",
+      "detail": "[warn] category=central_bank present on 6+ consecutive prior days (direction=escalating, tier=breaking)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — The Fed's 25bp hike (to 3.75%-4.00%) actually happened on 2026-09-16, and the 10Y first crossed 5% around 2026-09-14/16 per Chair Warsh's press conference. The briefing (generated 2026-09-20) frames this as fresh/breaking news four days after the event, sourced to follow-up commentary rather than the decision itself. The underlying facts (hike occurred, 10Y yield ~5.0-5.02%) remain factually correct and still the dominant market narrative as of 2026-09-21, but presenting it as a same-day development is misleading framing."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 2건 (critical 없음): ['FOMC members signal further hikes possible before year-end (16 of 19 members expect at least one more hike); October meeting likely skipped due to midterm proximity', 'Micron (MU) has not yet reported fiscal Q4 earnings — report is scheduled for 2026-09-30, not imminent']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Yellow/65.7 with a Fed-hike/high-yield headline is consistent with confirmed market conditions: 10Y yield near/above 5% (highest since 2007) and megacap tech (NVDA, MSFT, AMZN) facing multiple compression is a well-documented theme in market coverage from the days around 2026-09-16 through 2026-09-20."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Rotation narrative (gold/BTC as inflation hedges gaining, rate-sensitive credit/growth lagging, breadth weak with IWM down) is directionally consistent with a rising-yield, sticky-inflation backdrop confirmed by search results (5%+ 10Y, 30Y at highest since 2007). Could not independently verify the specific ACCUMULATION/DISTRIBUTION technical tags (GLD, BTC-USD, SMH) via web search since those are proprietary technical signals, not news-reportable facts."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-21T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Fed rate hike signals sticky inflation and faster growth",
+        "accuracy": "outdated",
+        "note": "The Fed's 25bp hike (to 3.75%-4.00%) actually happened on 2026-09-16, and the 10Y first crossed 5% around 2026-09-14/16 per Chair Warsh's press conference. The briefing (generated 2026-09-20) frames this as fresh/breaking news four days after the event, sourced to follow-up commentary rather than the decision itself. The underlying facts (hike occurred, 10Y yield ~5.0-5.02%) remain factually correct and still the dominant market narrative as of 2026-09-21, but presenting it as a same-day development is misleading framing."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "FOMC members signal further hikes possible before year-end (16 of 19 members expect at least one more hike); October meeting likely skipped due to midterm proximity",
+        "impact": "Forward-looking rate-path risk relevant to all rate-sensitive names (NVDA, MSFT, AMZN, PLTR growth multiples) and to HYG/^TNX — briefing covers the hike itself but omits the forward guidance that is driving continued repricing",
+        "severity": "important"
+      },
+      {
+        "title": "Micron (MU) has not yet reported fiscal Q4 earnings — report is scheduled for 2026-09-30, not imminent",
+        "impact": "MU's 3.92% move in the briefing is a normal trading-day move, not earnings-driven; no error in the briefing, but worth noting the upcoming print is a near-term catalyst not mentioned in the watchlist note",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "Yellow/65.7 with a Fed-hike/high-yield headline is consistent with confirmed market conditions: 10Y yield near/above 5% (highest since 2007) and megacap tech (NVDA, MSFT, AMZN) facing multiple compression is a well-documented theme in market coverage from the days around 2026-09-16 through 2026-09-20."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Rotation narrative (gold/BTC as inflation hedges gaining, rate-sensitive credit/growth lagging, breadth weak with IWM down) is directionally consistent with a rising-yield, sticky-inflation backdrop confirmed by search results (5%+ 10Y, 30Y at highest since 2007). Could not independently verify the specific ACCUMULATION/DISTRIBUTION technical tags (GLD, BTC-USD, SMH) via web search since those are proprietary technical signals, not news-reportable facts."
+    },
+    "stock_errors": [],
+    "overall_score": 78,
+    "summary": "Core facts (Fed hike, 10Y yield at/above 5%, tech pressured) are accurate but the briefing presents a 4-day-old Fed decision as same-day breaking news, which is a material framing/staleness issue. No factual errors found in individual stock prices or watchlist mood tags. Missing context includes the FOMC's forward guidance on further 2026 hikes, which is arguably more market-moving than the hike itself at this point."
+  }
+}
