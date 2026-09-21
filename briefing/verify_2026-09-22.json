@@ -1,0 +1,214 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-21T21:45:01Z",
+  "verified_at": "2026-09-22T07:15",
+  "overall_passed": false,
+  "error_count": 3,
+  "warning_count": 5,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 3건:\n    TSLA: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    VST: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=67.6 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=False)"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "MU: $966.91 vs table $1043.96"
+    },
+    {
+      "name": "B2-theme-recurrence",
+      "passed": true,
+      "severity": "error",
+      "detail": "[warn] category=central_bank present on 7+ consecutive prior days (direction=escalating, tier=breaking)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "3개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=3: outdated — Briefing omits that the FOMC already delivered a 25bp hike on Sept 16, 2026 (to 3.75-4.00%, first hike since 2023), with 16 of 18 members projecting at least one more hike in 2026. Framing this as still-developing 'more hikes needed' signaling, without noting the hike already happened, understates how far along the tightening cycle already is."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Treasury Secretary Bessent says US-China trade talks were 'successful' ahead of Trump-Xi meeting (영향: Major risk-on catalyst for the Sept 21 rally (S&P +1.5%, Nasdaq +2.3% to record highs) — directly relevant to China-exposed chip/tech names in watchlist (TSM, NVDA, AAPL) and the Korea chip export narrative; briefing's global context misses this macro driver entirely.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Actual Sept 21 session was a broad, strong rally — S&P 500 +1.5% (within 0.4% of record), Nasdaq +2.3% to a fresh record high, Dow +366pts — described in press as 'best day since early August.' A 'yellow' traffic light (score 67.6) framed around Fed hawkishness offsetting gains reads more cautious than the actual market tone, which was closer to broad risk-on/green given record highs and a market-wide rally, not just isolated AI/oil-driven strength."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Semiconductor/AI leadership (SMH, TSM, NVDA, chip names) matches real Sept 21 news of chip stocks leading the Nasdaq to record highs on AI demand and the Korea export data. Energy-to-tech rotation narrative is consistent with oil's retreat coinciding with the tech rally."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "NVDA: Briefing shows NVDA closing at $227.38 (+2.30%); external quote data shows NVDA around $222.27 for Sept 21 — a ~2% discrepancy, likely a data-source/timing difference rather than a clear error, but worth flagging for reconciliation.\n    META: Briefing shows META closing at $741.24 (+11.34%); reporting on the Sept 21 Muse-AI-driven rally cites shares surging ~12% to $747.91 intraday. Directionally correct (both describe an ~11-12% single-day surge on Muse AI/Wells Fargo price-target news) but the specific price/percentage differs from widely reported figures."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-22T07:16:00+09:00",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Oil Prices Retreat Sharply on Easing Middle East Concerns",
+        "accuracy": "accurate",
+        "note": "Confirmed by multiple sources: Brent/WTI spiked toward $108 around Sept 10 on US-Israel-Iran conflict, then fell for four straight sessions, dropping below $98-100 by Sept 21 on diplomatic de-escalation hopes. Directionally and temporally consistent with briefing."
+      },
+      {
+        "rank": 2,
+        "title": "Korea Chip Exports Hit Record on AI Demand Despite Controls",
+        "accuracy": "accurate",
+        "note": "Confirmed: South Korea's first-20-days-of-September exports hit $71.4B with semiconductor exports at a record $34.1B (+259% YoY), chips at 47.8% of total exports — matches briefing numbers exactly."
+      },
+      {
+        "rank": 3,
+        "title": "Fed Officials Signal More Rate Hikes Needed as 2Y Yield Hits Multi-Year High",
+        "accuracy": "outdated",
+        "note": "Briefing omits that the FOMC already delivered a 25bp hike on Sept 16, 2026 (to 3.75-4.00%, first hike since 2023), with 16 of 18 members projecting at least one more hike in 2026. Framing this as still-developing 'more hikes needed' signaling, without noting the hike already happened, understates how far along the tightening cycle already is."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Treasury Secretary Bessent says US-China trade talks were 'successful' ahead of Trump-Xi meeting",
+        "impact": "Major risk-on catalyst for the Sept 21 rally (S&P +1.5%, Nasdaq +2.3% to record highs) — directly relevant to China-exposed chip/tech names in watchlist (TSM, NVDA, AAPL) and the Korea chip export narrative; briefing's global context misses this macro driver entirely.",
+        "severity": "critical"
+      },
+      {
+        "title": "Intel (INTC) +5.76% on Micro LED packaging partnership with AUO Optronics",
+        "impact": "Not in current watchlist, but relevant semiconductor-sector news that reinforces the chip-sector strength theme cited in briefing's sector analysis.",
+        "severity": "minor"
+      },
+      {
+        "title": "HP (HPQ) warns of mid-single-digit PC unit volume decline for 2027",
+        "impact": "Not in watchlist; minor hardware-demand signal, low relevance to tracked names.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Actual Sept 21 session was a broad, strong rally — S&P 500 +1.5% (within 0.4% of record), Nasdaq +2.3% to a fresh record high, Dow +366pts — described in press as 'best day since early August.' A 'yellow' traffic light (score 67.6) framed around Fed hawkishness offsetting gains reads more cautious than the actual market tone, which was closer to broad risk-on/green given record highs and a market-wide rally, not just isolated AI/oil-driven strength."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "Semiconductor/AI leadership (SMH, TSM, NVDA, chip names) matches real Sept 21 news of chip stocks leading the Nasdaq to record highs on AI demand and the Korea export data. Energy-to-tech rotation narrative is consistent with oil's retreat coinciding with the tech rally."
+    },
+    "stock_errors": [
+      {
+        "symbol": "NVDA",
+        "error": "Briefing shows NVDA closing at $227.38 (+2.30%); external quote data shows NVDA around $222.27 for Sept 21 — a ~2% discrepancy, likely a data-source/timing difference rather than a clear error, but worth flagging for reconciliation."
+      },
+      {
+        "symbol": "META",
+        "error": "Briefing shows META closing at $741.24 (+11.34%); reporting on the Sept 21 Muse-AI-driven rally cites shares surging ~12% to $747.91 intraday. Directionally correct (both describe an ~11-12% single-day surge on Muse AI/Wells Fargo price-target news) but the specific price/percentage differs from widely reported figures."
+      }
+    ],
+    "overall_score": 78,
+    "summary": "The briefing's global issues (oil retreat, Korea chip export record) are accurately and precisely sourced, but it omits the actually-completed Sept 16 Fed rate hike and, more importantly, misses the Bessent US-China trade-talks headline that was a key driver of Sept 21's broad market rally. The 'yellow/cautious' mood framing understates how strongly bullish the actual session was (record Nasdaq close, best day in weeks), while sector rotation calls and most individual stock moves (META/Muse surge, chip strength) are directionally correct with only minor price/percentage discrepancies likely due to data-source timing."
+  }
+}
