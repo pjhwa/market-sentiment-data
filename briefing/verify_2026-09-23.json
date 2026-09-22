@@ -1,0 +1,188 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-22T21:45:01Z",
+  "verified_at": "2026-09-23T07:15",
+  "overall_passed": false,
+  "error_count": 2,
+  "warning_count": 3,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 2건:\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    VST: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 3건:\n    CEG: Rule1 → avoid 필요 (struct=UPTREND,S2=1,RS=36), 실제=watch\n    VST: Rule1 → avoid 필요 (struct=UPTREND,S2=1,RS=11), 실제=watch\n    SOFI: Rule1 → avoid 필요 (struct=ACCUMULATION,S2=1,RS=37), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=69.8 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "2개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 2건 (critical 없음): ['Broad market rally: S&P 500 +1.5%, Nasdaq +2.3% to a record high, Dow +0.7% on Monday (Sept 22), driven by falling yields and a chipmaker rally', 'Micron (MU) September 30 earnings anticipation and HBM/memory price forecasts (memory prices projected to climb ~50% this quarter) driving the pre-earnings rally, not just the Alibaba/chip news framing given in the briefing']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The briefing's 'yellow' traffic light and 69.8 score read overly cautious relative to actual conditions: major indices closed sharply higher (S&P +1.5%, Nasdaq +2.3% to a fresh record, Dow +0.7%) on falling yields and a broad chip-sector rally. Given nearly every watchlist leader is UPTREND/optimistic, a yellow/neutral-leaning score understates the bullish tone seen in independent market recaps for the same session."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: AI infrastructure/memory leadership (CRWD, PLTR, MU, MSFT) and chip-name pressure (NVDA, TSM, SMCI) from the Alibaba/export-control news both check out against current reporting. Rotation narrative (into memory/AI infra, away from energy-transition names) is plausible given falling oil prices reducing energy-sector tailwinds, though this specific rotation claim wasn't independently verifiable via search."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-22T22:16:36Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Alibaba launches AI chip rival to Nvidia amid export controls",
+        "accuracy": "accurate",
+        "note": "Confirmed by Bloomberg, Yahoo Finance, Forkast, 24/7 Wall St (2026-09-22): Alibaba unveiled Zhenwu V900 (216GB HBM, up to 500K-unit clusters), BABA jumped ~4% on the news, explicitly framed as filling the gap left by Nvidia export controls. SMCI Taiwan raid and ~7-8% share drop also confirmed for this week. One caveat: several outlets note the underlying Taiwan probe originated from earlier raids in May/June 2026 and this is an escalation/continuation, not a brand-new investigation — worth noting the briefing implies it's a fresh event when it's actually the probe deepening. V900 mass production is not until Q1 2027, so 'launches' overstates commercial availability (it was unveiled/announced, not shipped)."
+      },
+      {
+        "rank": 2,
+        "title": "Middle East oil supply risks persist as prices fall below $100",
+        "accuracy": "accurate",
+        "note": "Confirmed: Brent fell to ~$100/barrel Monday, extending a 4-session slide on Iran de-escalation diplomacy talks, per CNBC/Reuters coverage from the period. Houthi/Yemen attacks on Saudi energy facilities and Hormuz risk remain live concerns (Goldman warned of a possible spike above $120 if attacks intensify), consistent with the briefing's framing of persistent risk despite the price pullback."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Broad market rally: S&P 500 +1.5%, Nasdaq +2.3% to a record high, Dow +0.7% on Monday (Sept 22), driven by falling yields and a chipmaker rally",
+        "impact": "Materially bullish backdrop for the entire watchlist (NVDA, MU, TSM, CRWD, PLTR, MSFT) that the briefing's 'yellow/69.8' mood score understates — Nasdaq 100 hit its first record since June",
+        "severity": "important"
+      },
+      {
+        "title": "Micron (MU) September 30 earnings anticipation and HBM/memory price forecasts (memory prices projected to climb ~50% this quarter) driving the pre-earnings rally, not just the Alibaba/chip news framing given in the briefing",
+        "impact": "MU — briefing attributes MU's move only to 'memory tailwinds' without noting the specific Sept 30 earnings catalyst and forecast HBM pricing surge, which is the dominant driver per Forex/FXLeaders coverage",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "The briefing's 'yellow' traffic light and 69.8 score read overly cautious relative to actual conditions: major indices closed sharply higher (S&P +1.5%, Nasdaq +2.3% to a fresh record, Dow +0.7%) on falling yields and a broad chip-sector rally. Given nearly every watchlist leader is UPTREND/optimistic, a yellow/neutral-leaning score understates the bullish tone seen in independent market recaps for the same session."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "AI infrastructure/memory leadership (CRWD, PLTR, MU, MSFT) and chip-name pressure (NVDA, TSM, SMCI) from the Alibaba/export-control news both check out against current reporting. Rotation narrative (into memory/AI infra, away from energy-transition names) is plausible given falling oil prices reducing energy-sector tailwinds, though this specific rotation claim wasn't independently verifiable via search."
+    },
+    "stock_errors": [],
+    "overall_score": 82,
+    "summary": "Core global-context items (Alibaba's Zhenwu V900 chip vs. Nvidia, SMCI's Taiwan raid, and Brent crude below $100 amid Middle East risk) are all independently confirmed for this news cycle, though the SMCI raid is best understood as an escalation of an existing probe rather than a wholly new event. The main shortfall is the market mood score reading too cautious (yellow/69.8) against an actual session where major indices rallied sharply, including a Nasdaq 100 record — this should likely trend toward 'green' or a higher score. No clear factual errors found in individual stock price/percentage entries given normal data-provider variance."
+  }
+}
