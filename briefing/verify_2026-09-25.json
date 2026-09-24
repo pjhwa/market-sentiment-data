@@ -1,0 +1,211 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-23T21:45:01Z",
+  "verified_at": "2026-09-25T07:15",
+  "overall_passed": false,
+  "error_count": 7,
+  "warning_count": 3,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 2건:\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "CEG: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    VST: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 1건:\n    SOFI: Rule1 → avoid 필요 (struct=ACCUMULATION,S2=1,RS=27), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": false,
+      "severity": "error",
+      "detail": "score: 브리핑=68.1 vs API=64.9 (차이>3.2)"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "META: $744.1 vs table $777.59"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "RKLB: $70.31 vs table $73.61"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "QBTS: $16.81 vs table $17.48"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: outdated — Reversed within 24h. By Sept 24, Iran conflict escalated sharply: Houthi missiles fired at Saudi Arabia and an Iranian military official threatened to broaden the war to the Indian Ocean, sending Brent up ~5% intraday to $108 and WTI toward $92-98 (Brent +17% and WTI +10%+ for September). Oil is now rising on war-risk premium, not falling to two-week lows near $89. This item is materially wrong as of now."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Iran conflict escalation: Houthi missile strikes on Saudi Arabia, Iran threatens to widen war to Indian Ocean (영향: Drives oil price surge (contradicts briefing's oil item directly), raises broad market risk-off pressure affecting all watchlist names; energy-sensitive and defense-adjacent sectors likely to see rotation)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Yellow/68.1 and the yield-driven headline are directionally reasonable for Sept 23's close, but by Sept 24 the mood is being shaped at least as much by Iran-driven oil spikes and Oracle's force majeure hitting AI infrastructure names — neither reflected in the headline/summary, which risks understating downside risk in tech specifically."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: CRWD's +5.27% leadership is confirmed accurate. However, the leaders list (CRWD, PLTR, MSFT) omits that MSFT sits in the same AI-infrastructure complex hit by Oracle's force majeure news on Sept 24, which pressured tech broadly alongside the yield story. The DISTRIBUTION laggards (GOOGL, AMZN, AAPL) framing as yield-driven rotation is plausible but incomplete without the Oracle/AI-infra angle."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-24T22:16:36Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "10-Year Treasury Yield Hits 5.1%, Stocks Slide on Rate Fears",
+        "accuracy": "accurate",
+        "note": "Confirmed by CNN, WSJ, Semafor (2026-09-23): 10Y yield surged 17bp to 5.11-5.12%, highest since 2007 (19-year high), driven by hot S&P Global PMI data. As of Sept 24, 30-year yield also hit a post-2004 peak (5.438%), so the rate-fear narrative is still current and intensifying, not stale."
+      },
+      {
+        "rank": 2,
+        "title": "Oil Falls to Two-Week Lows Near $89 Despite Iran Shipping Disruptions",
+        "accuracy": "outdated",
+        "note": "Reversed within 24h. By Sept 24, Iran conflict escalated sharply: Houthi missiles fired at Saudi Arabia and an Iranian military official threatened to broaden the war to the Indian Ocean, sending Brent up ~5% intraday to $108 and WTI toward $92-98 (Brent +17% and WTI +10%+ for September). Oil is now rising on war-risk premium, not falling to two-week lows near $89. This item is materially wrong as of now."
+      },
+      {
+        "rank": 3,
+        "title": "Chip Export Bills Advance Amid Schumer Push and Xi Visit Looming",
+        "accuracy": "accurate",
+        "note": "Confirmed by Roll Call, Punchbowl, Washington Times (2026-09-23): Schumer/Senate Democrats pressing for votes on three bills (AI Overwatch Act, Match Act, Chip Security Act) ahead of Xi's Washington visit; bills remain stuck pending the broader NDAA. Still current."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Iran conflict escalation: Houthi missile strikes on Saudi Arabia, Iran threatens to widen war to Indian Ocean",
+        "impact": "Drives oil price surge (contradicts briefing's oil item directly), raises broad market risk-off pressure affecting all watchlist names; energy-sensitive and defense-adjacent sectors likely to see rotation",
+        "severity": "critical"
+      },
+      {
+        "title": "Oracle declares force majeure on $165B 'Project Jupiter' AI data center (New Mexico), stock fell ~5%, dragging tech/AI-infrastructure sector",
+        "impact": "Directly relevant to AI infrastructure theme in watchlist (MSFT, NVDA); tech sector broadly fell on the news Sept 24, an added drag beyond the yield story not mentioned in briefing",
+        "severity": "important"
+      },
+      {
+        "title": "MGM Resorts tumbled ~10% after $18B buyout proposal withdrawn",
+        "impact": "Not a watchlist name, limited direct relevance",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow/68.1 and the yield-driven headline are directionally reasonable for Sept 23's close, but by Sept 24 the mood is being shaped at least as much by Iran-driven oil spikes and Oracle's force majeure hitting AI infrastructure names — neither reflected in the headline/summary, which risks understating downside risk in tech specifically."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "CRWD's +5.27% leadership is confirmed accurate. However, the leaders list (CRWD, PLTR, MSFT) omits that MSFT sits in the same AI-infrastructure complex hit by Oracle's force majeure news on Sept 24, which pressured tech broadly alongside the yield story. The DISTRIBUTION laggards (GOOGL, AMZN, AAPL) framing as yield-driven rotation is plausible but incomplete without the Oracle/AI-infra angle."
+    },
+    "stock_errors": [],
+    "overall_score": 62,
+    "summary": "The Treasury yield and chip export items are accurate and current, but the oil item is now outdated/wrong — crude has surged, not fallen, amid a sharp escalation in the Iran conflict (Houthi missile strikes, war-widening threats). The briefing also misses two market-moving events from the last 24h: the Iran escalation itself and Oracle's force majeure notice on its $165B AI data center project, both of which bear on sentiment for AI-infrastructure names in the watchlist (MSFT, NVDA)."
+  }
+}
