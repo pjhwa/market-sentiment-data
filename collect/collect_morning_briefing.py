@@ -743,7 +743,7 @@ INSTRUCTIONS for using this context (evidence-bound; no topic hardcodes):
    STRUCTURE BINDING — If a ticker discussed in this briefing has a structural classification (e.g.
    ACCUMULATION/DISTRIBUTION/NEUTRAL) available from the SniperBoard/API tables in this prompt, you MUST
    state that exact structural label for that ticker somewhere in the ticker's discussion — omitting an
-   available structural classification is a critical-data omission. Use the provided label verbatim — do NOT
+   available structural classification is a critical-data omission. This applies to EVERY ticker mentioned anywhere in the briefing, including secondary/watchlist tickers named only in passing or in summary tables, not just primary headline tickers — before finalizing, cross-check each mentioned ticker against the full structure table and confirm its label is explicitly stated. Use the provided label verbatim — do NOT
    substitute a different or self-derived structural/trend term (e.g., UPTREND/DOWNTREND inferred from your own
    price read) in place of the exact ACCUMULATION/DISTRIBUTION/NEUTRAL classification given, even if it seems
    to conflict with recent price action. For every ticker that has a structural label available in the SniperBoard/API tables, either state that exact label at its first mention, or do not mention that ticker at all — there is no third option of naming it unlabeled. This applies even if the ticker is only

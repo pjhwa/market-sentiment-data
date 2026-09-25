@@ -1,0 +1,222 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-23T21:45:01Z",
+  "verified_at": "2026-09-26T07:15",
+  "overall_passed": false,
+  "error_count": 8,
+  "warning_count": 3,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 2건:\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSLA: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    CEG: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    VST: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 2건:\n    TSLA: Rule1 → avoid 필요 (struct=UPTREND,S2=2,RS=22), 실제=watch\n    SOFI: Rule1 → avoid 필요 (struct=ACCUMULATION,S2=1,RS=24), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": false,
+      "severity": "error",
+      "detail": "score: 브리핑=68.1 vs API=65.4 (차이>2.7)"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "CRWD: $262.49 vs table $252.13"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "MSFT: $500.59 vs table $516.17"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "RKLB: $70.31 vs table $73.95"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "QBTS: $16.81 vs table $17.41"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — Confirmed as of Sep 23, but yields kept climbing: 5.18% on Sep 24 and 5.21% on Sep 25 (Friday), the highest of this cycle. Despite the higher yield, stocks did NOT keep sliding — Dow +0.9%, S&P/Nasdaq +0.5% on Sep 25, snapping a 3-week Dow losing streak. The 'stocks slide' framing is stale.\n    rank=2: outdated — WTI rebounded to ~$92-93/bbl by Sep 25, up from the reported $89 level. Narrative also shifted: oil eased Friday on optimism over a potential Iran offer to reopen the Strait of Hormuz and resume nuclear talks, not on shipping-disruption-driven weakness as framed in the briefing."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Broad market rally on Sep 25: Dow +0.9%, S&P/Nasdaq +0.5%, snapping Dow's 3-week losing streak despite yields hitting 5.21% and mortgage rates at 7.45% (영향: Contradicts the briefing's yellow/negative framing; growth and AI names (including watchlist tech) participated in the bounce rather than continuing to sell off)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Yellow/68.1 with a 'stocks slide' headline reflected Sep 23 conditions accurately, but by Sep 25 the market rallied and snapped a losing streak despite yields going even higher — the mood description is now stale and directionally behind the most recent session."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The yield-driven rotation-out-of-growth narrative (GOOGL/AMZN/AAPL as laggards) was accurate as of Sep 23 but doesn't reflect Sep 25's broad rally including AI/tech strength (e.g., Akamai-Anthropic deal). CRWD/PLTR/MSFT as leaders remains plausible but the 'broader tech facing distribution pressure' framing is outdated for the latest session."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-25T22:16:35Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "10-Year Treasury Yield Hits 5.1%, Stocks Slide on Rate Fears",
+        "accuracy": "outdated",
+        "note": "Confirmed as of Sep 23, but yields kept climbing: 5.18% on Sep 24 and 5.21% on Sep 25 (Friday), the highest of this cycle. Despite the higher yield, stocks did NOT keep sliding — Dow +0.9%, S&P/Nasdaq +0.5% on Sep 25, snapping a 3-week Dow losing streak. The 'stocks slide' framing is stale."
+      },
+      {
+        "rank": 2,
+        "title": "Oil Falls to Two-Week Lows Near $89 Despite Iran Shipping Disruptions",
+        "accuracy": "outdated",
+        "note": "WTI rebounded to ~$92-93/bbl by Sep 25, up from the reported $89 level. Narrative also shifted: oil eased Friday on optimism over a potential Iran offer to reopen the Strait of Hormuz and resume nuclear talks, not on shipping-disruption-driven weakness as framed in the briefing."
+      },
+      {
+        "rank": 3,
+        "title": "Chip Export Bills Advance Amid Schumer Push and Xi Visit Looming",
+        "accuracy": "accurate",
+        "note": "Confirmed current as of Sep 23-25: Senate Democrats (Schumer, Warren) pushing three bills (AI Overwatch Act, Match Act, Chip Security Act) around Xi Jinping's Washington visit; bills folded into stalled NDAA. Still an open, active issue."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Broad market rally on Sep 25: Dow +0.9%, S&P/Nasdaq +0.5%, snapping Dow's 3-week losing streak despite yields hitting 5.21% and mortgage rates at 7.45%",
+        "impact": "Contradicts the briefing's yellow/negative framing; growth and AI names (including watchlist tech) participated in the bounce rather than continuing to sell off",
+        "severity": "critical"
+      },
+      {
+        "title": "Akamai-Anthropic AI infrastructure deal lifts AI-related stocks",
+        "impact": "Broader AI trade sentiment positive; relevant to AI infra names like NVDA, MSFT, PLTR in watchlist",
+        "severity": "important"
+      },
+      {
+        "title": "Zscaler (ZS) stock fell ~9% on Sep 25 following CRO management change (Mike Rich stepping down, Ross Tackett named CRO effective Oct 1)",
+        "impact": "Not in watchlist but relevant to cybersecurity sector sentiment that CRWD is grouped under as a 'leader'",
+        "severity": "minor"
+      },
+      {
+        "title": "Analysts increasingly warning 10Y yield could reach 6% if bond turbulence continues; consumer sentiment slipped in September on high living costs",
+        "impact": "Macro risk factor for all watchlist names, not mentioned in briefing's global context",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow/68.1 with a 'stocks slide' headline reflected Sep 23 conditions accurately, but by Sep 25 the market rallied and snapped a losing streak despite yields going even higher — the mood description is now stale and directionally behind the most recent session."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "The yield-driven rotation-out-of-growth narrative (GOOGL/AMZN/AAPL as laggards) was accurate as of Sep 23 but doesn't reflect Sep 25's broad rally including AI/tech strength (e.g., Akamai-Anthropic deal). CRWD/PLTR/MSFT as leaders remains plausible but the 'broader tech facing distribution pressure' framing is outdated for the latest session."
+    },
+    "stock_errors": [],
+    "overall_score": 62,
+    "summary": "The briefing's global issues were accurate at generation time (Sep 23) but are now stale: yields have risen further (to 5.21%) while stocks rallied rather than continuing to slide, and oil rebounded on Iran peace-talk optimism rather than staying weak on disruption fears. No factual errors found in individual watchlist price/mood entries, but the overall mood and sector framing lag the most recent (Sep 25) session's more resilient, AI-driven rally."
+  }
+}
