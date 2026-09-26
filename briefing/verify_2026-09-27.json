@@ -1,0 +1,230 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-23T21:45:01Z",
+  "verified_at": "2026-09-27T07:15",
+  "overall_passed": false,
+  "error_count": 7,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 2건:\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSLA: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    CEG: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    VST: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 2건:\n    TSLA: Rule1 → avoid 필요 (struct=UPTREND,S2=2,RS=22), 실제=watch\n    SOFI: Rule1 → avoid 필요 (struct=ACCUMULATION,S2=1,RS=24), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": false,
+      "severity": "error",
+      "detail": "score: 브리핑=68.1 vs API=65.4 (차이>2.7)"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "CRWD: $262.49 vs table $252.13"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "MSFT: $500.59 vs table $516.17"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "RKLB: $70.31 vs table $73.95"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "QBTS: $16.81 vs table $17.41"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — Yields stayed near 19-year highs, so the yield claim itself holds. But CNBC's late-week wrap says the Dow jumped 470+ points and stocks posted a winning week 'despite Treasury yield surge'. Search results put the S&P 500 up 0.51% at 7,743 and the Nasdaq up 0.5%. The 'stocks slide' framing was true on 9/23 but had reversed by the week's close. I could not confirm the exact 5.1% level or the 'Fed rate-hike odds' wording.\n    rank=2: outdated — Crude was about $93 on 9/25 after a two-day rally, and is up more than 8% in September. That is above the briefing's $89, and the 'two-week lows' framing no longer applies. The news driver has also changed: US-Iran phased-deal talks (Qatar mediating, UNGA sidelines) that could reopen Hormuz and lift the blockade. Oil is headline-driven and swinging both ways.\n    rank=3: inaccurate — The bills (AI OVERWATCH, MATCH, Chip Security Acts) face delay and have not advanced, since the NDAA vehicle is stuck until after the elections. 'Advance' contradicts the body text. Xi's state visit and a Trump-Xi meeting are now happening (Roll Call, 9/23), not 'looming'. Schumer is also described in some outlets as Senate Majority Leader, which conflicts with his usual role, so I did not rely on that detail. I did not verify the polysilicon import limits."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 3건 (critical 없음): ['Trump-Xi meeting / Xi state visit outcomes and AI chip export controls', 'US-Iran phased-deal talks to reopen Hormuz; renewed US-Iran strikes earlier in September', 'Dow +470 points and a weekly gain despite the yield surge']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Yellow is defensible given the yield backdrop, but the headline 'Stocks Slide' is stale. Indexes closed higher on the week and the Nasdaq hit a record earlier in the month, so the tone is too bearish. A score of 68.1 on a yellow light looks inconsistent. I could not confirm the market close for 9/26 (a Saturday) or the 9/27 Sunday state."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The 'rotation to defensives' claim is unsupported. Recent leadership reports point to AI stocks rallying (Nasdaq record on 9/20), which contradicts 'AI infrastructure only select names'. The laggard label 'yield-driven rotation out of growth' is also hard to reconcile with an index-wide gain. Tags like DISTRIBUTION are model-generated and I could not verify them."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "META: Tagged DISTRIBUTION yet rated action=buy and mood=euphoric, an internal inconsistency. Its +1.02% close also does not fit a 'lagging' narrative. Prices were not independently verified.\n    MU: Price of $1071.88 looks anomalous and should be checked against a live quote. I could not verify it.\n    AMZN: Mood is 'optimistic' despite a DISTRIBUTION tag and a -2.24% move. Mood/tag mismatch."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-26T22:16:50Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "10-Year Treasury Yield Hits 5.1%, Stocks Slide on Rate Fears",
+        "accuracy": "outdated",
+        "note": "Yields stayed near 19-year highs, so the yield claim itself holds. But CNBC's late-week wrap says the Dow jumped 470+ points and stocks posted a winning week 'despite Treasury yield surge'. Search results put the S&P 500 up 0.51% at 7,743 and the Nasdaq up 0.5%. The 'stocks slide' framing was true on 9/23 but had reversed by the week's close. I could not confirm the exact 5.1% level or the 'Fed rate-hike odds' wording."
+      },
+      {
+        "rank": 2,
+        "title": "Oil Falls to Two-Week Lows Near $89 Despite Iran Shipping Disruptions",
+        "accuracy": "outdated",
+        "note": "Crude was about $93 on 9/25 after a two-day rally, and is up more than 8% in September. That is above the briefing's $89, and the 'two-week lows' framing no longer applies. The news driver has also changed: US-Iran phased-deal talks (Qatar mediating, UNGA sidelines) that could reopen Hormuz and lift the blockade. Oil is headline-driven and swinging both ways."
+      },
+      {
+        "rank": 3,
+        "title": "Chip Export Bills Advance Amid Schumer Push and Xi Visit Looming",
+        "accuracy": "inaccurate",
+        "note": "The bills (AI OVERWATCH, MATCH, Chip Security Acts) face delay and have not advanced, since the NDAA vehicle is stuck until after the elections. 'Advance' contradicts the body text. Xi's state visit and a Trump-Xi meeting are now happening (Roll Call, 9/23), not 'looming'. Schumer is also described in some outlets as Senate Majority Leader, which conflicts with his usual role, so I did not rely on that detail. I did not verify the polysilicon import limits."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Trump-Xi meeting / Xi state visit outcomes and AI chip export controls",
+        "impact": "NVDA, TSM, MU and other semiconductor names are exposed to China chip-sales headlines, including the H200 export permissions. The briefing treats this as future when it is underway.",
+        "severity": "important"
+      },
+      {
+        "title": "US-Iran phased-deal talks to reopen Hormuz; renewed US-Iran strikes earlier in September",
+        "impact": "Oil and rate-sensitive megacaps (TSLA, AMZN, AAPL) are affected by oil swings. A deal would push oil lower and yields down, and a breakdown would do the opposite.",
+        "severity": "important"
+      },
+      {
+        "title": "Dow +470 points and a weekly gain despite the yield surge",
+        "impact": "Broad market strength contradicts the risk-off tone of the briefing.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow is defensible given the yield backdrop, but the headline 'Stocks Slide' is stale. Indexes closed higher on the week and the Nasdaq hit a record earlier in the month, so the tone is too bearish. A score of 68.1 on a yellow light looks inconsistent. I could not confirm the market close for 9/26 (a Saturday) or the 9/27 Sunday state."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "The 'rotation to defensives' claim is unsupported. Recent leadership reports point to AI stocks rallying (Nasdaq record on 9/20), which contradicts 'AI infrastructure only select names'. The laggard label 'yield-driven rotation out of growth' is also hard to reconcile with an index-wide gain. Tags like DISTRIBUTION are model-generated and I could not verify them."
+    },
+    "stock_errors": [
+      {
+        "symbol": "META",
+        "error": "Tagged DISTRIBUTION yet rated action=buy and mood=euphoric, an internal inconsistency. Its +1.02% close also does not fit a 'lagging' narrative. Prices were not independently verified."
+      },
+      {
+        "symbol": "MU",
+        "error": "Price of $1071.88 looks anomalous and should be checked against a live quote. I could not verify it."
+      },
+      {
+        "symbol": "AMZN",
+        "error": "Mood is 'optimistic' despite a DISTRIBUTION tag and a -2.24% move. Mood/tag mismatch."
+      }
+    ],
+    "overall_score": 55,
+    "summary": "The briefing's core themes (a 10-year yield near 5.1% and Iran-related oil volatility) hold up, but its market-direction framing is stale. Oil is about $93 rather than $89, stocks finished the week higher despite the yield surge, and the chip bills have been delayed rather than advanced. Individual stock prices could not be independently verified, and some search results had date inconsistencies, so the score is uncertain."
+  }
+}
