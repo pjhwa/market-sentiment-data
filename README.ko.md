@@ -4,7 +4,7 @@
 
 **계층 2 — SniperBoard AI 시장 인텔리전스 파이프라인의 공유 데이터 저장소.**
 
-서버 크론 잡이 매일 5개의 수집기를 실행하여 Hermes를 통해 Grok에 쿼리하고 SniperBoard 백엔드에서 데이터를 수집합니다. 결과는 표준 JSON 형식으로 이 저장소에 커밋됩니다. SniperBoard를 포함한 모든 소비 프로그램은 raw GitHub URL만 있으면 됩니다.
+서버 크론 잡이 매일 6개의 수집기를 실행하여 Hermes를 통해 Grok에 쿼리하고 SniperBoard 백엔드 및 외부 API에서 데이터를 수집합니다. 결과는 표준 JSON 형식으로 이 저장소에 커밋됩니다. SniperBoard를 포함한 모든 소비 프로그램은 raw GitHub URL만 있으면 됩니다.
 
 ---
 
@@ -28,12 +28,22 @@ market-sentiment-data/
 │   ├── collect_earnings.py          # 수집기 3: 어닝 인텔리전스
 │   ├── collect_macro_insight.py     # 수집기 4: 매크로 인사이트
 │   ├── collect_morning_briefing.py  # 수집기 5: 아침 브리핑 (2단계 Grok 파이프라인, global_context)
+│   ├── collect_prediction.py        # 수집기 6: 예측 시장 (Kalshi FOMC 확률, Grok 미사용)
+│   ├── auto_improve.py              # 브리핑 실패 시 검증+Claude 자동수정 오케스트레이터
+│   ├── verify_briefing.py           # 브리핑 무결성 검증 (A-D 기계 체크 + E Claude 독립 검증)
+│   ├── phase_b_integrity.py         # B1/B2 무결성 게이트 (verify_briefing에서 사용)
 │   ├── probe_mention_volume.py      # 종목 선별용 멘션 볼륨 프로브 (169개 후보 스캔)
 │   ├── price_context.py             # 중립적 가격 맥락 fetcher (심리 수집용)
+│   ├── grok_utils.py                # hermes/Grok 호출 + Claude Code headless fallback 공용 유틸리티
 │   ├── git_utils.py                 # 공용 git commit/push 헬퍼
 │   ├── test_collect_sentiment.py
 │   ├── test_collect_brief.py
 │   ├── test_collect_brief_context.py
+│   ├── test_collect_earnings_revenue.py
+│   ├── test_collect_morning_briefing.py
+│   ├── test_collect_prediction.py
+│   ├── test_phase_b_integrity.py
+│   ├── test_grok_utils.py
 │   └── test_price_context.py
 │
 ├── sentiment/
@@ -71,12 +81,18 @@ market-sentiment-data/
 │   └── history/
 │       └── YYYY-MM-DD_<slot>.json
 │
+├── prediction/
+│   ├── latest.json                  # 예측 시장 (Kalshi FOMC) — 항상 최신
+│   ├── prediction.log               # 크론 로그
+│   └── history/
+│       └── YYYY-MM-DD_<slot>.json
+│
 └── docs/                            # 설계 스펙 및 플랜
 ```
 
 ---
 
-## 5개의 수집기
+## 6개의 수집기
 
 ### 1. 소셜 심리 (`collect/collect_sentiment.py`)
 
@@ -84,7 +100,7 @@ market-sentiment-data/
 
 1. SniperBoard에서 **중립적 가격 맥락** 수집 (변동성 크기, 거래량 비율, 52주 위치 — 방향 제거)
 2. 맥락을 관찰 단서로만 Grok 프롬프트에 주입 (오염 방지선: 방향 단어 기계적 차단)
-3. `hermes -z`로 Grok 쿼리; JSON 응답 파싱·검증
+3. `hermes -z`로 Grok 쿼리; JSON 응답 파싱·검증 (hermes/Grok 실패 시 Claude Code headless로 자동 fallback, degraded source로 표시)
 4. Grok 응답 후 **divergence** 계산 (가격 방향 vs 심리 부호)
 5. **composite_score** (−2.0~+2.0) 계산 — 신뢰도·봇의심·언급량·divergence·추세 가중치 반영
 
@@ -132,7 +148,7 @@ SniperBoard `/api/macro`에서 21개 매크로 자산 데이터(VIX, SPY, QQQ, �
 
 ### 5. 아침 브리핑 (`collect/collect_morning_briefing.py`)
 
-매일 1회 실행 (KST 07:30). **2단계 Grok 파이프라인**으로 종합 아침 브리핑을 생성합니다.
+매일 1회 실행 (KST 06:45 / UTC 21:45 전일). **2단계 Grok 파이프라인**으로 종합 아침 브리핑을 생성합니다.
 
 1. **1단계:** 48시간 내 상위 3개 글로벌 거시/지정학 이슈(무역/관세, 지정학, 중앙은행, AI 규제)를 Grok 실시간 웹 검색으로 수집
 2. **2단계:** 글로벌 컨텍스트 + 워치리스트 심리/기술 데이터를 결합해 종합 아침 브리핑 생성
@@ -144,6 +160,35 @@ SniperBoard `/api/macro`에서 21개 매크로 자산 데이터(VIX, SPY, QQQ, �
 - TIER2 (10종목): RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI
 
 **출력: `briefing/latest.json` 및 `briefing/history/YYYY-MM-DD.json`** (schema_version 1.1)
+
+### 6. 예측 시장 (`collect/collect_prediction.py`)
+
+하루 2회 실행 (KST 05:45, 21:45). **Grok 미사용** — [Kalshi](https://kalshi.com) 예측 시장의 순수 확률 데이터만 저장.
+
+다음 FOMC 회의의 금리 결정 확률을 수집:
+- 열려있는 가장 가까운 FOMC 이벤트 자동 탐색
+- 마켓 티커를 outcome으로 매핑: `no_change`, `cut_25bps`, `cut_50bps`, `hike_25bps`
+- `yes_ask` 원시 가격을 확률(0.00~1.00)로 저장
+
+**필수:** `KALSHI_API_KEY` 환경변수.
+
+**출력: `prediction/latest.json` 및 `prediction/history/YYYY-MM-DD_<slot>.json`**
+
+```json
+{
+  "schema_version": "1.0",
+  "source": "kalshi",
+  "next_fomc": {
+    "event_ticker": "FOMC-26JUL29",
+    "meeting_date": "2026-07-29",
+    "probabilities": { "no_change": 0.72, "cut_25bps": 0.23, "cut_50bps": 0.04, "hike_25bps": 0.01 },
+    "dominant_outcome": "no_change",
+    "dominant_probability": 0.72
+  }
+}
+```
+
+열려있는 FOMC 이벤트가 없을 때(회의 직후 공백기)는 `next_fomc`가 `null`입니다.
 
 ---
 
@@ -226,8 +271,11 @@ python -m collect.collect_earnings
 # 4. 매크로 인사이트 (심리 수집 후 실행)
 python -m collect.collect_macro_insight
 
-# 5. 아침 브리핑 (하루 1회, KST 07:30)
+# 5. 아침 브리핑 (하루 1회, KST 06:45)
 python -m collect.collect_morning_briefing
+
+# 6. 예측 시장 (하루 2회, KST 05:45/21:45)
+python -m collect.collect_prediction
 
 # 드라이런 (어닝만, git push 없음)
 python -m collect.collect_earnings --dry-run
@@ -241,13 +289,40 @@ PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 | 변수 | 기본값 | 설명 |
 |------|--------|------|
 | `SENTIMENT_REPO_PATH` | 스크립트 디렉토리 | 이 레포 클론 로컬 경로 |
-| `HERMES_CMD` | `/Users/jerry/.local/bin/hermes` | hermes 바이너리 절대 경로 |
+| `HERMES_CMD` | 자동 감지 (`shutil.which` → `~/.local/bin` → `/opt/homebrew/bin` → `/usr/local/bin`) | hermes 바이너리 절대 경로 |
 | `HERMES_PROVIDER` | `""` | Hermes 프로바이더 (예: `grok-oauth`) |
 | `HERMES_TIMEOUT` | `120` | 호출당 타임아웃 (초) |
 | `HERMES_TIMEOUT_GLOBAL` | `90` | 글로벌 컨텍스트 수집 타임아웃 (수집기 5, 1단계) |
 | `HERMES_RETRY` | `1` | 타임아웃 시 재시도 횟수 |
+| `CLAUDE_FALLBACK_ENABLED` | `1` | hermes/Grok 실패 시 Claude Code headless로 fallback (`0`이면 비활성화) |
+| `CLAUDE_FALLBACK_CMD` | 자동 감지 | `claude` 바이너리 절대 경로 |
+| `CLAUDE_FALLBACK_TIMEOUT` | `180` | fallback 호출당 타임아웃 (초) |
 | `SNIPERBOARD_API_BASE` | `http://localhost:5001` | SniperBoard 백엔드 URL |
 | `SENTIMENT_SLOT` | 자동 감지 | 슬롯 강제 지정: `pre_open` 또는 `post_close` |
+
+**운영 crontab (Mac Mini, KST = UTC+9). `cd` 접두사는 필수입니다 — 없으면 로그 파일 경로가 조용히 실패하고 스크립트가 실행되지 않습니다:**
+
+```bash
+# 심리: 05:30, 22:30 KST (하루 2회)
+30 5,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -u -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
+
+# 브리프 + 매크로: 06:00/22:00, 06:15/22:15 KST (하루 2회)
+00 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -u -m collect.collect_brief >> brief/brief.log 2>&1
+15 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -u -m collect.collect_macro_insight >> macro/macro.log 2>&1
+
+# 어닝 + 아침브리핑 + auto_improve: 06:30/06:45/07:15 KST (하루 1회)
+30 6 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -u -m collect.collect_earnings >> earnings/earnings.log 2>&1
+45 6 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -u -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
+15 7 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -u -m collect.auto_improve >> briefing/auto_improve.log 2>&1
+
+# 예측 시장: 05:45, 21:45 KST (`cd` 불필요 — 상대경로 미사용)
+45 21,5 * * * GIT_SSH_COMMAND="..." PYTHONPATH=/Users/jerry/dev/market-sentiment-data KALSHI_API_KEY="..." /opt/homebrew/bin/python3 -u -m collect.collect_prediction >> /Users/jerry/dev/market-sentiment-data/prediction/prediction.log 2>&1
+
+# 헬스 모니터: 2시간마다
+0 */2 * * * cd /Users/jerry/dev/market-sentiment-data && /opt/homebrew/bin/python3 monitor/health_check.py >> monitor/health_check.log 2>&1
+```
+
+전체 crontab과 모든 환경변수는 `PROJECT_CONTEXT.ko.md` 12장 참조.
 
 ---
 
@@ -274,11 +349,16 @@ python -m pytest collect/ -v
 # 개별 모듈
 python -m pytest collect/test_collect_sentiment.py -v
 python -m pytest collect/test_collect_brief.py -v
+python -m pytest collect/test_collect_earnings_revenue.py -v
+python -m pytest collect/test_collect_morning_briefing.py -v
+python -m pytest collect/test_collect_prediction.py -v
+python -m pytest collect/test_phase_b_integrity.py -v
+python -m pytest collect/test_grok_utils.py -v
 python -m pytest collect/test_price_context.py -v
 python -m pytest collect/test_collect_brief_context.py -v
 ```
 
-5단계 (yf-accuracy-harden 플랜 완료) 기준 48개 테스트 통과.
+전체 232개 테스트 중 230개 통과 (2026-09-26 기준). 실패하는 2개는 하드코딩된 날짜/이벤트 픽스처가 오래되어 발생하는 것으로(`test_collect_morning_briefing.py::test_prompt_diet_no_event_hardcodes_in_global_block`, `test_collect_prediction.py::test_sorts_by_end_date_ascending`), 코드 회귀가 아니라 픽스처 갱신이 필요한 상태입니다.
 
 ---
 

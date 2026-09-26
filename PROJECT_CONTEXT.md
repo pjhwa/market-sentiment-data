@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-09-26 Claude Code headless fallback for hermes/Grok failures
+<!-- AUTO-GENERATED: 2026-09-26 full fact-based accuracy pass (file map, schedule times, function references, test counts, cross-repo status)
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 
@@ -51,12 +51,21 @@ market-sentiment-data/
 │   ├── collect_macro_insight.py       # Collector 4 — python -m collect.collect_macro_insight
 │   ├── collect_morning_briefing.py    # Collector 5 — python -m collect.collect_morning_briefing (morning briefing, daily at KST 07:30)
 │   ├── collect_prediction.py          # Collector 6 — python -m collect.collect_prediction (Kalshi FOMC 예측시장, twice daily)
+│   ├── auto_improve.py                # python -m collect.auto_improve — verify_briefing 실패 시 Claude가 collect_morning_briefing.py를 직접 수정
+│   ├── verify_briefing.py             # 브리핑 무결성 검증 (A-D 기계적 체크 + E Claude 독립 검증)
+│   ├── phase_b_integrity.py           # B1/B2 무결성 게이트 (verify_briefing에서 사용)
 │   ├── probe_mention_volume.py        # One-shot symbol selection probe — mention volume scanner (169 candidates)
 │   ├── price_context.py               # Neutral price-context fetcher (used by Collector 1)
+│   ├── grok_utils.py                  # hermes/Grok 호출 + Claude Code headless fallback 공용 유틸리티 (call_hermes, call_hermes_json, call_claude_fallback, get_last_backend)
 │   ├── git_utils.py                   # commit_and_push() shared helper
 │   ├── test_collect_sentiment.py
 │   ├── test_collect_brief.py
 │   ├── test_collect_brief_context.py
+│   ├── test_collect_earnings_revenue.py
+│   ├── test_collect_morning_briefing.py
+│   ├── test_collect_prediction.py
+│   ├── test_phase_b_integrity.py
+│   ├── test_grok_utils.py
 │   └── test_price_context.py
 ├── sentiment/
 │   ├── latest.json               # Sentiment: always-current snapshot
@@ -86,6 +95,8 @@ market-sentiment-data/
 │   ├── prediction.log            # Cron log for collect_prediction
 │   └── history/YYYY-MM-DD_<slot>.json
 ├── schema.json                   # JSON Schema draft-07 v2.0 (sentiment only)
+├── docs/superpowers/plans/       # Implementation plans (design history, not live-state docs)
+├── CLAUDE.md / CLAUDE.ko.md
 ├── README.md / README.ko.md
 └── PROJECT_CONTEXT.md / PROJECT_CONTEXT.ko.md
 ```
@@ -227,9 +238,11 @@ composite_score = clamp(round(score, 1), -2.0, 2.0)
 |----------|---------|
 | `detect_slot(now)` | Returns `pre_open` or `post_close` |
 | `build_prompt(symbol, company, ctx)` | Builds Grok prompt with neutral context; asserts no direction words |
-| `call_hermes(prompt)` | Subprocess call with timeout + retry |
-| `extract_json(text)` | Extracts first `{`…last `}` from LLM output |
-| `extract_json_array(text)` | Extracts `[…]` array from LLM output (for TIER2 batch responses) |
+| `grok_utils.call_hermes_json(prompt, validator=...)` | Imported from `grok_utils.py`. Subprocess call with timeout + JSON-retry; falls back to Claude Code headless if hermes fails (see Section 3) |
+| `grok_utils.call_hermes_json_array(prompt)` | Same as above but for the TIER2 batch response (JSON array) |
+| `grok_utils.get_last_backend()` | Imported from `grok_utils.py`. Returns `"hermes"` or `"claude_fallback"` — read immediately after each call above to know which backend answered |
+| `grok_utils.extract_json(text)` | Extracts first `{`…last `}` from LLM output |
+| `grok_utils.extract_json_array(text)` | Extracts `[…]` array from LLM output (for TIER2 batch responses) |
 | `validate_symbol_fields(data, symbol)` | Validates enums and required fields |
 | `validate_top_news(data)` | Validates `top_news` optional struct (v2.0 _en/_ko required) |
 | `compute_divergence(price_dir, score)` | Divergence logic (post-processing only) |
@@ -237,9 +250,9 @@ composite_score = clamp(round(score, 1), -2.0, 2.0)
 | `load_pre_open_scores(path)` | Reads earlier pre_open file for intraday_shift |
 | `compute_symbol_composite(...)` | composite_score for symbols |
 | `compute_market_composite(...)` | composite_score for market object |
-| `build_symbol_entry(..., tier)` | Assembles final per-symbol JSON object; includes `tier` field |
+| `build_symbol_entry(..., tier, backend="hermes")` | Assembles final per-symbol JSON object; includes `tier` field. `backend` (from `get_last_backend()`) controls the `source` string, marking degraded fallback output |
 | `build_tier2_batch_prompt(watchlist)` | Builds batch prompt for all TIER2 symbols in a single Grok call |
-| `build_market_entry(...)` | Assembles final market JSON object |
+| `build_market_entry(..., backend="hermes")` | Assembles final market JSON object; `backend` controls `source` the same way |
 | `git_commit_push(...)` | Delegates to `collect/git_utils.commit_and_push()` |
 
 ---
@@ -421,7 +434,7 @@ Bullet format rule: "핵심 신호 → 시장 의미" (signal → market meaning
 
 ### Overview
 
-Runs once daily (22:30 UTC = KST 07:30). Generates a global context briefing using a **2-stage Grok pipeline:**
+Runs once daily (21:45 UTC previous day = KST 06:45). Generates a global context briefing using a **2-stage Grok pipeline:**
 
 **Stage 1 (Global Context):** Rank top **1–3** market-moving issues from **mechanical RSS evidence + hermes web tool**.
 - Pre-fetch: `fetch_stage1_search_evidence()` — Google News / BBC / CNBC / MarketWatch RSS (no category quotas)
@@ -431,7 +444,7 @@ Runs once daily (22:30 UTC = KST 07:30). Generates a global context briefing usi
 - Output: `global_context.issues` + `ongoing_no_update` + `_stage1_evidence_n` meta
 
 **Stage 2 (Full Briefing):** Generate comprehensive morning briefing combining global context + sentiment/technical data.
-- Timeout: `HERMES_TIMEOUT` (default 300s)
+- Timeout: `HERMES_TIMEOUT` (code default 120s; this job's crontab entry overrides it to 300s)
 - Output: full JSON with headline, executive_bullets, big_picture, sector_analysis, spotlight, watchlist
 - **Prompt diet (2026-08-04):** `_format_global_context_block` + Stage-2 REQUIREMENTS keep **evidence-binding rules only** (table prices, action rules, structure labels, earnings ≤14d, causal bind vs asymmetric_impact, confidence hedges). Removed event-specific MUST catalogs (Hormuz/Fed speaker/non-watchlist IPO checklists), SpaceX→RKLB forced narrative, and “scan training knowledge” filler pressures. Missing external facts → optional `[CONTEXT GAP]`, never invent.
 - **Causal binding:** same-session evidence outranks global narrative for a named ticker; never attribute a move to an issue that marks the ticker `unaffected` / `영향 없음`
@@ -599,22 +612,25 @@ Actual production crontab on Mac Mini (KST = UTC+9). All entries use absolute pa
 
 ```bash
 # ─── sentiment (05:30, 22:30 KST = 20:30, 13:30 UTC) ─────────────────────
-30 5,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
+30 5,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -u -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
 
 # ─── brief (06:00, 22:00 KST) ────────────────────────────────────────────
-00 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_brief >> brief/brief.log 2>&1
+00 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -u -m collect.collect_brief >> brief/brief.log 2>&1
 
 # ─── macro insight (06:15, 22:15 KST) ────────────────────────────────────
-15 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_macro_insight >> macro/macro.log 2>&1
+15 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -u -m collect.collect_macro_insight >> macro/macro.log 2>&1
 
 # ─── earnings (once daily, 06:30 KST) ────────────────────────────────────
-30 6 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data /opt/homebrew/bin/python3 -m collect.collect_earnings >> earnings/earnings.log 2>&1
+30 6 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data /opt/homebrew/bin/python3 -u -m collect.collect_earnings >> earnings/earnings.log 2>&1
 
-# ─── morning briefing (once daily, 06:45 KST = 21:45 UTC) ───────────────
-45 6 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
+# ─── morning briefing (once daily, 06:45 KST = 21:45 UTC previous day) ───
+45 6 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -u -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
 
 # ─── auto_improve (once daily, 07:15 KST) ────────────────────────────────
-15 7 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data /opt/homebrew/bin/python3 -m collect.auto_improve >> briefing/auto_improve.log 2>&1
+15 7 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data /opt/homebrew/bin/python3 -u -m collect.auto_improve >> briefing/auto_improve.log 2>&1
+
+# ─── prediction market (05:45, 21:45 KST — no `cd`, no relative paths used) ──
+45 21,5 * * * GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data KALSHI_API_KEY="..." /opt/homebrew/bin/python3 -u -m collect.collect_prediction >> /Users/jerry/dev/market-sentiment-data/prediction/prediction.log 2>&1
 
 # ─── health monitor (every 2 hours) ──────────────────────────────────────
 0 */2 * * * cd /Users/jerry/dev/market-sentiment-data && /opt/homebrew/bin/python3 monitor/health_check.py >> monitor/health_check.log 2>&1
@@ -668,14 +684,19 @@ cd /Users/jerry/dev/market-sentiment-data && python3 monitor/health_check.py
 ```bash
 PYTHONPATH=/path/to/market-sentiment-data python -m pytest collect/ -v
 
-# Key test files:
-# collect/test_collect_sentiment.py   — prompt guard, divergence, composite_score, validation
-# collect/test_price_context.py       — direction-word absence assertion, fallback behavior
-# collect/test_collect_brief.py       — brief validation, context snapshot, validate_output_quality (23 tests)
-# collect/test_collect_brief_context.py — context attribution structure
+# Key test files (232 tests total, 230 passing as of 2026-09-26):
+# collect/test_collect_sentiment.py       — prompt guard, divergence, composite_score, validation, backend/degraded-source marking (41 tests)
+# collect/test_grok_utils.py              — hermes call, JSON retry, Claude Code headless fallback wiring (44 tests)
+# collect/test_price_context.py           — direction-word absence assertion, fallback behavior (30 tests)
+# collect/test_collect_brief.py           — brief validation, context snapshot, validate_output_quality (23 tests)
+# collect/test_collect_brief_context.py   — context attribution structure (2 tests)
+# collect/test_collect_morning_briefing.py — global context prompt diet, integrity gates (42 tests, 1 known-failing: stale hardcoded FOMC/event fixture)
+# collect/test_collect_prediction.py      — Kalshi event/outcome parsing (37 tests, 1 known-failing: stale hardcoded date fixture)
+# collect/test_collect_earnings_revenue.py — earnings revenue field validation (8 tests)
+# collect/test_phase_b_integrity.py       — B1/B2 integrity gate logic (5 tests)
 ```
 
-Tests are co-located in `collect/` and run with pytest. No external services required — mock SniperBoard API responses as needed.
+Tests are co-located in `collect/` and run with pytest. No external services required — mock SniperBoard API responses as needed. The 2 known-failing tests have hardcoded date/event fixtures (e.g. a specific FOMC meeting ticker) that go stale as real time passes — refresh the fixture, not a code regression.
 
 ---
 
@@ -685,7 +706,7 @@ Tests are co-located in `collect/` and run with pytest. No external services req
 - `sniperboard/backend/services/brief_service.py` — fetches `brief/latest.json`
 - `sniperboard/backend/services/earnings_service.py` — fetches `earnings/latest.json` with 60-min cache; attaches `meta.age_minutes` to `/api/earnings` responses
 - `sniperboard/backend/services/macro_insight_service.py` — fetches `macro/latest.json`
-- `sniperboard/backend/services/prediction_service.py` — fetches `prediction/latest.json` (planned, not yet implemented)
+- `sniperboard/backend/services/prediction_service.py` — fetches `prediction/latest.json`; consumed by `email_report_service.py`
 - `sniperboard/frontend/components/boards/SentimentBoard.tsx` — consumes `/api/sentiment`
 - `sniperboard/frontend/components/boards/SentimentTrendChart.tsx` — historical chart
 

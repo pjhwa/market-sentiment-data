@@ -2,7 +2,7 @@
 """
 아침 브리핑 수집기 (Morning Briefing Collector)
 
-매일 KST 07:30 (UTC 22:30) 실행.
+매일 KST 06:45 (UTC 21:45, 전일) 실행.
 SniperBoard API + 기존 JSON 파일에서 전체 데이터를 수집하여
 Grok(hermes)으로 일반인 친화적 종합 브리핑을 생성한다.
 

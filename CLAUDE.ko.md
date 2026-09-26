@@ -6,7 +6,7 @@
 
 새 세션 시작 시 반드시 다음 두 파일을 먼저 읽어라:
 1. `PROJECT_CONTEXT.md` — 수집기 전체 아키텍처, 스키마, 데이터 흐름, 환경변수, 크론 스케줄
-2. `README.md` — 4개 수집기 및 데이터 구조 설명
+2. `README.md` — 6개 수집기 및 데이터 구조 설명
 
 이 두 파일로 전체 코드를 읽지 않아도 프로젝트를 즉시 파악할 수 있다.
 
@@ -35,6 +35,9 @@
 - **수집기 2**: `collect/collect_brief.py` — AI 일일 브리프 (기술적 데이터 + 소셜 심리 → Grok)
 - **수집기 3**: `collect/collect_earnings.py` — 어닝 인텔리전스 (yfinance + Grok)
 - **수집기 4**: `collect/collect_macro_insight.py` — 매크로 인사이트 (SniperBoard `/api/macro` + Grok)
+- **수집기 5**: `collect/collect_morning_briefing.py` — 아침 브리핑, 2단계 Grok 파이프라인 (KST 06:45)
+- **수집기 6**: `collect/collect_prediction.py` — 예측 시장 (Kalshi FOMC 확률, Grok 미사용)
+- **AI 백엔드**: `collect/grok_utils.py` — hermes/Grok 호출 공용 유틸리티. 모든 수집기의 Grok 호출은 `call_hermes_json()`/`call_hermes_json_array()`를 거치며, hermes/Grok 실패 시 Claude Code headless로 자동 fallback
 - **가격 맥락**: `collect/price_context.py` — 중립적 가격 단서 fetcher (방향 없음). `fetch_close_direction()`은 후처리 전용 — 절대 프롬프트 빌더로 흘리지 말 것.
 - **Git 헬퍼**: `collect/git_utils.py` — 공용 `commit_and_push()`
 - **스키마**: `schema.json` — JSON Schema draft-07 v2.0 (심리 데이터 계약)
@@ -65,6 +68,8 @@
 | AI 일일 브리프 | `brief/latest.json` | `backend/services/brief_service.py` |
 | 어닝 인텔리전스 | `earnings/latest.json` | `backend/services/earnings_service.py` |
 | 매크로 인사이트 | `macro/latest.json` | `backend/services/macro_insight_service.py` |
+| 아침 브리핑 | `briefing/latest.json` | `backend/services/morning_briefing_service.py` |
+| 예측 시장 | `prediction/latest.json` | `backend/services/prediction_service.py` |
 
 - SniperBoard는 raw GitHub URL로 fetch; 토큰은 `SENTIMENT_DATA_TOKEN` 환경변수로 주입.
 - **스키마 버전**: 2.0 — 모든 AI 텍스트 필드는 `_en`/`_ko` 접미사 쌍 사용.

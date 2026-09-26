@@ -29,12 +29,21 @@ market-sentiment-data/
 │   ├── collect_macro_insight.py     # Collector 4: Macro Insight
 │   ├── collect_morning_briefing.py  # Collector 5: Morning Briefing (2-stage Grok pipeline, global_context)
 │   ├── collect_prediction.py        # Collector 6: Prediction Market (Kalshi FOMC 확률, no Grok)
+│   ├── auto_improve.py              # Post-briefing verify + Claude-driven auto-fix orchestrator
+│   ├── verify_briefing.py           # Briefing integrity checks (A-D mechanical + E Claude review)
+│   ├── phase_b_integrity.py         # B1/B2 integrity gates used by verify_briefing
 │   ├── probe_mention_volume.py      # Symbol selection probe — mention volume scanner (169 candidates)
 │   ├── price_context.py             # Neutral price-context fetcher (for sentiment)
+│   ├── grok_utils.py                # Shared hermes/Grok call + Claude Code headless fallback utilities
 │   ├── git_utils.py                 # Shared git commit/push helper
 │   ├── test_collect_sentiment.py
 │   ├── test_collect_brief.py
 │   ├── test_collect_brief_context.py
+│   ├── test_collect_earnings_revenue.py
+│   ├── test_collect_morning_briefing.py
+│   ├── test_collect_prediction.py
+│   ├── test_phase_b_integrity.py
+│   ├── test_grok_utils.py
 │   └── test_price_context.py
 │
 ├── sentiment/
@@ -83,7 +92,7 @@ market-sentiment-data/
 
 ---
 
-## The Five Collectors
+## The Six Collectors
 
 ### 1. Social Sentiment (`collect/collect_sentiment.py`)
 
@@ -139,7 +148,7 @@ Returns structured insight with overall summary, key bullets (signal → market 
 
 ### 5. Morning Briefing (`collect/collect_morning_briefing.py`)
 
-Runs once daily (KST 07:30). Uses a **2-stage Grok pipeline:**
+Runs once daily (KST 06:45 / UTC 21:45 previous day). Uses a **2-stage Grok pipeline:**
 
 1. **Stage 1:** Fetches top-3 global macro/geopolitical issues (trade/tariff, geopolitical, central bank, AI regulation) via Grok live web search within 48-hour window
 2. **Stage 2:** Generates comprehensive morning briefing combining global context with watchlist sentiment
@@ -292,7 +301,7 @@ PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `SENTIMENT_REPO_PATH` | script directory | Local path of this repo clone |
-| `HERMES_CMD` | `/Users/jerry/.local/bin/hermes` | Absolute path to hermes binary |
+| `HERMES_CMD` | auto-detect (`shutil.which` → `~/.local/bin` → `/opt/homebrew/bin` → `/usr/local/bin`) | Absolute path to hermes binary |
 | `HERMES_PROVIDER` | `""` | Hermes provider (e.g. `grok-oauth`) |
 | `HERMES_TIMEOUT` | `120` | Per-call timeout in seconds |
 | `HERMES_TIMEOUT_GLOBAL` | `90` | Timeout for global context fetch (Collector 5, stage 1) |
@@ -307,16 +316,19 @@ PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 
 ```bash
 # sentiment: 05:30, 22:30 KST (twice daily)
-30 5,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
+30 5,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -u -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
 
 # brief + macro: 06:00/22:00 and 06:15/22:15 KST (twice daily)
-00 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -m collect.collect_brief >> brief/brief.log 2>&1
-15 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -m collect.collect_macro_insight >> macro/macro.log 2>&1
+00 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -u -m collect.collect_brief >> brief/brief.log 2>&1
+15 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -u -m collect.collect_macro_insight >> macro/macro.log 2>&1
 
-# earnings + briefing + auto_improve: 06:30/06:45/07:15 KST (once daily)
-30 6 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -m collect.collect_earnings >> earnings/earnings.log 2>&1
-45 6 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
-15 7 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -m collect.auto_improve >> briefing/auto_improve.log 2>&1
+# earnings + morning briefing + auto_improve: 06:30/06:45/07:15 KST (once daily)
+30 6 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -u -m collect.collect_earnings >> earnings/earnings.log 2>&1
+45 6 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -u -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
+15 7 * * * cd /Users/jerry/dev/market-sentiment-data && ... /opt/homebrew/bin/python3 -u -m collect.auto_improve >> briefing/auto_improve.log 2>&1
+
+# prediction market: 05:45, 21:45 KST (twice daily, no `cd` needed — no relative paths)
+45 21,5 * * * GIT_SSH_COMMAND="..." PYTHONPATH=/Users/jerry/dev/market-sentiment-data KALSHI_API_KEY="..." /opt/homebrew/bin/python3 -u -m collect.collect_prediction >> /Users/jerry/dev/market-sentiment-data/prediction/prediction.log 2>&1
 
 # health monitor: every 2 hours
 0 */2 * * * cd /Users/jerry/dev/market-sentiment-data && /opt/homebrew/bin/python3 monitor/health_check.py >> monitor/health_check.log 2>&1
@@ -349,11 +361,16 @@ python -m pytest collect/ -v
 # Specific modules
 python -m pytest collect/test_collect_sentiment.py -v
 python -m pytest collect/test_collect_brief.py -v
+python -m pytest collect/test_collect_earnings_revenue.py -v
+python -m pytest collect/test_collect_morning_briefing.py -v
+python -m pytest collect/test_collect_prediction.py -v
+python -m pytest collect/test_phase_b_integrity.py -v
+python -m pytest collect/test_grok_utils.py -v
 python -m pytest collect/test_price_context.py -v
 python -m pytest collect/test_collect_brief_context.py -v
 ```
 
-48 tests passing as of Phase 5 (yf-accuracy-harden plan complete).
+232 tests total (230 passing). 2 known-failing tests have stale hardcoded date/event fixtures (`test_collect_morning_briefing.py::test_prompt_diet_no_event_hardcodes_in_global_block`, `test_collect_prediction.py::test_sorts_by_end_date_ascending`) that need periodic fixture refresh — not a regression.
 
 ---
 

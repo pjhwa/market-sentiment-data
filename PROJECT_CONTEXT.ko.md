@@ -2,7 +2,7 @@
 
 # market-sentiment-data — 프로젝트 컨텍스트
 
-<!-- AUTO-GENERATED: 2026-06-12 spcx-tier1 -->
+<!-- AUTO-GENERATED: 2026-09-26 사실 기반 전체 현행화 (파일 맵, 스케줄 시각, 함수 레퍼런스, 테스트 카운트, 크로스레포 상태, Claude Code fallback 반영) -->
 
 Claude Code와 개발자를 위한 아키텍처 및 코드 레퍼런스. 수집기, 스키마, 데이터 구조를 수정하기 전에 반드시 읽으세요.
 
@@ -17,12 +17,13 @@ Claude Code와 개발자를 위한 아키텍처 및 코드 레퍼런스. 수집�
 │  계층 1: 수집             │     │  계층 2: 저장             │     │  계층 3: 소비         │
 │  (서버 크론)               │     │  (이 GitHub 레포)         │     │  (SniperBoard 등)    │
 │                          │     │                           │     │                      │
-│  5개 수집기:                    │ git │  sentiment/latest.json    │ raw │  FastAPI 서비스        │
+│  6개 수집기:                    │ git │  sentiment/latest.json    │ raw │  FastAPI 서비스        │
 │  · collect_sentiment.py        │push │  sentiment/history/       │fetch│  /api/sentiment      │
 │  · collect_brief.py            │────▶│  brief/                   │────▶│  /api/brief          │
 │  · collect_earnings.py         │     │  earnings/                │     │  /api/earnings       │
 │  · collect_macro_insight.py    │     │  macro/                   │     │  /api/macro-insight  │
 │  · collect_morning_briefing.py │     │  briefing/ (2단계 파이프라인) │     │  /api/morning-briefing │
+│  · collect_prediction.py       │     │  prediction/ (Kalshi)     │     │  /api/prediction     │
 │                                │     │  schema.json              │     │                      │
 └─────────────────────────┘     └──────────────────────────┘     └──────────────────────┘
 ```
@@ -45,13 +46,23 @@ market-sentiment-data/
 │   ├── collect_brief.py               # 수집기 2 — python -m collect.collect_brief
 │   ├── collect_earnings.py            # 수집기 3 — python -m collect.collect_earnings
 │   ├── collect_macro_insight.py       # 수집기 4 — python -m collect.collect_macro_insight
-│   ├── collect_morning_briefing.py    # 수집기 5 — python -m collect.collect_morning_briefing (매일 KST 07:30)
+│   ├── collect_morning_briefing.py    # 수집기 5 — python -m collect.collect_morning_briefing (매일 KST 06:45)
+│   ├── collect_prediction.py          # 수집기 6 — python -m collect.collect_prediction (Kalshi FOMC 예측시장, 하루 2회)
+│   ├── auto_improve.py           # python -m collect.auto_improve — verify_briefing 실패 시 Claude가 collect_morning_briefing.py 직접 수정
+│   ├── verify_briefing.py        # 브리핑 무결성 검증 (A-D 기계 체크 + E Claude 독립 검증)
+│   ├── phase_b_integrity.py      # B1/B2 무결성 게이트 (verify_briefing에서 사용)
 │   ├── probe_mention_volume.py        # 종목 선별용 1회성 멘션 볼륨 프로브 (169개 후보)
 │   ├── price_context.py          # 중립적 가격 맥락 fetcher (수집기 1 전용)
+│   ├── grok_utils.py             # hermes/Grok 호출 + Claude Code headless fallback 공용 유틸리티 (call_hermes, call_hermes_json, call_claude_fallback, get_last_backend)
 │   ├── git_utils.py              # commit_and_push() 공용 헬퍼
 │   ├── test_collect_sentiment.py
 │   ├── test_collect_brief.py
 │   ├── test_collect_brief_context.py
+│   ├── test_collect_earnings_revenue.py
+│   ├── test_collect_morning_briefing.py
+│   ├── test_collect_prediction.py
+│   ├── test_phase_b_integrity.py
+│   ├── test_grok_utils.py
 │   └── test_price_context.py
 ├── sentiment/
 │   ├── latest.json               # 심리: 항상 최신 스냅샷
@@ -76,7 +87,13 @@ market-sentiment-data/
 │   ├── latest.json               # 매크로 인사이트: 항상 최신
 │   ├── macro.log                 # 크론 로그
 │   └── history/YYYY-MM-DD_<slot>.json
+├── prediction/
+│   ├── latest.json               # 예측 시장: 항상 최신
+│   ├── prediction.log            # 크론 로그
+│   └── history/YYYY-MM-DD_<slot>.json
 ├── schema.json                   # JSON Schema draft-07 v2.0 (심리 전용)
+├── docs/superpowers/plans/       # 구현 계획 (설계 이력, 실시간 상태 문서 아님)
+├── CLAUDE.md / CLAUDE.ko.md
 ├── README.md / README.ko.md
 └── PROJECT_CONTEXT.md / PROJECT_CONTEXT.ko.md
 ```
@@ -95,12 +112,18 @@ market-sentiment-data/
 | `HERMES_TIMEOUT` | `120` | 모든 수집기 |
 | `HERMES_TIMEOUT_GLOBAL` | `90` | 수집기 5 (아침 브리핑, 1단계 글로벌 컨텍스트 수집) |
 | `HERMES_RETRY` | `1` | 모든 수집기 |
+| `CLAUDE_FALLBACK_CMD` | 자동탐색 (`shutil.which` → `~/.local/bin` → `/opt/homebrew/bin` → `/usr/local/bin`) | 모든 수집기 |
+| `CLAUDE_FALLBACK_ENABLED` | `1` (`0`이면 비활성화) | 모든 수집기 |
+| `CLAUDE_FALLBACK_TIMEOUT` | `180` | 모든 수집기 |
 | `SNIPERBOARD_API_BASE` | `http://localhost:5001` | 수집기 1, 2, 4 |
-| `SENTIMENT_SLOT` | UTC 시간으로 자동 감지 | 수집기 1, 2, 4 |
+| `SENTIMENT_SLOT` | UTC 시간으로 자동 감지 | 수집기 1, 2, 4, 6 |
+| `KALSHI_API_KEY` | (필수) | 수집기 6 (prediction) |
 
 **슬롯 감지 로직** (`SENTIMENT_SLOT`으로 오버라이드 가능):
 - UTC 09:00~17:59 → `pre_open`
 - UTC 18:00~08:59 → `post_close`
+
+**AI 폴백 (2026-09):** `grok_utils.call_hermes()`는 모든 수집기가 거쳐가는 단일 지점입니다. hermes/Grok이 어떤 이유로든 실패하면(크레딧 소진, 인증 오류, 타임아웃) 포기하기 전에 Claude Code headless(`claude -p ... --output-format text --tools ""`, 모든 내장 도구 비활성화 — 순수 텍스트 완성 모드)로 자동 재시도합니다. `call_hermes_json`/`call_hermes_json_array`는 JSON 재시도마다 `call_hermes()`를 다시 호출하므로 이 fallback을 별도 코드 변경 없이 그대로 물려받습니다. `grok_utils.get_last_backend()`는 가장 최근 호출을 처리한 백엔드("hermes" 또는 "claude_fallback")를 반환합니다. 수집기 1(`collect_sentiment.py`)은 이렇게 생성된 항목을 `"source": "claude-code-headless (degraded fallback)"`로 표시합니다 — Grok의 실시간 X 접근 능력을 Claude Code가 대체할 수 없기 때문입니다. 수집기 2/3/4는 이미 수집된 기술적/소셜/매크로 데이터를 바탕으로 추론만 하므로 degraded 표시를 하지 않습니다. `CLAUDE_FALLBACK_ENABLED=0`으로 완전히 비활성화할 수 있습니다.
 
 ---
 
@@ -111,7 +134,7 @@ market-sentiment-data/
 메인 심리 수집기. 종목을 두 Tier로 분리해 수집:
 1. SniperBoard에서 중립적 가격 맥락 수집 (방향 없음)
 2. 맥락을 관찰 단서로만 Grok 프롬프트에 주입
-3. `hermes -z`로 Grok 호출; JSON 응답 파싱·검증
+3. `hermes -z`로 Grok 호출; JSON 응답 파싱·검증 (hermes/Grok 실패 시 Claude Code headless로 자동 fallback — 3장 참조)
 4. divergence 계산 (Grok 완료 후)
 5. composite_score 계산
 6. `sentiment/latest.json` + `sentiment/history/YYYY-MM-DD_<slot>.json` 저장
@@ -188,9 +211,11 @@ composite_score = clamp(round(score, 1), -2.0, 2.0)
 |------|------|
 | `detect_slot(now)` | `pre_open` 또는 `post_close` 반환 |
 | `build_prompt(symbol, company, ctx)` | 중립 맥락 주입 프롬프트 빌드; 방향 단어 assert |
-| `call_hermes(prompt)` | 타임아웃+재시도 포함 subprocess 호출 |
-| `extract_json(text)` | LLM 출력에서 첫 `{`~마지막 `}` 추출 |
-| `extract_json_array(text)` | LLM 출력에서 `[…]` 배열 추출 (TIER2 배치 응답용) |
+| `grok_utils.call_hermes_json(prompt, validator=...)` | `grok_utils.py`에서 import. 타임아웃+JSON재시도 포함 subprocess 호출; hermes 실패 시 Claude Code headless로 fallback (3장 참조) |
+| `grok_utils.call_hermes_json_array(prompt)` | 위와 동일하나 TIER2 배치 응답(JSON 배열)용 |
+| `grok_utils.get_last_backend()` | `grok_utils.py`에서 import. `"hermes"` 또는 `"claude_fallback"` 반환 — 위 호출 직후 읽어서 어떤 백엔드가 응답했는지 확인 |
+| `grok_utils.extract_json(text)` | LLM 출력에서 첫 `{`~마지막 `}` 추출 |
+| `grok_utils.extract_json_array(text)` | LLM 출력에서 `[…]` 배열 추출 (TIER2 배치 응답용) |
 | `validate_symbol_fields(data, symbol)` | 열거형 및 필수 필드 검증 |
 | `validate_top_news(data)` | `top_news` 선택 구조 검증 (v2.0 _en/_ko 필수) |
 | `compute_divergence(price_dir, score)` | divergence 로직 (후처리 전용) |
@@ -198,9 +223,9 @@ composite_score = clamp(round(score, 1), -2.0, 2.0)
 | `load_pre_open_scores(path)` | intraday_shift용 pre_open 파일 읽기 |
 | `compute_symbol_composite(...)` | 종목 composite_score |
 | `compute_market_composite(...)` | 시장 전체 composite_score |
-| `build_symbol_entry(..., tier)` | 최종 per-symbol JSON 조립; tier 필드 포함 |
+| `build_symbol_entry(..., tier, backend="hermes")` | 최종 per-symbol JSON 조립; tier 필드 포함. `backend`(`get_last_backend()` 값)가 `source` 문자열을 결정하며 degraded fallback 표시도 여기서 함 |
 | `build_tier2_batch_prompt(watchlist)` | TIER2 전체 종목 단일 Grok 호출용 배치 프롬프트 생성 |
-| `build_market_entry(...)` | 최종 market JSON 조립 |
+| `build_market_entry(..., backend="hermes")` | 최종 market JSON 조립; `backend`가 동일하게 `source`를 결정 |
 | `git_commit_push(...)` | `collect/git_utils.commit_and_push()` 위임 |
 
 ---
@@ -340,7 +365,7 @@ SniperBoard의 매크로 데이터를 수집하고 그룹별 AI 해석을 생성
 
 ### 개요
 
-매일 1회 실행 (UTC 22:30 = KST 07:30). **2단계 Grok 파이프라인**으로 글로벌 컨텍스트 브리핑을 생성합니다.
+매일 1회 실행 (UTC 21:45 전일 = KST 06:45). **2단계 Grok 파이프라인**으로 글로벌 컨텍스트 브리핑을 생성합니다.
 
 **1단계 (글로벌 컨텍스트):** 48시간 내 상위 3개 글로벌 거시/지정학 이슈를 Grok 실시간 웹 검색으로 수집.
 - 타임아웃: `HERMES_TIMEOUT_GLOBAL` (기본 90초)
@@ -349,7 +374,7 @@ SniperBoard의 매크로 데이터를 수집하고 그룹별 AI 해석을 생성
 - 환각 방지: 출처 인용된 군사훈련만; 미확인 기업 액션 금지
 
 **2단계 (전체 브리핑):** 글로벌 컨텍스트 + 심리/기술 데이터를 결합해 종합 아침 브리핑을 생성.
-- 타임아웃: `HERMES_TIMEOUT` (기본 300초)
+- 타임아웃: `HERMES_TIMEOUT` (코드 기본값 120초; 이 잡의 crontab에서 300초로 오버라이드)
 - 출력: headline, executive_bullets, big_picture, sector_analysis, spotlight, watchlist 포함 전체 JSON
 
 ### 주요 설계 개선 사항 (2026-06-04)
@@ -393,6 +418,44 @@ SniperBoard의 매크로 데이터를 수집하고 그룹별 AI 해석을 생성
 **감시 종목 (22개):**
 - TIER1 (12종목): TSM, NVDA, META, TSLA, PLTR, MU, CRWD, AMZN, MSFT, AAPL, GOOGL, SPCX
 - TIER2 (10종목): RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI
+
+---
+
+## 8-1. 수집기 6 — 예측 시장 (`collect/collect_prediction.py`)
+
+Kalshi 예측시장에서 다음 FOMC 금리 결정 확률을 수집합니다. **Grok 없음** — 순수 확률 데이터만 저장.
+
+**API:** `https://trading-api.kalshi.com/trade-api/v2`
+**인증:** `KALSHI_API_KEY` 환경변수 (Bearer 토큰)
+**스케줄:** 하루 2회 (KST 05:45 pre_open, 21:45 post_close)
+
+### 수집 흐름
+
+1. `GET /events?series_ticker=FOMC&status=open&limit=20` → 가장 가까운 미래 날짜 이벤트 선택
+2. `GET /events/{event_ticker}` → 마켓 목록 + `yes_ask` 가격 수집
+3. ticker 키워드로 outcome 매핑: `UNCHANGED`/`NO_CHANGE`→`no_change`, `DOWN25`/`CUT25`→`cut_25bps`, `DOWN50`/`CUT50`→`cut_50bps`, `UP25`/`HIKE25`→`hike_25bps`
+4. `yes_ask` 값이 >1.0이면 센트 단위(0~100)로 판단 → 100으로 나눔
+5. `prediction/latest.json` + `prediction/history/<date>_<slot>.json` 저장 → git push
+
+### 출력 스키마 (schema_version 1.0)
+
+```json
+{
+  "generated_at": "2026-06-29T06:30:00Z",
+  "schema_version": "1.0",
+  "slot": "pre_open",
+  "source": "kalshi",
+  "next_fomc": {
+    "event_ticker": "FOMC-26JUL29",
+    "meeting_date": "2026-07-29",
+    "probabilities": { "no_change": 0.72, "cut_25bps": 0.23, "cut_50bps": 0.04, "hike_25bps": 0.01 },
+    "dominant_outcome": "no_change",
+    "dominant_probability": 0.72
+  }
+}
+```
+
+FOMC 이벤트가 없을 때(회의 직후 공백기): `next_fomc: null` 저장, 정상 종료.
 
 ---
 
@@ -476,6 +539,7 @@ SniperBoard는 백엔드 서비스를 통해 이 저장소를 소비합니다. �
 | `GET /api/earnings` | `earnings/latest.json` | 60분 |
 | `GET /api/macro-insight` | `macro/latest.json` | 5~10분 |
 | `GET /api/morning-briefing` | `briefing/latest.json` | 5~10분 |
+| `GET /api/prediction` | `prediction/latest.json` | (미정) |
 
 **fetch 패턴 (비공개 레포):**
 ```python
@@ -509,22 +573,25 @@ def get_field(obj: dict, field: str, locale: str) -> str:
 
 ```bash
 # ─── 심리 (05:30, 22:30 KST) ───────────────────────────────────────────────
-30 5,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
+30 5,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -u -m collect.collect_sentiment >> sentiment/sentiment.log 2>&1
 
 # ─── 브리프 (06:00, 22:00 KST) ───────────────────────────────────────────
-00 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_brief >> brief/brief.log 2>&1
+00 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -u -m collect.collect_brief >> brief/brief.log 2>&1
 
 # ─── 매크로 인사이트 (06:15, 22:15 KST) ──────────────────────────────────
-15 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_macro_insight >> macro/macro.log 2>&1
+15 6,22 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -u -m collect.collect_macro_insight >> macro/macro.log 2>&1
 
 # ─── 어닝 (하루 1회, 06:30 KST) ────────────────────────────────────────
-30 6 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data /opt/homebrew/bin/python3 -m collect.collect_earnings >> earnings/earnings.log 2>&1
+30 6 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data /opt/homebrew/bin/python3 -u -m collect.collect_earnings >> earnings/earnings.log 2>&1
 
 # ─── 아침 브리핑 (하루 1회, 06:45 KST) ──────────────────────────────────
-45 6 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
+45 6 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data HERMES_TIMEOUT=300 /opt/homebrew/bin/python3 -u -m collect.collect_morning_briefing >> briefing/briefing.log 2>&1
 
 # ─── auto_improve (하루 1회, 07:15 KST) ─────────────────────────────────
-15 7 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data /opt/homebrew/bin/python3 -m collect.auto_improve >> briefing/auto_improve.log 2>&1
+15 7 * * * cd /Users/jerry/dev/market-sentiment-data && GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data /opt/homebrew/bin/python3 -u -m collect.auto_improve >> briefing/auto_improve.log 2>&1
+
+# ─── 예측 시장 (05:45, 21:45 KST — `cd` 불필요, 상대경로 미사용) ─────────
+45 21,5 * * * GIT_SSH_COMMAND="ssh -F /Users/jerry/.ssh/config -o StrictHostKeyChecking=no" PYTHONPATH=/Users/jerry/dev/market-sentiment-data KALSHI_API_KEY="..." /opt/homebrew/bin/python3 -u -m collect.collect_prediction >> /Users/jerry/dev/market-sentiment-data/prediction/prediction.log 2>&1
 
 # ─── 헬스 모니터 (2시간마다) ────────────────────────────────────────────
 0 */2 * * * cd /Users/jerry/dev/market-sentiment-data && /opt/homebrew/bin/python3 monitor/health_check.py >> monitor/health_check.log 2>&1
@@ -576,16 +643,21 @@ cd /Users/jerry/dev/market-sentiment-data && python3 monitor/health_check.py
 ## 14. 테스트
 
 ```bash
-python -m pytest collect/ -v          # 48개 테스트 (Phase 5)
+python -m pytest collect/ -v          # 전체 232개 테스트 중 230개 통과 (2026-09-26 기준)
 
 # 주요 테스트 파일:
-# collect/test_collect_sentiment.py   — 프롬프트 가드, divergence, composite_score, 검증
-# collect/test_price_context.py       — 방향 단어 부재 assert, 폴백 동작
-# collect/test_collect_brief.py       — 브리프 검증, 맥락 스냅샷
-# collect/test_collect_brief_context.py — 맥락 어트리뷰션 구조
+# collect/test_collect_sentiment.py       — 프롬프트 가드, divergence, composite_score, 검증, backend/degraded source 표시 (41개)
+# collect/test_grok_utils.py              — hermes 호출, JSON 재시도, Claude Code headless fallback (44개)
+# collect/test_price_context.py           — 방향 단어 부재 assert, 폴백 동작 (30개)
+# collect/test_collect_brief.py           — 브리프 검증, 맥락 스냅샷, validate_output_quality (23개)
+# collect/test_collect_brief_context.py   — 맥락 어트리뷰션 구조 (2개)
+# collect/test_collect_morning_briefing.py — 글로벌 컨텍스트 프롬프트, 무결성 게이트 (42개, 1개 알려진 실패: 오래된 FOMC/이벤트 픽스처)
+# collect/test_collect_prediction.py      — Kalshi 이벤트/outcome 파싱 (37개, 1개 알려진 실패: 오래된 날짜 픽스처)
+# collect/test_collect_earnings_revenue.py — 어닝 revenue 필드 검증 (8개)
+# collect/test_phase_b_integrity.py       — B1/B2 무결성 게이트 로직 (5개)
 ```
 
-테스트는 `collect/`에 co-located. pytest로 실행. 외부 서비스 불필요 — SniperBoard API 응답은 mock으로 처리.
+테스트는 `collect/`에 co-located. pytest로 실행. 외부 서비스 불필요 — SniperBoard API 응답은 mock으로 처리. 알려진 실패 2건은 하드코딩된 날짜/이벤트 픽스처가 시간 경과로 낡아서 발생하는 것으로, 코드 회귀가 아니라 픽스처 갱신이 필요한 상태입니다.
 
 ---
 
@@ -596,6 +668,7 @@ python -m pytest collect/ -v          # 48개 테스트 (Phase 5)
 - `sniperboard/backend/services/earnings_service.py` — `earnings/latest.json` 수집, 60분 캐시; `/api/earnings` 응답에 `meta.age_minutes` 첨부
 - `sniperboard/backend/services/macro_insight_service.py` — `macro/latest.json` 수집
 - `sniperboard/backend/services/morning_briefing_service.py` — `briefing/latest.json` 수집
+- `sniperboard/backend/services/prediction_service.py` — `prediction/latest.json` 수집; `email_report_service.py`에서 소비
 - `sniperboard/frontend/components/boards/SentimentBoard.tsx` — `/api/sentiment` 소비
 - `sniperboard/frontend/components/boards/SentimentTrendChart.tsx` — 이력 차트
 - SniperBoard `MACRO_SYMBOLS`는 이 레포의 매크로 자산 목록과 영어 이름으로 일치

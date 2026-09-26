@@ -6,7 +6,7 @@
 
 When starting a new session, always read these two files first:
 1. `PROJECT_CONTEXT.md` — full collector architecture, schema, data flow, env vars, cron schedule
-2. `README.md` — user-facing description of all 4 collectors and data structure
+2. `README.md` — user-facing description of all 6 collectors and data structure
 
 These two files give you an immediate understanding of the project without reading the entire codebase.
 
@@ -35,6 +35,9 @@ These two files give you an immediate understanding of the project without readi
 - **Collector 2**: `collect/collect_brief.py` — AI Daily Brief (technical + social → Grok)
 - **Collector 3**: `collect/collect_earnings.py` — Earnings Intelligence (yfinance + Grok)
 - **Collector 4**: `collect/collect_macro_insight.py` — Macro Insight (SniperBoard `/api/macro` + Grok)
+- **Collector 5**: `collect/collect_morning_briefing.py` — Morning Briefing, 2-stage Grok pipeline (KST 06:45)
+- **Collector 6**: `collect/collect_prediction.py` — Prediction Market (Kalshi FOMC probabilities, no Grok)
+- **AI backend**: `collect/grok_utils.py` — shared hermes/Grok call utilities; every collector's Grok call goes through `call_hermes_json()`/`call_hermes_json_array()`, which fall back to Claude Code headless when hermes/Grok fails
 - **Price context**: `collect/price_context.py` — neutral price cues fetcher (no direction). `fetch_close_direction()` is post-processing only — never flows into prompt builder.
 - **Git helper**: `collect/git_utils.py` — shared `commit_and_push()`
 - **Schema**: `schema.json` — JSON Schema draft-07 v2.0 (sentiment data contract)
@@ -65,6 +68,8 @@ This repository is consumed by SniperBoard: **`https://github.com/pjhwa/sniperbo
 | AI Daily Brief | `brief/latest.json` | `backend/services/brief_service.py` |
 | Earnings Intelligence | `earnings/latest.json` | `backend/services/earnings_service.py` |
 | Macro Insight | `macro/latest.json` | `backend/services/macro_insight_service.py` |
+| Morning Briefing | `briefing/latest.json` | `backend/services/morning_briefing_service.py` |
+| Prediction Market | `prediction/latest.json` | `backend/services/prediction_service.py` |
 
 - SniperBoard fetches via raw GitHub URL; token injected via `SENTIMENT_DATA_TOKEN` env var.
 - **Schema version**: 2.0 — all AI text fields use `_en`/`_ko` suffix pairs.
