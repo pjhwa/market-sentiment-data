@@ -217,6 +217,53 @@ class TestBuildMarketEntryTopNews(unittest.TestCase):
         self.assertIsNone(entry.get("top_news"))
 
 
+class TestBuildSymbolEntryBackend(unittest.TestCase):
+    def _base_raw(self):
+        return {
+            "sentiment": "optimistic",
+            "trend_vs_yesterday": "stable",
+            "mention_volume": "normal",
+            "key_reason_en": "Test reason",
+            "key_reason_ko": "테스트 이유",
+            "bot_suspected": "no",
+            "confidence": "med",
+        }
+
+    def test_default_backend_source_mentions_hermes(self):
+        entry = cs.build_symbol_entry(self._base_raw(), "AAPL", "2026-05-28T13:00:00Z", {}, "aligned")
+        self.assertIn("hermes", entry["source"])
+
+    def test_claude_fallback_backend_marks_degraded(self):
+        entry = cs.build_symbol_entry(
+            self._base_raw(), "AAPL", "2026-05-28T13:00:00Z", {}, "aligned",
+            backend="claude_fallback",
+        )
+        self.assertIn("degraded", entry["source"].lower())
+        self.assertIn("claude", entry["source"].lower())
+
+
+class TestBuildMarketEntryBackend(unittest.TestCase):
+    def _base_raw(self):
+        return {
+            "sentiment": "fearful",
+            "trend_vs_yesterday": "cooling",
+            "extreme_flag": "none",
+            "key_reason_en": "Market test reason",
+            "key_reason_ko": "마켓 테스트",
+            "confidence": "high",
+        }
+
+    def test_default_backend_source_mentions_hermes(self):
+        entry = cs.build_market_entry(self._base_raw(), "2026-05-28T13:00:00Z")
+        self.assertIn("hermes", entry["source"])
+
+    def test_claude_fallback_backend_marks_degraded(self):
+        entry = cs.build_market_entry(
+            self._base_raw(), "2026-05-28T13:00:00Z", backend="claude_fallback",
+        )
+        self.assertIn("degraded", entry["source"].lower())
+
+
 class TestValidateBilingualFields(unittest.TestCase):
     def test_validate_symbol_fields_accepts_bilingual(self):
         data = {

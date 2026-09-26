@@ -21,6 +21,7 @@ from collect.grok_utils import (
     call_hermes_json_array,
     extract_json,
     extract_json_array,
+    get_last_backend,
 )
 from collect.price_context import (
     fetch_close_direction,
@@ -395,8 +396,12 @@ def validate_top_news(data: dict | None) -> bool:
 
 # ── 엔트리 빌더 ────────────────────────────────────────────────────────────────
 
-def build_symbol_entry(raw: dict, symbol: str, now_iso: str, ctx: dict, divergence: str, tier: int = 1) -> dict:
+def build_symbol_entry(raw: dict, symbol: str, now_iso: str, ctx: dict, divergence: str, tier: int = 1, backend: str = "hermes") -> dict:
     sentiment = raw["sentiment"]
+    if backend == "hermes":
+        source = f"{'grok-oauth' if not HERMES_PROVIDER else HERMES_PROVIDER} via hermes"
+    else:
+        source = "claude-code-headless (degraded fallback)"
     entry = {
         "symbol": symbol,
         "tier": tier,
@@ -409,7 +414,7 @@ def build_symbol_entry(raw: dict, symbol: str, now_iso: str, ctx: dict, divergen
         "key_reason_ko": raw.get("key_reason_ko", ""),
         "bot_suspected": raw["bot_suspected"],
         "confidence": raw["confidence"],
-        "source": f"{'grok-oauth' if not HERMES_PROVIDER else HERMES_PROVIDER} via hermes",
+        "source": source,
     }
     # price_context: available 키는 내부용이므로 저장 시 제외
     pc = {k: v for k, v in ctx.items() if k != "available"} if ctx.get("available") else None
@@ -421,8 +426,13 @@ def build_symbol_entry(raw: dict, symbol: str, now_iso: str, ctx: dict, divergen
     return entry
 
 
-def build_market_entry(raw: dict, now_iso: str) -> dict:
+def build_market_entry(raw: dict, now_iso: str, backend: str = "hermes") -> dict:
     sentiment = raw["sentiment"]
+    source = (
+        f"{'grok-oauth' if not HERMES_PROVIDER else HERMES_PROVIDER} via hermes"
+        if backend == "hermes"
+        else "claude-code-headless (degraded fallback)"
+    )
     return {
         "as_of": now_iso,
         "sentiment": sentiment,
@@ -432,6 +442,7 @@ def build_market_entry(raw: dict, now_iso: str) -> dict:
         "key_reason_en": raw.get("key_reason_en", ""),
         "key_reason_ko": raw.get("key_reason_ko", ""),
         "confidence": raw["confidence"],
+        "source": source,
         "top_news": raw.get("top_news") if validate_top_news(raw.get("top_news")) and raw.get("top_news") is not None else None,
     }
 
@@ -490,12 +501,13 @@ def main():
         if parsed is None:
             print(f"[SKIP] {symbol}: Grok 응답 최종 실패 (JSON/검증)", file=sys.stderr)
             continue
+        backend = get_last_backend()
 
         close_dir = fetch_close_direction(symbol)
         sentiment_score = SENTIMENT_SCORE_MAP[parsed["sentiment"]]
         divergence = compute_divergence(close_dir, sentiment_score)
 
-        entry = build_symbol_entry(parsed, symbol, now_iso, ctx, divergence, tier=1)
+        entry = build_symbol_entry(parsed, symbol, now_iso, ctx, divergence, tier=1, backend=backend)
         prev_score = pre_open_scores["symbols"].get(symbol)
         entry["intraday_shift"] = (
             compute_intraday_shift(prev_score, entry["sentiment_score"])
@@ -526,6 +538,7 @@ def main():
         print(f"[INFO] TIER2 배치 질의 시작 ({len(TIER2_WATCHLIST)}종목)")
         batch_prompt = build_tier2_batch_prompt(TIER2_WATCHLIST)
         _, batch_parsed = call_hermes_json_array(batch_prompt)
+        batch_backend = get_last_backend()
 
         if batch_parsed is None:
             print("[SKIP] TIER2 배치: Grok 응답 최종 실패 (JSON/배열)", file=sys.stderr)
@@ -546,7 +559,7 @@ def main():
                 divergence = compute_divergence(close_dir, sentiment_score)
 
                 ctx: dict = {"available": False}
-                entry = build_symbol_entry(item, symbol, now_iso, ctx, divergence, tier=2)
+                entry = build_symbol_entry(item, symbol, now_iso, ctx, divergence, tier=2, backend=batch_backend)
                 prev_score = pre_open_scores["symbols"].get(symbol)
                 entry["intraday_shift"] = (
                     compute_intraday_shift(prev_score, entry["sentiment_score"])
@@ -577,12 +590,13 @@ def main():
     # ── 시장 전체 수집 ────────────────────────────────────────────────────────
     print("[INFO] 질의 중: MARKET")
     _, market_parsed = call_hermes_json(MARKET_PROMPT, validator=validate_market_fields)
+    market_backend = get_last_backend()
     market_entry = None
 
     if market_parsed is None:
         print("[SKIP] MARKET: Grok 응답 최종 실패 (JSON/검증)", file=sys.stderr)
     else:
-            market_entry = build_market_entry(market_parsed, now_iso)
+            market_entry = build_market_entry(market_parsed, now_iso, backend=market_backend)
             prev_market_score = pre_open_scores["market"]
             market_entry["intraday_shift"] = (
                 compute_intraday_shift(prev_market_score, market_entry["sentiment_score"])
