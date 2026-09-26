@@ -22,6 +22,10 @@ def _proc(stdout="", returncode=0, stderr=""):
 
 
 class TestCallHermes(unittest.TestCase):
+    def tearDown(self):
+        import importlib
+        importlib.reload(gu)
+
     @patch("collect.grok_utils.subprocess.run")
     def test_returns_stdout_on_success(self, mock_run):
         mock_run.return_value = _proc('{"ok": true}')
@@ -37,7 +41,7 @@ class TestCallHermes(unittest.TestCase):
     @patch("collect.grok_utils.subprocess.run")
     def test_retries_on_timeout_and_returns_none_when_exhausted(self, mock_run):
         mock_run.side_effect = subprocess.TimeoutExpired(cmd="hermes", timeout=120)
-        with patch.dict("os.environ", {"HERMES_RETRY": "2"}):
+        with patch.dict("os.environ", {"HERMES_RETRY": "2", "CLAUDE_FALLBACK_ENABLED": "0"}):
             import importlib
             importlib.reload(gu)
             result = gu.call_hermes("prompt")
@@ -107,6 +111,77 @@ class TestCallClaudeFallback(unittest.TestCase):
         gu.call_claude_fallback("prompt", timeout=60)
         _, kwargs = mock_run.call_args
         self.assertEqual(kwargs["timeout"], 60)
+
+
+class TestCallHermesFallback(unittest.TestCase):
+    def _run(self, cmd, *args, **kwargs):
+        if cmd[0] == "HERMES_BIN":
+            return self._hermes_result
+        elif cmd[0] == "CLAUDE_BIN":
+            return self._claude_result
+        raise AssertionError(f"unexpected cmd: {cmd}")
+
+    def setUp(self):
+        gu.HERMES_CMD = "HERMES_BIN"
+        gu.CLAUDE_FALLBACK_CMD = "CLAUDE_BIN"
+        gu.CLAUDE_FALLBACK_ENABLED = True
+
+    def tearDown(self):
+        import importlib
+        importlib.reload(gu)
+
+    @patch("collect.grok_utils.subprocess.run")
+    def test_falls_back_on_hermes_nonzero_exit(self, mock_run):
+        self._hermes_result = _proc("", returncode=1, stderr="credit exhausted")
+        self._claude_result = _proc('{"ok": true}')
+        mock_run.side_effect = self._run
+
+        result = gu.call_hermes("prompt")
+        self.assertEqual(result, '{"ok": true}')
+        self.assertEqual(gu.get_last_backend(), "claude_fallback")
+
+    @patch("collect.grok_utils.subprocess.run")
+    def test_falls_back_on_hermes_file_not_found(self, mock_run):
+        def run(cmd, *a, **k):
+            if cmd[0] == "HERMES_BIN":
+                raise FileNotFoundError()
+            return self._claude_result
+        self._claude_result = _proc('{"ok": true}')
+        mock_run.side_effect = run
+
+        result = gu.call_hermes("prompt")
+        self.assertEqual(result, '{"ok": true}')
+        self.assertEqual(gu.get_last_backend(), "claude_fallback")
+
+    @patch("collect.grok_utils.subprocess.run")
+    def test_returns_none_when_both_backends_fail(self, mock_run):
+        self._hermes_result = _proc("", returncode=1)
+        self._claude_result = _proc("", returncode=1)
+        mock_run.side_effect = self._run
+
+        result = gu.call_hermes("prompt")
+        self.assertIsNone(result)
+
+    @patch("collect.grok_utils.subprocess.run")
+    def test_fallback_disabled_returns_none_without_calling_claude(self, mock_run):
+        gu.CLAUDE_FALLBACK_ENABLED = False
+        mock_run.return_value = _proc("", returncode=1)
+
+        result = gu.call_hermes("prompt")
+        self.assertIsNone(result)
+        self.assertEqual(mock_run.call_count, 1)  # hermes only, no fallback attempt
+
+    @patch("collect.grok_utils.subprocess.run")
+    def test_last_backend_resets_to_hermes_on_success(self, mock_run):
+        gu.LAST_BACKEND = "claude_fallback"  # simulate leftover state from a prior call
+
+        def run(cmd, *a, **k):
+            self.assertEqual(cmd[0], "HERMES_BIN")
+            return _proc('{"ok": true}')
+        mock_run.side_effect = run
+
+        gu.call_hermes("prompt")
+        self.assertEqual(gu.get_last_backend(), "hermes")
 
 
 class TestExtractJson(unittest.TestCase):
@@ -194,10 +269,13 @@ class TestCallHermesJson(unittest.TestCase):
     @patch("collect.grok_utils.subprocess.run")
     def test_returns_none_none_when_hermes_fails(self, mock_run, mock_sleep):
         mock_run.return_value = _proc("", returncode=1)
-        raw, parsed = gu.call_hermes_json("prompt", json_retry=2, delay=0.0)
+        with patch.dict("os.environ", {"CLAUDE_FALLBACK_ENABLED": "0"}):
+            gu.CLAUDE_FALLBACK_ENABLED = False
+            raw, parsed = gu.call_hermes_json("prompt", json_retry=2, delay=0.0)
+            gu.CLAUDE_FALLBACK_ENABLED = True
         self.assertIsNone(raw)
         self.assertIsNone(parsed)
-        self.assertEqual(mock_run.call_count, 1)  # no JSON retry for hermes failure
+        self.assertEqual(mock_run.call_count, 1)  # no JSON retry for hermes failure (fallback disabled)
 
     @patch("collect.grok_utils.time.sleep")
     @patch("collect.grok_utils.subprocess.run")
