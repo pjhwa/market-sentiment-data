@@ -42,6 +42,68 @@ JSON_PARSE_RETRY = int(os.environ.get("JSON_PARSE_RETRY", "2"))
 JSON_RETRY_DELAY = float(os.environ.get("JSON_RETRY_DELAY", "2.0"))
 
 
+def _find_claude() -> str:
+    """CLAUDE_FALLBACK_CMD env var → PATH search → platform-specific defaults."""
+    if val := os.environ.get("CLAUDE_FALLBACK_CMD"):
+        return val
+    if found := shutil.which("claude"):
+        return found
+    for p in [
+        Path.home() / ".local/bin/claude",
+        Path("/opt/homebrew/bin/claude"),
+        Path("/usr/local/bin/claude"),
+    ]:
+        if p.exists():
+            return str(p)
+    return str(Path.home() / ".local/bin/claude")
+
+
+CLAUDE_FALLBACK_CMD     = _find_claude()
+CLAUDE_FALLBACK_ENABLED = os.environ.get("CLAUDE_FALLBACK_ENABLED", "1") != "0"
+CLAUDE_FALLBACK_TIMEOUT = int(os.environ.get("CLAUDE_FALLBACK_TIMEOUT", "180"))
+
+LAST_BACKEND = "hermes"
+
+
+def get_last_backend() -> str:
+    """Which backend produced the most recent call_hermes() result: 'hermes' or 'claude_fallback'."""
+    return LAST_BACKEND
+
+
+def call_claude_fallback(prompt: str, timeout: int | None = None) -> str | None:
+    """Call Claude Code headless (`claude -p`) as a fallback when hermes/Grok fails.
+
+    All built-in tools are disabled (--tools "") — this is a pure text completion,
+    not an agentic session. No retry here; retry is handled by the caller
+    (call_hermes_json's JSON-retry loop calls call_hermes, which calls this, again).
+    """
+    cmd = [CLAUDE_FALLBACK_CMD, "-p", prompt, "--output-format", "text", "--tools", ""]
+    env = {**os.environ, "PATH": os.environ.get("PATH", "") + ":/usr/local/bin:/opt/homebrew/bin"}
+    effective_timeout = timeout if timeout is not None else CLAUDE_FALLBACK_TIMEOUT
+
+    try:
+        result = subprocess.run(
+            cmd, capture_output=True, text=True, timeout=effective_timeout, env=env
+        )
+        if result.returncode != 0:
+            print(
+                f"[ERROR] claude fallback 비정상 종료 (rc={result.returncode}): {result.stderr[:300]}",
+                file=sys.stderr,
+            )
+            return None
+        return result.stdout
+    except subprocess.TimeoutExpired:
+        print(f"[ERROR] claude fallback 타임아웃 ({effective_timeout}초)", file=sys.stderr)
+        return None
+    except FileNotFoundError:
+        print(
+            f"[ERROR] claude 명령 없음: {CLAUDE_FALLBACK_CMD}. "
+            "CLAUDE_FALLBACK_CMD 환경변수로 절대경로를 지정하거나 PATH를 확인하세요.",
+            file=sys.stderr,
+        )
+        return None
+
+
 def call_hermes(
     prompt: str,
     timeout: int | None = None,

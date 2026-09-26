@@ -65,6 +65,50 @@ class TestCallHermes(unittest.TestCase):
         self.assertEqual(kwargs["timeout"], 300)
 
 
+class TestCallClaudeFallback(unittest.TestCase):
+    @patch("collect.grok_utils.subprocess.run")
+    def test_returns_stdout_on_success(self, mock_run):
+        mock_run.return_value = _proc('{"ok": true}')
+        result = gu.call_claude_fallback("test prompt")
+        self.assertEqual(result, '{"ok": true}')
+
+    @patch("collect.grok_utils.subprocess.run")
+    def test_returns_none_on_nonzero_exit(self, mock_run):
+        mock_run.return_value = _proc("", returncode=1, stderr="usage limit reached")
+        result = gu.call_claude_fallback("test prompt")
+        self.assertIsNone(result)
+
+    @patch("collect.grok_utils.subprocess.run")
+    def test_returns_none_on_timeout(self, mock_run):
+        mock_run.side_effect = subprocess.TimeoutExpired(cmd="claude", timeout=180)
+        result = gu.call_claude_fallback("test prompt")
+        self.assertIsNone(result)
+
+    @patch("collect.grok_utils.subprocess.run")
+    def test_returns_none_on_file_not_found(self, mock_run):
+        mock_run.side_effect = FileNotFoundError()
+        result = gu.call_claude_fallback("test prompt")
+        self.assertIsNone(result)
+
+    @patch("collect.grok_utils.subprocess.run")
+    def test_uses_tools_disabled_and_text_output(self, mock_run):
+        mock_run.return_value = _proc('{}')
+        gu.call_claude_fallback("test prompt")
+        args, kwargs = mock_run.call_args
+        cmd = args[0]
+        self.assertIn("--output-format", cmd)
+        self.assertIn("text", cmd)
+        self.assertIn("--tools", cmd)
+        self.assertEqual(cmd[cmd.index("--tools") + 1], "")
+
+    @patch("collect.grok_utils.subprocess.run")
+    def test_custom_timeout_used(self, mock_run):
+        mock_run.return_value = _proc('{}')
+        gu.call_claude_fallback("prompt", timeout=60)
+        _, kwargs = mock_run.call_args
+        self.assertEqual(kwargs["timeout"], 60)
+
+
 class TestExtractJson(unittest.TestCase):
     def test_extracts_json_object(self):
         result = gu.extract_json('Some text {"key": "value"} more text')
