@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-08-04 B2 integrity + Stage-2 prompt diet (no event hardcodes)
+<!-- AUTO-GENERATED: 2026-09-26 Claude Code headless fallback for hermes/Grok failures
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 
@@ -104,6 +104,9 @@ All config is injected via environment variables. Never hardcode paths or tokens
 | `HERMES_TIMEOUT` | `120` | all collectors |
 | `HERMES_TIMEOUT_GLOBAL` | `90` | collector 5 (morning briefing, stage 1 global context fetch) |
 | `HERMES_RETRY` | `1` | all collectors |
+| `CLAUDE_FALLBACK_CMD` | auto-detect (`shutil.which` → `~/.local/bin` → `/opt/homebrew/bin` → `/usr/local/bin`) | all collectors |
+| `CLAUDE_FALLBACK_ENABLED` | `1` (set to `0` to disable) | all collectors |
+| `CLAUDE_FALLBACK_TIMEOUT` | `180` | all collectors |
 | `SNIPERBOARD_API_BASE` | `http://localhost:5001` | collectors 1, 2, 4 |
 | `SENTIMENT_SLOT` | auto-detect by UTC hour | collectors 1, 2, 4, 6 |
 | `KALSHI_API_KEY` | (required) | collector 6 (prediction) |
@@ -111,6 +114,8 @@ All config is injected via environment variables. Never hardcode paths or tokens
 **Slot detection logic** (overridable via `SENTIMENT_SLOT`):
 - UTC 09:00–17:59 → `pre_open`
 - UTC 18:00–08:59 → `post_close`
+
+**AI fallback (2026-09):** `grok_utils.call_hermes()` is the single choke point every collector calls into. When hermes/Grok fails for any reason (credit exhaustion, auth error, timeout), it automatically retries via Claude Code headless (`claude -p ... --output-format text --tools ""`, all built-in tools disabled — pure text completion, not an agentic session) before giving up. `call_hermes_json`/`call_hermes_json_array` inherit this for free since they call `call_hermes()` again on each JSON-retry attempt. `grok_utils.get_last_backend()` reports which backend ("hermes" or "claude_fallback") answered the most recent call. Collector 1 (`collect_sentiment.py`) marks entries produced this way as `"source": "claude-code-headless (degraded fallback)"` because it depends on Grok's live X/Twitter access, which Claude Code cannot replicate. Collectors 2/3/4 do not mark degraded — they only reason over already-fetched technical/social/macro data, so Claude Code's output there is not degraded. Disable entirely with `CLAUDE_FALLBACK_ENABLED=0`.
 
 ---
 

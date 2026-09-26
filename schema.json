@@ -228,6 +228,10 @@
           "description": "시장 전체 화제의 핵심 사유 한국어 (한 줄)"
         },
         "confidence": { "$ref": "#/definitions/ConfidenceEnum" },
+        "source": {
+          "type": "string",
+          "description": "출처 추적용 문자열 (예: 'grok-oauth via hermes', 'claude-code-headless (degraded fallback)'). v2.0에 추가된 optional 필드 — MARKET 항목에도 provider attribution 필요해짐 (Claude Code fallback 도입, 2026-09)."
+        },
         "intraday_shift": {
           "$ref": "#/definitions/IntradayShiftEnum",
           "description": "post_close 슬롯에서 당일 pre_open 대비 심리 변화. v1.2 추가."
