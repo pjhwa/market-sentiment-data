@@ -77,7 +77,7 @@ def call_claude_fallback(prompt: str, timeout: int | None = None) -> str | None:
     not an agentic session. No retry here; retry is handled by the caller
     (call_hermes_json's JSON-retry loop calls call_hermes, which calls this, again).
     """
-    cmd = [CLAUDE_FALLBACK_CMD, "-p", prompt, "--output-format", "text", "--tools", ""]
+    cmd = [CLAUDE_FALLBACK_CMD, "-p", prompt, "--output-format", "text", "--tools", "", "--strict-mcp-config"]
     env = {**os.environ, "PATH": os.environ.get("PATH", "") + ":/usr/local/bin:/opt/homebrew/bin"}
     effective_timeout = timeout if timeout is not None else CLAUDE_FALLBACK_TIMEOUT
 
@@ -142,7 +142,7 @@ def call_hermes(
                     f"[ERROR] hermes 비정상 종료 (rc={result.returncode}): {result.stderr[:300]}",
                     file=sys.stderr,
                 )
-                return _fallback_or_none(prompt, effective_timeout)
+                return _fallback_or_none(prompt, timeout)
             return result.stdout
         except subprocess.TimeoutExpired:
             remaining = HERMES_RETRY - attempt
@@ -153,24 +153,30 @@ def call_hermes(
                 )
             else:
                 print("[ERROR] hermes 타임아웃 — 재시도 소진", file=sys.stderr)
-                return _fallback_or_none(prompt, effective_timeout)
+                return _fallback_or_none(prompt, timeout)
         except FileNotFoundError:
             print(
                 f"[ERROR] hermes 명령 없음: {HERMES_CMD}. "
                 "HERMES_CMD 환경변수로 절대경로를 지정하거나 PATH를 확인하세요.",
                 file=sys.stderr,
             )
-            return _fallback_or_none(prompt, effective_timeout)
-    return _fallback_or_none(prompt, effective_timeout)
+            return _fallback_or_none(prompt, timeout)
+    return _fallback_or_none(prompt, timeout)
 
 
-def _fallback_or_none(prompt: str, timeout: int) -> str | None:
-    """Try Claude Code headless after hermes has exhausted its own retries. Sets LAST_BACKEND."""
+def _fallback_or_none(prompt: str, timeout: int | None) -> str | None:
+    """Try Claude Code headless after hermes has exhausted its own retries. Sets LAST_BACKEND.
+
+    timeout: the caller's original call_hermes() timeout override, if any (not the
+    HERMES_TIMEOUT-defaulted value) — an explicit caller timeout is honored for the
+    fallback too; otherwise CLAUDE_FALLBACK_TIMEOUT is used as the fallback's own default.
+    """
     global LAST_BACKEND
     if not CLAUDE_FALLBACK_ENABLED:
         return None
     print("[WARN] hermes 실패 — Claude Code headless fallback 시도", file=sys.stderr)
-    result = call_claude_fallback(prompt, timeout=CLAUDE_FALLBACK_TIMEOUT)
+    effective_timeout = timeout if timeout is not None else CLAUDE_FALLBACK_TIMEOUT
+    result = call_claude_fallback(prompt, timeout=effective_timeout)
     if result is not None:
         LAST_BACKEND = "claude_fallback"
     else:
@@ -233,9 +239,12 @@ def call_hermes_json(
         toolsets: Optional hermes -t toolsets (e.g. "web") for this call only.
 
     Returns:
-        (raw_text, parsed_dict): raw_text is the last hermes stdout (may be empty string),
-        parsed_dict is the validated dict or None if all retries failed.
-        Returns (None, None) if hermes itself failed (non-zero exit, FileNotFoundError).
+        (raw_text, parsed_dict): raw_text is the last successful call's stdout (hermes or,
+        if hermes failed, the Claude Code fallback's — may be empty string), parsed_dict is
+        the validated dict or None if all retries failed.
+        Returns (None, None) only if BOTH hermes and the fallback failed (non-zero exit,
+        FileNotFoundError) or CLAUDE_FALLBACK_ENABLED=0. Check get_last_backend() to see
+        which backend actually answered.
     """
     raw = None
     for attempt in range(1 + json_retry):

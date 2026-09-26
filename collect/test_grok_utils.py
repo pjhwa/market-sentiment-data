@@ -112,6 +112,14 @@ class TestCallClaudeFallback(unittest.TestCase):
         _, kwargs = mock_run.call_args
         self.assertEqual(kwargs["timeout"], 60)
 
+    @patch("collect.grok_utils.subprocess.run")
+    def test_disables_mcp_servers(self, mock_run):
+        mock_run.return_value = _proc('{}')
+        gu.call_claude_fallback("test prompt")
+        args, kwargs = mock_run.call_args
+        cmd = args[0]
+        self.assertIn("--strict-mcp-config", cmd)
+
 
 class TestCallHermesFallback(unittest.TestCase):
     def _run(self, cmd, *args, **kwargs):
@@ -183,6 +191,50 @@ class TestCallHermesFallback(unittest.TestCase):
         gu.call_hermes("prompt")
         self.assertEqual(gu.get_last_backend(), "hermes")
 
+    @patch("collect.grok_utils.subprocess.run")
+    def test_sequential_calls_reflect_correct_backend_each_time(self, mock_run):
+        self._hermes_result = _proc("", returncode=1)
+        self._claude_result = _proc('{"first": true}')
+        mock_run.side_effect = self._run
+
+        result1 = gu.call_hermes("prompt1")
+        self.assertEqual(result1, '{"first": true}')
+        self.assertEqual(gu.get_last_backend(), "claude_fallback")
+
+        def run2(cmd, *a, **k):
+            self.assertEqual(cmd[0], "HERMES_BIN")
+            return _proc('{"second": true}')
+        mock_run.side_effect = run2
+
+        result2 = gu.call_hermes("prompt2")
+        self.assertEqual(result2, '{"second": true}')
+        self.assertEqual(gu.get_last_backend(), "hermes")
+
+    @patch("collect.grok_utils.subprocess.run")
+    def test_propagates_caller_timeout_to_fallback(self, mock_run):
+        def run(cmd, *a, **k):
+            if cmd[0] == "HERMES_BIN":
+                return _proc("", returncode=1)
+            return _proc('{"ok": true}')
+        mock_run.side_effect = run
+
+        gu.call_hermes("prompt", timeout=42)
+        _, kwargs = mock_run.call_args
+        self.assertEqual(kwargs["timeout"], 42)
+
+    @patch("collect.grok_utils.subprocess.run")
+    def test_uses_claude_fallback_timeout_default_when_caller_omits_timeout(self, mock_run):
+        def run(cmd, *a, **k):
+            if cmd[0] == "HERMES_BIN":
+                return _proc("", returncode=1)
+            return _proc('{"ok": true}')
+        mock_run.side_effect = run
+        gu.CLAUDE_FALLBACK_TIMEOUT = 99
+
+        gu.call_hermes("prompt")
+        _, kwargs = mock_run.call_args
+        self.assertEqual(kwargs["timeout"], 99)
+
 
 class TestExtractJson(unittest.TestCase):
     def test_extracts_json_object(self):
@@ -229,6 +281,27 @@ class TestExtractJsonArray(unittest.TestCase):
 
 
 class TestCallHermesJson(unittest.TestCase):
+    def tearDown(self):
+        import importlib
+        importlib.reload(gu)
+
+    @patch("collect.grok_utils.time.sleep")
+    @patch("collect.grok_utils.subprocess.run")
+    def test_falls_back_at_json_level_when_hermes_fails(self, mock_run, mock_sleep):
+        gu.HERMES_CMD = "HERMES_BIN"
+        gu.CLAUDE_FALLBACK_CMD = "CLAUDE_BIN"
+        gu.CLAUDE_FALLBACK_ENABLED = True
+
+        def run(cmd, *a, **k):
+            if cmd[0] == "HERMES_BIN":
+                return _proc("", returncode=1)
+            return _proc('{"sentiment": "optimistic"}')
+        mock_run.side_effect = run
+
+        raw, parsed = gu.call_hermes_json("prompt", json_retry=2, delay=0.0)
+        self.assertEqual(parsed, {"sentiment": "optimistic"})
+        self.assertEqual(gu.get_last_backend(), "claude_fallback")
+
     @patch("collect.grok_utils.time.sleep")
     @patch("collect.grok_utils.subprocess.run")
     def test_success_on_first_attempt(self, mock_run, mock_sleep):
