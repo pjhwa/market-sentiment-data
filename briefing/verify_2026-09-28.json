@@ -1,0 +1,217 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-23T21:45:01Z",
+  "verified_at": "2026-09-28T07:15",
+  "overall_passed": false,
+  "error_count": 8,
+  "warning_count": 3,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 2건:\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    SOFI: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSLA: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    CEG: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    VST: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 2건:\n    TSLA: Rule1 → avoid 필요 (struct=UPTREND,S2=2,RS=22), 실제=watch\n    SOFI: Rule1 → avoid 필요 (struct=ACCUMULATION,S2=1,RS=24), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": false,
+      "severity": "error",
+      "detail": "score: 브리핑=68.1 vs API=65.4 (차이>2.7)"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 빈 문자열 — ≤14일 실적 없음 (정상)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 3건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "CRWD: $262.49 vs table $252.13"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "MSFT: $500.59 vs table $516.17"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "RKLB: $70.31 vs table $73.95"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "QBTS: $16.81 vs table $17.41"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — Yield spike to 5.11% on 2026-09-23 is confirmed, and yields remain elevated (~5.17-5.18% as of Sept 25-27). But the 'stocks slide' framing is stale: markets rallied after this — Nasdaq hit a record +2% on Sept 20, S&P 500 rose 0.51% on Sept 25, and futures were higher heading into Sept 28 as oil/yields cooled. The briefing's risk-off tone no longer matches price action.\n    rank=2: inaccurate — WTI is trading ~$92-93 as of Sept 27, not near $89 (Brent ~$104-105). More importantly, the 'Iran-related disruptions'/'Trump-Iran talks' framing severely understates reality: this is an active shooting war (Day 209+ of the '2026 Iran War'), with a US naval blockade of Iran, missile/tanker strikes traded in the last 24-48 hours (IRGC fired ballistic missiles at a US carrier group), and Iran issuing a 5-day ultimatum at the UN for a ceasefire. This is a live military conflict, not diplomatic talks with 'mixed signals.'"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Iran War escalation: IRGC ballistic missile attack on US carrier/destroyer, Iran's 5-day UN ceasefire ultimatum (영향: Directly affects oil-price-sensitive and broad market risk sentiment; the briefing's oil item mischaracterizes an active war as mere 'shipping disruptions,' which understates tail risk for all watchlist names, especially any energy/defense exposure and risk-off sensitive growth names (AMZN, AAPL, GOOGL already shown as distribution).)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: Accurate for the moment it was generated (Sept 23 selloff), but stale by Sept 27-28: subsequent sessions saw a Nasdaq record close and broad gains as yields/oil cooled, and futures pointed higher into Monday. A 'yellow, stocks slide' headline no longer matches current conditions."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: CRWD's AI-security-driven rally (Morgan Stanley/Stephens target hikes, Gartner recognition, cleared DOJ investigation) is independently confirmed. AI-infrastructure/cybersecurity leadership vs. distribution in GOOGL/AMZN/AAPL is a reasonable read of the yield-sensitive rotation, though it undersells the subsequent broad market strength."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "종목 설명 오류 없음"
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-27T22:16:48Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "10-Year Treasury Yield Hits 5.1%, Stocks Slide on Rate Fears",
+        "accuracy": "outdated",
+        "note": "Yield spike to 5.11% on 2026-09-23 is confirmed, and yields remain elevated (~5.17-5.18% as of Sept 25-27). But the 'stocks slide' framing is stale: markets rallied after this — Nasdaq hit a record +2% on Sept 20, S&P 500 rose 0.51% on Sept 25, and futures were higher heading into Sept 28 as oil/yields cooled. The briefing's risk-off tone no longer matches price action."
+      },
+      {
+        "rank": 2,
+        "title": "Oil Falls to Two-Week Lows Near $89 Despite Iran Shipping Disruptions",
+        "accuracy": "inaccurate",
+        "note": "WTI is trading ~$92-93 as of Sept 27, not near $89 (Brent ~$104-105). More importantly, the 'Iran-related disruptions'/'Trump-Iran talks' framing severely understates reality: this is an active shooting war (Day 209+ of the '2026 Iran War'), with a US naval blockade of Iran, missile/tanker strikes traded in the last 24-48 hours (IRGC fired ballistic missiles at a US carrier group), and Iran issuing a 5-day ultimatum at the UN for a ceasefire. This is a live military conflict, not diplomatic talks with 'mixed signals.'"
+      },
+      {
+        "rank": 3,
+        "title": "Chip Export Bills Advance Amid Schumer Push and Xi Visit Looming",
+        "accuracy": "accurate",
+        "note": "Confirmed current: Schumer pressing Thune for a floor vote on the AI OVERWATCH Act, MATCH Act, and Chip Security Act; still stalled as of the Trump-Xi summit. No material change in last 24h."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Iran War escalation: IRGC ballistic missile attack on US carrier/destroyer, Iran's 5-day UN ceasefire ultimatum",
+        "impact": "Directly affects oil-price-sensitive and broad market risk sentiment; the briefing's oil item mischaracterizes an active war as mere 'shipping disruptions,' which understates tail risk for all watchlist names, especially any energy/defense exposure and risk-off sensitive growth names (AMZN, AAPL, GOOGL already shown as distribution).",
+        "severity": "critical"
+      },
+      {
+        "title": "Market rally into Sept 25-28: Nasdaq record close, S&P/Dow gains, futures higher on cooling oil/yields ahead of Sept 28",
+        "impact": "Broad market — contradicts briefing's 'yellow/stocks slide' mood; NVDA, MSFT, CRWD, PLTR and other tech names likely reflect the improved tape, not the deteriorating one implied by the briefing.",
+        "severity": "important"
+      },
+      {
+        "title": "Upcoming week's data: August PCE (Wed), manufacturing data (Thu), September jobs report (Fri) — key Fed rate-path catalysts",
+        "impact": "Not mentioned at all; these are the dominant near-term catalysts for yield-sensitive tech (NVDA, MSFT, META, AAPL, AMZN) and should be flagged for the coming session.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "questionable",
+      "note": "Accurate for the moment it was generated (Sept 23 selloff), but stale by Sept 27-28: subsequent sessions saw a Nasdaq record close and broad gains as yields/oil cooled, and futures pointed higher into Monday. A 'yellow, stocks slide' headline no longer matches current conditions."
+    },
+    "sector_check": {
+      "assessment": "accurate",
+      "note": "CRWD's AI-security-driven rally (Morgan Stanley/Stephens target hikes, Gartner recognition, cleared DOJ investigation) is independently confirmed. AI-infrastructure/cybersecurity leadership vs. distribution in GOOGL/AMZN/AAPL is a reasonable read of the yield-sensitive rotation, though it undersells the subsequent broad market strength."
+    },
+    "stock_errors": [],
+    "overall_score": 62,
+    "summary": "The 10Y yield spike and chip-bill gridlock are accurately reported, and watchlist price levels (NVDA, CRWD) check out against real data. The main problems are the oil/Iran item, which downplays an active shooting war and naval blockade as mild 'shipping disruptions' and has WTI off by several dollars, and a market mood/headline that was accurate on Sept 23 but is now stale given the subsequent rally into record highs and firmer futures heading into Sept 28."
+  }
+}
