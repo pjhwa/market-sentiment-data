@@ -2,7 +2,7 @@
 
 # market-sentiment-data — 프로젝트 컨텍스트
 
-<!-- AUTO-GENERATED: 2026-09-26 사실 기반 전체 현행화 (파일 맵, 스케줄 시각, 함수 레퍼런스, 테스트 카운트, 크로스레포 상태, Claude Code fallback 반영) -->
+<!-- AUTO-GENERATED: 2026-09-30 TIER2_BATCH_TIMEOUT 추가 (단일 종목 기준 HERMES_TIMEOUT=300으로 TIER2 배치가 타임아웃되던 문제 수정) -->
 
 Claude Code와 개발자를 위한 아키텍처 및 코드 레퍼런스. 수집기, 스키마, 데이터 구조를 수정하기 전에 반드시 읽으세요.
 
@@ -115,6 +115,7 @@ market-sentiment-data/
 | `CLAUDE_FALLBACK_CMD` | 자동탐색 (`shutil.which` → `~/.local/bin` → `/opt/homebrew/bin` → `/usr/local/bin`) | 모든 수집기 |
 | `CLAUDE_FALLBACK_ENABLED` | `1` (`0`이면 비활성화) | 모든 수집기 |
 | `CLAUDE_FALLBACK_TIMEOUT` | `180` | 모든 수집기 |
+| `TIER2_BATCH_TIMEOUT` | `600` | 수집기 1(sentiment)의 TIER2 배치 호출 전용 — 10종목을 한 번에 조회하는 배치는 단일 종목 기준의 `HERMES_TIMEOUT`(크론에서 300초)보다 훨씬 오래 걸리므로 별도의 더 넉넉한 타임아웃을 준다 |
 | `SNIPERBOARD_API_BASE` | `http://localhost:5001` | 수집기 1, 2, 4 |
 | `SENTIMENT_SLOT` | UTC 시간으로 자동 감지 | 수집기 1, 2, 4, 6 |
 | `KALSHI_API_KEY` | (필수) | 수집기 6 (prediction) |
@@ -150,6 +151,7 @@ market-sentiment-data/
 - **TIER1 (개별):** pre_open + post_close 모두 실행. 종목별 개별 Grok 호출. 가격 맥락(price_context) 포함.
 - **TIER2 (배치):** post_close에만 실행. `build_tier2_batch_prompt()`로 10종목 단일 Grok 호출. price_context 생략.
 - 각 엔트리에 `"tier": 1` 또는 `"tier": 2` 필드 저장.
+- **TIER2 배치 타임아웃:** 배치 호출은 크론의 `HERMES_TIMEOUT=300`(TIER1 단일 종목 기준)을 그대로 물려받지 않고, `call_hermes_json_array()`에 `timeout=TIER2_BATCH_TIMEOUT`(기본 600초, 환경변수로 조정 가능)을 명시적으로 전달한다. 10종목을 한 번에 검색하면 300초를 거의 항상 초과해 TIER2가 `latest.json`에서 조용히 빠지는 문제가 있었다(2026-09-15~09-29 post_close 15회 중 13회 실패) — 이것이 SniperBoard에서 TIER2 심리 데이터가 비어 있던 원인이다.
 
 ### 오염 방지선 (가장 중요한 원칙)
 

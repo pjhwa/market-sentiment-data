@@ -112,6 +112,8 @@ RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI
 
 각 엔트리에 `"tier": 1|2` 필드 포함. TIER2 엔트리는 배치 특성상 `price_context` 생략.
 
+TIER2 배치 호출은 크론의 단일 종목 기준 `HERMES_TIMEOUT` 대신 자체 `TIER2_BATCH_TIMEOUT`(기본 600초, 아래 참고)을 사용한다 — 10종목을 한 번에 검색하면 종목 1개보다 훨씬 오래 걸리기 때문이다.
+
 **출력: `sentiment/latest.json` 및 `sentiment/history/YYYY-MM-DD_<slot>.json`**
 
 ### 2. AI 일일 브리프 (`collect/collect_brief.py`)
@@ -297,6 +299,7 @@ PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 | `CLAUDE_FALLBACK_ENABLED` | `1` | hermes/Grok 실패 시 Claude Code headless로 fallback (`0`이면 비활성화) |
 | `CLAUDE_FALLBACK_CMD` | 자동 감지 | `claude` 바이너리 절대 경로 |
 | `CLAUDE_FALLBACK_TIMEOUT` | `180` | fallback 호출당 타임아웃 (초) |
+| `TIER2_BATCH_TIMEOUT` | `600` | 수집기 1 전용 — TIER2 배치 호출(10종목을 한 번의 Grok 호출로 조회) 타임아웃. 이 호출에만 `HERMES_TIMEOUT`을 대체한다 |
 | `SNIPERBOARD_API_BASE` | `http://localhost:5001` | SniperBoard 백엔드 URL |
 | `SENTIMENT_SLOT` | 자동 감지 | 슬롯 강제 지정: `pre_open` 또는 `post_close` |
 

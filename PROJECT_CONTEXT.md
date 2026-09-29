@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-09-26 full fact-based accuracy pass (file map, schedule times, function references, test counts, cross-repo status)
+<!-- AUTO-GENERATED: 2026-09-30 add TIER2_BATCH_TIMEOUT (fix TIER2 batch call timing out on HERMES_TIMEOUT=300 sized for single-symbol calls)
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 
@@ -118,6 +118,7 @@ All config is injected via environment variables. Never hardcode paths or tokens
 | `CLAUDE_FALLBACK_CMD` | auto-detect (`shutil.which` → `~/.local/bin` → `/opt/homebrew/bin` → `/usr/local/bin`) | all collectors |
 | `CLAUDE_FALLBACK_ENABLED` | `1` (set to `0` to disable) | all collectors |
 | `CLAUDE_FALLBACK_TIMEOUT` | `180` | all collectors |
+| `TIER2_BATCH_TIMEOUT` | `600` | collector 1 (sentiment), TIER2 batch call only — 10 symbols in one Grok call take much longer than the single-symbol `HERMES_TIMEOUT` budget, so this call gets its own, larger timeout instead of inheriting the crontab's 300s |
 | `SNIPERBOARD_API_BASE` | `http://localhost:5001` | collectors 1, 2, 4 |
 | `SENTIMENT_SLOT` | auto-detect by UTC hour | collectors 1, 2, 4, 6 |
 | `KALSHI_API_KEY` | (required) | collector 6 (prediction) |
@@ -177,6 +178,7 @@ The main sentiment collector. Runs twice daily. For TIER1 symbols individually +
 - **TIER1 (individual):** Runs on both `pre_open` and `post_close` slots. One Grok call per symbol. Includes price_context.
 - **TIER2 (batch):** Runs on `post_close` only. Single Grok call for all 10 symbols via `build_tier2_batch_prompt()`. price_context omitted.
 - Each entry stores `"tier": 1` or `"tier": 2` field.
+- **TIER2 batch timeout:** the batch call passes `timeout=TIER2_BATCH_TIMEOUT` (default 600s, env-overridable) explicitly to `call_hermes_json_array()` instead of inheriting the crontab's `HERMES_TIMEOUT=300` (sized for single-symbol TIER1 calls). Searching 10 tickers in one call routinely exceeded 300s, which silently dropped TIER2 from `latest.json` on most runs (13 of 15 `post_close` runs failed 2026-09-15~09-29) — this is why TIER2 sentiment was missing from the SniperBoard.
 
 ### The Contamination Firewall (Most Important Principle)
 

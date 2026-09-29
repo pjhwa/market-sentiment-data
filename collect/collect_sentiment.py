@@ -32,6 +32,12 @@ from collect.price_context import (
 # ── 설정 ──────────────────────────────────────────────────────────────────────
 REPO_PATH = Path(os.environ.get("SENTIMENT_REPO_PATH", Path(__file__).parent.parent)).resolve()
 
+# TIER2 배치는 종목 10개를 한 번에 조회하므로 TIER1 단일 종목 조회보다 훨씬 오래 걸린다.
+# 크론이 거는 HERMES_TIMEOUT(단일 종목 기준, 보통 300초)을 그대로 쓰면 거의 항상
+# 타임아웃되어 TIER2가 통째로 스킵된다 (2026-09-15~09-29 post_close 15회 중 13회 실패).
+# 배치 호출에는 별도의 더 넉넉한 타임아웃을 준다.
+TIER2_BATCH_TIMEOUT = int(os.environ.get("TIER2_BATCH_TIMEOUT", "600"))
+
 # TIER1: 빅테크/대형주 — 개별 심층 분석, 하루 2회 (pre_open + post_close)
 TIER1_WATCHLIST = [
     ("TSM",   "TSMC"),
@@ -537,7 +543,7 @@ def main():
     if slot == "post_close":
         print(f"[INFO] TIER2 배치 질의 시작 ({len(TIER2_WATCHLIST)}종목)")
         batch_prompt = build_tier2_batch_prompt(TIER2_WATCHLIST)
-        _, batch_parsed = call_hermes_json_array(batch_prompt)
+        _, batch_parsed = call_hermes_json_array(batch_prompt, timeout=TIER2_BATCH_TIMEOUT)
         batch_backend = get_last_backend()
 
         if batch_parsed is None:

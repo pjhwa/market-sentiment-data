@@ -112,6 +112,8 @@ RKLB, CEG, VST, ALAB, OKLO, APP, ANET, NVO, QBTS, SOFI
 
 Each symbol entry includes a `"tier": 1|2` field. TIER2 entries omit `price_context` (batch mode).
 
+The TIER2 batch call uses its own `TIER2_BATCH_TIMEOUT` (default 600s, see below) instead of the crontab's single-symbol `HERMES_TIMEOUT`, since searching 10 tickers in one call takes much longer than one.
+
 **Output: `sentiment/latest.json` and `sentiment/history/YYYY-MM-DD_<slot>.json`**
 
 ### 2. AI Daily Brief (`collect/collect_brief.py`)
@@ -309,6 +311,7 @@ PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 | `CLAUDE_FALLBACK_ENABLED` | `1` | Fall back to Claude Code headless when hermes/Grok fails (`0` to disable) |
 | `CLAUDE_FALLBACK_CMD` | auto-detect | Absolute path to `claude` binary |
 | `CLAUDE_FALLBACK_TIMEOUT` | `180` | Per-call timeout in seconds for the fallback |
+| `TIER2_BATCH_TIMEOUT` | `600` | Collector 1 only — timeout for the TIER2 batch call (10 symbols in one Grok call; overrides `HERMES_TIMEOUT` for just this call) |
 | `SNIPERBOARD_API_BASE` | `http://localhost:5001` | SniperBoard backend URL |
 | `SENTIMENT_SLOT` | auto-detect | Override slot: `pre_open` or `post_close` |
 
