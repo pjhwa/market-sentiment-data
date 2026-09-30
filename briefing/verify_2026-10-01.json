@@ -1,0 +1,196 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-09-30T21:45:01Z",
+  "verified_at": "2026-10-01T07:15",
+  "overall_passed": false,
+  "error_count": 1,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 3건:\n    CEG: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    QBTS: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSLA: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    VST: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": true,
+      "severity": "error",
+      "detail": "21/21 종목 규칙 준수"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=62.5 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": true,
+      "severity": "error",
+      "detail": "earnings_alert 규칙 준수 (내용 있음: TSM earnings 2026-10-15)"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 1건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing 이슈 → 유보 표현 확인 (en=True, ko=True)"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": false,
+      "severity": "warning",
+      "detail": "설명 없이 사용된 용어: ['RS']"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": true,
+      "severity": "error",
+      "detail": "1개 이슈 모두 정확 또는 검증 불가"
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 3건 (critical 없음): ['Soft August PCE inflation print on Sept 30; S&P 500 closed -0.25% at 7,651.54 after erasing earlier gains; Nasdaq +0.24%', '10-year Treasury yield rose about 4bp to ~5.30% and the 30-year to ~5.64% on Sept 30, despite the soft PCE. The S&P 500 had a losing September (-0.5%)', 'Strong tech and mega-cap momentum into quarter-end. Meta reportedly up about 29% in September on its Muse consumer AI agent launch, and Microsoft is having its best quarter since 1991']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Yellow light at 62.5 fits a mixed tape: S&P down, Nasdaq up, yields rising, soft PCE, and chip-export headline risk. Leading with the chip-curb story is defensible, but the day's main drivers were PCE and yields. The headline's 'pressuring NVDA and TSM' is not confirmed by price: pre-market NVDA is +0.11% and TSM +0.02%, both near highs."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The tech-over-small-cap and rates-pressure picture fits the Nasdaq-over-S&P tape and higher yields. The TLT/HYG weakness is consistent with 10-year near 5.3%. But the claim that NVDA and TSM are 'holding near 52-week highs' and the SMH/QQQ 'ACCUMULATION' labels could not be confirmed here. The 'defensive rotation within tech' line is unsupported, since the evidence points to risk-on tech leadership (Meta, Microsoft, Micron) rather than defensiveness."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "MU: Briefing gives close of $1,065.11. One source shows a Sept 30 close of $1,068.95 (open 1,076.76, high 1,083.50, low 1,062.36), with after-hours around $1,071.92. Another shows $1,065.08, so the gap is probably a data-source difference (about 0.4%), not a material error. The briefing's -0.76% pre-market move is also not confirmed by the after-hours price, which is higher.\n    META: Labelled DISTRIBUTION with action=watch, while reporting shows Meta up roughly 29% in September. The stage label is unverified and likely stale or inconsistent with the month's price action. I could not verify the $725.18 close."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-09-30T22:16:31Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "Lawmakers advance China AI chip export curbs; Nvidia, AMD lobby Trump",
+        "accuracy": "accurate",
+        "note": "Politico and Benzinga (Sept 29) report Nvidia and AMD lobbying the White House and Commerce to keep China chip export provisions, tied to the AI OVERWATCH Act and Chip Security Act, out of the annual defense bill. Sen. Warren is pushing for a halt to Nvidia's advanced chip sales to China. The White House reportedly urged Congress to reject the restriction bill. The briefing's 'lawmakers plan new restrictions' wording is slightly loose. The restrictions are proposed provisions, not enacted, and the briefing doesn't mention the White House position or the defense bill vehicle. No change in the last 24h found that makes it outdated."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Soft August PCE inflation print on Sept 30; S&P 500 closed -0.25% at 7,651.54 after erasing earlier gains; Nasdaq +0.24%",
+        "impact": "Broad-market and rate-sensitive names. The briefing mentions 'cooler inflation prints' only generically, with no PCE detail and no note of the late-session reversal. Nasdaq outperformed the S&P, which supports the tech leadership framing.",
+        "severity": "minor"
+      },
+      {
+        "title": "10-year Treasury yield rose about 4bp to ~5.30% and the 30-year to ~5.64% on Sept 30, despite the soft PCE. The S&P 500 had a losing September (-0.5%)",
+        "impact": "Raises discount-rate pressure on high-multiple holdings (NVDA, PLTR, CRWD, TSLA, MU). The briefing says yields are 'still rising' but gives no levels or quarter-end context.",
+        "severity": "important"
+      },
+      {
+        "title": "Strong tech and mega-cap momentum into quarter-end. Meta reportedly up about 29% in September on its Muse consumer AI agent launch, and Microsoft is having its best quarter since 1991",
+        "impact": "META is listed as 'DISTRIBUTION' with action=watch. That looks at odds with a month of roughly +29%. MSFT 'buy' is consistent with its strength. Both need a price check against the actual move, not just the stage label.",
+        "severity": "important"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "Yellow light at 62.5 fits a mixed tape: S&P down, Nasdaq up, yields rising, soft PCE, and chip-export headline risk. Leading with the chip-curb story is defensible, but the day's main drivers were PCE and yields. The headline's 'pressuring NVDA and TSM' is not confirmed by price: pre-market NVDA is +0.11% and TSM +0.02%, both near highs."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "The tech-over-small-cap and rates-pressure picture fits the Nasdaq-over-S&P tape and higher yields. The TLT/HYG weakness is consistent with 10-year near 5.3%. But the claim that NVDA and TSM are 'holding near 52-week highs' and the SMH/QQQ 'ACCUMULATION' labels could not be confirmed here. The 'defensive rotation within tech' line is unsupported, since the evidence points to risk-on tech leadership (Meta, Microsoft, Micron) rather than defensiveness."
+    },
+    "stock_errors": [
+      {
+        "symbol": "MU",
+        "error": "Briefing gives close of $1,065.11. One source shows a Sept 30 close of $1,068.95 (open 1,076.76, high 1,083.50, low 1,062.36), with after-hours around $1,071.92. Another shows $1,065.08, so the gap is probably a data-source difference (about 0.4%), not a material error. The briefing's -0.76% pre-market move is also not confirmed by the after-hours price, which is higher."
+      },
+      {
+        "symbol": "META",
+        "error": "Labelled DISTRIBUTION with action=watch, while reporting shows Meta up roughly 29% in September. The stage label is unverified and likely stale or inconsistent with the month's price action. I could not verify the $725.18 close."
+      }
+    ],
+    "overall_score": 78,
+    "summary": "The lead issue (Nvidia and AMD lobbying against China chip curbs in the defense bill) is accurate and current. The briefing misses the PCE/yield/quarter-end context and leans on the chip-curb story as the main market driver. The META DISTRIBUTION label conflicts with its strong September, and the sector 'defensive rotation' framing is weakly supported. I could only verify MU's price, which is within about 0.4%; other quoted closes (TSM, NVDA, TSLA, PLTR, CRWD, AMZN, MSFT, AAPL) were not individually checked."
+  }
+}
