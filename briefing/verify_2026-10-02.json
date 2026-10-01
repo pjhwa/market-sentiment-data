@@ -1,0 +1,202 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-10-01T21:45:01Z",
+  "verified_at": "2026-10-02T07:15",
+  "overall_passed": false,
+  "error_count": 3,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 4건:\n    RKLB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CEG: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    QBTS: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSLA: Stage2=2≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    VST: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 3건:\n    CEG: Rule1 → avoid 필요 (struct=ACCUMULATION,S2=2,RS=57), 실제=watch\n    VST: Rule1 → avoid 필요 (struct=UPTREND,S2=1,RS=24), 실제=watch\n    QBTS: Rule1 → avoid 필요 (struct=ACCUMULATION,S2=2,RS=0), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": true,
+      "severity": "error",
+      "detail": "score=61.2 → traffic_light=yellow 정확"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": false,
+      "severity": "error",
+      "detail": "TSLA: days_until=20 (>14) 인데 earnings_alert에 기재됨\n    META: days_until=27 (>14) 인데 earnings_alert에 기재됨\n    MSFT: days_until=27 (>14) 인데 earnings_alert에 기재됨\n    GOOGL: days_until=27 (>14) 인데 earnings_alert에 기재됨"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-integrity",
+      "passed": true,
+      "severity": "error",
+      "detail": "B1/B2 checks OK (price_table n=21, history n=21, warns=0)"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=2: inaccurate — The China fuel export halt is confirmed: refiners suspended October exports outside Hong Kong and Macau, and PetroChina cancelled cargoes. Brent rose about 2.2% to roughly $100.15, crossing $100. I found no report of a 4%+ jump in Brent and WTI. I also could not find the 'third US aircraft carrier heading to the Middle East' claim in any source. Treat the >4% figure and the carrier claim as unsupported. The overall oil-higher direction is correct."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": true,
+      "severity": "info",
+      "detail": "minor/important 누락 3건 (critical 없음): ['Micron earnings blowout and guidance (FQ4)', 'Softer inflation data lowers odds of an October Fed hike', 'Wider energy and geopolitical backdrop (US-Iran war disruptions, Saudi Yanbu loadings resuming, Ukraine strikes on Russian refineries)']"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "accurate: Yellow and a score of 61.2 fit the day: a 24-year yield high, oil near $100, and a modest rebound in stocks. The headline overstates the oil move (+4% vs about +2%). Per the sources, 'futures rebound' describes the cash session recovery, and early futures were mixed (Dow down, Nasdaq up)."
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: CEG and VST are power and nuclear/IPP names, not oil energy, so 'relative strength on oil move' is a loose causal link. Weakness in TLT and IWM is consistent with the yield spike. The analysis omits memory and semis strength from Micron, which is the main chip catalyst."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSLA: The briefing says $354.11, down 0.20%. The Sep 30 close was reported as $354.53, so $354.11 is about -0.12%, not -0.20%. A small percentage discrepancy; the price is plausible.\n    MU: The briefing gives no earnings context for +3.03% at $1097.39. Early reports show MU down about 1% after earnings, so the move needs verification and the earnings catalyst should be cited. I could not confirm the closing price."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-10-01T22:16:33Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "10-Year Treasury Yield Hits Highest Since 2002",
+        "accuracy": "accurate",
+        "note": "The 10Y hit an intraday high of about 5.344% on Oct 1, the highest since 2002. Yields then retreated by late morning, and stocks closed slightly higher (S&P 500 +0.19% to 7,666, Nasdaq +0.04%, Dow +0.04%). The briefing's 'later partially reversed' matches this. One outlet (TheStreet) described the close as flat on rising yields, so the close is not fully consistent across sources."
+      },
+      {
+        "rank": 2,
+        "title": "Oil Surges Over 4% on Middle East Risks and China Export Halt",
+        "accuracy": "inaccurate",
+        "note": "The China fuel export halt is confirmed: refiners suspended October exports outside Hong Kong and Macau, and PetroChina cancelled cargoes. Brent rose about 2.2% to roughly $100.15, crossing $100. I found no report of a 4%+ jump in Brent and WTI. I also could not find the 'third US aircraft carrier heading to the Middle East' claim in any source. Treat the >4% figure and the carrier claim as unsupported. The overall oil-higher direction is correct."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Micron earnings blowout and guidance (FQ4)",
+        "impact": "MU: revenue guidance above consensus, long-term supply commitments up to $32B from $22B, and tight memory supply expected into FY27-28. This is a direct driver for MU, SMH and the AI-chip group (NVDA, TSM). The briefing does not mention it. Reports conflict on the early reaction (up after hours, down about 1% early), so confirm MU's move.",
+        "severity": "important"
+      },
+      {
+        "title": "Softer inflation data lowers odds of an October Fed hike",
+        "impact": "Rate-sensitive names (IWM, TLT, growth tech such as PLTR and CRWD) are affected. The 10Y still ended Q3 at multi-year highs, and the briefing's rate narrative omits the rate-hike-odds angle.",
+        "severity": "minor"
+      },
+      {
+        "title": "Wider energy and geopolitical backdrop (US-Iran war disruptions, Saudi Yanbu loadings resuming, Ukraine strikes on Russian refineries)",
+        "impact": "This is the real context for oil, with supply worries partly easing from Saudi East-West pipeline restarts. It matters for Brent-sensitive moves and inflation expectations.",
+        "severity": "minor"
+      }
+    ],
+    "market_mood_check": {
+      "assessment": "accurate",
+      "note": "Yellow and a score of 61.2 fit the day: a 24-year yield high, oil near $100, and a modest rebound in stocks. The headline overstates the oil move (+4% vs about +2%). Per the sources, 'futures rebound' describes the cash session recovery, and early futures were mixed (Dow down, Nasdaq up)."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "CEG and VST are power and nuclear/IPP names, not oil energy, so 'relative strength on oil move' is a loose causal link. Weakness in TLT and IWM is consistent with the yield spike. The analysis omits memory and semis strength from Micron, which is the main chip catalyst."
+    },
+    "stock_errors": [
+      {
+        "symbol": "TSLA",
+        "error": "The briefing says $354.11, down 0.20%. The Sep 30 close was reported as $354.53, so $354.11 is about -0.12%, not -0.20%. A small percentage discrepancy; the price is plausible."
+      },
+      {
+        "symbol": "MU",
+        "error": "The briefing gives no earnings context for +3.03% at $1097.39. Early reports show MU down about 1% after earnings, so the move needs verification and the earnings catalyst should be cited. I could not confirm the closing price."
+      }
+    ],
+    "overall_score": 68,
+    "summary": "The yield-high story is accurate and the China export halt is real. The oil magnitude (+4% vs about +2.2%) and the aircraft-carrier claim are unsupported. The main omission is Micron's earnings blowout, which drives MU and the AI-chip group. The mood call is reasonable, but the CEG/VST framing and a few watchlist figures (TSLA %, MU) need correction."
+  }
+}
