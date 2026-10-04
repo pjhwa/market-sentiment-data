@@ -1,0 +1,221 @@
+{
+  "briefing_path": "/Users/jerry/dev/market-sentiment-data/briefing/latest.json",
+  "generated_at": "2026-10-01T21:45:01Z",
+  "verified_at": "2026-10-05T07:15",
+  "overall_passed": false,
+  "error_count": 9,
+  "warning_count": 4,
+  "checks": [
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "warning",
+      "detail": "API 호출 실패: SPCX"
+    },
+    {
+      "name": "A1-구조 바인딩",
+      "passed": false,
+      "severity": "error",
+      "detail": "불일치 5건:\n    RKLB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    CEG: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ALAB: 브리핑에 구조 표기 없음 (API=ACCUMULATION)\n    ANET: API=UPTREND vs 브리핑=DISTRIBUTION\n    QBTS: 브리핑에 구조 표기 없음 (API=ACCUMULATION)"
+    },
+    {
+      "name": "A2-데이터 일관성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "TSLA: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    VST: Stage2=1≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)\n    APP: Stage2=0≤2 이지만 market_structure=UPTREND (SniperBoard 데이터 불일치)"
+    },
+    {
+      "name": "A2-액션 규칙",
+      "passed": false,
+      "severity": "error",
+      "detail": "위반 4건:\n    RKLB: Rule1 → avoid 필요 (struct=ACCUMULATION,S2=2,RS=21), 실제=watch\n    CEG: Rule1 → avoid 필요 (struct=ACCUMULATION,S2=1,RS=59), 실제=watch\n    VST: Rule1 → avoid 필요 (struct=UPTREND,S2=1,RS=24), 실제=watch\n    QBTS: Rule1 → avoid 필요 (struct=ACCUMULATION,S2=1,RS=0), 실제=watch"
+    },
+    {
+      "name": "A3-매크로 수치",
+      "passed": true,
+      "severity": "error",
+      "detail": "VIX/TNX/DXY/BTC 수치 바인딩 정상"
+    },
+    {
+      "name": "A4-시장분위기 분류",
+      "passed": false,
+      "severity": "error",
+      "detail": "score: 브리핑=61.2 vs API=65.9 (차이>4.7)"
+    },
+    {
+      "name": "A5-프리마켓 바인딩",
+      "passed": true,
+      "severity": "error",
+      "detail": "spotlight 프리마켓 값 일치 (또는 검증 대상 없음)"
+    },
+    {
+      "name": "B1-섹터 리더 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "DOWNTREND 종목 leaders 오기재 없음"
+    },
+    {
+      "name": "B2-섹터 신호",
+      "passed": true,
+      "severity": "error",
+      "detail": "macro_insight 신호와 섹터 서술 모순 없음"
+    },
+    {
+      "name": "C1-earnings_alert",
+      "passed": false,
+      "severity": "error",
+      "detail": "TSLA: days_until=17 (>14) 인데 earnings_alert에 기재됨\n    META: days_until=24 (>14) 인데 earnings_alert에 기재됨\n    MSFT: days_until=24 (>14) 인데 earnings_alert에 기재됨\n    GOOGL: days_until=24 (>14) 인데 earnings_alert에 기재됨"
+    },
+    {
+      "name": "C2-글로벌 소스 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "글로벌 이슈 2건 모두 인정 소스 사용"
+    },
+    {
+      "name": "C3-confidence 언어",
+      "passed": true,
+      "severity": "error",
+      "detail": "developing/unverified 이슈 없음 — N/A"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "TSLA: $354.11 vs table $370.59"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "RKLB: $70.46 vs table $73.92"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "APP: $281.31 vs table $268.22"
+    },
+    {
+      "name": "B1-price-bind",
+      "passed": false,
+      "severity": "error",
+      "detail": "QBTS: $16.56 vs table $15.77"
+    },
+    {
+      "name": "D1-워치리스트 완결성",
+      "passed": true,
+      "severity": "error",
+      "detail": "22/21 종목, 순서 정상"
+    },
+    {
+      "name": "D2-spotlight 수",
+      "passed": true,
+      "severity": "error",
+      "detail": "4개 (정상 범위 2-4)"
+    },
+    {
+      "name": "D3-필수 필드",
+      "passed": true,
+      "severity": "error",
+      "detail": "모든 필수 필드 존재 및 비어있지 않음"
+    },
+    {
+      "name": "D4-용어 설명",
+      "passed": true,
+      "severity": "error",
+      "detail": "주요 투자 용어 설명 포함 확인 (샘플 검사)"
+    },
+    {
+      "name": "D5-공유 본문 품질",
+      "passed": true,
+      "severity": "error",
+      "detail": "공유 본문 형식 및 길이 정상"
+    },
+    {
+      "name": "E1-글로벌 이슈 현재성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "rank=1: outdated — Yields peaked around Sept 29-30 and then retreated from multiyear highs. The 10Y closed near 5.18% and the 30Y near 5.57% on Oct 2, after a weak September jobs report. The 'highest since 2002' wording was not independently confirmed. Rate-hike odds for October fell to about 23%, so the pressure from yields has eased.\n    rank=2: outdated — The Oct 1 surge is no longer the current state. WTI fell 3.66% on Oct 2 to about $89.41. I could not verify the third-carrier and China fuel-export-halt details."
+    },
+    {
+      "name": "E2-중요 뉴스 누락",
+      "passed": false,
+      "severity": "error",
+      "detail": "critical 누락 1건:\n    Weak September jobs report (+29K vs ~90K expected, unemployment 4.2%, prior months revised down by 60K) (영향: Yields fell and Fed hike expectations faded. Growth and tech names (NVDA, MSFT, PLTR, CRWD, MU) rallied on Oct 2, while rate-sensitive IWM and TLT should have benefited. This directly undercuts the briefing's rate-headwind framing.)"
+    },
+    {
+      "name": "E3-시장 분위기 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "?: "
+    },
+    {
+      "name": "E4-섹터 동향 정확성",
+      "passed": true,
+      "severity": "error",
+      "detail": "questionable: The energy-leadership thesis rested on the oil spike, which reversed on Oct 2. TLT and IWM should have gained from falling yields, so labeling them laggards on rate headwinds is likely outdated. The AI and chip strength (SMH) is consistent with the tech-led rally."
+    },
+    {
+      "name": "E5-종목 설명 정확성",
+      "passed": false,
+      "severity": "warning",
+      "detail": "ALL: I could not verify the per-ticker closing prices or percentages (TSM $459.20, NVDA $230.86, MU $1097.39, etc.) with search. They are Oct 1 values and are stale as of Oct 5. No clear factual errors were found, but the prices should be refreshed from Oct 2 closes."
+    }
+  ],
+  "grok_report": {
+    "verified_at": "2026-10-04T22:16:47Z",
+    "global_issues": [
+      {
+        "rank": 1,
+        "title": "10-Year Treasury Yield Hits Highest Since 2002",
+        "accuracy": "outdated",
+        "note": "Yields peaked around Sept 29-30 and then retreated from multiyear highs. The 10Y closed near 5.18% and the 30Y near 5.57% on Oct 2, after a weak September jobs report. The 'highest since 2002' wording was not independently confirmed. Rate-hike odds for October fell to about 23%, so the pressure from yields has eased."
+      },
+      {
+        "rank": 2,
+        "title": "Oil Surges Over 4% on Middle East Risks and China Export Halt",
+        "accuracy": "outdated",
+        "note": "The Oct 1 surge is no longer the current state. WTI fell 3.66% on Oct 2 to about $89.41. I could not verify the third-carrier and China fuel-export-halt details."
+      }
+    ],
+    "missing_major_news": [
+      {
+        "title": "Weak September jobs report (+29K vs ~90K expected, unemployment 4.2%, prior months revised down by 60K)",
+        "impact": "Yields fell and Fed hike expectations faded. Growth and tech names (NVDA, MSFT, PLTR, CRWD, MU) rallied on Oct 2, while rate-sensitive IWM and TLT should have benefited. This directly undercuts the briefing's rate-headwind framing.",
+        "severity": "critical"
+      },
+      {
+        "title": "Oct 2 close: S&P 500 7,666 (+0.19%), Nasdaq +0.04%, Dow +0.04%, with a tech-led rally",
+        "impact": "The briefing's yellow, selling-pressure tone is stale for the broad watchlist.",
+        "severity": "important"
+      },
+      {
+        "title": "Oil reversal (WTI -3.7% to ~$89 on Oct 2)",
+        "impact": "Energy and power names such as CEG and VST lose the oil-driven relative-strength rationale.",
+        "severity": "important"
+      },
+      {
+        "title": "Week ahead: ISM Services PMI Monday, then a light calendar before Q3 earnings season",
+        "impact": "Another weak labor reading could extend the move lower in yields. Oil and yields remain the dominant market drivers.",
+        "severity": "minor"
+      }
+    ],
+    " market_mood_check": {
+      "assessment": "questionable",
+      "note": "Yellow with a score of 61.2 and a '24-year high yields, oil +4%' headline reflects Oct 1. Since then yields eased, oil dropped and stocks closed higher on a soft jobs print. The mood is more neutral-to-positive now, and the headline is stale."
+    },
+    "sector_check": {
+      "assessment": "questionable",
+      "note": "The energy-leadership thesis rested on the oil spike, which reversed on Oct 2. TLT and IWM should have gained from falling yields, so labeling them laggards on rate headwinds is likely outdated. The AI and chip strength (SMH) is consistent with the tech-led rally."
+    },
+    "stock_errors": [
+      {
+        "symbol": "ALL",
+        "error": "I could not verify the per-ticker closing prices or percentages (TSM $459.20, NVDA $230.86, MU $1097.39, etc.) with search. They are Oct 1 values and are stale as of Oct 5. No clear factual errors were found, but the prices should be refreshed from Oct 2 closes."
+      }
+    ],
+    "overall_score": 55,
+    "summary": "The briefing reflected Oct 1 conditions accurately enough but is now stale. Yields retreated, oil fell about 3.7% on Oct 2, and a weak jobs report lifted stocks while cutting Fed hike odds. The jobs report is the major omission, and the mood, sector and rate-headwind narratives need updating."
+  }
+}
