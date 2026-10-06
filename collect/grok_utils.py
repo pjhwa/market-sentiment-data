@@ -74,6 +74,31 @@ def get_last_backend() -> str:
     return LAST_BACKEND
 
 
+def _health_failure(prompt: str) -> None:
+    """Tell grok_health that Grok is failing (diagnoses the cause, alerts on transitions)."""
+    try:
+        from collect import grok_health
+        grok_health.report_failure(HERMES_CMD, prompt[:60].replace("\n", " "))
+    except Exception:
+        pass
+
+
+def _health_success() -> None:
+    try:
+        from collect import grok_health
+        grok_health.report_success()
+    except Exception:
+        pass
+
+
+def _report_backend_health(prompt: str) -> None:
+    """A parsed answer came back: Grok is healthy only if it was hermes (not the Claude fallback)."""
+    if LAST_BACKEND == "hermes":
+        _health_success()
+    else:
+        _health_failure(prompt)
+
+
 def call_claude_fallback(prompt: str, timeout: int | None = None) -> str | None:
     """Call Claude Code headless (`claude -p`) as a fallback when hermes/Grok fails.
 
@@ -260,6 +285,7 @@ def call_hermes_json(
         if raw is None:
             # hermes failed (non-zero exit, timeout exhausted, FileNotFoundError)
             # These won't self-heal with retries
+            _health_failure(prompt)
             return None, None
 
         if not raw.strip():
@@ -300,8 +326,11 @@ def call_hermes_json(
             print("[ERROR] 응답 검증 실패 — 재시도 소진", file=sys.stderr)
             return raw, None
 
+        _report_backend_health(prompt)
         return raw, parsed
 
+    if raw is not None and not raw.strip():
+        _health_failure(prompt)  # every attempt came back empty
     return raw, None
 
 
@@ -329,6 +358,7 @@ def call_hermes_json_array(
         raw = call_hermes(prompt, timeout=timeout)
 
         if raw is None:
+            _health_failure(prompt)
             return None, None
 
         if not raw.strip():
@@ -369,6 +399,9 @@ def call_hermes_json_array(
             print("[ERROR] 배열 검증 실패 — 재시도 소진", file=sys.stderr)
             return raw, None
 
+        _report_backend_health(prompt)
         return raw, parsed
 
+    if raw is not None and not raw.strip():
+        _health_failure(prompt)
     return raw, None

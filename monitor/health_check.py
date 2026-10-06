@@ -9,6 +9,7 @@ SniperBoard 종합 헬스 모니터 — 점검 가능한 모든 항목 검사
   4. 수집 로그 오류            — 최근 100줄에서 ERROR/FAIL 탐지
   5. Git / GitHub              — 로컬↔원격 동기화, GitHub API 접근성
   6. Hermes 바이너리           — 실행 파일 존재 확인
+  6b. Grok 가용성              — 수집기가 기록한 장애 상태(원인 포함)
   7. Docker 컨테이너           — 실행 중, 재시작 횟수, 메모리 사용량
   8. SniperBoard API 엔드포인트 — 9개 엔드포인트 응답 및 데이터 검증
   9. 프론트엔드 접근성          — localhost:4000 응답
@@ -313,6 +314,25 @@ def check_hermes():
         fail(cat, f"hermes 바이너리 없음: {hermes_path}")
 
 
+def check_grok_status():
+    """수집기가 기록한 Grok 가용성 상태(monitor/grok_status.json) — 원인과 함께 FAIL."""
+    cat = "Grok"
+    path = REPO_PATH / "monitor/grok_status.json"
+    if not path.exists():
+        ok(cat, "장애 기록 없음")
+        return
+    try:
+        st = json.loads(path.read_text())
+    except Exception as e:
+        warn(cat, f"grok_status.json 파싱 실패 — {e}")
+        return
+    if st.get("state") == "down":
+        since = datetime.fromtimestamp(st.get("since", 0)).strftime("%m-%d %H:%M")
+        fail(cat, f"Grok 장애 중 (원인: {st.get('cause')}, {since}부터) — {st.get('detail', '')[:80]}")
+    else:
+        ok(cat, "Grok 정상 (최근 장애 복구됨)" if st.get("recovered_at") else "Grok 정상")
+
+
 # ── 7. Docker 컨테이너 ───────────────────────────────────────────────────────
 def check_docker():
     cat = "Docker"
@@ -608,6 +628,7 @@ def main():
     check_log_errors()
     check_git()
     check_hermes()
+    check_grok_status()
     check_docker()
     check_api()
     check_frontend()

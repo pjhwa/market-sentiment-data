@@ -38,6 +38,7 @@ These two files give you an immediate understanding of the project without readi
 - **Collector 5**: `collect/collect_morning_briefing.py` — Morning Briefing, 2-stage Grok pipeline (KST 06:45)
 - **Collector 6**: `collect/collect_prediction.py` — Prediction Market (Kalshi FOMC probabilities, no Grok)
 - **AI backend**: `collect/grok_utils.py` — shared hermes/Grok call utilities; every collector's Grok call goes through `call_hermes_json()`/`call_hermes_json_array()`, which fall back to Claude Code headless when hermes/Grok fails
+- **Grok health**: `collect/grok_health.py` — on exhausted empty responses diagnoses the cause (credits/auth/rate-limit/network), writes `monitor/grok_status.json`, alerts only on state transitions; surfaced by `monitor/health_check.py`
 - **Price context**: `collect/price_context.py` — neutral price cues fetcher (no direction). `fetch_close_direction()` is post-processing only — never flows into prompt builder.
 - **Git helper**: `collect/git_utils.py` — shared `commit_and_push()`
 - **Schema**: `schema.json` — JSON Schema draft-07 v2.0 (sentiment data contract)

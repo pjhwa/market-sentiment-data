@@ -41,3 +41,29 @@
 - 일 ~330K토큰 중 sentiment ≈ 66%(Tier1 종목별 호출 24회 + 배치/MARKET). 호출당 ~8K = 고정 ~2.4K + x_search 결과 ~5K + 출력.
 - 추가 절감 후보는 P4(Tier1 소배치화 4종목×3호출)뿐: 고정분 ~2K×9호출×2슬롯 ≈ 일 ~36K(≈10%). 종목별 검색 품질 저하 리스크가 있어 별도 A/B 후 결정.
 - 장애 이력: sentiment 슬롯이 9-26~9-28, 10-03~10-05에 비어 있음(크레딧/인증). `hermes -z`는 403에도 rc=0+빈 출력이라 수집기가 '빈 응답'으로만 인식 → 모니터링에서 감지 필요.
+
+# 장애 알림 (Grok 가용성 모니터링) — 2026-10-06
+
+## 문제
+- 장애(9-26~9-28, 10-03~10-05)가 슬롯 6개 분량 지속됐는데 즉시 알림이 없었음. 기존 health_check는 신선도 한도가 25h라 하루 뒤에야 감지하고, 원인(크레딧/인증)을 모르며, 매번 무관한 FAIL 5~7건(docker 없음 등)이 섞여 알림이 만성 소음.
+- `hermes -z`는 403에도 rc=0 + 빈 출력 → 수집기는 '빈 응답'만 인식.
+- 메신저(telegram 등)는 hermes에 실제로 설정돼 있지 않음 → macOS 알림 + 로그 + 외부 명령 훅(`GROK_ALERT_CMD`)으로 구성.
+
+## 설계
+- `collect/grok_health.py`: 빈 응답 재시도 소진 시 `hermes chat -q` 로 원인 진단(403 spending-limit→credits_exhausted / 401→auth / 429→rate_limited / 네트워크 / unknown). 정상일 때 진단 비용 ~1.4K토큰, 장애 시 0.
+- 상태 파일 `monitor/grok_status.json` (gitignore). 알림은 **상태 전환(ok→down, 원인 변경, 복구)과 6h 재알림**에만 → 소음 없음. 진단은 20분에 1회로 제한.
+- 알림 채널: macOS 알림 + `monitor/grok_alerts.log` + `GROK_ALERT_CMD`(stdin으로 메시지 전달, 텔레그램/ntfy 등 연결용).
+- `grok_utils`: 최종 실패(빈 응답)→report_failure, 성공→report_success. 헬스 코드의 예외는 수집을 절대 막지 않음(try/except). 테스트에서는 비활성(conftest).
+- `health_check.py`: grok_status가 down이면 원인과 함께 FAIL.
+
+## 작업
+- [x] 분류기/상태 전환 로직 + 단위 테스트 (실제 403 출력 샘플로)
+- [x] grok_utils 훅 + conftest 비활성
+- [x] health_check 연동
+- [x] 실검증: 정상 진단 1회(토큰 측정), 장애 시뮬레이션(HERMES_CMD를 가짜 스크립트로 교체)으로 알림·복구 확인
+
+### 결과
+- 신규 테스트 15건 포함 248 통과(기존 실패 2건은 변경 전부터 실패, 무관).
+- E2E(가짜 hermes: -z 빈 출력 + chat 403): 연속 실패 호출 3회 → 알림 1회(원인 credits_exhausted), 복구 시 알림 1회. 실제 hermes 정상 호출에서는 오탐·상태파일 생성 없음.
+- 한계: cron 환경에서 macOS 알림(osascript)이 화면에 뜨는지는 환경 의존 → 확실한 채널이 필요하면 `GROK_ALERT_CMD`에 텔레그램/ntfy 등 연결 권장(현재 hermes에는 메신저 미설정). 알림 로그 `monitor/grok_alerts.log`는 항상 기록됨.
+- 기존 health_check의 무관한 FAIL(docker 없음, API 타임아웃, SignalDB 등)은 이번 범위 밖 — 소음 정리는 별도 과제.

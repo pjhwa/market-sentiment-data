@@ -309,6 +309,9 @@ PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 | `HERMES_TIMEOUT_GLOBAL` | `90` | Timeout for global context fetch (Collector 5, stage 1) |
 | `HERMES_RETRY` | `1` | Retry count on timeout |
 | `HERMES_LEAN` | `0` | `1` = hermes `--ignore-rules` + default toolset `x_search` only (token saving; enable only after A/B gate passes) |
+| `GROK_HEALTH` | `1` | `0` disables Grok outage diagnosis/alerts (`collect/grok_health.py`) |
+| `GROK_ALERT_CMD` | _(unset)_ | Shell command receiving the alert (title+message) on stdin — wire Telegram/ntfy here. macOS notification + `monitor/grok_alerts.log` are always on |
+| `GROK_DIAG_INTERVAL` / `GROK_REALERT_INTERVAL` | `1200` / `21600` | Min seconds between diagnoses / between reminder alerts while down |
 | `CLAUDE_FALLBACK_ENABLED` | `1` | Fall back to Claude Code headless when hermes/Grok fails (`0` to disable) |
 | `CLAUDE_FALLBACK_CMD` | auto-detect | Absolute path to `claude` binary |
 | `CLAUDE_FALLBACK_TIMEOUT` | `180` | Per-call timeout in seconds for the fallback |
