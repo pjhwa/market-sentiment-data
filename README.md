@@ -308,6 +308,7 @@ PROBE_BATCH_SIZE=5 HERMES_TIMEOUT=240 python3 -m collect.probe_mention_volume
 | `HERMES_TIMEOUT` | `120` | Per-call timeout in seconds |
 | `HERMES_TIMEOUT_GLOBAL` | `90` | Timeout for global context fetch (Collector 5, stage 1) |
 | `HERMES_RETRY` | `1` | Retry count on timeout |
+| `HERMES_LEAN` | `0` | `1` = hermes `--ignore-rules` + default toolset `x_search` only (token saving; enable only after A/B gate passes) |
 | `CLAUDE_FALLBACK_ENABLED` | `1` | Fall back to Claude Code headless when hermes/Grok fails (`0` to disable) |
 | `CLAUDE_FALLBACK_CMD` | auto-detect | Absolute path to `claude` binary |
 | `CLAUDE_FALLBACK_TIMEOUT` | `180` | Per-call timeout in seconds for the fallback |

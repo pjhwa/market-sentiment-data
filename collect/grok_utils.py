@@ -40,6 +40,10 @@ HERMES_TIMEOUT  = int(os.environ.get("HERMES_TIMEOUT", "120"))
 HERMES_RETRY    = int(os.environ.get("HERMES_RETRY", "1"))
 JSON_PARSE_RETRY = int(os.environ.get("JSON_PARSE_RETRY", "2"))
 JSON_RETRY_DELAY = float(os.environ.get("JSON_RETRY_DELAY", "2.0"))
+# Lean mode: skip hermes auto-injected rules/skills index/cwd CLAUDE.md (--ignore-rules) and, unless
+# the caller picks toolsets, enable only x_search. Cuts ~60% fixed per-call prompt overhead.
+# Default OFF — enable only after the A/B quality gate in tasks/todo.md passes.
+HERMES_LEAN     = os.environ.get("HERMES_LEAN", "0") == "1"
 
 
 def _find_claude() -> str:
@@ -125,6 +129,9 @@ def call_hermes(
 
     cmd = [HERMES_CMD, "-z", prompt]
     ts = toolsets if toolsets is not None else os.environ.get("HERMES_TOOLSETS", "")
+    if HERMES_LEAN:
+        cmd += ["--ignore-rules"]
+        ts = ts or "x_search"
     if ts:
         cmd += ["-t", ts]
     if HERMES_PROVIDER:

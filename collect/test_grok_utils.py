@@ -422,3 +422,26 @@ class TestCallHermesJsonArray(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestHermesLean(unittest.TestCase):
+    def _cmd(self, lean, **kw):
+        with patch("collect.grok_utils.HERMES_LEAN", lean), \
+             patch("collect.grok_utils.subprocess.run") as run:
+            run.return_value = MagicMock(returncode=0, stdout="{}", stderr="")
+            gu.call_hermes("p", **kw)
+            return run.call_args[0][0]
+
+    def test_default_off_keeps_command_unchanged(self):
+        cmd = self._cmd(False)
+        self.assertNotIn("--ignore-rules", cmd)
+        self.assertNotIn("-t", cmd)
+
+    def test_lean_on_adds_ignore_rules_and_x_search(self):
+        cmd = self._cmd(True)
+        self.assertIn("--ignore-rules", cmd)
+        self.assertEqual(cmd[cmd.index("-t") + 1], "x_search")
+
+    def test_lean_respects_explicit_toolsets(self):
+        cmd = self._cmd(True, toolsets="web")
+        self.assertEqual(cmd[cmd.index("-t") + 1], "web")

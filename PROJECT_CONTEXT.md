@@ -2,7 +2,7 @@
 
 # market-sentiment-data — Project Context
 
-<!-- AUTO-GENERATED: 2026-09-30 add TIER2_BATCH_TIMEOUT (fix TIER2 batch call timing out on HERMES_TIMEOUT=300 sized for single-symbol calls)
+<!-- AUTO-GENERATED: 2026-10-06 add HERMES_LEAN opt-in (hermes --ignore-rules + x_search-only toolset; ~60% fewer tokens/call, enabled via cron env); previously 2026-09-30 add TIER2_BATCH_TIMEOUT (fix TIER2 batch call timing out on HERMES_TIMEOUT=300 sized for single-symbol calls)
 
 Architecture and code reference for Claude Code and developers. Read this before modifying any collector, schema, or data structure.
 
@@ -115,6 +115,7 @@ All config is injected via environment variables. Never hardcode paths or tokens
 | `HERMES_TIMEOUT` | `120` | all collectors |
 | `HERMES_TIMEOUT_GLOBAL` | `90` | collector 5 (morning briefing, stage 1 global context fetch) |
 | `HERMES_RETRY` | `1` | all collectors |
+| `HERMES_LEAN` | `0` | all collectors (opt-in token saving; see tasks/todo.md) |
 | `CLAUDE_FALLBACK_CMD` | auto-detect (`shutil.which` → `~/.local/bin` → `/opt/homebrew/bin` → `/usr/local/bin`) | all collectors |
 | `CLAUDE_FALLBACK_ENABLED` | `1` (set to `0` to disable) | all collectors |
 | `CLAUDE_FALLBACK_TIMEOUT` | `180` | all collectors |
